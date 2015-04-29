@@ -1,0 +1,13 @@
+/* TEAM */
+Designer: <!--[grunt:app.author.name]-->
+Developer: <!--[grunt:app.author.name]-->
+Contact: <!--[grunt:app.author.email]-->
+Twitter: @morkro
+Location: Cologne & Berlin, Germany
+
+/* SITE */
+Last Update: <!--[grunt:app.update]-->
+Language: English
+Standards: HTML5, CSS3, JavaScript
+Components: Node.js, Grunt, Sass
+Software: Sublime Text 2, Node.js

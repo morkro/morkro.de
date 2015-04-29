@@ -1,0 +1,70 @@
+/**
+ * SYSTEM
+ * ==============================
+ *
+ * General
+ */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	font-family: $Roboto;
+	font-weight: 300;
+	color: #131313;
+	// Enable best font rendering
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/**
+ * Headlines
+ */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 300;
+	margin: 0px;
+}
+
+h1 { font-size: 40px; }
+h2 { font-size: 26px; }
+
+/**
+ * Links
+ */
+a {
+	cursor: pointer;
+	display: inline-block;
+	text-decoration: none;
+	color: $blue;
+	transition: color 150ms ease-in-out;
+	&:hover { color: $red; }
+}
+
+/**
+ * Copy
+ */
+p, span, a {
+	font-weight: 300;
+	font-size: 22px;
+	line-height: 28px;
+}
+
+b, strong {
+	font-weight: 400;
+}
+
+/**
+ * Images
+ * This is experimental and not fully supported in most browsers.
+ * Anyway, I want to test this feature.
+ */
+img[src$=".jpg"], img[src$=".png"] {
+	image-rendering: optimizeQuality;
+	-ms-interpolation-mode: bicubic;
+}
