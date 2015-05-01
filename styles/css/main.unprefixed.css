@@ -158,6 +158,7 @@ h2 { font-size: 26px; }
 /** Links */
 a { cursor: pointer; display: inline-block; text-decoration: none; color: #2196f3; transition: color 150ms ease-in-out; }
 a:hover { color: #f44336; }
+a:active, a:focus { background: rgba(33, 150, 243, 0.2); outline: none; }
 
 /** Copy */
 p, span, a { font-weight: 300; font-size: 22px; line-height: 28px; }
