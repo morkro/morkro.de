@@ -9,8 +9,21 @@
 	}
 
 	h1 {
+		position: relative;
+
 		&:hover { color: rgba(19, 19, 19, .6); }
 		&:hover span { color: rgba(19, 19, 19, 1); }
+		
+		&:after {
+			content: "";
+			position: absolute;
+			width: 25%;
+			height: 4px;
+			background: rgba(19,19,19, .15);
+			bottom: -25px;
+			left: 50%;
+			transform: translateX(-50%);
+		}
 	}
 
 	h2 { font-weight: 400; }

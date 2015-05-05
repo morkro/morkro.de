@@ -6,7 +6,7 @@ Twitter: @morkro
 Location: Cologne & Berlin, Germany
 
 /* SITE */
-Last Update: 2015/05/01
+Last Update: 2015/05/05
 Language: English
 Standards: HTML5, CSS3, JavaScript
 Components: Node.js, Grunt, Sass

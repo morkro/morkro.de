@@ -177,8 +177,10 @@ img[src$=".jpg"], img[src$=".png"] { image-rendering: optimizeQuality; -ms-inter
 @media (max-width: 650px), (max-height: 400px) { #morkro-main { position: static; left: 0; top: 0; transform: none; margin: 50px auto; } }
 .main__header { margin-bottom: 50px; }
 .main__header h1, .main__header h1 span { font-size: 40px; font-weight: 500; text-transform: uppercase; transition: all 150ms ease-in-out; }
+.main__header h1 { position: relative; }
 .main__header h1:hover { color: rgba(19, 19, 19, 0.6); }
 .main__header h1:hover span { color: #131313; }
+.main__header h1:after { content: ""; position: absolute; width: 25%; height: 4px; background: rgba(19, 19, 19, 0.15); bottom: -25px; left: 50%; transform: translateX(-50%); }
 .main__header h2 { font-weight: 400; }
 
 /*# sourceMappingURL=main.unprefixed.css.map */
