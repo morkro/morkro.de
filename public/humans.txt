@@ -3,10 +3,10 @@ Designer: Moritz Kröger
 Developer: Moritz Kröger
 Contact: write@morkro.de
 Twitter: @morkro
-Location: Cologne & Berlin, Germany
+Location: Berlin, Germany
 
 /* SITE */
-Last Update: 2015/05/05
+Last Update: 2015/05/06
 Language: English
 Standards: HTML5, CSS3, JavaScript
 Components: Node.js, Grunt, Sass

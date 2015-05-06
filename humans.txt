@@ -3,7 +3,7 @@ Designer: <!--[grunt:app.author.name]-->
 Developer: <!--[grunt:app.author.name]-->
 Contact: <!--[grunt:app.author.email]-->
 Twitter: @morkro
-Location: Cologne & Berlin, Germany
+Location: Berlin, Germany
 
 /* SITE */
 Last Update: <!--[grunt:app.update]-->
