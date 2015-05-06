@@ -172,7 +172,7 @@ img[src$=".jpg"], img[src$=".png"] { image-rendering: optimizeQuality; -ms-inter
 /* CONTENT */
 #morkro-main { display: block; max-width: 650px; width: 90%; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 #morkro-main p { margin-bottom: 25px; }
-#morkro-main p span { font-weight: 300; color: rgba(19, 19, 19, 0.3); }
+#morkro-main p span { font-weight: 300; color: rgba(19, 19, 19, 0.5); }
 
 @media (max-width: 650px), (max-height: 400px) { #morkro-main { position: static; left: 0; top: 0; transform: none; margin: 50px auto; } }
 .main__header { margin-bottom: 50px; }
