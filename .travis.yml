@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+   - "0.12"
+   - "0.11"
+   - "0.10"
+branches:
+   only: master
+after_success:
+   "curl --ftp-create-dirs -T public -u $FTP_USER:$FTP_PASSWORD ftp://${FTP_HOST}/${FTP_PATH}"
+notifications:
+   email:
+      on_success: change
+      on_failure: always
