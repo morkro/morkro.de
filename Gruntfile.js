@@ -35,6 +35,7 @@ module.exports = function(grunt) {
 			directory: {
 				dest: {
 					'public'	: 'public',
+					'package': 'package',
 					'assets'	: '<%= app.directory.dest.public %>/assets',
 					'scripts': '<%= app.directory.dest.public %>/scripts',
 					'markup'	: '<%= app.directory.dest.public %>/markup',
@@ -109,6 +110,9 @@ module.exports = function(grunt) {
 		clean: {
 			build: {
 				src: ['<%= app.directory.dest.public %>']
+			},
+			prod: {
+				src: ['<%= app.directory.dest.public %>', '<%= app.directory.dest.package %>']
 			}
 		},
 
@@ -203,10 +207,24 @@ module.exports = function(grunt) {
 			}
 		},
 
-		/**
-		 * Awesome task which shows notifications on your Desktop when a specific task is finished.
-		 * ==============================
-		 */
+		// Creates package.
+		// ==============================
+		compress: {
+			dist: {
+				options: {
+					archive: '<%= app.directory.dest.package %>/<%= pkg.name %>.zip'
+				},
+				files: [{
+					expand: true,
+					cwd: '<%= app.directory.dest.public %>/',
+					src: ['**'],
+					dest: ''
+				}]
+			}
+		},
+
+		// Awesome task which shows notifications on your Desktop when a specific task is finished.
+		// ==============================
 		notify: {
 			build: {
 				options: {

@@ -1,12 +1,12 @@
 /* TEAM */
-Designer: Moritz Kröger
 Developer: Moritz Kröger
 Contact: write@morkro.de
 Twitter: @morkro
+Github: /morkro
 Location: Berlin, Germany
 
 /* SITE */
-Last Update: 2015/05/06
+Last Update: 2015/05/08
 Language: English
 Standards: HTML5, CSS3, JavaScript
 Components: Node.js, Grunt, Sass

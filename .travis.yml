@@ -8,14 +8,14 @@ before_install:
 install: 
    - npm install
 script: 
-   - grunt dev
+   - grunt prod
 branches:
    only: master
 cache:
    directories:
       - node_modules
 after_success:
-   "curl --ftp-create-dirs -T public -u $FTP_USER:$FTP_PASSWORD ftp://${FTP_HOST}/${FTP_PATH}"
+   "curl --ftp-create-dirs -T package/morkro.zip -u $FTP_USER:$FTP_PASSWORD ftp://${FTP_HOST}/${FTP_PATH}"
 notifications:
    email:
       on_success: change
