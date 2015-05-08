@@ -1,8 +1,8 @@
 /* TEAM */
-Designer: <!--[grunt:app.author.name]-->
 Developer: <!--[grunt:app.author.name]-->
 Contact: <!--[grunt:app.author.email]-->
 Twitter: @morkro
+Github: /morkro
 Location: Berlin, Germany
 
 /* SITE */
