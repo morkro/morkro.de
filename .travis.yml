@@ -4,9 +4,9 @@ node_js:
    - "0.10"
 before_install: 
    - gem install sass
+   - npm install -g grunt-cli
 install: 
    - npm install
-   - grunt install
 script: 
    - grunt dev
 branches:
