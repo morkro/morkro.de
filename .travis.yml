@@ -1,9 +1,14 @@
-language: node_js
+language: 
+   - node_js
 node_js:
    - "0.10"
-before_install: npm install -g grunt-cli
-install: npm install
-script: grunt dev
+before_install: 
+   - gem install sass
+install: 
+   - npm install
+   - grunt install
+script: 
+   - grunt dev
 branches:
    only: master
 cache:
