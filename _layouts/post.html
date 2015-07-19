@@ -1,0 +1,75 @@
+---
+layout: default
+---
+
+<section id="main-content" class="content-article">
+	<aside class="main-aside">
+		<div class="aside__navigation" role="complementary">
+			<a href="/">{% include author-img.html %}</a>
+			{% include menu.html %}
+			{% include author-description.html %}
+		</div>
+
+		<div class="article__fixed">
+			<!-- Table of Contents -->
+			<div class="article__toc">
+				<h1>Table of Contents</h1>
+				<ul>
+					{% for toc in page.toc %}
+					<li><a href="{{ toc | downcase | split: ' ' | join: '-' | prepend: '#' }}">{{ toc }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			<!-- Go to top -->
+			<button class="article__upstairs" type="button">
+				<svg viewBox="0 0 24 24"><path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>
+			</button>
+		</div>
+	</aside>
+
+	<article class="article__content">
+		<!-- Article: Heading -->
+		<header class="article__heading">
+			{% assign reading_time = content | strip_html | number_of_words | append: '.0' | divided_by: 180 %}
+
+			<h1>{{ page.title }}</h1>
+
+			<div>
+				<span class="heading__published">
+					Published {{ page.date | date: "%d %B %Y" }}, tagged under {% for tag in page.tags %}#{{ tag }}{% endfor %}
+				</span>
+				<span class="heading__reading-time">
+					<svg viewBox="0 0 24 24">
+						<path d="M11,19V9A2,2 0 0,0 9,7H5V17H9A2,2 0 0,1 11,19M13,9V19A2,2 0 0,1 15,17H19V7H15A2,2 0 0,0 13,9M21,19H15A2,2 0 0,0 13,21H11A2,2 0 0,0 9,19H3V5H9A2,2 0 0,1 11,7H13A2,2 0 0,1 15,5H21V19Z" />
+					</svg>
+					{% if reading_time < 0.5 %} Less than a minute
+					{% elsif reading_time >= 0.5 and reading_time < 1.5 %} ~1min
+					{% elsif reading_time >= 1.5 %}~<span>{{ reading_time }}</span>min
+					{% endif %}
+				</span>
+			</div>
+		</header>
+
+		{{ content }}
+
+		<!-- Article: Comments -->
+		<section class="article__comments">
+			<div id="disqus_thread"></div>
+			<script type="text/javascript">
+				/* * * CONFIGURATION VARIABLES * * */
+				var disqus_shortname = 'morkro';
+
+				/* * * DON'T EDIT BELOW THIS LINE * * */
+				(function() {
+				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+				})();
+			</script>
+			<noscript>
+				Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+			</noscript>
+		</section>
+	</article>
+</section>

@@ -1,0 +1,9 @@
+.hidden-tablet {
+	display: block;
+}
+
+@media #{$tablet} {
+	.hidden-tablet {
+		display: none;
+	}
+}

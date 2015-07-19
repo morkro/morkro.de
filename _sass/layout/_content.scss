@@ -1,0 +1,57 @@
+main {
+	display: block; // Hello, non-html5 browser!
+	max-width: 1024px;
+	width: 95%;
+	margin: 0 auto;
+}
+
+#main-content {
+	display: flex;
+
+	aside {
+		width: 308px;
+		padding-right: 60px;
+		position: relative;
+		z-index: 0;
+		text-align: right;
+	}
+
+	article {
+		width: 70%;
+		position: relative;
+		z-index: 1;
+	}
+}
+
+/* MEDIA QUERY */
+@media #{$min-desktop} {
+	#main-content {
+		aside {
+			width: 288px;
+			padding-right: 30px;
+		}
+	}
+}
+
+@media #{$tablet} {
+	#main-content {
+		flex-wrap: wrap;
+
+		aside, article {
+			margin: 0 auto;
+			width: 80%;
+		}
+
+		aside {
+			padding-right: 0;
+		}
+	}
+}
+
+@media #{$max-mobile} {
+	#main-content {
+		aside, article {
+			width: 90%;
+		}
+	}
+}

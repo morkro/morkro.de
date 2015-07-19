@@ -1,0 +1,96 @@
+/**
+ * SYSTEM
+ * ==============================
+ *
+ * General
+ */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	height: 100%;
+	box-shadow: inset 0px 4px 8px -5px rgba(0,0,0,.5);
+}
+
+body {
+	font-family: $Roboto;
+	font-weight: 300;
+	color: $grey;
+	// Enable best font rendering
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	padding-top: 60px;
+}
+
+/**
+ * Headlines
+ */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 400;
+	margin: 0 0 50px 0;
+}
+
+h1 { 
+	font-family: $RobotoMono;
+	font-size: 52px; 
+	letter-spacing: -1px;
+}
+h2 { font-size: 26px; }
+
+/**
+ * Links
+ */
+a {
+	cursor: pointer;
+	display: inline-block;
+	text-decoration: none;
+	color: $blue;
+	transition: color 150ms ease-in-out;
+	
+	&:hover { color: $red; }
+	
+	&:active, &:focus {
+		background: rgba(33, 150, 243, .2);
+		outline: none;
+	}
+}
+
+/**
+ * Copy
+ */
+p, span, a {
+	font-weight: 300;
+	font-size: 18px;
+	line-height: 30px;
+}
+
+b, strong {
+	font-weight: 400;
+}
+
+code, kbd, pre, samp {
+	font-family: $RobotoMono;
+	background-color: rgba(0,0,0,.1);
+	padding: 0 6px 2px;
+	border-radius: 2px;
+}
+
+/**
+ * Images
+ * This is experimental and not fully supported in most browsers.
+ * Anyway, I want to test this feature.
+ */
+img[src$=".jpg"], img[src$=".png"] {
+	image-rendering: optimizeQuality;
+	-ms-interpolation-mode: bicubic;
+}
+
+/* MEDIA QUERIES */
+@media #{$tablet} {
+	body {
+		padding-top: 40px;
+	}
+}

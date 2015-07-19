@@ -1,0 +1,30 @@
+# Site settings
+title: Moritz Kröger
+email: write@morkro.de
+description: ""
+baseurl: ""
+url: "http://morkro.de"
+twitter_username: morkro
+github_username: morkro
+
+# Where things are
+destination: _public
+
+# Handling reading
+encoding: "utf-8"
+include:
+  - .htaccess
+exclude: 
+  - README.md
+  - Gemfile
+
+# Plugins
+gems:
+  - octopress-autoprefixer
+
+# Conversion
+markdown:	kramdown
+highlighter: rouge
+permalink:	/writes/:title
+sass:
+  style:		:compressed

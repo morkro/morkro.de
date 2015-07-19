@@ -1,0 +1,47 @@
+.index__header {
+	margin-bottom: 50px;
+
+	h1, h1 span {
+		font-size: 40px;
+		font-weight: 500;
+		text-transform: uppercase;
+		transition: all 150ms ease-in-out;
+	}
+
+	h1 {
+		position: relative;
+
+		&:hover { color: rgba(19, 19, 19, .6); }
+		&:hover span { color: rgba(19, 19, 19, 1); }
+		
+		&:after {
+			content: "";
+			position: absolute;
+			width: 25%;
+			height: 4px;
+			background: rgba(19,19,19, .15);
+			bottom: -25px;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
+
+	h2 { font-weight: 400; }
+}
+
+#main-index {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+}
+
+@media (max-width: 650px), (max-height: 400px) {
+	#main-index {
+		position: static;
+		left: 0; top: 0;
+		transform: none;
+		margin: 50px auto;
+	}
+}

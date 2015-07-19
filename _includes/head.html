@@ -1,0 +1,33 @@
+<head>
+	<title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+	<meta charset="utf-8">
+	<meta name="robots" content="index,follow">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Meta data -->
+	<meta name="author" content="{{ site.title }}">
+	<meta name="description" content="{{ site.description }}">
+
+	<!-- Open Graph data -->
+	<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+	<meta property="og:description" content="{{ site.description }}">
+	<meta property="og:image" content="">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="http://morkro.de">
+
+	<!-- Twitter Card data -->
+	<meta property="twitter:card" content="summary">
+	<meta property="twitter:site" content="@{{ site.twitter_username }}">
+	<meta property="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+	<meta property="twitter:description" content="{{ site.description }}">
+	<meta property="twitter:image" content="">
+	<meta property="twitter:url" content="{{ site.url }}">
+
+	<!-- Chrome Mobile theming -->
+	<meta name="theme-color" content="#2196f3">
+
+	<link rel="shortcut icon" href="../../assets/favicon.ico">
+	<link rel="author" href="humans.txt">
+	<link rel="stylesheet" type="text/css" href="../../css/main.css">
+</head>
