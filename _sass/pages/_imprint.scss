@@ -1,0 +1,32 @@
+/**
+ * IMPRINT
+ */
+.imprint__wrap {
+	display: flex;
+	flex-wrap: wrap;
+
+	h2 {
+		margin: 0 0 20px;
+	}
+
+	svg {
+		fill: #B3B3B3;
+		width: 24px;
+		height: 24px;
+		transform: translateY(2px);
+	}
+
+	address {
+		font-style: inherit;
+	}
+}
+
+.imprint__address,
+.imprint__contact {
+	width: 50%;
+}
+
+.imprint__liability {
+	margin-top: 50px;
+	width: 100%;
+}
