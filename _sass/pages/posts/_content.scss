@@ -16,6 +16,11 @@
 	h2, h3, h4, h5, h6 { &:hover a {
 		color: $blue;
 	} }
+
+	p { 
+		margin-bottom: 20px; 
+		code, kbd, pre, samp { font-size: 16px; }
+	}
 }
 
 /**

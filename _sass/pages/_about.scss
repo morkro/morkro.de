@@ -1,0 +1,45 @@
+/**
+ * PAGE: ABOUT
+ */
+.about__introduction {
+	span {
+		font-style: italic;
+		color: rgba(0, 0, 0, .5);
+	}
+}
+
+.about__projects {
+	list-style: none;
+	margin-top: 50px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	li {
+		width: 48%;
+		margin-bottom: 30px;
+	}
+
+	a {
+		background: rgba(0, 0, 0, .1);
+		border-radius: 2px;
+		padding: 10px;
+		display: block;
+
+		&:hover, &:active, &:focus {
+			background: rgba(33, 150, 243, .2);
+		}
+	}
+
+	strong {
+		font-family: $RobotoMono;
+		font-size: 22px;
+		display: block;
+	}
+
+	span {
+		font-size: 16px;
+		line-height: 22px;
+		color: rgba(0, 0, 0, .3);
+	}
+}

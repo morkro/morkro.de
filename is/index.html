@@ -7,21 +7,32 @@ layout: default
 		<div class="aside__navigation" role="complementary">
 			<a href="/">{% include author-img.html %}</a>
 			{% include menu.html %}
+			{% include author-social.html %}
 		</div>
 	</aside>
 
-	<article>
-		<p>
-			I'm a professional web developer with a strong focus and enthusiasm in JavaScript <span>(especially ES6)</span> as well as other emerging technologies from the frontend stack.
+	<article class="article__about">
+		<header class="article__heading">
+			<h1>Who is that guy?</h1>
+		</header>
+		
+		<p class="about__introduction">
+			I'm a German, self-taught web developer with a strong focus and enthusiasm in <strong>JavaScript</strong> <span>(especially ES6)</span> as well as <strong>other emerging technologies</strong> from the frontend stack. I work as <strong>User Interface Developer</strong> at <a href="http://razorfish.de" target="_blank">Razorfish Germany</a> and live in Berlin.
+			<br><br>
+			I love the web and everything about it. Since I started working as a web developer, I had the privilege to work with companies such as <strong>Audi, Here (Nokia), Coca-Cola, Axa, Deutsche Bahn, McDonald's, Demodern & more</strong>. Most of my knowledge is based on the open-source work of other developer. Hence I want to give something in return and decided to <a href="/writes">start blogging</a> myself.
+			<br><br>
+			In my spare time I like to fiddle around with different technologies and <a href="http://github.com/morkro" target="_blank">contribute</a> to as well as work on my own open source projects:
 		</p>
-		<p>
-			I'm currently working as User Interface Developer at <br>
-			<a href="http://razorfish.de" target="_blank">Razorfish Germany</a> and live in Berlin.
-		</p>
-		<p>
-			You can tweet me on <a href="https://twitter.com/morkro" target="_blank">Twitter</a>,
-			view my projects on <a href="https://github.com/morkro" target="_blank">Github</a> or
-			if you prefer the oldschool way, <a href="mailto:write@morkro.de">email</a> is also possible.
-		</p>
+
+		<ul class="about__projects">
+			<li><a href="#">
+				<strong>FrontBook</strong>
+				<span>A small and modern frontend boilerplate, enabling you to write ES6 today in production-ready projects.</span>
+			</a></li>
+			<li><a href="#">
+				<strong>BrowDash</strong>
+				<span>A fully customisable dashboard Chrome extension, written with native Web Components and ES6.</span>
+			</a></li>
+		</ul>
 	</article>
 </section>	
