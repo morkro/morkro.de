@@ -125,9 +125,9 @@ var ScrollToSection = (function (window) {
 		anchored.init();
 		readingTime.init();
 		upstairs.onClick('.article__upstairs').moveElem('body').toPosition(0);
-	}
 
-	/* EventHandler */
-	window.on('scroll', ArticleScrollHandler);
+		/* EventHandler */
+		window.on('scroll', ArticleScrollHandler);
+	}
 
 })(window);
