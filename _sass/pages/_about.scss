@@ -25,6 +25,7 @@
 		border-radius: 2px;
 		padding: 10px;
 		display: block;
+		transition: background 150ms ease-in-out, color 150ms ease-in-out;
 
 		&:hover, &:active, &:focus {
 			background: rgba(33, 150, 243, .2);

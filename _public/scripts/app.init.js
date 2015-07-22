@@ -15,8 +15,11 @@ var AnchorizeHandler = (function (window) {
 		this.container	= elem(container);
 		this.tags		= ['h2', 'h3', 'h4', 'h5', 'h6'];
 		this.anchorSign	= '§';
-		this.getAll( this.tags );
 	}
+
+	AnchorizeHandler.prototype.init = function () {
+		this.getAll( this.tags );
+	};
 
 	AnchorizeHandler.prototype.getAll = function (list) {
 		list.forEach(function (tag) {
@@ -46,9 +49,12 @@ var RoundNumber = (function (window) {
 
 	function ArticleReadingTimeHandler (container) {
 		this.container	= elem(container);
-		this.value		= this.container.innerHTML;
-		this.container.innerHTML = Math.round(parseFloat(this.value));
+		this.value = this.container ? this.container.innerHTML : '';
 	}
+
+	ArticleReadingTimeHandler.prototype.init = function () {
+		this.container.innerHTML = Math.round(parseFloat(this.value));
+	};
 
 	return ArticleReadingTimeHandler;
 })(window);
@@ -109,11 +115,19 @@ var ScrollToSection = (function (window) {
 (function (window) {
 	'use strict';
 
+	/* Variables */
 	var anchored = new AnchorizeHandler('.article__content');
 	var readingTime = new RoundNumber('.heading__reading-time span');
-	var upstairs = new ScrollToSection()
-					.onClick('.article__upstairs').moveElem('body').toPosition(0);
+	var upstairs = new ScrollToSection();
 
+	/* If articlepage */
+	if (elem('.content-article')) {
+		anchored.init();
+		readingTime.init();
+		upstairs.onClick('.article__upstairs').moveElem('body').toPosition(0);
+	}
+
+	/* EventHandler */
 	window.on('scroll', ArticleScrollHandler);
 
 })(window);
