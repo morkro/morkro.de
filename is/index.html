@@ -5,8 +5,11 @@ layout: default
 <section id="main-content" class="content-about">
 	<aside class="main-aside">
 		<div class="aside__navigation" role="complementary">
-			<a href="/">{% include author-img.html %}</a>
 			{% include menu.html %}
+			<div class="aside__author">
+				<h1>Hello! <br> I'm Moritz Kröger</h1>
+				{% include author-img.html %}
+			</div>
 			{% include author-social.html %}
 		</div>
 	</aside>
@@ -17,7 +20,7 @@ layout: default
 		</header>
 		
 		<p class="about__introduction">
-			I'm a German, self-taught web developer with a strong focus and enthusiasm in <strong>JavaScript</strong> <span>(especially ES6)</span> as well as <strong>other emerging technologies</strong> from the frontend stack. I work as <strong>User Interface Developer</strong> at <a href="http://razorfish.de" target="_blank">Razorfish Germany</a> and live in Berlin.
+			I'm a German, self-taught web developer with a strong focus and enthusiasm in <strong><span class="keyword-js js-large">JavaScript</span></strong> <span>(especially ES6)</span> as well as <strong>other emerging technologies</strong> from the frontend stack. I work as <strong>User Interface Developer</strong> at <a href="http://razorfish.de" target="_blank">Razorfish Germany</a> and live in Berlin.
 			<br><br>
 			I love the web and everything about it. Since I started working as a web developer, I had the privilege to work with companies such as <strong>Audi, Here (Nokia), Coca-Cola, Axa, Deutsche Bahn, McDonald's, Demodern & more</strong>. Most of my knowledge is based on the open-source work of other developer. Hence I want to give something in return and decided to <a href="/writes">start blogging</a> myself.
 			<br><br>
@@ -25,11 +28,11 @@ layout: default
 		</p>
 
 		<ul class="about__projects">
-			<li><a href="#">
+			<li><a href="#" class="link-feature">
 				<strong>FrontBook</strong>
 				<span>A small and modern frontend boilerplate, enabling you to write ES6 today in production-ready projects.</span>
 			</a></li>
-			<li><a href="#">
+			<li><a href="#" class="link-feature">
 				<strong>BrowDash</strong>
 				<span>A fully customisable dashboard as Chrome extension, written with native Web Components and ES6.</span>
 			</a></li>

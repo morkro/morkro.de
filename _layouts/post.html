@@ -1,12 +1,15 @@
 ---
-layout: default
+layout: articles
 ---
 
 <section id="main-content" class="content-article">
 	<aside class="main-aside">
 		<div class="aside__navigation" role="complementary">
-			<a href="/">{% include author-img.html %}</a>
 			{% include menu.html %}
+			<div class="aside__author">
+				<h1>Hello! <br> I'm Moritz Kröger</h1>
+				{% include author-img.html %}
+			</div>
 			{% include author-description.html %}
 			{% include author-social.html %}
 		</div>

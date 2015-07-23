@@ -35,43 +35,72 @@
 </head>
 <body>	
 	<main role="main">
-		<section id="main-content" class="content-about">
+		<section id="main-content" class="content-index">
 	<aside class="main-aside">
 		<div class="aside__navigation" role="complementary">
-			<a href="/"><img src="../../assets/img/moritz.jpg" title="Moritz Kröger" alt="Moritz Kröger"></a>
-			<nav id="main-menu" role="navigation">
-	<ul>
-		<li><a href="/is">About</a></li>
-		<li><a href="/writes">Blog</a></li>
-	</ul>
-</nav>
+			<div href="/" class="aside__author">
+				<h1>Hello! <br> I'm Moritz Kröger</h1>
+				<img src="../../assets/img/moritz.jpg" title="Moritz Kröger" alt="Moritz Kröger">
+			</div>
+			<p class="aside__bio">
+	Web developer with a strong focus in <span class="keyword-js">JavaScript</span> as well as other <a href="/is">other emerging front-end technologies</a>.
+</p>
 		</div>
 	</aside>
 
 	<article>
-		<p>
-			I'm a professional web developer with a strong focus and enthusiasm in JavaScript <span>(especially ES6)</span> as well as other emerging technologies from the frontend stack.
-		</p>
-		<p>
-			I'm currently working as User Interface Developer at <br>
-			<a href="http://razorfish.de" target="_blank">Razorfish Germany</a> and live in Berlin.
-		</p>
-		<p>
-			You can tweet me on <a href="https://twitter.com/morkro" target="_blank">Twitter</a>,
-			view my projects on <a href="https://github.com/morkro" target="_blank">Github</a> or
-			if you prefer the oldschool way, <a href="mailto:write@morkro.de">email</a> is also possible.
-		</p>
+		<section class="index__writing">
+			<header class="article__heading">
+				<h1>Writing</h1>
+			</header>
+			<p>
+				I recently started <a href="/writes">writing</a> to share more of my experiences and knowledge. 
+				If you want to contribute and give me your opinion, just write under each article in the comment section. I would love to read your feedback!
+			</p>
+
+			
+			<h2>Latest article:</h2>
+			<a href="/writes/test-syntax" class="link-feature">
+				<strong>Syntax Highlighting</strong>
+				<span>Published on June  1, 2015</span>
+			</a>
+			
+			
+			<a href="/writes" class="writing__browsemore">
+				<svg viewBox="0 0 24 24">
+					<path d="M19,7H9V5H19M15,15H9V13H15M19,11H9V9H19M20,2H8A2,2 0 0,0 6,4V16A2,2 0 0,0 8,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M4,6H2V20A2,2 0 0,0 4,22H18V20H4V6Z" />
+				</svg>
+				<span>Browse my other articles</span>
+			</a>
+		</section>
+
+		<section class="index__work">
+			<header class="article__heading">
+				<h1>Projects</h1>
+			</header>
+
+			<p>
+				Since I started working I had the privilege to work with companies such as <strong>Audi, Here (Nokia), Coca-Cola, Axa, Deutsche Bahn, McDonald's, Demodern & more</strong>.
+			</p>
+
+			<h2>Latest project:</h2>
+			<a href="#" class="link-feature">
+				<strong>FrontBook</strong>
+				<span>A small and modern frontend boilerplate, enabling you to write ES6 today in production-ready projects.</span>
+			</a>
+		</section>
+
 	</article>
 </section>	
 	</main>
 
 	<footer id="footer" role="contentinfo">
-	<div class="footer__inner">
-		<p class="footer__thanks">Thank you for reading!</p>
-		<p class="footer__copyright">Copyright © Moritz Kröger <span class="footer__year">2015</span>. All rights reserved.</p>
-		<a href="/imprint">Imprint</a>
-	</div>
-</footer>
+		<div class="footer__inner">
+			<p class="footer__copyright">Copyright © Moritz Kröger <span class="footer__year">2015</span>. All rights reserved.</p>
+			<a href="/imprint">Imprint</a>
+		</div>
+	</footer>
+
 			
 <script src="../../scripts/app.init.js"></script>
 

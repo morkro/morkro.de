@@ -58,6 +58,30 @@ a {
 	}
 }
 
+.link-feature {
+	background: rgba(0, 0, 0, .1);
+	border-radius: 2px;
+	padding: 10px 15px;
+	display: block;
+	transition: background 150ms ease-in-out, color 150ms ease-in-out;
+
+	&:hover, &:active, &:focus {
+		background: rgba(33, 150, 243, .2);
+	}
+
+	strong {
+		font-family: $RobotoMono;
+		font-size: 22px;
+		display: block;
+	}
+
+	span {
+		font-size: 16px;
+		line-height: 22px;
+		color: rgba(0, 0, 0, .3);
+	}
+}
+
 /**
  * Copy
  */
@@ -76,6 +100,33 @@ code, kbd, pre, samp {
 	background-color: rgba(0,0,0,.1);
 	padding: 0 6px 2px;
 	border-radius: 2px;
+}
+
+.keyword-js {
+	position: relative;
+	padding-right: 17px;
+	margin-right: 4px;
+
+	&.js-large { padding-right: 24px; }
+
+	&::after {
+		position: absolute;
+		content: "";
+		background-image: url(../../assets/icons/js.svg);
+		background-size: 18px 18px;
+		width: 18px;
+		height: 18px;
+		right: -2px;
+		top: -1px;
+	}
+
+	&.js-large::after {
+		background-size: 24px 24px;
+		width: 24px;
+		height: 24px;
+		right: -2px;
+		top: 0;
+	}
 }
 
 /**

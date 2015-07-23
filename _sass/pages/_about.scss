@@ -2,9 +2,13 @@
  * PAGE: ABOUT
  */
 .about__introduction {
-	span {
+	span:not(.keyword-js) {
 		font-style: italic;
 		color: rgba(0, 0, 0, .5);
+	}
+
+	.keyword-js::after {
+		top: -2px;
 	}
 }
 
@@ -18,29 +22,5 @@
 	li {
 		width: 48%;
 		margin-bottom: 30px;
-	}
-
-	a {
-		background: rgba(0, 0, 0, .1);
-		border-radius: 2px;
-		padding: 10px;
-		display: block;
-		transition: background 150ms ease-in-out, color 150ms ease-in-out;
-
-		&:hover, &:active, &:focus {
-			background: rgba(33, 150, 243, .2);
-		}
-	}
-
-	strong {
-		font-family: $RobotoMono;
-		font-size: 22px;
-		display: block;
-	}
-
-	span {
-		font-size: 16px;
-		line-height: 22px;
-		color: rgba(0, 0, 0, .3);
 	}
 }
