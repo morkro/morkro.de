@@ -1,7 +1,7 @@
 # Site settings
 title: Moritz Kröger
 email: write@morkro.de
-description: ""
+description: "Hello! I'm Moritz Kröger, a web developer with a strong focus in JavaScript as well as other emerging front-end technologies."
 baseurl: ""
 url: "http://morkro.de"
 twitter_username: morkro
@@ -26,5 +26,7 @@ gems:
 markdown:	kramdown
 highlighter: rouge
 permalink:	/writes/:title
+paginate: 10
+paginate_path: /writes/:num/
 sass:
   style:		:compressed

@@ -2,7 +2,49 @@
  * MENU
  */
 #main-menu {
-	li {
+	margin-bottom: 5px;
+
+	ul { 
+		display: flex; 
 		list-style: none;
+	}
+
+	li {
+		display: inline-block;
+		text-align: center;
+		margin-right: 4px;
+		width: 50%;
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+
+	.menu__home {
+		width: 50px;
+
+		.link-gradient {
+			display: flex;
+			justify-content: center;
+			align-content: center;
+			padding: 7px;
+
+			&:hover, &:active, &:focus { svg {
+				fill: white;
+			}}
+		}
+
+		svg {
+			fill: black;
+		}
+	}
+}
+
+@media #{$tablet} {
+	#main-menu {
+		margin-top: 30px;
+		margin-bottom: 0;
+		width: 100%;
+		order: 3;
 	}
 }

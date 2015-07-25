@@ -6,7 +6,7 @@ Github: morkro
 Location: Berlin, Germany
 
 /* SITE */
-Last Update: 23 July 2015
+Last Update: 25 July 2015
 Language: English
 Standards: HTML5, CSS3, JavaScript
 Components: Ruby on Rails, Sass, Jekyll

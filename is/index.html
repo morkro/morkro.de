@@ -1,5 +1,6 @@
 ---
 layout: default
+title: About
 ---
 
 <section id="main-content" class="content-about">
@@ -15,19 +16,29 @@ layout: default
 	</aside>
 
 	<article class="article__about">
-		<header class="article__heading">
+		<header class="content__heading">
 			<h1>Who is that guy?</h1>
 		</header>
 		
 		<p class="about__introduction">
 			I'm a German, self-taught web developer with a strong focus and enthusiasm in <strong><span class="keyword-js js-large">JavaScript</span></strong> <span>(especially ES6)</span> as well as <strong>other emerging technologies</strong> from the frontend stack. I work as <strong>User Interface Developer</strong> at <a href="http://razorfish.de" target="_blank">Razorfish Germany</a> and live in Berlin.
+			<br>
+			Since I started working as a web developer, I had the privilege to work with companies such as <strong>Audi, Here (Nokia), Coca-Cola, Axa, Deutsche Bahn, McDonald's, Demodern</strong> and more.
 			<br><br>
-			I love the web and everything about it. Since I started working as a web developer, I had the privilege to work with companies such as <strong>Audi, Here (Nokia), Coca-Cola, Axa, Deutsche Bahn, McDonald's, Demodern & more</strong>. Most of my knowledge is based on the open-source work of other developer. Hence I want to give something in return and decided to <a href="/writes">start blogging</a> myself.
-			<br><br>
-			In my spare time I like to fiddle around with different technologies and <a href="http://github.com/morkro" target="_blank">contribute</a> to <span>(as well as working on my own)</span> open source projects:
+			I love the web and everything about it. I recently started <a href="/writes">writing</a>. In my spare time I like to fiddle around with different technologies and <a href="http://github.com/morkro" target="_blank">contribute</a> to open source projects.x
+			<br>
+			<br>
+			Some of my personal projects are:
 		</p>
 
 		<ul class="about__projects">
+			{% for project in site.data.projects %}
+			<li><a href="{{ project.url }}" target="_blank" class="link-feature">
+				<strong>{{ project.title }}</strong>
+				<span>{{ project.description }}</span>
+			</a></li>
+			{% endfor %}
+
 			<li><a href="#" class="link-feature">
 				<strong>FrontBook</strong>
 				<span>A small and modern frontend boilerplate, enabling you to write ES6 today in production-ready projects.</span>

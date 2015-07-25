@@ -1,10 +1,12 @@
 ---
 layout: default
+title: Index
 ---
 
 <section id="main-content" class="content-index">
 	<aside class="main-aside">
 		<div class="aside__navigation" role="complementary">
+			{% include menu.html %}
 			<div href="/" class="aside__author">
 				<h1>Hello! <br> I'm Moritz Kröger</h1>
 				{% include author-img.html %}
@@ -20,7 +22,7 @@ layout: default
 			</header>
 			<p>
 				I recently started <a href="/writes">writing</a> to share more of my experiences and knowledge. 
-				If you want to contribute and give me your opinion, just write under each article in the comment section. I would love to read your feedback!
+				If you want to contribute and give me your opinion, just write under any article in the comment section. I would love to read your feedback!
 			</p>
 
 			{% for post in site.posts limit:1 %}

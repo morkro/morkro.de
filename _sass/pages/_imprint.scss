@@ -1,6 +1,12 @@
 /**
  * IMPRINT
  */
+.content-imprint {
+	.content__heading {
+		margin-bottom: 50px;
+	}
+}
+
 .imprint__wrap {
 	display: flex;
 	flex-wrap: wrap;

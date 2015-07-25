@@ -34,7 +34,7 @@ layout: articles
 
 	<article class="article__content">
 		<!-- Article: Heading -->
-		<header class="article__heading">
+		<header class="content__heading">
 			{% assign reading_time = content | strip_html | number_of_words | append: '.0' | divided_by: 180 %}
 
 			<h1>{{ page.title }}</h1>

@@ -1,5 +1,6 @@
 ---
 layout: default
+title: Writes
 ---
 
 <section id="main-content" class="content-blog">
@@ -16,18 +17,41 @@ layout: default
 	</aside>
 
 	<article class="blog__content">
-		<header class="article__heading">
+		<header class="content__heading">
 			<h1>Latest articles</h1>	
-			<h2>I write about everything frontend related; general thoughts, useful snippets or just my private projects.</h2>
 		</header>
 
+		<p>
+			I write about everything front-end related, with exceptions.
+		</p>
+
 		<ul class="blog__list">
-		{% for post in site.posts %}
-			<li class="blog__item"><a href="{{ post.url }}">
-				<span>{{ post.date | date: "%B %e, %Y" }} <span class="item__tags">{% for tag in post.tags %}#{{ tag }}{% endfor %}</span></span>
+		{% for post in paginator.posts %}
+			<li class="blog__item"><a href="{{ post.url }}" class="link-feature">
+				<span>
+					{{ post.date | date: "%B %e, %Y" }}
+					<span class="item__tags">{% for tag in post.tags %}#{{ tag }}{% endfor %}</span>
+				</span>
 				{{ post.title }}
+				<span class="item__excerpt">{{ post.excerpt }}</span>
 			</a></li>
 		{% endfor %}	
 		</ul>
+
+		{% if paginator.total_pages > 1 %}
+		<div class="blog__paginator">
+			{% if paginator.previous_page %}
+			<a class="link-gradient" href="{{ paginator.previous_page_path | replace: 'index.html', '' }}" rel="prev">Previous</a>
+			{% else %}
+			<button class="btn" disabled>Previous</button>
+			{% endif %}
+
+			{% if paginator.next_page %}			
+			<a class="link-gradient" href="{{ paginator.next_page_path }}" rel="next">Next</a>
+			{% else %}
+			<button class="btn" disabled>Next</button>
+			{% endif %}
+		</div>
+		{% endif %}
 	</article>
 </section>	
