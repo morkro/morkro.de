@@ -1,6 +1,6 @@
 main {
 	display: block; // Hello, non-html5 browser!
-	max-width: 1024px;
+	max-width: 80%;
 	width: 95%;
 	margin: 0 auto;
 }
@@ -20,24 +20,29 @@ main {
 		width: 70%;
 		position: relative;
 		z-index: 1;
+		margin-top: -10px;
 	}
 }
 
 .content__heading {
-	margin-bottom: 10px;
+	margin-bottom: 30px;
 
 	h1:not(.heading__preface) {
 		line-height: 56px;
 		margin-bottom: 5px;
 		text-shadow: 0px 1px 0px white;
-		border-bottom: 5px solid rgba(0,0,0,0.2);
+		border-bottom: 4px solid rgba(0,0,0,0.2);
 	}
 
-	span {
+	span, a {
 		font-size: 14px;
 		font-weight: 400;
 		font-style: italic;
 		color: rgba(0,0,0,0.4);
+	}
+
+	a:hover {
+		color: rgba(0,0,0,0.7);
 	}
 
 	div {
@@ -67,6 +72,12 @@ main {
 
 		aside {
 			padding-right: 0;
+		}
+	}
+
+	.content__heading {
+		span, div {
+			display: block;
 		}
 	}
 }

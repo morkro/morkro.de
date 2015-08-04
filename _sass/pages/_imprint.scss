@@ -36,3 +36,14 @@
 	margin-top: 50px;
 	width: 100%;
 }
+
+@media #{$tablet} {
+	.imprint__address,
+	.imprint__contact {
+		width: 100%;
+	}
+
+	.imprint__contact {
+		margin-top: 50px;
+	}
+}

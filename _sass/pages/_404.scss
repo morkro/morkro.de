@@ -1,0 +1,33 @@
+/**
+ * PAGE: 404
+ */
+.error__form {
+	margin-top: 30px;
+	display: flex;
+	align-items: center;
+
+	h2 {
+		margin-bottom: 0;
+	}
+}
+
+.error__gate {
+	display: flex;
+	align-items: center;
+	margin-left: 30px;
+
+	input {
+		margin-right: 15px;
+		width: 50%;
+	}
+}
+
+@media all and (max-width: 1100px) {
+	.error__caption {
+		width: 60%;
+	}
+
+	.error__gate {
+		margin-left: 20px;
+	}
+}

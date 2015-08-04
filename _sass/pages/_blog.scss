@@ -17,12 +17,34 @@
 	a {
 		position: relative;
 		font-family: $RobotoMono;
-		font-size: 24px;
-		font-weight: 400;
 		display: block;
 		width: 100%;
 		padding: 15px 20px;
 		margin-bottom: 20px;
+
+		&:visited::after {
+			color: #737373;
+			background-color: #e6e6e6;
+		}
+
+		&::after {
+			content: "✔";
+			font-size: 14px;
+			line-height: 20px;
+			padding: 0px 4px;
+			color: white;
+			position: absolute;
+			left: -24px;
+			top: 16px;
+			background-color: white;
+			border-radius: 2px;
+		}
+	}
+
+	h2 {
+		font-size: 26px;
+		font-weight: 400;
+		margin: 0;
 	}
 
 	span:not(.item__tags):not(.item__excerpt) {
@@ -33,19 +55,21 @@
 	}
 
 	.item__tags, .item__excerpt {
-		font-weight: 300;
 		color: rgba(0,0,0,.3);
 	}
 
 	.item__tags {
 		display: inline;
-		font-size: 16px;
+		font-size: 14px;
+		font-weight: 400;
 	}
 
 	.item__excerpt {
 		display: block;
-		font-size: 16px;
+		font-size: 14px;
+		font-weight: 300;
 		line-height: 22px;
+		margin-top: 5px;
 	}
 }
 

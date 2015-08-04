@@ -2,7 +2,7 @@
  * MENU
  */
 #main-menu {
-	margin-bottom: 5px;
+	margin-bottom: 4px;
 
 	ul { 
 		display: flex; 
@@ -20,6 +20,10 @@
 		}
 	}
 
+	a {
+		line-height: 44px;
+	}
+
 	.menu__home {
 		width: 50px;
 
@@ -27,7 +31,7 @@
 			display: flex;
 			justify-content: center;
 			align-content: center;
-			padding: 7px;
+			padding: 9px;
 
 			&:hover, &:active, &:focus { svg {
 				fill: white;
@@ -42,7 +46,6 @@
 
 @media #{$tablet} {
 	#main-menu {
-		margin-top: 30px;
 		margin-bottom: 0;
 		width: 100%;
 		order: 3;

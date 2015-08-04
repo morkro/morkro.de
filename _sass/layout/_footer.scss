@@ -14,6 +14,24 @@
 		color: rgba(0, 0, 0, .25);
 		&:hover { color: rgba(0, 0, 0, .5); }
 	}
+
+	.socialmedia {
+		ul { 
+			list-style: none; 
+			display: flex;
+			justify-content: center;
+			margin-bottom: 30px;
+		}
+
+		li {
+			margin-right: 4px;
+		}
+
+		a {
+			display: inline-flex;
+			padding: 10px;
+		}
+	}
 }
 
 .footer__inner {

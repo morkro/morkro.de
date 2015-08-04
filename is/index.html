@@ -1,6 +1,6 @@
 ---
 layout: default
-title: About
+title: About | Moritz Kröger
 ---
 
 <section id="main-content" class="content-about">
@@ -8,28 +8,36 @@ title: About
 		<div class="aside__navigation" role="complementary">
 			{% include menu.html %}
 			<div class="aside__author">
-				<h1>Hello! <br> I'm Moritz Kröger</h1>
 				{% include author-img.html %}
 			</div>
-			{% include author-social.html %}
+
+			<p class="aside__bio">
+				If you want to get in touch me with, just <a href="mailto:write@morkro.de">drop me a line</a> or <a href="https://twitter.com/morkro" target="_blank">send me a tweet</a>!
+				You can also find my profile on communities like <a href="http://github.com/morkro" target="_blank">GitHub</a>, <a href="https://de.linkedin.com/pub/moritz-kröger/67/60/9a5" target="_blank">LinkedIn</a>, <a href="https://www.xing.com/profile/Moritz_Kroeger2" target="_blank">XING</a> or <a href="https://medium.com/@morkro" target="_blank">Medium</a>.
+			</p>
 		</div>
 	</aside>
 
 	<article class="article__about">
 		<header class="content__heading">
-			<h1>Who is that guy?</h1>
+			<h1>Who is that guy anyway?</h1>
 		</header>
 		
+		<h2>
+			Hello! — I'm Moritz Kröger, a German front-end developer currently working as User Interface Developer at <a href="http://razorfish.de" target="_blank">Razorfish Germany</a> in Berlin.
+		</h2>
+
 		<p class="about__introduction">
-			I'm a German, self-taught web developer with a strong focus and enthusiasm in <strong><span class="keyword-js js-large">JavaScript</span></strong> <span>(especially ES6)</span> as well as <strong>other emerging technologies</strong> from the frontend stack. I work as <strong>User Interface Developer</strong> at <a href="http://razorfish.de" target="_blank">Razorfish Germany</a> and live in Berlin.
+			I have a strong focus and enthusiasm in <strong><span class="keyword-js js-large">JavaScript</span></strong> <span>(especially ES6)</span> as well as <strong>other emerging technologies</strong> from the front-end stack.
 			<br>
-			Since I started working as a web developer, I had the privilege to work with companies such as <strong>Audi, Here (Nokia), Coca-Cola, Axa, Deutsche Bahn, McDonald's, Demodern</strong> and more.
+			Since I started working as a front-end developer, I had the privilege to work with companies such as <strong>Audi, Here (Nokia), Coca-Cola, Axa, Deutsche Bahn, McDonald's, Demodern</strong> and more.
 			<br><br>
-			I love the web and everything about it. I recently started <a href="/writes">writing</a>. In my spare time I like to fiddle around with different technologies and <a href="http://github.com/morkro" target="_blank">contribute</a> to open source projects.x
-			<br>
-			<br>
-			Some of my personal projects are:
+			I love the web and every aspect of it. I recently started <a href="/writes">writing</a> to share more of my experiences. In my spare time I like to fiddle around with different technologies, <a href="http://github.com/morkro" target="_blank">contribute</a> to open source projects and a few month ago I started working with Oculus Rift.
+			<br><br>
+			So now you know who I am. <a href="mailto:write@morkro.de"><i>Who are you?</i></a>
 		</p>
+
+		<h3>Side projects of mine. Open Source.</h3>
 
 		<ul class="about__projects">
 			{% for project in site.data.projects %}
@@ -38,15 +46,6 @@ title: About
 				<span>{{ project.description }}</span>
 			</a></li>
 			{% endfor %}
-
-			<li><a href="#" class="link-feature">
-				<strong>FrontBook</strong>
-				<span>A small and modern frontend boilerplate, enabling you to write ES6 today in production-ready projects.</span>
-			</a></li>
-			<li><a href="#" class="link-feature">
-				<strong>BrowDash</strong>
-				<span>A fully customisable dashboard as Chrome extension, written with native Web Components and ES6.</span>
-			</a></li>
 		</ul>
 	</article>
 </section>	

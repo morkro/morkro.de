@@ -1,0 +1,37 @@
+---
+layout: default
+title: 404 | Moritz Kröger
+---
+
+<section id="main-content" class="content-error">
+	<aside class="main-aside">
+		<div class="aside__navigation" role="complementary">
+			<div href="/" class="aside__author">
+				<h1>Hello! <br> I'm Moritz Kröger</h1>
+				{% include author-img.html %}
+			</div>
+			{% include author-description-extended.html %}
+		</div>
+	</aside>
+
+	<article class="blog__content">
+		<header class="content__heading">
+			<h1>Woah! How did you find out about this place?</h1>
+		</header>
+		<p>
+			This is a really secret area and I'm a bit surprised you got here.<br>
+			But it could also just be a <strong>404 page</strong>, who knows ( ͡~ ͜ʖ ͡°)
+		</p>
+
+		<form name="error__form" class="error__form">
+			<div class="error__caption">
+				<h2>Let's find out then!</h2> 
+				<p>Type in the mighty password:</p>
+			</div>
+			<div class="error__gate">
+				<input type="password" placeholder="****" name="error__password">
+				<button type="button" class="btn btn-link">Get me in!</button>
+			</div>
+		</form>
+	</article>
+</section>	

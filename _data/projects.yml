@@ -1,9 +1,9 @@
-frontbook:
+- frontbook:
   title: "FrontBook"
   description: "A small and modern frontend boilerplate, enabling you to write ES6 today in production-ready projects."
   url: "https://github.com/morkro/FrontBook"
 
-browdash:
-  title: "BrowDash"
+- browdash:
+  title: "BrowDash<span>[alpha]</span>"
   description: "A fully customisable dashboard as Chrome extension, written with native Web Components and ES6."
   url: "https://github.com/morkro/BrowDash"

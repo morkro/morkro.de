@@ -2,9 +2,13 @@
  * POSTS: BASE
  */
 .content-article {
-	h2, h3 { 
+	article h2, article h3 { 
 		margin-top: 50px;
 		margin-bottom: 15px;
+	}
+
+	.content__heading + h2 {
+		margin-top: 0;
 	}
 
 	blockquote {
@@ -22,6 +26,10 @@
 
 	aside:hover { 
 		.article__fixed { opacity: 1; } 
+		.article__fixed a { 
+			color: $blue; 
+			&:hover { color: $red; }
+		}
 	}
 
 	.highlight {
@@ -34,13 +42,14 @@
 
 	.article__fixed {
 		position: static;
-		opacity: .35;
+		opacity: 1;
 		transition: opacity 150ms ease-in-out;
 
 		&.is-fixed {
 			position: fixed;
 			top: 0;
 			width: calc(308px - 60px);
+			opacity: .35;
 		}
 	}
 }

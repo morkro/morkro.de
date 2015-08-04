@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Index
+title: Moritz Kröger
 ---
 
 <section id="main-content" class="content-index">
@@ -11,13 +11,13 @@ title: Index
 				<h1>Hello! <br> I'm Moritz Kröger</h1>
 				{% include author-img.html %}
 			</div>
-			{% include author-description-index.html %}
+			{% include author-description-extended.html %}
 		</div>
 	</aside>
 
 	<article>
 		<section class="index__writing">
-			<header class="article__heading">
+			<header class="content__heading">
 				<h1>Writing</h1>
 			</header>
 			<p>
@@ -42,7 +42,7 @@ title: Index
 		</section>
 
 		<section class="index__work">
-			<header class="article__heading">
+			<header class="content__heading">
 				<h1>Projects</h1>
 			</header>
 
@@ -51,9 +51,9 @@ title: Index
 			</p>
 
 			<h2>Latest project:</h2>
-			<a href="#" class="link-feature">
-				<strong>FrontBook</strong>
-				<span>A small and modern frontend boilerplate, enabling you to write ES6 today in production-ready projects.</span>
+			<a href="{{ site.data.projects[0].url }}" target="_blank" class="link-feature">
+				<strong>{{ site.data.projects[0].title }}</strong>
+				<span>{{ site.data.projects[0].description }}</span>
 			</a>
 		</section>
 

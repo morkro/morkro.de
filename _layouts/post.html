@@ -11,7 +11,7 @@ layout: articles
 				{% include author-img.html %}
 			</div>
 			{% include author-description.html %}
-			{% include author-social.html %}
+			{% include tags.html %}
 		</div>
 
 		<div class="article__fixed hidden-tablet">
@@ -26,7 +26,7 @@ layout: articles
 			</div>
 
 			<!-- Go to top -->
-			<button class="article__upstairs" type="button">
+			<button class="article__upstairs link-gradient" type="button">
 				<svg viewBox="0 0 24 24"><path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>
 			</button>
 		</div>
@@ -41,7 +41,7 @@ layout: articles
 
 			<div>
 				<span class="heading__published">
-					Published {{ page.date | date: "%d %B %Y" }}, tagged under {% for tag in page.tags %}#{{ tag }}{% endfor %}
+					Published {{ page.date | date: "%d %B %Y" }}, tagged under {% for tag in page.tags %}<a href="/tag/{{tag}}">#{{ tag }}</a> {% endfor %}
 				</span>
 				<span class="heading__reading-time">
 					<svg viewBox="0 0 24 24">

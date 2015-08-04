@@ -19,10 +19,23 @@ body {
 	font-family: $Roboto;
 	font-weight: 300;
 	color: $grey;
+	padding-top: 60px;
 	// Enable best font rendering
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	padding-top: 60px;
+}
+
+@supports (border-image-source: none) and (border-image-slice: initial) {
+	html {
+		box-shadow: inset 0px 8px 8px -5px rgba(0,0,0,.5);		
+	}
+
+	body {
+		border-width: 4px;
+		border-style: solid;
+		border-image-source: linear-gradient(to right, $blue, $red);
+		border-image-slice: 100% 1 0 1;
+	}
 }
 
 /**
@@ -38,7 +51,21 @@ h1 {
 	font-size: 52px; 
 	letter-spacing: -1px;
 }
-h2 { font-size: 26px; }
+
+h2 { 
+	font-size: 26px; 
+	line-height: 38px;
+}
+
+h3 {
+	font-size: 22px;
+}
+
+@media all and (max-width: 540px) {
+	h1 {
+		font-size: 38px;
+	}
+}
 
 /**
  * Links
@@ -47,6 +74,7 @@ a {
 	cursor: pointer;
 	display: inline-block;
 	text-decoration: none;
+	font-size: inherit;
 	color: $blue;
 	transition: color 150ms ease-in-out;
 	
@@ -91,6 +119,7 @@ a {
 		top: 0;
 		left: 0;
 		z-index: -1;
+		border-radius: 2px;
 		background: linear-gradient( to bottom, rgba(255,255,255,0) 0%, $red 100% );
 		transform: translateY(100%);
 		transition: transform 150ms ease-in-out;
@@ -165,6 +194,35 @@ code, kbd, pre, samp {
 	&[disabled] {
 		color: rgba(0, 0, 0, .4);
 	}
+
+	&.btn-link {
+		&:hover, &:active, &:focus {
+			background-color: $blue;
+			color: white;
+			outline: none;
+			svg { fill: white; }
+
+			&:after { 
+				transform: translateY(0); 
+				transition-delay: 50ms;
+			}
+		}
+
+		&:after {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: -1;
+			border-radius: 2px;
+			background: linear-gradient( to bottom, rgba(255,255,255,0) 0%, $red 100% );
+			transform: translateY(100%);
+			transition: transform 150ms ease-in-out;
+			transition-delay: 0;
+		}
+	}
 }
 
 .keyword-js {
@@ -191,6 +249,37 @@ code, kbd, pre, samp {
 		height: 24px;
 		right: -2px;
 		top: 0;
+	}
+}
+
+/**
+ * Forms
+ */
+input {
+	border: 2px solid rgba(0,0,0,0.2);
+	font-family: $RobotoMono;
+	padding: 5px 15px;
+	border-radius: 2px;
+	transition: border 150ms ease-in-out;
+
+	&:hover {
+		border: 2px solid rgba(0,0,0,0.3);
+	}
+
+	&:active, &:focus {
+		border: 2px solid rgba(0,0,0,0.5);
+		outline: none;
+	}
+}
+
+@supports (border-image-source: none) and (border-image-slice: initial) {
+	input {
+		&:active, &:focus {
+			border-width: 2px;
+			border-style: solid;
+			border-image-source: linear-gradient(to right, $blue, $red);
+			border-image-slice: 1;
+		}
 	}
 }
 

@@ -1,0 +1,40 @@
+---
+layout: default
+title: Tags | Moritz Kröger
+---
+
+<section id="main-content" class="content-tags">
+	<aside class="main-aside">
+		<div class="aside__navigation" role="complementary">
+			{% include menu.html %} 
+			<div class="aside__author">
+				<h1>Hello! <br> I'm Moritz Kröger</h1>
+				{% include author-img.html %}
+			</div>
+			{% assign category = {{page.tag}} %}
+			{% include tags.html %}
+		</div>
+	</aside>
+
+	<article class="article__content">
+		<header class="content__heading">
+			<h1>#{{ page.tag }}</h1>
+		</header>
+
+		<ul class="blog__list">
+			{% for post in site.posts %}
+			{% for tag in post.tags %}
+			{% if tag == page.tag %}
+			<li class="blog__item"><a class="link-feature" href='{{post.url}}'>
+				<span>
+					<time datetime='{{post.date | date: "%Y-%m-%d"}}'>{{ post.date | date: "%m/%d/%y" }}</time>
+				</span>
+				<h2>{{ post.title }}</h2>
+				<span class="item__excerpt">{{ post.excerpt | strip_html }}</span>
+			</a></li>
+			{% endif %}
+			{% endfor %}
+			{% endfor %}
+		</ul>
+	</article>
+</section>

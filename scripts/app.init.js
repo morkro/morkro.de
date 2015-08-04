@@ -63,7 +63,7 @@ var RoundNumber = (function (window) {
  * ArticleScrollHandler
  */
 var ArticleScrollHandler = function (event) {
-	var HEADER_POSITION = 454;
+	var HEADER_POSITION = 354;
 	var scrollTop = document.body.scrollTop;
 	var articleTOC = elem('.article__fixed');
 	
@@ -116,18 +116,22 @@ var ScrollToSection = (function (window) {
 	'use strict';
 
 	/* Variables */
+	var isArticlePage = !!elem('.content-article');
+	var isErrorPage = !!elem('.content-error');
+
 	var anchored = new AnchorizeHandler('.article__content');
 	var readingTime = new RoundNumber('.heading__reading-time span');
 	var upstairs = new ScrollToSection();
 
-	/* If articlepage */
-	if (elem('.content-article')) {
+	if (isArticlePage) {
 		anchored.init();
 		readingTime.init();
 		upstairs.onClick('.article__upstairs').moveElem('body').toPosition(0);
-
-		/* EventHandler */
+		// EventHandler
 		window.on('scroll', ArticleScrollHandler);
 	}
 
+	else if (isErrorPage) {
+		console.log('error page');
+	}
 })(window);
