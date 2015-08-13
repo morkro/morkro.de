@@ -13,8 +13,8 @@ var AnchorizeHandler = (function (window) {
 
 	function AnchorizeHandler (container) {
 		this.container	= elem(container);
-		this.tags		= ['h2', 'h3', 'h4', 'h5', 'h6'];
-		this.anchorSign	= '§';
+		this.tags = ['h2', 'h3', 'h4', 'h5', 'h6'];
+		this.anchorSign = '§';
 	}
 
 	AnchorizeHandler.prototype.init = function () {

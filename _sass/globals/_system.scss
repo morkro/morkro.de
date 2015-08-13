@@ -19,7 +19,6 @@ body {
 	font-family: $Roboto;
 	font-weight: 300;
 	color: $grey;
-	padding-top: 60px;
 	// Enable best font rendering
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -50,6 +49,7 @@ h1 {
 	font-family: $RobotoMono;
 	font-size: 52px; 
 	letter-spacing: -1px;
+	line-height: 56px;
 }
 
 h2 { 
@@ -64,6 +64,7 @@ h3 {
 @media all and (max-width: 540px) {
 	h1 {
 		font-size: 38px;
+		line-height: 40px;
 	}
 }
 
@@ -259,7 +260,6 @@ input {
 	border: 2px solid rgba(0,0,0,0.2);
 	font-family: $RobotoMono;
 	padding: 5px 15px;
-	border-radius: 2px;
 	transition: border 150ms ease-in-out;
 
 	&:hover {
@@ -291,11 +291,4 @@ input {
 img[src$=".jpg"], img[src$=".png"] {
 	image-rendering: optimizeQuality;
 	-ms-interpolation-mode: bicubic;
-}
-
-/* MEDIA QUERIES */
-@media #{$tablet} {
-	body {
-		padding-top: 40px;
-	}
 }

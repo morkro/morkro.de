@@ -10,6 +10,11 @@
 			font-weight: 400;
 		}
 	}
+
+	.aside__bio span {
+		font-style: italic;
+		color: rgba(0, 0, 0, .5);
+	}
 }
 
 .about__introduction {
@@ -25,13 +30,18 @@
 	}
 }
 
-.about__projects {
-	list-style: none;
+.about__lists {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 
-	li {
+	article {
 		width: 48%;
+	}
+}
+
+@media #{$max-mobile} {
+	.about__lists article:not(:last-of-type) {
+		margin-bottom: 30px;
 	}
 }

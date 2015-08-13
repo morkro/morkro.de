@@ -1,0 +1,61 @@
+---
+layout: default
+title: Moritz Kröger
+---
+
+<section id="main-content" class="content-index">
+	<aside class="main-aside">
+		<div class="aside__navigation" role="complementary">
+			{% include menu.html %}
+			<div href="/" class="aside__author">
+				<h1>Hello! <br> I'm Moritz Kröger</h1>
+				{% include author-img.html %}
+			</div>
+			{% include author-description-extended.html %}
+		</div>
+	</aside>
+
+	<article>
+		<section class="index__writing">
+			<header class="content__heading">
+				<h1>Writing</h1>
+			</header>
+			<p>
+				I recently started <a href="/writes">writing</a> to share more of my experiences and knowledge. 
+				If you want to contribute and give me your opinion, just write under any article in the comment section. I would love to read your feedback!
+			</p>
+
+			{% for post in site.posts limit:1 %}
+			<h2>Latest article:</h2>
+			<a href="{{ post.url }}" class="link-feature">
+				<strong>{{ post.title }}</strong>
+				<span>Published on {{ post.date | date: "%B %e, %Y" }}</span>
+			</a>
+			{% endfor %}
+			
+			<a href="/writes" class="writing__browsemore">
+				<svg viewBox="0 0 24 24">
+					<path d="M19,7H9V5H19M15,15H9V13H15M19,11H9V9H19M20,2H8A2,2 0 0,0 6,4V16A2,2 0 0,0 8,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M4,6H2V20A2,2 0 0,0 4,22H18V20H4V6Z" />
+				</svg>
+				<span>Browse my other articles</span>
+			</a>
+		</section>
+
+		<section class="index__work">
+			<header class="content__heading">
+				<h1>Projects</h1>
+			</header>
+
+			<p>
+				Since I started working I had the privilege to work with companies such as <strong>Audi, Here (Nokia), Coca-Cola, Axa, Deutsche Bahn, McDonald's, Demodern & more</strong>.
+			</p>
+
+			<h2>Latest project:</h2>
+			<a href="{{ site.data.projects[0].url }}" target="_blank" class="link-feature">
+				<strong>{{ site.data.projects[0].title }}</strong>
+				<span>{{ site.data.projects[0].description }}</span>
+			</a>
+		</section>
+
+	</article>
+</section>	

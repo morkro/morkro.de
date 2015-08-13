@@ -2,7 +2,7 @@ main {
 	display: block; // Hello, non-html5 browser!
 	max-width: 80%;
 	width: 95%;
-	margin: 0 auto;
+	margin: 60px auto 0;
 }
 
 #main-content {
@@ -16,7 +16,7 @@ main {
 		text-align: left;
 	}
 
-	article {
+	> section, > article {
 		width: 70%;
 		position: relative;
 		z-index: 1;
@@ -28,7 +28,6 @@ main {
 	margin-bottom: 30px;
 
 	h1:not(.heading__preface) {
-		line-height: 56px;
 		margin-bottom: 5px;
 		text-shadow: 0px 1px 0px white;
 		border-bottom: 4px solid rgba(0,0,0,0.2);
@@ -64,8 +63,9 @@ main {
 @media #{$tablet} {
 	#main-content {
 		flex-wrap: wrap;
+		margin-top: 40px;
 
-		aside, article {
+		aside, > article, > section {
 			margin: 0 auto;
 			width: 80%;
 		}
@@ -84,7 +84,7 @@ main {
 
 @media #{$max-mobile} {
 	#main-content {
-		aside, article {
+		aside, > article, > section {
 			width: 90%;
 		}
 	}

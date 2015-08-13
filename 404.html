@@ -3,9 +3,10 @@ layout: default
 title: 404 | Moritz Kröger
 ---
 
-<section id="main-content" class="content-error">
+<div id="main-content" class="content-error">
 	<aside class="main-aside">
 		<div class="aside__navigation" role="complementary">
+			{% include menu.html %}
 			<div href="/" class="aside__author">
 				<h1>Hello! <br> I'm Moritz Kröger</h1>
 				{% include author-img.html %}
@@ -14,12 +15,12 @@ title: 404 | Moritz Kröger
 		</div>
 	</aside>
 
-	<article class="blog__content">
+	<section class="blog__content">
 		<header class="content__heading">
 			<h1>Woah! How did you find out about this place?</h1>
 		</header>
 		<p>
-			This is a really secret area and I'm a bit surprised you got here.<br>
+			This is a really <span class="error__secret">secret area</span> and I'm a bit surprised you got here.<br>
 			But it could also just be a <strong>404 page</strong>, who knows ( ͡~ ͜ʖ ͡°)
 		</p>
 
@@ -33,5 +34,5 @@ title: 404 | Moritz Kröger
 				<button type="button" class="btn btn-link">Get me in!</button>
 			</div>
 		</form>
-	</article>
-</section>	
+	</section>
+</div>	

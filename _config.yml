@@ -17,8 +17,8 @@ destination: _public
 
 # Handling reading
 encoding: "utf-8"
-include: [.htaccess]
-exclude: [README.md, Gemfile, .gitignore]
+include: [".htaccess"]
+exclude: ["README.md", "Gemfile", ".gitignore", "soon-to-be-index.html"]
 
 # Plugins
 gems:

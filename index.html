@@ -3,59 +3,63 @@ layout: default
 title: Moritz Kröger
 ---
 
-<section id="main-content" class="content-index">
+<div id="main-content" class="content-about">
 	<aside class="main-aside">
 		<div class="aside__navigation" role="complementary">
 			{% include menu.html %}
-			<div href="/" class="aside__author">
-				<h1>Hello! <br> I'm Moritz Kröger</h1>
+			<div class="aside__author">
 				{% include author-img.html %}
 			</div>
-			{% include author-description-extended.html %}
+
+			<p class="aside__bio">
+				If you want to get in touch me with, just <a href="mailto:write@morkro.de">drop me a line</a> or <a href="https://twitter.com/morkro" target="_blank">send me a tweet</a>!
+				You can also find my profile on 
+				<a href="http://github.com/morkro" target="_blank"><strong>GitHub</strong></a>, 
+				<a href="http://stackoverflow.com/users/1724106/morkro" target="_blank"><strong>StackOverflow</strong></a>, 
+				<a href="https://de.linkedin.com/pub/moritz-kröger/67/60/9a5" target="_blank"><strong>LinkedIn</strong></a> or 
+				<a href="https://www.xing.com/profile/Moritz_Kroeger2" target="_blank"><strong>XING</strong></a><br>
+				<span>(I'm <strong>morkro</strong> anywhere)</span>.
+			</p>
 		</div>
 	</aside>
 
-	<article>
-		<section class="index__writing">
-			<header class="content__heading">
-				<h1>Writing</h1>
-			</header>
-			<p>
-				I recently started <a href="/writes">writing</a> to share more of my experiences and knowledge. 
-				If you want to contribute and give me your opinion, just write under any article in the comment section. I would love to read your feedback!
-			</p>
+	<section class="article__about">
+		<header class="content__heading">
+			<h1>Hey there!</h1>
+		</header>
+		
+		<h2>
+			I am Moritz Kröger, a German front-end developer currently working as User Interface Developer at <a href="http://razorfish.de/en" target="_blank">Razorfish</a> in Berlin.
+		</h2>
 
-			{% for post in site.posts limit:1 %}
-			<h2>Latest article:</h2>
-			<a href="{{ post.url }}" class="link-feature">
-				<strong>{{ post.title }}</strong>
-				<span>Published on {{ post.date | date: "%B %e, %Y" }}</span>
-			</a>
-			{% endfor %}
-			
-			<a href="/writes" class="writing__browsemore">
-				<svg viewBox="0 0 24 24">
-					<path d="M19,7H9V5H19M15,15H9V13H15M19,11H9V9H19M20,2H8A2,2 0 0,0 6,4V16A2,2 0 0,0 8,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M4,6H2V20A2,2 0 0,0 4,22H18V20H4V6Z" />
-				</svg>
-				<span>Browse my other articles</span>
-			</a>
+		<p class="about__introduction">
+			I have a strong focus and enthusiasm in <strong><span class="keyword-js js-large">JavaScript</span></strong> <span>(ES6 ♥)</span> as well as <strong>other emerging technologies</strong> from the front-end stack. Front-end architecture, web standards, performance and open source are the buzzwords which get me excited.
+			<br><br>
+			I love the web and every aspect of it. I recently started <a href="/writes">writing</a> to share more of my experiences. In my spare time I like to fiddle around with different technologies, <a href="http://github.com/morkro" target="_blank">contribute</a> to open source projects and a few month ago I started experimenting with Virtual Reality and Oculus Rift.
+			<br><br>
+			Since I started working as a front-end developer, I had the privilege to work with companies such as <strong>Audi, Here (Nokia), Coca-Cola, Nike, Axa, Deutsche Bahn, McDonald's, Demodern</strong> and more.
+		</p>
+
+		<section class="about__lists">
+			<article>
+				<h3>Latest article:</h3>
+				{% for post in site.posts limit:1 %}
+				<a href="{{ post.url }}" class="link-feature">
+					<strong>{{ post.title }}</strong>
+					<span>Published on {{ post.date | date: "%B %e, %Y" }}</span>
+				</a>
+				{% endfor %}
+			</article>
+
+			<article>
+				<h3>Latest side project:</h3>
+				{% for project in site.data.projects limit:1 %}
+				<a href="{{ project.url }}" target="_blank" class="link-feature">
+					<strong>{{ project.title }}</strong>
+					<span>{{ project.description }}</span>
+				</a>
+				{% endfor %}
+			</article>
 		</section>
-
-		<section class="index__work">
-			<header class="content__heading">
-				<h1>Projects</h1>
-			</header>
-
-			<p>
-				Since I started working I had the privilege to work with companies such as <strong>Audi, Here (Nokia), Coca-Cola, Axa, Deutsche Bahn, McDonald's, Demodern & more</strong>.
-			</p>
-
-			<h2>Latest project:</h2>
-			<a href="{{ site.data.projects[0].url }}" target="_blank" class="link-feature">
-				<strong>{{ site.data.projects[0].title }}</strong>
-				<span>{{ site.data.projects[0].description }}</span>
-			</a>
-		</section>
-
-	</article>
-</section>	
+	</section>
+</div>	

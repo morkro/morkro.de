@@ -35,15 +35,12 @@
 </head>
 <body>	
 	<main role="main">
-		<section id="main-content" class="content-imprint">
+		<div id="main-content" class="content-imprint">
 	<aside class="main-aside">
 		<div class="aside__navigation" role="complementary">
 			<nav id="main-menu" role="navigation">
 	<ul>
-		<li class="menu__home"><a class="link-gradient" href="/">
-			<svg viewBox="0 0 24 24"><path d="M8,20H5V12H2L12,3L22,12H19V20H12V14H8V20M14,14V17H17V14H14Z" /></svg>
-		</a></li>
-		<li><a class="link-gradient" href="/is">About</a></li>
+		<li><a class="link-gradient" href="/">Home</a></li>
 		<li><a class="link-gradient" href="/writes">Blog</a></li>
 	</ul>
 </nav>
@@ -52,14 +49,14 @@
 				<img src="/../assets/img/moritz.jpg" title="Moritz Kröger" alt="Moritz Kröger">
 			</div>
 			<p class="aside__bio">
-	Web developer with a strong focus in <span class="keyword-js">JavaScript</span> as well as other <a href="/is">other emerging front-end technologies</a>. 
+	Web developer with a strong focus in <span class="keyword-js">JavaScript</span> as well as other <strong>other emerging front-end technologies</strong>. 
 	<br><br>
-	I work as <strong>User Interface Developer</strong> at <a href="http://razorfish.de" target="_blank">Razorfish Germany</a> and live in Berlin.
+	I work as <strong>User Interface Developer</strong> at <a href="http://razorfish.de" target="_blank">Razorfish</a> and live in Berlin.
 </p>
 		</div>
 	</aside>
 
-	<article>
+	<section>
 		<header class="content__heading">
 			<h1>Imprint</h1>	
 		</header>
@@ -99,8 +96,8 @@
 				</p>
 			</div>
 		</div>
-	</article>
-</section>	
+	</section>
+</div>	
 	</main>
 
 	<footer id="footer" role="contentinfo">
@@ -116,6 +113,11 @@
 		<li><a class="link-gradient" href="http://github.com/morkro" target="_blank"> <!-- GitHub -->
 			<svg viewBox="0 0 24 24">
 				<path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z" />
+			</svg>
+		</a></li>
+		<li><a class="link-gradient" href="http://stackoverflow.com/users/1724106/morkro" target="_blank"> <!-- StackOverflow -->
+			<svg viewBox="0 0 24 24">
+				<path d="M4,14H5.5V20.5H16.5V14H18V22H4V14M15.03,19.24H6.76V17.59H15.03V19.24M14.92,16.64L6.66,16.06L6.78,14.41L15.03,15L14.92,16.64M15.04,14.41L7.04,12.26L7.47,10.67L15.47,12.81L15.04,14.41M15.5,12.1L8.33,7.96L9.16,6.53L16.33,10.66L15.5,12.1M16.63,10.34L11.77,3.64L13.11,2.67L17.97,9.37L16.63,10.34M18.36,9.17L17.35,0.96L19,0.76L20,8.97L18.36,9.17Z" />
 			</svg>
 		</a></li>
 		<li><a class="link-gradient" href="https://de.linkedin.com/pub/moritz-kröger/67/60/9a5" target="_blank"> <!-- LinkedIn -->
@@ -143,7 +145,7 @@
 			
 <script src="/../scripts/app.init.js"></script>
 
-<script type="text/javascript">
+<script async type="text/javascript">
 	var _paq = _paq || [];
 	_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
 	_paq.push(["setCookieDomain", "*.www.morkro.de"]);

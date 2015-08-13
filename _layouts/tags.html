@@ -3,7 +3,7 @@ layout: default
 title: Tags | Moritz Kröger
 ---
 
-<section id="main-content" class="content-tags">
+<div id="main-content" class="content-tags">
 	<aside class="main-aside">
 		<div class="aside__navigation" role="complementary">
 			{% include menu.html %} 
@@ -16,7 +16,7 @@ title: Tags | Moritz Kröger
 		</div>
 	</aside>
 
-	<article class="article__content">
+	<section class="article__content">
 		<header class="content__heading">
 			<h1>#{{ page.tag }}</h1>
 		</header>
@@ -36,5 +36,5 @@ title: Tags | Moritz Kröger
 			{% endfor %}
 			{% endfor %}
 		</ul>
-	</article>
-</section>
+	</section>
+</div>
