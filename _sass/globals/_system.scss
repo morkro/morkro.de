@@ -146,6 +146,14 @@ a {
 		background: rgba(33, 150, 243, .2);
 	}
 
+	img {
+		width: 24px;
+		height: 24px;
+		display: inline-block;
+		vertical-align: middle;
+		transform: translateY(-2px);
+	}
+
 	strong {
 		font-family: $RobotoMono;
 		font-size: 22px;

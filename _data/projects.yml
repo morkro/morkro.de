@@ -1,4 +1,5 @@
 - frontbook:
+  logo: "../assets/logos/frontbook.svg"
   title: "FrontBook"
   description: "A small and modern frontend boilerplate, enabling you to write ES6 today in production-ready projects."
   url: "https://github.com/morkro/FrontBook"

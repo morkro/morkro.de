@@ -38,6 +38,13 @@
 	article {
 		width: 48%;
 	}
+
+	h3 svg {
+		fill: #B3B3B3;
+		width: 24px;
+		height: 24px;
+		transform: translateY(4px);
+	}
 }
 
 @media #{$max-mobile} {
