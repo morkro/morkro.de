@@ -40,13 +40,13 @@ title: Writes | Moritz Kröger
 			{% if paginator.previous_page %}
 			<a class="link-gradient" href="{{ paginator.previous_page_path | replace: 'index.html', '' }}" rel="prev">Previous</a>
 			{% else %}
-			<button class="btn" disabled type="button">Previous</button>
+			<button class="btn" disabled type="button" aria-disabled="true">Previous</button>
 			{% endif %}
 
 			{% if paginator.next_page %}			
 			<a class="link-gradient" href="{{ paginator.next_page_path }}" rel="next">Next</a>
 			{% else %}
-			<button class="btn" disabled type="button">Next</button>
+			<button class="btn" disabled type="button" aria-disabled="true">Next</button>
 			{% endif %}
 		</div>
 		{% endif %}

@@ -5,6 +5,16 @@ var elem = document.querySelector.bind(document);
 window.on = window.addEventListener;
 Element.prototype.on = Element.prototype.addEventListener;
 
+var getOffset = function ( elem ) {
+	var offsetTop = 0;
+	do {
+		if ( !isNaN( elem.offsetTop ) ) {
+			offsetTop += elem.offsetTop;
+		}
+	} while( elem = elem.offsetParent );
+	return offsetTop;
+};
+
 /**
  * AnchorizeHandler
  */
@@ -63,7 +73,7 @@ var RoundNumber = (function (window) {
  * ArticleScrollHandler
  */
 var ArticleScrollHandler = function (event) {
-	var HEADER_POSITION = 354;
+	var HEADER_POSITION = this;
 	var scrollTop = document.body.scrollTop;
 	var articleTOC = elem('.article__fixed');
 	
@@ -110,6 +120,24 @@ var ScrollToSection = (function (window) {
 })(window);
 
 /**
+ * Timer
+ */
+var Timer = (function (window) {
+	'use strict';
+	
+	function Timer (container) {
+		this.elem = elem(container);
+		this.date = new Date();
+	}
+
+	Timer.prototype.getYear = function () {
+		this.elem.textContent = this.date.getFullYear();
+	};
+
+	return Timer;
+})(window);
+
+/**
  * App init
  */
 (function (window) {
@@ -117,21 +145,24 @@ var ScrollToSection = (function (window) {
 
 	/* Variables */
 	var isArticlePage = !!elem('.content-article');
-	var isErrorPage = !!elem('.content-error');
+	var asideNav = null, scrollBreakpoint = 0;
 
 	var anchored = new AnchorizeHandler('.article__content');
 	var readingTime = new RoundNumber('.heading__reading-time span');
-	var upstairs = new ScrollToSection();
+	//var upstairs = new ScrollToSection();
+	var currentYear = new Timer('.footer__year');
+
+	currentYear.getYear();
 
 	if (isArticlePage) {
+		asideNav = elem('.aside__navigation');
+		scrollBreakpoint = getOffset(asideNav) + asideNav.getBoundingClientRect().height;
+		
 		anchored.init();
 		readingTime.init();
-		upstairs.onClick('.article__upstairs').moveElem('body').toPosition(0);
-		// EventHandler
-		window.on('scroll', ArticleScrollHandler);
-	}
+		//upstairs.onClick('.article__upstairs').moveElem('body').toPosition(0);
 
-	else if (isErrorPage) {
-		console.log('error page');
+		// EventHandler
+		window.on('scroll', ArticleScrollHandler.bind(scrollBreakpoint));
 	}
 })(window);
