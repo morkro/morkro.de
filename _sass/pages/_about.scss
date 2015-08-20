@@ -5,10 +5,12 @@
 	h2, h3 {
 		margin-bottom: 30px;
 
-		a { 
+		span, a, i, strong {
 			font-size: inherit; 
-			font-weight: 400;
 		}
+
+		a {  font-weight: 400; }
+		span { font-weight: 200; }
 	}
 
 	.aside__bio span {

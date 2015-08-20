@@ -62,9 +62,21 @@
 	padding: 0 10px;
 
 	a {
-		display: inline;
+		display: inline-block;
 		font-size: inherit;
 		line-height: 0;
+	}
+
+	svg {
+		width: 14px;
+		height: 14px;
+		vertical-align: middle;
+		fill: $blue;
+		transition: fill 150ms ease-in-out;
+	}
+
+	a:hover svg {
+		fill: $red;
 	}
 }
 
