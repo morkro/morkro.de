@@ -3,8 +3,11 @@
  */
 .content-article {
 	article h2, article h3 { 
+		margin-bottom: 20px;
+	}
+
+	article h2 {
 		margin-top: 50px;
-		margin-bottom: 15px;
 	}
 
 	.content__heading + h2 {
@@ -13,12 +16,26 @@
 
 	blockquote {
 		border-left: 4px solid rgba(0, 0, 0, .15);
-		padding-left: 20px;
+		background-color: rgba(0,0,0,.05);
+		padding: 10px 24px;
 		font-style: italic;
-		
+		margin-bottom: 20px;
+		position: relative;
+
+		&::before {
+			color: rgba(0,0,0,0.25);
+			position: absolute;
+			font-size: 40px;
+			top: 0;
+			left: 5px;
+			content: "\201C";
+		}
+
 		p { 
+			color: rgba(0, 0, 0, .7);
 			font-size: 16px; 
 			line-height: 28px;
+			margin: 0;
 		}
 
 		code { font-size: 14px; }
@@ -34,7 +51,7 @@
 
 	.highlight {
 		border-radius: 2px;
-		margin-bottom: 30px;
+		margin-bottom: 20px;
 		code, kbd, pre, samp {
 			background: none;
 		}
@@ -51,5 +68,24 @@
 			width: calc(308px - 60px);
 			opacity: .35;
 		}
+	}
+}
+
+.note--snippet {
+	background-color: rgba(0,0,0,.1);
+	padding: 5px 10px;
+	border-radius: 2px;
+	margin-top: -20px;
+	margin-bottom: 20px;
+	text-align: right;
+
+	p {
+		font-size: 12px;
+		line-height: 20px;
+		margin-bottom: 0 !important;
+	}
+
+	a { 
+		font-size: inherit;
 	}
 }

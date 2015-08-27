@@ -19,7 +19,27 @@
 
 	p { 
 		margin-bottom: 20px; 
-		code, kbd, pre, samp { font-size: 16px; }
+	}
+
+	code, kbd, pre, samp { 
+		font-size: inherit; 
+	}
+
+	ul:not(.blog__list) {
+		padding-left: 20px;
+		margin-bottom: 20px;
+
+		li {
+			font-weight: 300;
+			font-size: 18px;
+			line-height: 30px;
+		}
+	}
+
+	hr {
+		border: none;
+		border-top: 4px dashed rgba(0,0,0,.2);
+		margin-top: 40px;
 	}
 }
 
@@ -39,6 +59,15 @@
 	}
 }
 
+.heading__published {
+	font-weight: 300;
+}
+
+.heading__time {
+	color: rgba(0,0,0,0.5);
+	font-weight: 400;
+}
+
 .heading__reading-time {
 	width: 30%;
 	text-align: right;
@@ -51,6 +80,21 @@
 		position: relative;
 		top: -2px;
 	}		
+}
+
+.heading__jump {
+	display: inline-block;
+	font-size: 14px;
+	line-height: 24px;
+	padding: 0 6px 0 8px;
+
+	img {
+		vertical-align: middle;
+		width: 16px;
+		opacity: .5;
+		margin-left: 5px;
+		transition: opacity 150ms ease-in-out;
+	}
 }
 
 @media #{$tablet} {

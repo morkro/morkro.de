@@ -7,6 +7,9 @@
 	ul { 
 		display: flex; 
 		list-style: none;
+		background-color: rgba(0, 0, 0, .1);
+		padding: 4px;
+		border-radius: 2px;
 	}
 
 	li {
@@ -22,6 +25,11 @@
 
 	a {
 		line-height: 44px;
+		background-color: rgba(0,0,0,0);
+		
+		&:hover, &:active, &:focus { 
+			background-color: $blue; 
+		}
 	}
 
 	.menu__home {

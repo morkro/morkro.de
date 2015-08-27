@@ -1,7 +1,19 @@
 .highlight { 
-	background-color: #292822; 
+	background-color: #292822;
 
-	pre { padding: 6px 12px; }
+	pre, code, kbd, samp {
+		color: white;
+	}
+
+	code {
+		padding: 0;
+	}
+
+	pre { 
+		padding: 12px; 
+		box-shadow: inset 0px 0px 5px rgba(0,0,0,.5);
+	}
+
 	span { 
 		line-height: 22px;
 		font-size: 16px; 
@@ -88,4 +100,8 @@
 [data-lang="javascript"] {
 	.k { color: #f8f8f2; }
 	.nb { color: #66d9ef; }
+}
+
+[data-lang="bash"] {
+	.gp { color: #f92672; }
 }

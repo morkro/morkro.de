@@ -35,6 +35,13 @@ body {
 		border-image-source: linear-gradient(to right, $blue, $red);
 		border-image-slice: 100% 1 0 1;
 	}
+
+	// I am sorry Firefox
+	@-moz-document url-prefix() {
+		body {
+			border-image-slice: 100% 0 0 0;
+		}
+	}
 }
 
 /**
@@ -53,7 +60,7 @@ h1 {
 }
 
 h2 { 
-	font-size: 26px; 
+	font-size: 32px; 
 	line-height: 38px;
 }
 
@@ -182,10 +189,16 @@ b, strong {
 
 code, kbd, pre, samp {
 	font-family: $RobotoMono;
-	background-color: rgba(0,0,0,.1);
-	padding: 0 6px 2px;
+	background-color: rgba(0, 0, 0, .1);
 	border-radius: 2px;
+	color: rgba(0, 0, 0, .8);
+	vertical-align: baseline;
+	padding: 0 6px 1px;
 }
+
+a { code, kbd, pre, samp {
+	color: inherit;
+} }
 
 .btn {
 	position: relative;
@@ -258,6 +271,10 @@ code, kbd, pre, samp {
 		right: -2px;
 		top: 0;
 	}
+}
+
+.is-red {
+	color: $red !important;
 }
 
 /**

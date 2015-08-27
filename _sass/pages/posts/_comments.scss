@@ -2,6 +2,8 @@
  * POSTS: COMMENTS
  */
 .article__comments {
-	margin-top: 50px;
-	border-top: 5px solid rgba(0,0,0,0.2);
+	border-width: 4px;
+	border-style: solid;
+	border-image-source: linear-gradient(to right, $blue, $red);
+	border-image-slice: 100% 1 0 1;
 }

@@ -2,30 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
 	<channel>
 		<title>Moritz Kröger</title>
-		<description>Hello! I&#39;m Moritz Kröger, a web developer with a strong focus in JavaScript as well as other emerging front-end technologies.</description>		
+		<description>I am Moritz Kröger, a German front-end developer who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions.</description>		
 		<link>http://morkro.de</link>
 		<atom:link href="http://morkro.de/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title>Syntax Highlighting</title>
+				<title>How to setup an ES6 production-ready project</title>
 				        
 				
-					<description>SVG seems to just work (when supported). Icon fonts seem to fail in weird ways. For instance, you map the characters to normal letters, then the font loading fails and you get random characters abound.</description>
+					<description>Since ES6 got a really good hype this year and the specification has eventually been finished, I wanted to start using it. By today I have turned almost all my private projects and a couple of client projects into a solid ES6 setup.</description>
 				
-				<pubDate>Mon, 01 Jun 2015 00:00:00 +0200</pubDate>
-				<link>http://morkro.de/writes/2015/test-syntax</link>
-				<guid isPermaLink="true">http://morkro.de/writes/2015/test-syntax</guid>
-			</item>
-		
-			<item>
-				<title>Manage your SVG icons using Web Components</title>
-				        
-				
-					<description>SVG seems to just work (when supported). Icon fonts seem to fail in weird ways. For instance, you map the characters to normal letters, then the font loading fails and you get random characters abound.</description>
-				
-				<pubDate>Sat, 30 May 2015 00:00:00 +0200</pubDate>
-				<link>http://morkro.de/writes/2015/manage-your-svg-icons-using-web-components</link>
-				<guid isPermaLink="true">http://morkro.de/writes/2015/manage-your-svg-icons-using-web-components</guid>
+				<pubDate>Thu, 27 Aug 2015 00:00:00 +0200</pubDate>
+				<link>http://morkro.de/writes/2015/how-to-setup-your-own-es6-project</link>
+				<guid isPermaLink="true">http://morkro.de/writes/2015/how-to-setup-your-own-es6-project</guid>
 			</item>
 		
 	</channel>

@@ -16,9 +16,9 @@ layout: articles
 
 		<div class="article__fixed hidden-tablet">
 			<!-- Go to top -->
-			<button class="article__upstairs link-gradient" type="button">
+			<a href="#" class="article__upstairs link-gradient">
 				<svg viewBox="0 0 24 24"><path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>
-			</button>
+			</a>
 		</div>
 	</aside>
 
@@ -31,7 +31,7 @@ layout: articles
 
 			<div>
 				<span class="heading__published">
-					Published {{ page.date | date: "%d %B %Y" }}, tagged under {% for tag in page.tags %}<a href="/tag/{{tag}}">#{{ tag }}</a> {% endfor %}
+					Published <span class="heading__time">{{ page.date | date: "%d %B %Y" }}</span>, tagged under {% for tag in page.tags %}<a href="/tag/{{tag}}"><strong>#{{ tag }}</strong></a> {% endfor %}
 				</span>
 				<span class="heading__reading-time">
 					<svg viewBox="0 0 24 24">
@@ -46,6 +46,19 @@ layout: articles
 		</header>
 
 		{{ content }}
+
+		<!-- Article: Share -->
+		<section class="article__share">
+			<a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ site.url }}{{ page.url }}" data-via="morkro">Tweet</a>
+			<script>
+				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+			</script>
+
+			<script src="https://apis.google.com/js/platform.js" async defer>
+				{lang: 'en-GB'}
+			</script>
+			<div class="g-plus" data-action="share" data-annotation="bubble" data-href="{{ site.url }}{{ page.url }}"></div>
+		</section>
 
 		<!-- Article: Comments -->
 		<section class="article__comments">

@@ -16,6 +16,9 @@
 	}
 
 	.socialmedia {
+		position: relative;
+		z-index: 1;
+
 		ul { 
 			list-style: none; 
 			display: flex;
@@ -38,6 +41,7 @@
 	max-width: 1024px;
 	width: 90%;
 	margin: 0 auto;
+	position: relative;
 }
 
 .footer__thanks {
@@ -47,5 +51,17 @@
 
 .footer__copyright {
 	color: rgba(0,0,0,.5);
+	position: relative;
+	z-index: 1;
+
 	&, span { font-size: 14px; }
+}
+
+.footer__sign {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 0;
+	z-index: 0;
+	width: 255px;
 }

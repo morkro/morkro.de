@@ -27,7 +27,7 @@ title: Tags | Moritz Kröger
 			{% if tag == page.tag %}
 			<li class="blog__item"><a class="link-feature" href='{{post.url}}'>
 				<span>
-					<time datetime='{{post.date | date: "%Y-%m-%d"}}'>{{ post.date | date: "%m/%d/%y" }}</time>
+					<time datetime='{{post.date | date: "%Y-%m-%d"}}'>{{ post.date | date: "%d %B %Y" }}</time>
 				</span>
 				<h2>{{ post.title }}</h2>
 				<span class="item__excerpt">{{ post.excerpt | strip_html }}</span>

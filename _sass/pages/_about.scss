@@ -13,6 +13,10 @@
 		span { font-weight: 200; }
 	}
 
+	h2 {
+		font-size: 26px;
+	}
+
 	.aside__bio span {
 		font-style: italic;
 		color: rgba(0, 0, 0, .5);
@@ -36,7 +40,10 @@
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	margin-top: 50px;
+	margin-top: 30px;
+	padding-top: 30px;
+	border-top: 2px dashed rgba(0, 0, 0, .2);
+	position: relative;
 
 	article {
 		width: 48%;
@@ -48,10 +55,27 @@
 		height: 24px;
 		transform: translateY(4px);
 	}
+
+	a {
+		line-height: 26px;
+	}
+
+	.link-feature span {
+		margin-top: 5px;
+		display: inline-block;
+	}
 }
 
 @media #{$max-mobile} {
-	.about__lists article:not(:last-of-type) {
-		margin-bottom: 30px;
+	.about__lists {
+			display: block;
+
+			article {
+				width: 100%;
+			}
+
+			article:not(:last-of-type) {
+				margin-bottom: 30px;
+			}
 	}
 }

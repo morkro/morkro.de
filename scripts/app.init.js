@@ -16,22 +16,33 @@ var getOffset = function ( elem ) {
 };
 
 /**
- * AnchorizeHandler
+ * ContentModifier
  */
-var AnchorizeHandler = (function (window) {
+var ContentModifier = (function (window) {
 	'use strict';
 
-	function AnchorizeHandler (container) {
+	function ContentModifier (container) {
 		this.container	= elem(container);
 		this.tags = ['h2', 'h3', 'h4', 'h5', 'h6'];
+		this.links = null;
 		this.anchorSign = '§';
 	}
 
-	AnchorizeHandler.prototype.init = function () {
+	ContentModifier.prototype.init = function () {
+		this.links = this.container.querySelectorAll('a');
 		this.getAll( this.tags );
+		this.addTarget( this.links );
 	};
 
-	AnchorizeHandler.prototype.getAll = function (list) {
+	ContentModifier.prototype.addTarget = function (list) {
+		[].forEach.call(list, function (item) { 
+			if (item.hostname !== location.hostname) {
+				item.setAttribute('target', '_blank');
+			}
+		});
+	};
+
+	ContentModifier.prototype.getAll = function (list) {
 		list.forEach(function (tag) {
 			var elem = this.container.getElementsByTagName(tag);
 			for (var i = elem.length; i--;) {
@@ -40,7 +51,7 @@ var AnchorizeHandler = (function (window) {
 		}.bind(this));
 	};
 
-	AnchorizeHandler.prototype.createLink = function (elem) {
+	ContentModifier.prototype.createLink = function (elem) {
 		var link = document.createElement('a');
 		link.href = '#'+ elem.getAttribute('id');
 		link.textContent = this.anchorSign;
@@ -48,7 +59,7 @@ var AnchorizeHandler = (function (window) {
 		elem.appendChild( link );
 	};
 
-	return AnchorizeHandler;
+	return ContentModifier;
 })(window);
 
 /**
@@ -83,6 +94,39 @@ var ArticleScrollHandler = function (event) {
 		articleTOC.classList.remove('is-fixed');
 	}
 };
+
+/**
+ * SummaryAnchor
+ */
+var SummaryAnchor = (function (window) {
+	'use strict';
+
+	function SummaryAnchor (wrapper) {
+		this.container = elem(wrapper);
+		this.linkContent = 'Too Long; Didn\'t Read?';
+	}
+
+	SummaryAnchor.prototype.createAnchor = function (id) {
+		var link = document.createElement('a');
+		var icon = this.createIcon();
+		link.href = '#' + id;
+		link.textContent = this.linkContent;
+		link.classList.add('link-gradient', 'heading__jump');
+
+		link.appendChild(icon);
+		this.container.appendChild(link);
+		this.container.classList.add('has-tldr');
+	};
+
+	SummaryAnchor.prototype.createIcon = function () {
+		var img = document.createElement('img');
+		img.src = '/../assets/icons/arrow-down.svg';
+
+		return img;
+	};
+
+	return SummaryAnchor;
+})(window);
 
 /**
  * ScrollToSection
@@ -145,11 +189,14 @@ var Timer = (function (window) {
 
 	/* Variables */
 	var isArticlePage = !!elem('.content-article');
-	var asideNav = null, scrollBreakpoint = 0;
+	var tldrSection = elem('#tldr');
+	var asideNav = null;
+	var scrollBreakpoint = 0;
 
-	var anchored = new AnchorizeHandler('.article__content');
+	/* Classes */
+	var anchored = new ContentModifier('.article__content');
 	var readingTime = new RoundNumber('.heading__reading-time span');
-	//var upstairs = new ScrollToSection();
+	var summarize = new SummaryAnchor('.content__heading');
 	var currentYear = new Timer('.footer__year');
 
 	currentYear.getYear();
@@ -160,7 +207,10 @@ var Timer = (function (window) {
 		
 		anchored.init();
 		readingTime.init();
-		//upstairs.onClick('.article__upstairs').moveElem('body').toPosition(0);
+
+		if (!!tldrSection) {
+			summarize.createAnchor(tldrSection.id);
+		}
 
 		// EventHandler
 		window.on('scroll', ArticleScrollHandler.bind(scrollBreakpoint));

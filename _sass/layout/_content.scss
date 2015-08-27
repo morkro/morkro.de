@@ -27,21 +27,35 @@ main {
 .content__heading {
 	margin-bottom: 30px;
 
+	&.has-tldr > div {
+		border-bottom: 1px dashed rgba(0,0,0,.1);
+		padding-bottom: 5px;
+	}
+
 	h1:not(.heading__preface) {
 		margin-bottom: 5px;
 		text-shadow: 0px 1px 0px white;
 		border-bottom: 4px solid rgba(0,0,0,0.2);
 	}
 
-	span, a {
+	span {
+		&:not(.heading__time) {
+			color: rgba(0,0,0,0.4);
+			font-weight: 300;
+		}
 		font-size: 14px;
-		font-weight: 400;
 		font-style: italic;
-		color: rgba(0,0,0,0.4);
 	}
 
-	a:hover {
-		color: rgba(0,0,0,0.7);
+	a:not(.link-gradient) {
+		color: rgba(0,0,0,0.5);
+		font-weight: 300;
+		font-size: 14px;
+		font-style: italic;
+
+		&:hover {
+			color: rgba(0,0,0,0.7);
+		}
 	}
 
 	div {
@@ -61,9 +75,13 @@ main {
 }
 
 @media #{$tablet} {
+	main {
+		max-width: 95%;
+	}
+
 	#main-content {
 		flex-wrap: wrap;
-		margin-top: 40px;
+		margin-top: 30px;
 
 		aside, > article, > section {
 			margin: 0 auto;
@@ -83,6 +101,10 @@ main {
 }
 
 @media #{$max-mobile} {
+	main {
+		margin-top: 30px;
+	}
+	
 	#main-content {
 		aside, > article, > section {
 			width: 90%;
