@@ -4,11 +4,10 @@ title: Imprint | Moritz Kröger
 ---
 
 <div id="main-content" class="content-imprint">
-	<aside class="main-aside">
-		<div class="aside__navigation" role="complementary">
+	<aside class="content-aside">
+		<div class="aside-navigation" role="complementary">
 			{% include menu.html %}
 			<div class="aside__author">
-				<h1>Hello! <br> I'm Moritz Kröger</h1>
 				{% include author-img.html %}
 			</div>
 			
@@ -16,9 +15,9 @@ title: Imprint | Moritz Kröger
 		</div>
 	</aside>
 
-	<section>
-		<header class="content__heading">
-			<h1>Imprint</h1>	
+	<section class="content-body">
+		<header class="content-heading">
+			<h1 title="Imprint">Imprint</h1>	
 		</header>
 
 		<p>This subpage is required due to german law and provides legal information.</p>
@@ -55,5 +54,7 @@ title: Imprint | Moritz Kröger
 				</p>
 			</div>
 		</div>
+		
+		{% include footer.html %}
 	</section>
 </div>	

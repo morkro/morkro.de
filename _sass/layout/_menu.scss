@@ -7,9 +7,6 @@
 	ul { 
 		display: flex; 
 		list-style: none;
-		background-color: rgba(0, 0, 0, .1);
-		padding: 4px;
-		border-radius: 2px;
 	}
 
 	li {
@@ -17,6 +14,7 @@
 		text-align: center;
 		margin-right: 4px;
 		width: 50%;
+		background-color: rgba(0, 0, 0, .1);
 
 		&:last-child {
 			margin-right: 0;

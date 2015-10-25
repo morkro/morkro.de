@@ -63,24 +63,6 @@ var ContentModifier = (function (window) {
 })(window);
 
 /**
- * ArticleReadingTimeHandler
- */
-var RoundNumber = (function (window) {
-	'use strict';
-
-	function ArticleReadingTimeHandler (container) {
-		this.container	= elem(container);
-		this.value = this.container ? this.container.innerHTML : '';
-	}
-
-	ArticleReadingTimeHandler.prototype.init = function () {
-		this.container.innerHTML = Math.round(parseFloat(this.value));
-	};
-
-	return ArticleReadingTimeHandler;
-})(window);
-
-/**
  * ArticleScrollHandler
  */
 var ArticleScrollHandler = function (event) {
@@ -194,19 +176,17 @@ var Timer = (function (window) {
 	var scrollBreakpoint = 0;
 
 	/* Classes */
-	var anchored = new ContentModifier('.article__content');
-	var readingTime = new RoundNumber('.heading__reading-time span');
-	var summarize = new SummaryAnchor('.content__heading');
+	var anchored = new ContentModifier('.content-body');
+	var summarize = new SummaryAnchor('.content-heading');
 	var currentYear = new Timer('.footer__year');
 
 	currentYear.getYear();
 
 	if (isArticlePage) {
-		asideNav = elem('.aside__navigation');
+		asideNav = elem('.aside-navigation');
 		scrollBreakpoint = getOffset(asideNav) + asideNav.getBoundingClientRect().height;
 		
 		anchored.init();
-		readingTime.init();
 
 		if (!!tldrSection) {
 			summarize.createAnchor(tldrSection.id);

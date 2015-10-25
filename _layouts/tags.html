@@ -4,21 +4,20 @@ title: Tags | Moritz Kröger
 ---
 
 <div id="main-content" class="content-tags">
-	<aside class="main-aside">
-		<div class="aside__navigation" role="complementary">
-			{% include menu.html %} 
+	<aside class="content-aside">
+		<div class="aside-navigation" role="complementary">
+			{% include menu.html active="blog" %}
 			<div class="aside__author">
-				<h1>Hello! <br> I'm Moritz Kröger</h1>
 				{% include author-img.html %}
 			</div>
-			{% assign category = {{page.tag}} %}
+			{% include author-description.html %}
 			{% include tags.html %}
 		</div>
 	</aside>
 
-	<section class="article__content">
-		<header class="content__heading">
-			<h1>#{{ page.tag }}</h1>
+	<section class="content-body">
+		<header class="content-heading">
+			<h1 title="#{{ page.tag }}">#{{ page.tag }}</h1>
 		</header>
 
 		<ul class="blog__list">
@@ -36,5 +35,7 @@ title: Tags | Moritz Kröger
 			{% endfor %}
 			{% endfor %}
 		</ul>
+
+		{% include footer.html %}
 	</section>
 </div>

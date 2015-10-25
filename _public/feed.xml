@@ -7,6 +7,17 @@
 		<atom:link href="http://morkro.de/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Adding the ECMAScript 6 flavour to your IDE</title>
+				        
+				
+					<description>To be written</description>
+				
+				<pubDate>Sun, 25 Oct 2015 00:00:00 +0200</pubDate>
+				<link>http://morkro.de/writes/2015/adding-the-ecmascript-6-flavour-to-your-ide</link>
+				<guid isPermaLink="true">http://morkro.de/writes/2015/adding-the-ecmascript-6-flavour-to-your-ide</guid>
+			</item>
+		
+			<item>
 				<title>How to setup an ES6 production-ready project</title>
 				        
 				

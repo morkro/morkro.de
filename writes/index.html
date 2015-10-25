@@ -4,20 +4,20 @@ title: Writes | Moritz Kröger
 ---
 
 <div id="main-content" class="content-blog">
-	<aside class="main-aside">
-		<div class="aside__navigation" role="complementary">
-			{% include menu.html %}
+	<aside class="content-aside">
+		<div class="aside-navigation" role="complementary">
+			{% include menu.html active="blog" %}
 			<div class="aside__author">
-				<h1>Hello! <br> I'm Moritz Kröger</h1>
 				{% include author-img.html %}
 			</div>
+			{% include author-description.html %}
 			{% include tags.html %}
 		</div>
 	</aside>
 
-	<article class="blog__content">
-		<header class="content__heading">
-			<h1>Latest articles</h1>	
+	<article class="content-body">
+		<header class="content-heading">
+			<h1 title="Latest articles">Latest articles</h1>	
 		</header>
 
 		<p>I write about everything front-end related, with exceptions.</p>
@@ -50,5 +50,7 @@ title: Writes | Moritz Kröger
 			{% endif %}
 		</div>
 		{% endif %}
+
+		{% include footer.html %}
 	</article>
 </div>	

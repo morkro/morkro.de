@@ -1,7 +1,7 @@
 /**
  * ASIDE: NAVIGATION
  */
-.aside__navigation {
+.aside-navigation {
 	width: 100%;
 	position: relative;
 
@@ -17,34 +17,6 @@
 	width: 100%;
 	margin-bottom: 4px;
 	line-height: 0;
-	
-	&::after {
-		content: "";
-		position: absolute;
-		display: block;
-		top: 0; left: 0;
-		width: 100%;
-		height: 100%;
-		border-radius: 2px;
-		background: linear-gradient(
-			to bottom, 
-			rgba(244,67,54,0) 56%,
-			rgba(244,67,54,.6) 100%
-		);
-		pointer-events: none;
-	}
-
-	h1 {
-		width: 100%;
-		position: absolute;
-		z-index: 1;
-		bottom: 7px;
-		padding: 0px 12px;
-		margin: 0;
-		color: white;
-		font-size: 16px;
-		line-height: 23px;
-	}
 
 	img {
 		width: 100%;
@@ -59,7 +31,6 @@
 	font-size: 14px;
 	line-height: 22px;
 	margin: 20px 0;
-	padding: 0 10px;
 
 	a {
 		display: inline-block;
@@ -86,7 +57,6 @@
 
 .aside__tags {
 	margin-top: 20px;
-	padding: 0 10px;
 
 	h2 {
 		margin-bottom: 20px;
@@ -162,7 +132,7 @@
 }
 
 @media #{$tablet} {
-	.aside__navigation {
+	.aside-navigation {
 		margin-bottom: 30px;
 		display: flex;
 		flex-wrap: wrap;

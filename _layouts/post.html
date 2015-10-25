@@ -3,13 +3,14 @@ layout: articles
 ---
 
 <div id="main-content" class="content-article">
-	<aside class="main-aside">
-		<div class="aside__navigation" role="complementary">
-			{% include menu.html %}
+	<aside class="content-aside">
+		<div class="aside-navigation" role="complementary">
+			{% include menu.html active="blog" %}
+
 			<div class="aside__author">
-				<h1>Hello! <br> I'm Moritz Kröger</h1>
 				{% include author-img.html %}
 			</div>
+			
 			{% include author-description.html %}
 			{% include tags.html %}
 		</div>
@@ -22,27 +23,16 @@ layout: articles
 		</div>
 	</aside>
 
-	<article class="article__content">
+	<article class="content-body">
 		<!-- Article: Heading -->
-		<header class="content__heading">
+		<header class="content-heading">
 			{% assign reading_time = content | strip_html | number_of_words | append: '.0' | divided_by: 180 %}
 
-			<h1>{{ page.title }}</h1>
+			<h1 title="{{ page.title }}">{{ page.title }}</h1>
 
-			<div>
-				<span class="heading__published">
-					Published <span class="heading__time">{{ page.date | date: "%d %B %Y" }}</span>, tagged under {% for tag in page.tags %}<a href="/tag/{{tag}}"><strong>#{{ tag }}</strong></a> {% endfor %}
-				</span>
-				<span class="heading__reading-time">
-					<svg viewBox="0 0 24 24">
-						<path d="M11,19V9A2,2 0 0,0 9,7H5V17H9A2,2 0 0,1 11,19M13,9V19A2,2 0 0,1 15,17H19V7H15A2,2 0 0,0 13,9M21,19H15A2,2 0 0,0 13,21H11A2,2 0 0,0 9,19H3V5H9A2,2 0 0,1 11,7H13A2,2 0 0,1 15,5H21V19Z" />
-					</svg>
-					{% if reading_time < 0.5 %} Less than a minute
-					{% elsif reading_time >= 0.5 and reading_time < 1.5 %} ~1min
-					{% elsif reading_time >= 1.5 %}~<span>{{ reading_time }}</span>min
-					{% endif %}
-				</span>
-			</div>
+			<span class="heading__published">
+				Published <span class="heading__time">{{ page.date | date: "%d %B %Y" }}</span>, tagged with {% for tag in page.tags %}<a href="/tag/{{tag}}"><strong>#{{ tag }}</strong></a> {% endfor %}
+			</span>
 		</header>
 
 		{{ content }}
@@ -78,5 +68,7 @@ layout: articles
 				Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
 			</noscript>
 		</section>
+
+		{% include footer.html %}
 	</article>
 </div>

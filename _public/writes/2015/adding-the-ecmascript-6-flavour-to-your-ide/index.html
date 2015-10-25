@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Writes | Moritz Kröger</title>
+	<title>Adding the ECMAScript 6 flavour to your IDE</title>
 	<meta charset="utf-8">
 	<meta name="robots" content="index,follow">
 	<meta name="revisit-after" content="1 days">
@@ -11,22 +11,24 @@
 	<!-- Meta data -->
 	<meta name="author" content="Moritz Kröger">
 	
-	<meta name="description" content="I am Moritz Kröger, a German front-end developer who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions.">
+	<meta name="keywords" content="ecmascript2015,javascript,sublime-text,visual-studio-code,webstorm">
+	
+	<meta name="description" content="To be written">
 	<link rel="alternate" type="application/rss+xml" title="Moritz Kröger" href="http://morkro.de/feed.xml">
 
 	<!-- Open Graph data -->
-	<meta property="og:title" content="Writes | Moritz Kröger">
-	<meta property="og:description" content="I am Moritz Kröger, a German front-end developer who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions.">
+	<meta property="og:title" content="Adding the ECMAScript 6 flavour to your IDE">
+	<meta property="og:description" content="To be written">
 	<meta property="og:image" content="http://morkro.de/assets/img/moritz.jpg">
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="http://morkro.de/writes/">
+	<meta property="og:url" content="http://morkro.de/writes/2015/adding-the-ecmascript-6-flavour-to-your-ide">
 
 	<!-- Twitter Card data -->
 	<meta property="twitter:card" content="summary">
 	<meta property="twitter:site" content="@morkro">
 	<meta property="twitter:creator" content="@morkro">
-	<meta property="twitter:title" content="Writes | Moritz Kröger">
-	<meta name="twitter:description" content="I am Moritz Kröger, a German front-end developer who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions.">
+	<meta property="twitter:title" content="Adding the ECMAScript 6 flavour to your IDE">
+	<meta name="twitter:description" content="To be written">
 	<meta property="twitter:image" content="http://morkro.de/assets/img/moritz.jpg">
 
 	<!-- Chrome Mobile theming -->
@@ -38,7 +40,7 @@
 </head>
 <body>
 	<main role="main">
-		<div id="main-content" class="content-blog">
+		<div id="main-content" class="content-article">
 	<aside class="content-aside">
 		<div class="aside-navigation" role="complementary">
 			<nav id="main-menu" role="navigation">
@@ -47,9 +49,11 @@
 		<li><a class="link-gradient" href="/writes">Blog</a></li>
 	</ul>
 </nav>
+
 			<div class="aside__author">
 				<img src="/../assets/img/moritz.jpg" title="Moritz Kröger" alt="Moritz Kröger">
 			</div>
+			
 			<p class="aside__bio">
 	<strong>Hello!</strong> i'm Moritz Kröger, a German front-end developer who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions.
 	<br><br>
@@ -147,38 +151,132 @@
 	</ul>
 </div>
 		</div>
+
+		<div class="article__fixed hidden-tablet">
+			<!-- Go to top -->
+			<a href="#" class="article__upstairs link-gradient">
+				<svg viewBox="0 0 24 24"><path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>
+			</a>
+		</div>
 	</aside>
 
 	<article class="content-body">
+		<!-- Article: Heading -->
 		<header class="content-heading">
-			<h1 title="Latest articles">Latest articles</h1>	
+			
+
+			<h1 title="Adding the ECMAScript 6 flavour to your IDE">Adding the ECMAScript 6 flavour to your IDE</h1>
+
+			<span class="heading__published">
+				Published <span class="heading__time">25 October 2015</span>, tagged with <a href="/tag/ecmascript2015"><strong>#ecmascript2015</strong></a> <a href="/tag/javascript"><strong>#javascript</strong></a> <a href="/tag/sublime-text"><strong>#sublime-text</strong></a> <a href="/tag/visual-studio-code"><strong>#visual-studio-code</strong></a> <a href="/tag/webstorm"><strong>#webstorm</strong></a> 
+			</span>
 		</header>
 
-		<p>I write about everything front-end related, with exceptions.</p>
+		<p>Using ECMAScript 6 features is all cool and feels good, but all that makes little sense without syntax support in an IDE. Since the specification just has been finished earlier this year, some IDE’s still don’t support the syntax yet and need some little extra work.</p>
 
-		<ul class="blog__list">
-		
-			<li class="blog__item"><a href="/writes/2015/adding-the-ecmascript-6-flavour-to-your-ide" class="link-feature">
-				<span>
-					<time datetime='October 25, %'>25 October 2015</time>
-					<span class="item__tags">#ecmascript2015 #javascript #sublime-text #visual-studio-code #webstorm </span>
-				</span>
-				<h2>Adding the ECMAScript 6 flavour to your IDE</h2>
-				<span class="item__excerpt">To be written</span>
-			</a></li>
-		
-			<li class="blog__item"><a href="/writes/2015/how-to-setup-your-own-es6-project" class="link-feature">
-				<span>
-					<time datetime='August 27, %'>27 August 2015</time>
-					<span class="item__tags">#ecmascript2015 #javascript </span>
-				</span>
-				<h2>How to setup an ES6 production-ready project</h2>
-				<span class="item__excerpt">As ES6 is really hyped this year and the specification has eventually been finished, I wanted to start using it. By today I have turned almost all my private projects and a couple of client projects into a solid ES6 setup.</span>
-			</a></li>
-			
-		</ul>
+<p>Everyone has their favourite IDE and I can’t cover them all. At my work the most used ones are <strong>Sublime Text 3</strong>, <strong>Visual Studio Code</strong>, and <strong>WebStorm</strong>. I think that roughly represents usage in the web developer community, hence I will only cover these.</p>
 
-		
+<h2 id="visual-studio-code">Visual Studio Code</h2>
+
+<p>With the <a href="http://blogs.msdn.com/b/vscode/archive/2015/07/06/vs-code-es6.aspx">June 2015 release</a> VSCode finally supports ES6 syntax. Unfortunately it’s not activated by default and needs a <code>jsconfig.json</code> file in the projects directory. This is a bummer for me, as it kinda feels like still in beta and is just inconvinient.</p>
+
+<div class="clearfix">
+<p class="left" style="width:50%;">
+Place the <code>jsconfig.json</code> in your project directory <em>(it could also be in the source folder)</em>, restart Visual Studio Code and you will see that all warnings are gone.
+</p>
+<div class="right" style="width:45%;">
+
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nt">"compilerOptions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ES6"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"module"</span><span class="p">:</span><span class="w"> </span><span class="s2">"commonjs"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre></div>
+
+</div>
+</div>
+
+<div class="clearfix" style="margin-top:15px;">
+    <div class="left" style="width:48%;">
+        <strong>Before:</strong>
+        <a href="/../assets/img/2015-10/vsc-without-es6.png" target="_blank"><img class="screenshot" src="/../assets/img/2015-10/vsc-without-es6.png" /></a>
+    </div>
+    <div class="right" style="width:48%;">
+        <strong>After, yay!</strong>
+        <a href="/../assets/img/2015-10/vsc-with-es6.png" target="_blank"><img class="screenshot" src="/../assets/img/2015-10/vsc-with-es6.png" /></a>
+    </div>
+</div>
+
+<h2 id="sublime-text-3">Sublime Text 3</h2>
+
+<p>What I really like about Sublime Text is, that it’s just a simple text editor which you can upgrade and set up as you want. You are not forced to live with a bloated IDE full of features, but can only install these you really need.</p>
+
+<p>Of course this also has a downside: everything is a bit more complicated. You need to search for the right plugin and feature yourself and if that doesn’t work, continue searching.</p>
+
+<p>In this case it wasn’t as complicated as I feared in the beginning. I switched between two plugins since and am really happy with the latest.</p>
+
+<p>I started with <a href="https://packagecontrol.io/packages/JavaScriptNext%20-%20ES6%20Syntax">JavaScriptNext</a> (works for both Sublime Text 2 and 3) and used the highlighter for a few month. It works fine though, except that it doesn’t come with support for JSX syntax. A bummer while working on React projects.</p>
+
+<p><a href="/../assets/img/2015-10/sublimetext-es6-jsnext.png" target="_blank"><img class="screenshot" src="/../assets/img/2015-10/sublimetext-es6-jsnext.png" /></a></p>
+
+<p>Hence I decided to switch and discovered <a href="https://github.com/babel/babel-sublime">babel-sublime</a> with support for ES6 and JSX syntax (you can it find as <strong>Babel</strong> through Package Control). In my opinion it even looked a bit prettier compared to JavaScriptNext.</p>
+
+<p><a href="/../assets/img/2015-10/sublimetext-es6-babel.png" target="_blank"><img class="screenshot" src="/../assets/img/2015-10/sublimetext-es6-babel.png" /></a></p>
+
+<h3 id="setting-as-the-default-syntax">Setting as the default syntax</h3>
+
+<p>If you don’t want to manually change the syntax highlighter everytime you open a JavaScript file, you need to set the plugin as default.</p>
+
+<ul>
+  <li>Open a <code>.js</code> or <code>.jsx</code> file,</li>
+  <li>select <code>View</code>, go to <code>Syntax</code> -&gt; <code>Open all with current extension as...</code>,</li>
+  <li>and choose <code>Babel</code> -&gt; <code>JavaScript (Babel)</code></li>
+</ul>
+
+<h2 id="webstorm">WebStorm</h2>
+
+<p>WebStorm is the easiest one of all three. You simply activate ECMAScript 6 highlighting in the settings and you’re set. Go to <code>Preferences</code> -&gt; <code>Languages &amp; Frameworks</code> -&gt; <code>JavaScript</code> and set the language version to <code>ECMAScript 6</code>. <em>You might also turn <code>Prefer Strict mode</code> on, if you don’t have it already.</em></p>
+
+<p><a href="/../assets/img/2015-10/webstorm-es6.png" target="_blank"><img class="screenshot" src="/../assets/img/2015-10/webstorm-es6.png" /></a></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Well and that’s it. I hope that upcoming JavaScript updates will be supported quicker in our IDE’s. This year was a bit annoying because of the slow support. The reason for it might be that there hasn’t been a new version since ES5.1 in 2009, but next year we will already get ES2016 (or ES7).</p>
+
+<p>JavaScript development will evolve faster than ever and our tools need to keep up.</p>
+
+
+		<!-- Article: Share -->
+		<section class="article__share">
+			<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://morkro.de/writes/2015/adding-the-ecmascript-6-flavour-to-your-ide" data-via="morkro">Tweet</a>
+			<script>
+				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+			</script>
+
+			<script src="https://apis.google.com/js/platform.js" async defer>
+				{lang: 'en-GB'}
+			</script>
+			<div class="g-plus" data-action="share" data-annotation="bubble" data-href="http://morkro.de/writes/2015/adding-the-ecmascript-6-flavour-to-your-ide"></div>
+		</section>
+
+		<!-- Article: Comments -->
+		<section class="article__comments">
+			<div id="disqus_thread"></div>
+			<script type="text/javascript">
+				/* * * CONFIGURATION VARIABLES * * */
+				var disqus_shortname = 'morkro';
+
+				/* * * DON'T EDIT BELOW THIS LINE * * */
+				(function() {
+				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+				})();
+			</script>
+			<noscript>
+				Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+			</noscript>
+		</section>
 
 		<footer id="footer" role="contentinfo">
 	<div class="footer__inner">
@@ -224,7 +322,7 @@
 	</div>
 </footer>
 	</article>
-</div>	
+</div>
 	</main>
 			
 <script src="/../scripts/app.init.js?v=20155525"></script>

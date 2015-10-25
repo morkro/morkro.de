@@ -4,9 +4,10 @@ title: Moritz Kröger
 ---
 
 <div id="main-content" class="content-about">
-	<aside class="main-aside">
-		<div class="aside__navigation" role="complementary">
-			{% include menu.html %}
+	<aside class="content-aside">
+		<div class="aside-navigation" role="complementary">
+			{% include menu.html active="home" %}
+
 			<div class="aside__author">
 				{% include author-img.html %}
 			</div>
@@ -43,9 +44,9 @@ title: Moritz Kröger
 		</div>
 	</aside>
 
-	<section class="article__about">
-		<header class="content__heading">
-			<h1>Hey there!</h1>
+	<section class="content-body">
+		<header class="content-heading">
+			<h1 title="Hey there!">Hey there!</h1>
 		</header>
 		
 		<!-- SHORT INTRO --> 
@@ -97,5 +98,7 @@ title: Moritz Kröger
 				{% endfor %}
 			</article>
 		</section>
+
+		{% include footer.html %}
 	</section>
 </div>	
