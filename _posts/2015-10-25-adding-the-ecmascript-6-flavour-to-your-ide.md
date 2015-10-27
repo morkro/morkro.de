@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Adding the ECMAScript 6 flavour to your IDE"
-excerpt: "To be written"
+excerpt: "Using ECMAScript 6 features is all cool and feels good, but all that makes little sense without syntax support in an IDE."
 tags:
  - ecmascript2015
  - javascript
