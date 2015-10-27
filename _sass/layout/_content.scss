@@ -13,8 +13,7 @@ main {
 		position: relative;
 		z-index: 0;
 		text-align: left;
-		background: rgba(0,0,0,.1);
-		border-right: 4px solid rgba(0,0,0,.1);
+		background: rgba(0,0,0,.05);
 	}
 
 	.content-body {
@@ -47,14 +46,14 @@ main {
 	}
 
 	span {
-		color: rgba(0,0,0,0.4);
+		color: rgba(0,0,0,0.3);
 		font-weight: 300;
 		font-size: 14px;
 		display: inline-block;
 	}
 
 	a:not(.link-gradient) {
-		color: rgba(0,0,0,0.5);
+		color: rgba(0,0,0,0.3);
 		font-weight: 300;
 		font-size: 14px;
 

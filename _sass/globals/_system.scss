@@ -40,7 +40,7 @@ body {
 		border-style: solid;
 		border-image-source: linear-gradient(to right, $blue, $red);
 		border-image-slice: 100% 1 1 1;
-		box-shadow: 0px 0px 8px 1px rgba(0,0,0,.5);
+		box-shadow: 0px 0px 6px 0px rgba(0,0,0,.5);
 	}
 
 	// I am sorry Firefox
@@ -64,7 +64,6 @@ h1 {
 	font-size: 52px; 
 	letter-spacing: -1px;
 	line-height: 56px;
-	font-weight: 300;
 }
 
 h2 { 
@@ -109,7 +108,7 @@ a {
 	padding: 0 15px;
 	font-weight: 400;
 	color: #131313;
-	background-color: rgba(0,0,0,0.1);
+	background-color: rgba(0,0,0,0.05);
 	overflow: hidden;
 	z-index: 1;
 	line-height: 40px;
@@ -151,7 +150,7 @@ a {
 }
 
 .link-feature {
-	background: rgba(0, 0, 0, .1);
+	background: rgba(0, 0, 0, .05);
 	border-radius: 2px;
 	padding: 10px 15px;
 	display: block;
@@ -191,6 +190,10 @@ p, span, a, address, button {
 	line-height: 30px;
 }
 
+p {
+	color: rgba(0,0,0,.7);
+}
+
 b, strong {
 	font-weight: 400;
 }
@@ -216,7 +219,7 @@ a { code, kbd, pre, samp {
 	padding: 0 15px;
 	font-weight: 400;
 	color: #131313;
-	background-color: rgba(0,0,0,0.1);
+	background-color: rgba(0,0,0,0.05);
 	overflow: hidden;
 	z-index: 1;
 	line-height: 40px;
