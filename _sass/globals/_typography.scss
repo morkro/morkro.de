@@ -1,0 +1,80 @@
+/**
+ * Headlines
+ */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 500;
+}
+
+h1 {
+	font-family: $RobotoMono;
+	font-size: 66px;
+	letter-spacing: -1px;
+	line-height: 70px;
+
+	@include media("<=tablet") {
+		font-size: 48px;
+		line-height: 40px;
+	}
+}
+
+h2 {
+	font-size: 32px;
+	line-height: 38px;
+}
+
+h3 {
+	font-size: 22px;
+}
+
+/**
+ * Copy
+ */
+p, span, a, address, button {
+	font-weight: 300;
+	font-size: 18px;
+	line-height: 32px;
+}
+
+p {
+	color: $text-color;
+}
+
+b, strong {
+	font-weight: 400;
+}
+
+/**
+ * Links
+ */
+a {
+	cursor: pointer;
+	display: inline-block;
+	text-decoration: none;
+	font-size: inherit;
+	color: $link-color;
+	transition: color 100ms ease-in-out;
+
+	&:hover { color: $link-hover; }
+
+	&:active, &:focus {
+		background: lighten($link-color, 90%);
+		outline: none;
+	}
+}
+
+/**
+ * Code
+ */
+ code, kbd, pre, samp {
+ 	font-family: $RobotoMono;
+ 	background-color: $background-color;
+ 	border-radius: 2px;
+ 	color: $text-color;
+ 	vertical-align: baseline;
+ 	padding: 0 4px 1px;
+ 	font-weight: 400;
+ }
+
+ a { code, kbd, pre, samp {
+ 	color: inherit;
+ } }

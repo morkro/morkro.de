@@ -1,0 +1,28 @@
+/**
+ * HEADLINES
+ */
+.headline-gradient {
+   text-align: center;
+   margin-bottom: 6px;
+
+   h1 {
+      display: inline;
+      padding: 0 15px;
+      background-repeat: no-repeat;
+      background-size: 100% 8px;
+      background-position: center bottom 10px;
+      background-image: linear-gradient(
+         to right,
+         $gradient-start,
+         $gradient-end
+      );
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      -moz-background-inline-policy: each-box;
+
+      @include media("<=tablet") {
+         background-size: 100% 6px;
+         background-position: center bottom 7px;
+      }
+   }
+}

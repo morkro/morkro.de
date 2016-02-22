@@ -18,11 +18,12 @@ destination: _public
 # Handling reading
 encoding: "utf-8"
 include: [".htaccess"]
-exclude: ["README.md", "Gemfile", ".gitignore", "soon-to-be-index.html"]
+exclude: ["README.md", "Gemfile", ".gitignore"]
 
 # Plugins
 gems:
   - octopress-autoprefixer
+  - jekyll-paginate
 markdown:	kramdown
 highlighter: rouge
 sass:

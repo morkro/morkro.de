@@ -1,7 +1,29 @@
-$grey: #131313;
-$blue: #2196f3;
-$red: #f44336;
+/**
+ * COLOR
+ */
+$light-grey:            #ebebeb;
+$medium-grey:           #c9c9c9;
+$shade-of-grey-light:   rgba(0, 0, 0, .05);
+$shade-of-grey-medium:  rgba(0, 0, 0, .1);
+$shade-of-grey-dark:    rgba(0, 0, 0, .5);
+$shade-of-grey-darker:  rgba(0,0,0,.7);
+$blue:                  #3652cf;
+$orange:                #ff7c00;
 
-$min-desktop: "all and (max-width: 1024px)";
-$tablet: "all and (max-width: 940px)";
-$max-mobile: "all and (max-width: 768px)";
+$background-color:      $medium-grey;
+$content-background:    $light-grey;
+$footer-background:     $shade-of-grey-medium;
+$link-color:            $blue;
+$link-hover:            $orange;
+$text-color:            $shade-of-grey-darker;
+$special-text-color:    black;
+$gradient-start:        $blue;
+$gradient-end:          $orange;
+
+/**
+ * DIMENSIONS
+ */
+$base-width:            1024px;
+$page-padding:          20px;
+$page-width:            #{$base-width + (2 * $page-padding)};
+$base-gap:              60px;

@@ -2,27 +2,24 @@
 ---
 @charset "UTF-8";
 
-/**
- * VENDORS
- */
-@import "vendors/__vendors";
-
-/**
- * UTILS
- */
-@import "utils/__utils";
-
-/**
- * GLOBALS
- */
-@import "globals/__base";
-
-/**
- * LAYOUT
- */
-@import "layout/__layout";
-
-/**
- * PAGES
- */
-@import "pages/__pages";
+// VENDORS
+@import "vendors/_normalize";
+@import "vendors/_syntax";
+// UTILS
+@import "utils/_variables";
+@import "utils/_helper";
+@import "utils/_include-media";
+@import "utils/_mixins";
+// GLOBALS
+@import "globals/_fonts";
+@import "globals/_system";
+@import "globals/_typography";
+// COMPONENTS
+@import "components/_headline-gradient";
+@import "components/_link-gradient";
+// LAYOUT
+@import "layout/_header";
+@import "layout/_content";
+@import "layout/_footer";
+// PAGES
+@import "pages/_blog";

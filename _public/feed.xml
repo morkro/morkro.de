@@ -7,6 +7,18 @@
 		<atom:link href="http://morkro.de/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>ES2016: Should the Future of JavaScript Be Developer-Driven?</title>
+				        
+				
+					<description>
+</description>
+				
+				<pubDate>Tue, 16 Feb 2016 00:00:00 +0100</pubDate>
+				<link>http://morkro.de/writes/2016/should-the-future-of-javascript-be-developer-driven</link>
+				<guid isPermaLink="true">http://morkro.de/writes/2016/should-the-future-of-javascript-be-developer-driven</guid>
+			</item>
+		
+			<item>
 				<title>Adding the ECMAScript 6 flavour to your IDE</title>
 				        
 				

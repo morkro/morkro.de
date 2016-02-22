@@ -1,119 +1,12 @@
-main {
-	display: block; // Hello, non-html5 browser!
-	width: 100%;
-}
-
-#main-content {
-	display: flex;
-	min-height: 100%;
-
-	.content-aside {
-		width: 25.5%;
-		padding: 60px 40px;
-		position: relative;
-		z-index: 0;
-		text-align: left;
-		background: rgba(0,0,0,.05);
-	}
-
-	.content-body {
-		width: 74.5%;
-		position: relative;
-		z-index: 1;
-		padding: 50px 60px 60px;
-	}
-}
-
-@supports (min-height: 100vh) {
-	#main-content {
-		min-height: 100vh;
-	}
-}
-
 /**
- * CONTENT: HEADING
+ * CONTENT
  */
-.content-heading {
-	margin-bottom: 30px;
+#page-content {
+   width: 100%;
+   padding: $base-gap 0 90px;
+   background: $content-background;
 
-	h1 {
-		margin-bottom: 0;
-	}
-
-	&.has-tldr > div {
-		border-bottom: 1px dashed rgba(0,0,0,.1);
-		padding-bottom: 5px;
-	}
-
-	span {
-		color: rgba(0,0,0,0.3);
-		font-weight: 300;
-		font-size: 14px;
-		display: inline-block;
-	}
-
-	a:not(.link-gradient) {
-		color: rgba(0,0,0,0.3);
-		font-weight: 300;
-		font-size: 14px;
-
-		&:hover {
-			color: rgba(0,0,0,0.7);
-		}
-	}
-}
-
-@supports (-webkit-background-clip: text) {
-	.content-heading h1 {
-		background-image: linear-gradient(to right, $blue, $red);
-		-webkit-background-clip: text;
-		color: transparent;
-		padding-bottom: 4px;
-		display: inline-block;
-	}
-}
-
-/* MEDIA QUERY */
-@media #{$min-desktop} {
-	#main-content {
-		.content-aside {
-			width: 288px;
-			padding-right: 30px;
-		}
-	}
-}
-
-@media #{$tablet} {
-	#main-content {
-		flex-wrap: wrap;
-		margin-top: 30px;
-
-		.content-aside, .content-body {
-			margin: 0 auto;
-			width: 85%;
-			padding: 0;
-		}
-
-		.content-aside {
-			padding-right: 0;
-			background: none;
-			border: none;
-		}
-
-		.content-body {
-			margin-bottom: 60px;
-		}
-	}
-}
-
-@media #{$max-mobile} {
-	main {
-		margin-top: 30px;
-	}
-	
-	#main-content {
-		aside, > article, > section {
-			width: 90%;
-		}
-	}
+   @include media("<=tablet") {
+      padding-top: 40px;
+   }
 }

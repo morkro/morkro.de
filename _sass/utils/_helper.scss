@@ -10,12 +10,11 @@
 .clearfix {
 	*zoom: 1;  				// For IE 6/7 only (trigger hasLayout).
 
-	&:before,
-	&:after {
+	&:before, &:after {
 		content: " ";		// 1
 		display: table;	// 2
 	}
-	
+
 	&:after {
 		clear:both;
 	}
@@ -27,19 +26,12 @@
 .left { float: left; }
 .right { float: right; }
 
-.hidden-tablet {
-	display: block;
-}
-
-@media #{$tablet} {
-	.hidden-tablet {
-		display: none;
-	}
-}
-
-@media #{$max-mobile} {
-	.left, .right {
-		float: none;
-		width: 100% !important;
-	}
+/**
+ * Page grid
+ */
+.container {
+	max-width: $page-width;
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 $page-padding;
 }
