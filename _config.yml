@@ -13,12 +13,21 @@ paginate: 10
 paginate_path: /writes/:num/
 
 # Where things are
-destination: _public
+destination: dist
 
-# Handling reading
+# Build
 encoding: "utf-8"
-include: [".htaccess"]
-exclude: ["README.md", "Gemfile", ".gitignore"]
+exclude:
+   - README.md
+   - Gemfile
+   - .gitignore
+   - npm-debug.log
+   - node_modules
+   - package.json
+   - scripts
+include:
+   - .htaccess
+   - scripts/main.min.js
 
 # Plugins
 gems:

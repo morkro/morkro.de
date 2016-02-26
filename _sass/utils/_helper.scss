@@ -34,4 +34,8 @@
 	width: 100%;
 	margin: 0 auto;
 	padding: 0 $page-padding;
+
+	@include media("<=tablet") {
+		padding: 0 $page-padding * 3;
+	}
 }

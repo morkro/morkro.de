@@ -15,17 +15,28 @@
       padding: 70px 0 20px;
    }
 
-   p {
+   p, span {
       color: $shade-of-grey-dark;
       font-size: 100%;
    }
 
    a {
       color: $text-color;
-      &:hover { color: $link-hover; }
+      &:hover { color: $special-text-color; }
    }
 }
 
-.footer-inner span:not(.footer-year) {
-   margin: 0 10px;
+.footer-inner {
+   display: flex;
+   justify-content: space-between;
+
+   span:not(.footer-year) {
+      margin: 0 10px;
+   }
+
+   a[href*="imprint"] {
+      border-left: 3px solid $shade-of-grey-medium;
+      padding-left: 15px;
+      margin-left: 15px;
+   }
 }

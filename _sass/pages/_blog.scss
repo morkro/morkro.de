@@ -7,10 +7,11 @@
 
    li {
       width: 100%;
-      background: $shade-of-grey-light;
+      background: white;
 
       &:nth-child(2n) {
-         background: $shade-of-grey-medium;
+         border-top: 4px solid $shade-of-grey-light;
+         border-bottom: 4px solid $shade-of-grey-light;
       }
    }
 
@@ -26,10 +27,12 @@
       font-family: $RobotoMono;
       font-size: 145%;
       line-height: 24px;
+      letter-spacing: -1px;
    }
 
    p {
       color: $shade-of-grey-dark;
+      font-size: 85%;
    }
 
    time {
@@ -38,6 +41,7 @@
 
    time, span {
       color: $text-color;
+      font-size: 100%;
    }
 }
 
@@ -71,7 +75,7 @@
 
    li > span {
       display: block;
-      font-size: 110%;
+      font-size: 100%;
    }
 
    li > span:first-of-type {
@@ -84,11 +88,96 @@
 .article-body {
    margin-bottom: $base-gap;
 
-   p:not(:last-of-type) {
+   h2, h3 {
+      margin-bottom: $base-gap / 2;
+   }
+
+   p:not(:last-of-type),
+   ul, hr {
       margin-bottom: 30px;
    }
 
    > p:first-of-type {
-      font-size: 140%;
+      font-size: 160%;
+      font-weight: 400;
+      line-height: 150%;
+   }
+
+   ul {
+      padding-left: 20px;
+      list-style-type: circle;
+   }
+
+   li {
+      color: $text-color;
+   }
+
+   hr {
+      border: none;
+      border-top: 2px solid $shade-of-grey-light;
+   }
+}
+
+.content-posts {
+   width: 100%;
+   display: flex;
+   margin-top: $base-gap;
+
+   div {
+      width: 50%;
+      background: $shade-of-white-light;
+      display: flex;
+      justify-content: flex-start;
+
+      &.active {
+         background: white;
+      }
+
+      &:first-of-type {
+         direction: rtl;
+         border-right: 4px solid $shade-of-grey-light;
+      }
+
+      &:first-of-type a {
+         padding: $page-padding $page-padding $page-padding 0;
+         text-align: right;
+         &:hover ~ svg { transform: translateX(-15px); }
+      }
+   }
+
+   a {
+      display: block;
+      width: $page-width-half;
+      padding: $page-padding 0 $page-padding $page-padding;
+      font-family: $RobotoMono;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: -1px;
+
+      &.posts-external svg {
+         width: 20px;
+         height: 20px;
+         fill: rgba(0,0,0,.3);
+         vertical-align: text-bottom;;
+      }
+
+      span {
+         display: block;
+         font-family: $Roboto;
+         font-size: 100%;
+         color: $text-color;
+         letter-spacing: 0;
+      }
+
+      &:hover ~ svg { transform: translateX(15px); }
+   }
+
+   svg {
+      width: 30px;
+      height: 30px;
+      fill: $shade-of-grey-dark;
+      align-self: center;
+      transform: translateX(0);
+      transition: transform 100ms ease-in-out;
    }
 }

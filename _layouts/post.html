@@ -54,4 +54,47 @@ layout: blog
 			</noscript>
 		</section>
 	</article>
+
+	<section class="content-posts">
+		<div class="posts-previous {% if page.previous.url %}active{% endif %}">
+			{% if page.previous.url %}
+			{% if page.previous.external %}
+			<a href="{{page.previous.external.url}}" target="_blank" class="posts-external">
+			{% else %}
+			<a href="{{page.previous.url}}">
+			{% endif %}
+				<span>Previous article</span>
+				{{page.previous.title}}
+				{% if page.previous.external %}
+				<svg viewBox="0 0 24 24">
+					<path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+				</svg>
+				{% endif %}
+			</a>
+			<svg viewBox="0 0 24 24">
+				<path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+			</svg>
+			{% endif %}
+		</div>
+		<div class="posts-next {% if page.next.url %}active{% endif %}">
+			{% if page.next.url %}
+			{% if page.next.external %}
+			<a href="{{page.next.external.url}}" target="_blank" class="posts-external">
+			{% else %}
+			<a href="{{page.next.url}}">
+			{% endif %}
+				<span>Next article</span>
+				{{page.next.title}}
+				{% if page.next.external %}
+				<svg viewBox="0 0 24 24">
+					<path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+				</svg>
+				{% endif %}
+			</a>
+			<svg viewBox="0 0 24 24">
+				<path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
+			</svg>
+			{% endif %}
+		</div>
+	</section>
 </div>

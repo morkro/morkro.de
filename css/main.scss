@@ -4,19 +4,20 @@
 
 // VENDORS
 @import "vendors/_normalize";
-@import "vendors/_syntax";
 // UTILS
 @import "utils/_variables";
-@import "utils/_helper";
-@import "utils/_include-media";
 @import "utils/_mixins";
+@import "utils/_include-media";
+@import "utils/_helper";
 // GLOBALS
 @import "globals/_fonts";
 @import "globals/_system";
 @import "globals/_typography";
 // COMPONENTS
+@import "components/_syntax";
 @import "components/_headline-gradient";
 @import "components/_link-gradient";
+@import "components/_socialmedia";
 // LAYOUT
 @import "layout/_header";
 @import "layout/_content";

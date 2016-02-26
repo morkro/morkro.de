@@ -7,9 +7,9 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
 	font-family: $RobotoMono;
-	font-size: 66px;
-	letter-spacing: -1px;
-	line-height: 70px;
+	font-size: 510%;
+	letter-spacing: -3px;
+	line-height: 120%;
 
 	@include media("<=tablet") {
 		font-size: 48px;
@@ -18,20 +18,22 @@ h1 {
 }
 
 h2 {
-	font-size: 32px;
+	font-size: 160%;
 	line-height: 38px;
+	font-weight: 400;
 }
 
 h3 {
-	font-size: 22px;
+	font-size: 130%;
+	font-weight: 300;
 }
 
 /**
  * Copy
  */
-p, span, a, address, button {
+p, span, a, address, button, li {
 	font-weight: 300;
-	font-size: 18px;
+	font-size: 20px;
 	line-height: 32px;
 }
 
@@ -43,18 +45,36 @@ b, strong {
 	font-weight: 400;
 }
 
+em {
+	font-weight: 300;
+}
+
+blockquote {
+	margin-bottom: 30px;
+	width: 110%;
+	transform: translateX(-5%);
+	background: white;
+	border-left: 10px solid $shade-of-grey-medium;
+	padding: 15px 5%;
+	font-style: italic;
+}
+
 /**
  * Links
  */
 a {
 	cursor: pointer;
 	display: inline-block;
+	position: relative;
 	text-decoration: none;
 	font-size: inherit;
 	color: $link-color;
+	z-index: 1;
 	transition: color 100ms ease-in-out;
 
-	&:hover { color: $link-hover; }
+	&:hover {
+		color: $link-hover;
+	}
 
 	&:active, &:focus {
 		background: lighten($link-color, 90%);
@@ -65,16 +85,18 @@ a {
 /**
  * Code
  */
- code, kbd, pre, samp {
- 	font-family: $RobotoMono;
- 	background-color: $background-color;
- 	border-radius: 2px;
- 	color: $text-color;
- 	vertical-align: baseline;
- 	padding: 0 4px 1px;
- 	font-weight: 400;
- }
+code, kbd, pre, samp {
+	color: $code-color;
+	font-family: $RobotoMono;
+	font-size: 85%;
+	font-weight: 300;
+	background-color: $shade-of-grey-light;
+	border-radius: 3px;
+	vertical-align: baseline;
+	padding: 0 4px 2px;
+	white-space: nowrap;
+}
 
- a { code, kbd, pre, samp {
- 	color: inherit;
- } }
+a { code, kbd, pre, samp {
+	color: inherit;
+} }
