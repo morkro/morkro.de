@@ -4,8 +4,6 @@ email: write@morkro.de
 description: "I am Moritz Kröger, a German front-end developer who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions."
 baseurl: ""
 url: "http://morkro.de"
-twitter_username: morkro
-github_username: morkro
 
 # Settings
 permalink:	/writes/:year/:title

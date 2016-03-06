@@ -80,6 +80,11 @@ a {
 		background: lighten($link-color, 90%);
 		outline: none;
 	}
+
+	svg {
+		display: inline-block;
+		vertical-align: baseline;
+	}
 }
 
 /**

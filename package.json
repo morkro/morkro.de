@@ -1,8 +1,8 @@
 {
    "scripts": {
-      "build": "npm run js && jekyll build",
       "js": "browserify -t [babelify --preset [es2015]] -e scripts/main.js > assets/main.min.js",
-      "start": "npm run js && jekyll s"
+      "start": "npm run js && jekyll s",
+      "prod": "npm run js && JEKYLL_ENV=PROD jekyll build"
    },
    "devDependencies": {
       "babel-preset-es2015": "^6.5.0",

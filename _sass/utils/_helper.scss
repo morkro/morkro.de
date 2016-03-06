@@ -29,8 +29,8 @@
 /**
  * Page grid
  */
-.container {
-	max-width: $page-width;
+.container,
+.container-large {
 	width: 100%;
 	margin: 0 auto;
 	padding: 0 $page-padding;
@@ -39,3 +39,6 @@
 		padding: 0 $page-padding * 3;
 	}
 }
+
+.container { max-width: $page-width; }
+.container-large { max-width: $page-width-large; }

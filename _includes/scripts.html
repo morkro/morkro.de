@@ -1,4 +1,6 @@
 <script src="/../assets/main.min.js?v={{ site.time | date: "%Y%M%d" }}"></script>
+
+{% if jekyll.environment == 'PROD' %}
 <script async type="text/javascript">
 	var _paq = _paq || [];
 	_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
@@ -14,3 +16,4 @@
 	})();
 </script>
 <noscript><p><img src="//piwik.morkro.de/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+{% endif %}

@@ -3,11 +3,11 @@
  */
 #page-footer {
    width: 100%;
-   padding: 100px 0 50px;
+   padding: 100px 0 0;
    background-image: linear-gradient(
       180deg,
       $content-background,
-      transparent 50%,
+      transparent 70%,
       transparent 100%
    );
 
@@ -30,13 +30,22 @@
    display: flex;
    justify-content: space-between;
 
-   span:not(.footer-year) {
-      margin: 0 10px;
+   .socialmedia {
+      margin-top: 10px;
    }
 
-   a[href*="imprint"] {
-      border-left: 3px solid $shade-of-grey-medium;
-      padding-left: 15px;
-      margin-left: 15px;
+   ul {
+      list-style: none;
+   }
+}
+
+.footer-bottom {
+   width: 100%;
+   padding: 10px;
+   text-align: center;
+   padding: 40px 0;
+
+   a {
+      font-size: 11px;
    }
 }

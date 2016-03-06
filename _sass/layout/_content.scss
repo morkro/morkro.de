@@ -3,7 +3,7 @@
  */
 #page-content {
    width: 100%;
-   padding: $base-gap 0 90px;
+   padding: $base-gap 0 0;
    background: $content-background;
 
    @include media("<=tablet") {

@@ -2,18 +2,14 @@
 <html lang="en">
 {% include head.html %}
 <body class="template-default">
-	<header id="page-header">
-		{% include header.html %}
-	</header>
+	{% include iconset.html %}
+	{% include header.html %}
 
 	<main role="main" id="page-content">
 		{{ content }}
 	</main>
 
-	<footer id="page-footer">
-		{% include footer.html %}
-	</footer>
-
+	{% include footer.html %}
 	{% include scripts.html %}
 </body>
 </html>

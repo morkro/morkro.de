@@ -1,12 +1,12 @@
 /* TEAM */
 Developer: Moritz Kröger
 Contact: write@morkro.de
-Twitter: @morkro
-Github: morkro
+Twitter: @
+Github: 
 Location: Berlin, Germany
 
 /* SITE */
-Last Update: 26 February 2016
+Last Update: 6 March 2016
 Language: English
 Standards: HTML5, CSS3, JavaScript
 Components: Ruby on Rails, Sass, Jekyll

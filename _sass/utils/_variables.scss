@@ -29,7 +29,9 @@ $code-color:            $purple;
  * DIMENSIONS
  */
 $base-width:            920px;
+$large-base-width:      1040px;
 $page-padding:          20px;
 $page-width:            #{$base-width + (2 * $page-padding)};
+$page-width-large:      #{$large-base-width + (2 * $page-padding)};
 $page-width-half:       #{$base-width / 2};
 $base-gap:              75px;

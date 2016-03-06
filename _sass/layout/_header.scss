@@ -10,16 +10,35 @@
       white 40%,
       $content-background 100%
    );
-
-   @include media("<=tablet") {
-      padding: 20px 0 30px;
-   }
 }
 
 .header-inner {
    height: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding-top: 30px;
+   padding-bottom: 15px;
 
-   nav { height: 100%; }
+   @include media("<=tablet") {
+      display: block;
+      padding-top: 10px;
+   }
+}
+
+/**
+ * Name
+ */
+.header-name {
+   margin: 0;
+   font-size: 130%;
+   letter-spacing: -1px;
+
+   @include media("<=tablet") {
+      display: block;
+      text-align: center;
+      margin-bottom: 15px;
+   }
 }
 
 /**
@@ -29,18 +48,15 @@
    list-style: none;
    display: flex;
    align-items: center;
-   height: 85%;
+   justify-content: center;
 
    @include media("<=tablet") {
       justify-content: space-between;
    }
 
-   li {
-      line-height: 500%;
-
-      @include media("<=tablet") {
-         width: 40%;
-      }
+   @include media("<=500px") {
+      svg { display: block !important; }
+      span { display: none; }
    }
 
    li:not(:last-child) {
@@ -52,14 +68,56 @@
    }
 
    .template-default & a[href="/"],
+   .template-about & a[href*="is"],
    .template-blog & a[href*="writes"],
-   .template-projects & a[href*="works"] {
+   .template-projects & a[href*="builds"] {
       color: $link-color;
+      cursor: default;
+
+      &::before {
+         background-color: $link-color;
+         transform: scaleX(1);
+      }
+
+      svg { fill: $link-color; }
    }
 
    a {
-      color: $special-text-color;
+      color: $shade-of-grey-dark;
       font-size: 100%;
       font-weight: 400;
+      position: relative;
+      transition: color 150ms ease-in-out;
+
+      &:hover {
+         color: $shade-of-grey-darker;
+
+         &::before { transform: scaleX(1); }
+      }
+
+      &::before {
+         width: 100%;
+         height: 3px;
+         position: absolute;
+         content: "";
+         bottom: -2px;
+         left: 0;
+         background-color: $shade-of-grey-darker;
+         transform: scaleX(0);
+         transform-origin: center;
+         transition: transform 200ms ease-in-out;
+      }
+
+      @include media("<=500px") {
+         &::before { display: none; }
+      }
+   }
+
+   svg {
+      width: 30px;
+      height: 30px;
+      fill: $shade-of-grey-dark;
+
+      &:hover { fill: $shade-of-grey-darker; }
    }
 }
