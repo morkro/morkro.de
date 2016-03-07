@@ -6,7 +6,7 @@ Github:
 Location: Berlin, Germany
 
 /* SITE */
-Last Update: 6 March 2016
+Last Update: 7 March 2016
 Language: English
 Standards: HTML5, CSS3, JavaScript
 Components: Ruby on Rails, Sass, Jekyll
