@@ -33,7 +33,7 @@ title: Moritz Kröger
 	</aside>
 	<div class="intro-content">
 		<p>
-			I'm a self-taught developer with a focus on JavaScript <svg><use xlink:href="#javascript"></use></svg> and the ECMAScript language specification, but emerging front-end technologies in general spark my interest. I publish and contribute to open source projects on a regular basis — sharing knowledge and helping others is what the web is all about for me.
+			I'm a developer with a focus on JavaScript <svg><use xlink:href="#javascript"></use></svg> and the ECMAScript language specification, but emerging front-end technologies in general spark my interest. I publish and contribute to open source projects on a regular basis — sharing knowledge and helping others is what the web is all about for me.
 		</p>
 		<p>
 			I work at <a href="https://www.razorfish.de/en/" target="_blank">Razorfish</a> as <em>User Interface Developer</em> to deliver web applications and web sites for international brands.
@@ -44,12 +44,26 @@ title: Moritz Kröger
 <section class="intro-section intro-writing container-large">
 	<aside>
 		<h2>Writing</h2>
-		<p>Check out my latest article:</p>
+
+		<ul class="section-list">
+			<li><a href="{{ site.data.socialnetworks.sitepoint.url }}" target="_blank">
+				<svg><use xlink:href="#sitepoint"></use></svg> <span>SitePoint</span>
+			</a></li>
+		</ul>
+	</aside>
+	<div class="intro-content">
+		<p>
+			I love finding solutions, exploring technologies and sharing what I've learned. Writing has become a fresh way for me to express myself as developer. I am an author on SitePoint and publish articles on my own <a href="/writes">blog</a>.<br>
+			It is still a very new territory for me, so I'm happy to get your feedback!
+		</p>
+		<p>
+			<strong>Check out my latest article:</strong>
+		</p>
 		{% for post in site.posts limit:1 %}
 		{% if post.external %}
-		<a href="{{ post.external.url }}" target="_blank">
+		<a href="{{ post.external.url }}" target="_blank" class="intro-writing-link">
 		{% else %}
-		<a href="{{ post.url }}">
+		<a href="{{ post.url }}" class="intro-writing-link">
 		{% endif %}
 			{{ post.title }}
 			{% if post.external %}
@@ -57,11 +71,6 @@ title: Moritz Kröger
 			{% endif %}
 		</a>
 		{% endfor %}
-	</aside>
-	<div class="intro-content">
-		<p>
-			I am Moritz Kröger, a German front-end developer, author, and open source contributor who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions.
-		</p>
 	</div>
 </section>
 

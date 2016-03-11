@@ -83,7 +83,7 @@
          left: 0;
          transform: scaleX(0);
          transform-origin: center;
-         transition: transform 175ms ease-in-out;
+         transition: transform 175ms $easeOutBack;
       }
 
       &:hover::after { transform: scaleX(1); }
@@ -119,7 +119,7 @@
          left: 0;
          transform: scaleX(0);
          transform-origin: center;
-         transition: transform 175ms ease-in-out;
+         transition: transform 175ms $easeOutBack;
       }
 
       @include media("<=500px") {

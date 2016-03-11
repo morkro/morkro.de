@@ -3,9 +3,6 @@
  */
 $intro-left-column: 41%;
 $intro-right-column: 59%;
-$intro-breakpoint-890px: "<=890px";
-$intro-breakpoint-820px: "<=825px";
-$intro-breakpoint-450px: "<=450px";
 
 /**
  * Start
@@ -105,7 +102,7 @@ $intro-breakpoint-450px: "<=450px";
          line-height: 34px;
       }
 
-      @include media(#{$intro-breakpoint-820px}) {
+      @include media("<=825px") {
          font-size: 140%;
          line-height: 30px;
       }
@@ -119,7 +116,7 @@ $intro-breakpoint-450px: "<=450px";
    margin-bottom: $base-gap;
    display: flex;
 
-   @include media(#{$intro-breakpoint-820px}) {
+   @include media("<=825px") {
       display: block;
    }
 
@@ -127,7 +124,7 @@ $intro-breakpoint-450px: "<=450px";
       width: $intro-left-column;
       text-align: right;
 
-      @include media(#{$intro-breakpoint-820px}) {
+      @include media("<=825px") {
          width: 100%;
          text-align: center;
          margin-bottom: 30px;
@@ -146,7 +143,7 @@ $intro-breakpoint-450px: "<=450px";
       line-height: 48px;
       margin-bottom: 10px;
 
-      @include media(#{$intro-breakpoint-450px}) {
+      @include media("<=450px") {
          font-size: 250%;
          line-height: 40px;
       }
@@ -157,7 +154,7 @@ $intro-breakpoint-450px: "<=450px";
    width: $intro-right-column;
    padding-left: 60px;
 
-   @include media(#{$intro-breakpoint-820px}) {
+   @include media("<=825px") {
       width: 100%;
       padding-left: 0;
    }
@@ -178,24 +175,21 @@ $intro-breakpoint-450px: "<=450px";
    }
 }
 
-.intro-writing aside {
-   p {
-      margin-bottom: 5px;
-   }
-
-   a {
-      font-family: $RobotoMono;
-      font-size: 90%;
-      font-weight: 400;
-      line-height: 20px;
-      width: 80%;
-   }
+.intro-writing-link  {
+   font-family: $RobotoMono;
+   font-size: 100%;
+   font-weight: 400;
+   background: white;
+   display: block;
+   width: 100%;
+   line-height: 20px;
+   padding: 10px;
+   margin-top: 10px;
 
    svg {
       fill: $shade-of-grey-dark;
-      width: 15px;
-      height: 15px;
-      transform: translateY(2px);
+      width: 20px;
+      height: 20px;
    }
 }
 
@@ -204,11 +198,11 @@ $intro-breakpoint-450px: "<=450px";
    justify-content: flex-end;
    list-style: none;
 
-   @include media(#{$intro-breakpoint-820px}) {
+   @include media("<=825px") {
       justify-content: center;
    }
 
-   @include media(#{$intro-breakpoint-450px}) {
+   @include media("<=450px") {
       margin-top: 20px;
       justify-content: space-around;
       span { display: none; }
@@ -217,7 +211,7 @@ $intro-breakpoint-450px: "<=450px";
    li:not(:first-of-type) {
       margin-left: 15px;
 
-      @include media(#{$intro-breakpoint-450px}) {
+      @include media("<=450px") {
          margin: 0;
       }
    }
@@ -232,7 +226,7 @@ $intro-breakpoint-450px: "<=450px";
       height: 15px;
       transform: translateY(2px);
 
-      @include media(#{$intro-breakpoint-450px}) {
+      @include media("<=450px") {
          width: 30px;
          height: 30px;
       }
@@ -291,7 +285,7 @@ $intro-breakpoint-450px: "<=450px";
       height: 40px;
       vertical-align: bottom;
       transition: translateX(0);
-      transition: transform 150ms ease-in-out;
+      transition: transform 150ms $easeOutBack;
 
       @include media("<=500px") {
          width: 30px;

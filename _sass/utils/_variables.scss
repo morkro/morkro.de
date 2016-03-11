@@ -35,3 +35,8 @@ $page-width:            #{$base-width + (2 * $page-padding)};
 $page-width-large:      #{$large-base-width + (2 * $page-padding)};
 $page-width-half:       #{$base-width / 2};
 $base-gap:              75px;
+
+/**
+ * EASINGS
+ */
+$easeOutBack:           cubic-bezier(0.175, 0.885, 0.32, 1.275);
