@@ -18,3 +18,22 @@ scrollTo({
 });
 
 setCurrentYear( $('.footer-year') );
+
+const nextCity = $('.travels-nextcity');
+
+function highlightCountry (event) {
+   const color = '#ff7c00';
+   const country = $(`#map ${nextCity.getAttribute('data-area')}`);
+   console.log(event);
+   if (event.type === 'mouseover') {
+      country.style.fill = color;
+      country.style.stroke = 'white';
+   }
+   else {
+      country.style.fill = 'white';
+      country.style.stroke = '';
+   }
+}
+
+nextCity.addEventListener('mouseover', highlightCountry, false);
+nextCity.addEventListener('mouseleave', highlightCountry, false);

@@ -93,7 +93,7 @@
       margin-bottom: $base-gap;
    }
 
-   img {
+   .travels-map {
       display: block;
       max-width: 90%;
       margin: 50px auto 0;
@@ -113,7 +113,7 @@
       transform: translateY(-2px);
    }
 
-   span {
+   span:not(.travels-nextcity) {
       color: $shade-of-grey-dark;
       font-style: italic;
    }

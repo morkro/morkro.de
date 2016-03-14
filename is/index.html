@@ -65,11 +65,13 @@ title: Moritz Kröger
          </p>
       </div>
 
-		<img class="travels-map" src="../assets/img/world.svg" alt="World map highlighting my travel destinations">
+		<div class="travels-map">{% include world.html %}</div>
 
 		<div class="travels-next container">
 			<p>
-				<svg><use xlink:href="#earth"></use></svg> Next trip: <strong>Budapest, Hungary</strong> <span>(May, 2016)</span>
+				<svg><use xlink:href="#earth"></use></svg>
+				Next trip: <span class="travels-nextcity" data-area="#HU"><strong>Budapest, Hungary</strong></span>
+					<span>(May, 2016)</span>
 			</p>
 		</div>
    </section>
