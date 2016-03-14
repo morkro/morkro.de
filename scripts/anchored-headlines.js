@@ -4,7 +4,7 @@ import { $ } from './helper';
 
 export default class AnchoredHeadline {
 	constructor (container) {
-		this.container	= elem(container);
+		this.container	= $(container);
 		this.tags = ['h2', 'h3', 'h4', 'h5', 'h6'];
 		this.links = null;
 		this.anchorSign = '§';

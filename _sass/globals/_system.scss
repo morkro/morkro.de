@@ -14,30 +14,9 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.keyword-js {
-	position: relative;
-	padding-right: 17px;
-
-	&.js-large { padding-right: 24px; }
-
-	&::after {
-		position: absolute;
-		content: "";
-		background-image: url(../../assets/icons/js.svg);
-		background-size: 18px 18px;
-		width: 18px;
-		height: 18px;
-		right: -2px;
-		top: -1px;
-	}
-
-	&.js-large::after {
-		background-size: 24px 24px;
-		width: 24px;
-		height: 24px;
-		right: -2px;
-		top: 0;
-	}
+::selection {
+	background-color: $blue;
+	color: white;
 }
 
 /**

@@ -66,10 +66,7 @@
       }
    }
 
-   .template-default & a[href="/"],
-   .template-about & a[href*="is"],
-   .template-blog & a[href*="writes"],
-   .template-projects & a[href*="builds"] {
+   .active {
       color: $link-color;
       cursor: default;
 

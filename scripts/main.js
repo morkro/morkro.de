@@ -1,23 +1,20 @@
 'use strict';
 
-import { $, getOffset } from './helper';
-import setCurrentYear from './set-current-year';
+import { $, $$ } from './helper';
 import setNavigationState from './set-navigation-state';
-import AnchoredHeadline from './anchored-headlines';
-
-/**
- * App init
- */
-const header = $('#page-header');
-const isArticlePage = !!$('.content-article');
-const footerYear = $('.footer-year');
-const anchoredHeadlines = new AnchoredHeadline('.article-body');
+import scrollTo from './scroll-to';
+import setCurrentYear from './set-current-year';
 
 setNavigationState({
-   parent: header,
+   parent: $('#page-header'),
    className: 'active',
    url: ['/', '/is', '/writes', '/builds']
 });
-setCurrentYear( footerYear );
 
-if (isArticlePage) { anchoredHeadlines.init(); }
+scrollTo({
+   elements: $$('[data-scrollto]') ,
+   speed: 333,
+   offset: 10
+});
+
+setCurrentYear( $('.footer-year') );

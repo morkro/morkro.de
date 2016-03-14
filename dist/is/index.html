@@ -34,10 +34,19 @@
 
 	<link rel="shortcut icon" href="/../assets/favicon.ico">
 	<link rel="author" href="humans.txt">
-	<link rel="stylesheet" type="text/css" href="/../css/main.css?v=20163211">
+	<link rel="stylesheet" type="text/css" href="/../css/main.css?v=20160914">
 </head>
-<body class="template-about">
+<body class="template-default">
 	<svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+   <symbol id="brackets" viewBox="0 0 24 24">
+      <path d="M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z" />
+   </symbol>
+   <symbol id="call-split" viewBox="0 0 24 24">
+      <path d="M14,4L16.29,6.29L13.41,9.17L14.83,10.59L17.71,7.71L20,10V4M10,4H4V10L6.29,7.71L11,12.41V20H13V11.59L7.71,6.29" />
+   </symbol>
+   <symbol id="calendar-time" viewBox="0 0 24 24">
+      <path d="M15,13H16.5V15.82L18.94,17.23L18.19,18.53L15,16.69V13M19,8H5V19H9.67C9.24,18.09 9,17.07 9,16A7,7 0 0,1 16,9C17.07,9 18.09,9.24 19,9.67V8M5,21C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3H6V1H8V3H16V1H18V3H19A2,2 0 0,1 21,5V11.1C22.24,12.36 23,14.09 23,16A7,7 0 0,1 16,23C14.09,23 12.36,22.24 11.1,21H5M16,11.15A4.85,4.85 0 0,0 11.15,16C11.15,18.68 13.32,20.85 16,20.85A4.85,4.85 0 0,0 20.85,16C20.85,13.32 18.68,11.15 16,11.15Z" />
+   </symbol>
    <symbol id="sitepoint" viewBox="0 0 25 25">
       <path stroke="null" id="Fill-10" d="m3.702683,11.117804l1.638469,1.588054l5.159076,4.82298l2.226637,-2.151016c0.201658,-0.277279 0.193255,-0.655388 -0.042012,-0.924264l-2.033382,-1.78131l0.008402,0l-2.193028,-2.125808c-0.252072,-0.294084 -0.252072,-0.731009 0.025207,-1.008289l5.890086,-5.69683l-2.671965,-2.596343l-7.999089,7.72181c-0.613376,0.596571 -0.613376,1.562847 -0.008402,2.151016"/>
       <path stroke="null" id="Fill-11" d="m21.288915,13.873793l-1.630066,-1.579652l-5.167479,-4.82298l-2.226637,2.142613c-0.201658,0.285682 -0.184853,0.66379 0.042012,0.932667l2.033382,1.78131l0,0l2.184625,2.125808c0.260475,0.294084 0.252072,0.722607 -0.016805,1.008289l-5.898488,5.69683l2.680367,2.596343l6.36062,-6.142158l1.638469,-1.588054c0.613376,-0.588168 0.613376,-1.554445 0,-2.151016"/>
@@ -63,6 +72,9 @@
    <symbol id="home" viewBox="0 0 24 24">
       <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
    </symbol>
+   <svg id="arrow-down" viewBox="0 0 24 24">
+      <path d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" />
+   </svg>
    <symbol id="arrow-right" viewBox="0 0 24 24">
       <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
    </symbol>
@@ -118,9 +130,70 @@
 </header>
 
 	<main role="main" id="page-content">
-		<section class="container">
-   diz me yo
-</section>
+		<div class="content-inner">
+	<div class="headline-gradient container">
+		<h1 title="Nice to meet you">Nice to<br>meet you</h1>
+	</div>
+
+   <section class="about-intro container">
+      <p>
+         I grew up in the North-Western part of Germany. But unlike those crowded industrial urban hubs, I was lucky to enjoy the beautiful countryside. However, I moved to Cologne — not just for the city but also for studies. It was there that I discovered my passion for software development. And no matter how great Cologne’s tech scene was at that time, Berlin was still the place to be. So I packed my things again and here I am now.
+      </p>
+      <a href="#history" data-scrollto="#history">
+         <svg><use xlink:href="#arrow-down"></use></svg>
+      </a>
+   </section>
+
+   <section class="about-photo container-large">
+      <img src="../assets/img/moritz-large.jpg" alt="Moritz Kröger" title="Moritz Kröger">
+   </section>
+
+   <section class="about-text container" id="history">
+		<div class="about-timeframe">
+			<div class="about-mark">
+				<svg><use xlink:href="#calendar-time"></use></svg>
+			</div>
+	      <p>
+	         My passion for the web started with designing interfaces and eventually bringing them to life with basic web technology. I decided to get a proper design degree at the <a href="https://kisd.de/en/" target="_blank">Köln International School of Design</a>, only to realise that building and understanding software gets me way more excited. To push myself forward, I promptly started working as a freelance front-end developer and spend my entire spare time teaching myself in computer science. Eventually, I got the opportunity to work for <a href="https://razorfish.de/en/" target="_blank">Razorfish</a> on web applications for international brands and campaigns. Ever since, I had the chance to work with great companies such as <strong>Audi</strong>, <strong>Here</strong> (Nokia), <strong>Coca-Cola</strong>, <strong>Nike</strong>, <strong>Axa</strong>, <strong>Deutsche Bahn</strong>, <strong>McDonald's</strong>, <strong>Demodern</strong> and many more.
+	      </p>
+		</div>
+
+		<div class="about-route">
+			<div class="about-mark">
+				<svg><use xlink:href="#call-split"></use></svg>
+			</div>
+	      <p>
+	         I always believed that if you want to achieve something, you just have to start doing it. If an opportunity seems too big, almost impossible or if it even scares me, I push myself into it. I like change, exploring new technologies and trying to master them. The same way I had back then pushed myself into web development, I am now pushing myself into <a href="/writes">writing</a>. Becoming an author is something I wanted to achieve for a long time; by the end of 2015 I finally made the jump and just started doing it. I still have a lot to learn, but I'm feeling dissatisfied and stuck if I don't keep on trying.
+	      </p>
+		</div>
+
+      <blockquote>
+         <p>In case you haven't found out my secret yet: <strong>morkro</strong> is a clever abbreviation of my name.</p>
+      </blockquote>
+
+		<div class="about-code">
+			<div class="about-mark">
+				<svg><use xlink:href="#brackets"></use></svg>
+			</div>
+	      <p>
+	         I am specialised in JavaScript — language specification, large-scale applications, architecture, and performance optimisation are my main interests. I also <a href="https://github.com/morkro" target="_blank">contribute</a> to and <a href="/builds">publish</a> my own open source projects. It is one way to give something back to the community and work together with people from all around the world. I am an active member on <a href="https://stackoverflow.com/users/1724106/morkro" target="_blank">StackOverflow</a>, answering (and asking) questions on all front-end related topics.
+	      </p>
+		</div>
+   </section>
+
+   <section class="about-travels">
+      <div class="container">
+         <div class="headline-gradient">
+      		<h1 title="Let's talk about something different">
+               Let's talk about something different
+            </h1>
+      	</div>
+         <p>
+            Besides all my digital work and activities I like to travel the world. One of my greatest goals is to visit each country, getting to know as many different cultures and people as possible. The internet is only one potential way for connecting and collaborating. But actually meeting people from different countries gives the anonymity of the internet a familiar face. I also like to keep track of my travels:
+         </p>
+      </div>
+   </section>
+</div>
 	</main>
 
 	<footer id="page-footer" role="contentinfo">
@@ -178,7 +251,7 @@
 		</div>
 	</div>
 </footer>
-	<script src="/../assets/main.min.js?v=20163211"></script>
+	<script src="/../assets/main.min.js?v=20160914"></script>
 
 
 </body>
