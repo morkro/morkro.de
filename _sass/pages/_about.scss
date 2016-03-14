@@ -78,6 +78,7 @@
    svg {
       width: 35px;
       height: 35px;
+      fill: $shade-of-grey-dark;
       transition: fill 150ms ease-in-out;
    }
 }
@@ -86,8 +87,34 @@
    width: 100%;
    background: white;
    padding: 45px 0;
+   overflow-x: hidden;
 
    .headline-gradient {
       margin-bottom: $base-gap;
+   }
+
+   img {
+      display: block;
+      max-width: 90%;
+      margin: 50px auto 0;
+      transform: translateX(3%);
+   }
+}
+
+.travels-next {
+   text-align: center;
+   margin-bottom: 20px;
+
+   svg {
+      width: 35px;
+      height: 35px;
+      display: inline-block;
+      vertical-align: middle;
+      transform: translateY(-2px);
+   }
+
+   span {
+      color: $shade-of-grey-dark;
+      font-style: italic;
    }
 }

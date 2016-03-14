@@ -12,12 +12,14 @@ title: Writes | Moritz Kröger
 		<li>
 			{% if post.external %}
 			<a href="{{ post.external.url }}" target="_blank" class="blog-post-external">
+				<span></span>
 				<h2>
 					{{ post.title }}
 					<svg><use xlink:href="#new-window"></use></svg>
 				</h2>
 			{% else %}
 			<a href="{{ post.url }}">
+				<span></span>
 				<h2>{{ post.title }}</h2>
 			{% endif %}
 				<p>

@@ -2,7 +2,7 @@
 
 import { $, $$ } from './helper';
 import setNavigationState from './set-navigation-state';
-import scrollTo from './scroll-to';
+import scrollTo from './scrollto';
 import setCurrentYear from './set-current-year';
 
 setNavigationState({

@@ -19,7 +19,23 @@
       display: block;
       padding-top: 20px;
       padding-bottom: 20px;
+      position: relative;
       @extend .container;
+
+      &:visited > span {
+         background-color: white;
+      }
+   }
+
+   a > span {
+      position: absolute;
+      height: 10px;
+      width: 10px;
+      background: $link-hover;
+      border-radius: 50%;
+      left: -20px;
+      top: 50%;
+      transform: translateY(-50%);
    }
 
    h2 {
