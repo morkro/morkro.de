@@ -58,6 +58,12 @@ blockquote {
 	border-left: 10px solid $shade-of-grey-medium;
 	padding: 15px 5%;
 	font-style: italic;
+
+	@include media("<=tablet") {
+		width: calc(100% + 80px); // Double of .container padding
+		transform: translateX(-40px);
+		padding: 15px 40px;
+	}
 }
 
 /**
@@ -65,7 +71,6 @@ blockquote {
  */
 a {
 	cursor: pointer;
-	display: inline-block;
 	position: relative;
 	text-decoration: none;
 	font-size: inherit;
