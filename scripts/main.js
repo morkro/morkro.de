@@ -4,7 +4,9 @@ import { $, $$ } from './helper';
 import setNavigationState from './set-navigation-state';
 import scrollTo from './scrollto';
 import setCurrentYear from './set-current-year';
+import highlightSVGMap from './highlight-svg-map';
 
+// GENERAL
 setNavigationState({
    parent: $('#page-header'),
    className: 'active',
@@ -19,21 +21,11 @@ scrollTo({
 
 setCurrentYear( $('.footer-year') );
 
-const nextCity = $('.travels-nextcity');
-
-function highlightCountry (event) {
-   const color = '#ff7c00';
-   const country = $(`#map ${nextCity.getAttribute('data-area')}`);
-   console.log(event);
-   if (event.type === 'mouseover') {
-      country.style.fill = color;
-      country.style.stroke = 'white';
-   }
-   else {
-      country.style.fill = 'white';
-      country.style.stroke = '';
-   }
-}
-
-nextCity.addEventListener('mouseover', highlightCountry, false);
-nextCity.addEventListener('mouseleave', highlightCountry, false);
+// PAGE SPECIFIC
+highlightSVGMap({
+   map: $('#map'),
+   trigger: $('.travels-nextcity'),
+   attr: 'data-area',
+   hover: '#ff7c00',
+   defaultState: '#3652cf'
+});

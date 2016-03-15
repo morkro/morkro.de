@@ -8,19 +8,19 @@
 			.land {
 				fill: #ffffff;
 				fill-opacity: 1;
-				stroke:#3652cf;
+				stroke: #3652cf;
 				stroke-opacity: 1;
-				stroke-width:0.75;
+				stroke-width: 0.75;
 				transition: fill 150ms ease-in-out, stroke 150ms ease-in-out;
 			}
-			/* Visited */
-			#DE, #GB, #CO, #HR, #FR, #CH, #PL, #NL, #BE, #LU, #PE, #CU, #MX,
-			#IT, #TN, #BA, #EC, #AT  {
+			/* Complete */
+			#DE, #CO, #HR, #FR, #CH, #PL, #NL, #BE, #LU, #PE, #CU, #MX,
+			#IT, #TN, #BA, #EC, #AT {
 				fill: #3652cf;
-				stroke:#ffffff;
+				stroke: #ffffff;
 			}
-			/* Not complete */
-			#US {
+			/* Partial */
+			#US, #GB {
 				fill: #3652cf;
 				fill-opacity: 0.25;
 			}
@@ -211,5 +211,6 @@
 	</g>
 	<g xmlns="http://www.w3.org/2000/svg" id="locations">
 		<circle stroke="#ffffff" stroke-width="1" fill="#3652cf" cx="268" cy="339" r="5" title="New York City"/>
+		<circle stroke="#ffffff" stroke-width="1" fill="#3652cf" cx="474" cy="294" r="3" title="London"/>
 	</g>
 </svg>
