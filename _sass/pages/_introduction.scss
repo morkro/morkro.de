@@ -183,7 +183,7 @@ $intro-right-column: 59%;
    display: block;
    width: 100%;
    line-height: 20px;
-   padding: 10px;
+   padding: 15px 10px;
    margin-top: 10px;
 
    svg {
@@ -238,7 +238,7 @@ $intro-right-column: 59%;
  */
 .intro-teaser {
    width: 100%;
-   padding: 45px 0;
+   padding: $base-gap 0;
    background: white;
    text-align: center;
 }
