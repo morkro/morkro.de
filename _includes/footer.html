@@ -1,15 +1,39 @@
 <footer id="page-footer" role="contentinfo">
 	<div class="footer-inner container">
-		{% include menu.html %}
-		{% include socialmedia.html %}
+		<div class="footer-info">
+			<p>
+				I am Moritz Kröger, a German front-end developer, author, and open source contributor who lives in Berlin.
+				I usually go with <strong>morkro</strong> everywhere, but here are a few handy links to my profiles:
+			</p>
 
-		<div class="footer-sub">
+			{% include twitter-button.html %}
+
+			<ul class="footer-socialmedia">
+				<li><a href="{{ site.data.socialnetworks.github.url }}" target="_blank">
+					<svg><use xlink:href="#github"></use></svg>
+				</a></li>
+				<li><a href="{{ site.data.socialnetworks.stackoverflow.url }}" target="_blank">
+					<svg><use xlink:href="#stackoverflow"></use></svg>
+				</a></li>
+				<li><a href="{{ site.data.socialnetworks.linkedin.url }}" target="_blank">
+					<svg><use xlink:href="#linkedin"></use></svg>
+				</a></li>
+				<li><a href="mailto:{{ site.email }}">
+					<svg><use xlink:href="#mail"></use></svg>
+				</a></li>
+				<li><a href="{{ site.data.socialnetworks.codepen.url }}" target="_blank">
+					<svg><use xlink:href="#codepen"></use></svg>
+				</a></li>
+			</ul>
 			<p>© <span class="footer-year">{{ site.time | date: "%Y" }}</span>  Moritz Kröger</p>
+		</div>
+		<div class="footer-menu">
+			{% include menu.html %}
 			<a href="/imprint">Imprint</a>
 		</div>
+	</div>
 
-		<a href="#" class="footer-gotop">
-			<svg><use xlink:href="#arrow-top"></use></svg>
-		</a>
+	<div class="footer-sub container">
+		<a href="#" class="footer-gotop"><svg><use xlink:href="#arrow-top"></use></svg></a>
 	</div>
 </footer>

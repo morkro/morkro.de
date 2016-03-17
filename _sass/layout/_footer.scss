@@ -5,32 +5,39 @@
    width: 100%;
    padding: $base-gap 0 35px;
    text-align: center;
-   background-image: linear-gradient(
-      180deg,
-      $content-background,
-      transparent 10%,
-      transparent 100%
-   );
+   background-color: black;
 
    @include media("<=tablet") {
       padding: 70px 0 20px;
    }
 
    p {
-      color: $shade-of-grey-dark;
-      font-size: 80%;
+      color: $light-grey;
+      font-size: 90%;
+      line-height: 24px;
+   }
+
+   span { font-size: inherit; }
+}
+
+.footer-inner {
+   display: flex;
+   justify-content: space-between;
+
+   > div {
+      width: 50%;
    }
 }
 
-.footer-inner ul:not(.socialmedia) {
-   list-style: none;
-   display: flex;
-   justify-content: center;
-   margin-bottom: 15px;
+.footer-info {
+   text-align: left;
 
-   li {
-      margin: 0 15px;
-   }
+   p:not(:last-of-type) { margin-bottom: 20px; }
+}
+
+.footer-menu {
+   list-style: none;
+   text-align: right;
 
    a, span {
       font-size: 90%;
@@ -38,12 +45,12 @@
    }
 
    a {
-      color: $shade-of-grey-dark;
+      color: white;
       position: relative;
       transition: color 150ms ease-in-out;
 
       &:hover {
-         color: $shade-of-grey-darker;
+         color: $link-color;
 
          &::before { transform: scaleX(1); }
       }
@@ -53,7 +60,7 @@
          height: 2px;
          position: absolute;
          content: "";
-         background-color: $shade-of-grey-darker;
+         background-color: $link-color;
          bottom: -2px;
          left: 0;
          transform: scaleX(0);
@@ -65,35 +72,51 @@
          &::before, &::after { display: none; }
       }
    }
+
+   > a {
+      font-size: 70%;
+   }
 }
 
-.footer-inner .socialmedia {
-   margin-bottom: 30px;
-}
+.footer-socialmedia {
+   margin-left: 15px;
+   margin-bottom: 20px;
+   display: inline-block;
 
-.footer-sub {
-   span {
-      font-size: inherit;
+   svg {
+      width: 22px;
+      height: 22px;
+      fill: white;
+      transition: fill 150ms ease-in-out;
+   }
+
+   li {
+      display: inline-block;
+      margin-right: 15px;
    }
 
    a {
-      font-size: 70%;
+      display: block;
       line-height: 0;
-      color: $shade-of-grey-medium2;
-      transition: color 150ms ease-in-out;
 
-      &:hover { color: $shade-of-grey-dark; }
+      &:hover svg { fill: $link-color; }
+
+      &:active, &:focus {
+         background: none;
+         svg { fill: $link-hover; }
+      }
    }
 }
+
 
 .footer-gotop {
    display: inline-block;
    padding: 0;
-   margin-top: 30px;
+   margin-top: 50px;
 
    svg {
       width: 30px;
       height: 30px;
-      fill: black;
+      fill: white;
    }
 }
