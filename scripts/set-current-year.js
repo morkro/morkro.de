@@ -1,6 +1,7 @@
 'use strict';
 
-export default function setCurrentYear (el) {
-	const text = document.createTextNode(new Date().getFullYear());
-	return el.appendChild(text);
-}
+// Inserts the current year into an element
+export default el => el.replaceChild(
+	document.createTextNode(new Date().getFullYear()), // new node
+	el.childNodes[0] // old node
+);

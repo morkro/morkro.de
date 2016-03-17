@@ -1,19 +1,15 @@
 <footer id="page-footer" role="contentinfo">
 	<div class="footer-inner container">
-		<div class="inner-left">
-			<p>I'm a German front-end developer who lives and works in Berlin.</p>
-			{% include socialmedia.html %}
-		</div>
+		{% include menu.html %}
+		{% include socialmedia.html %}
 
-		<div class="inner-right">
-			{% include menu.html %}
-		</div>
-	</div>
-
-	<div class="footer-bottom">
-		<div class="container">
+		<div class="footer-sub">
 			<p>© <span class="footer-year">{{ site.time | date: "%Y" }}</span>  Moritz Kröger</p>
 			<a href="/imprint">Imprint</a>
 		</div>
+
+		<a href="#" class="footer-gotop">
+			<svg><use xlink:href="#arrow-top"></use></svg>
+		</a>
 	</div>
 </footer>

@@ -34,7 +34,7 @@
 
 	<link rel="shortcut icon" href="/../assets/favicon.ico">
 	<link rel="author" href="humans.txt">
-	<link rel="stylesheet" type="text/css" href="/../css/main.css?v=20164615">
+	<link rel="stylesheet" type="text/css" href="/../css/main.css?v=20160717">
 </head>
 <body class="template-default">
 	<svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
@@ -74,6 +74,9 @@
    </symbol>
    <symbol id="home" viewBox="0 0 24 24">
       <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+   </symbol>
+   <symbol id="arrow-top" viewBox="0 0 24 24">
+      <path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
    </symbol>
    <svg id="arrow-down" viewBox="0 0 24 24">
       <path d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" />
@@ -170,9 +173,9 @@
 	      </p>
 		</div>
 
-      <blockquote>
+      <div class="special-info">
          <p>In case you haven't found out my secret yet: <strong>morkro</strong> is a clever abbreviation of my name.</p>
-      </blockquote>
+      </div>
 
 		<div class="about-code">
 			<div class="about-mark">
@@ -212,16 +215,12 @@
 				stroke-width: 0.75;
 				transition: fill 150ms ease-in-out, stroke 150ms ease-in-out;
 			}
-			/* Complete */
+			/* Visited */
 			#DE, #CO, #HR, #FR, #CH, #PL, #NL, #BE, #LU, #PE, #CU, #MX,
-			#IT, #TN, #BA, #EC, #AT {
+			#IT, #TN, #BA, #EC, #AT, #US, #GB {
 				fill: #3652cf;
+				/*fill-opacity: 0.25;*/
 				stroke: #ffffff;
-			}
-			/* Partial */
-			#US, #GB {
-				fill: #3652cf;
-				fill-opacity: 0.25;
 			}
 		</style>
 		<amcharts:ammap projection="mercator" leftLongitude="-169.6" topLatitude="83.68" rightLongitude="190.25" bottomLatitude="-55.55"></amcharts:ammap>
@@ -408,10 +407,6 @@
 		<path id="ZM" title="Zambia" class="land" d="M567.11,489.21L568.43,490.47L569.14,492.87L568.66,493.64L568.1,495.94L568.64,498.3L567.76,499.29L566.91,501.95L568.38,502.69L559.87,505.07L560.14,507.12L558.01,507.52L556.42,508.67L556.08,509.68L555.07,509.9L552.63,512.3L551.08,514.19L550.13,514.26L549.22,513.92L546.09,513.6L545.59,513.38L545.56,513.14L544.46,512.48L542.64,512.31L540.34,512.98L538.51,511.16L536.62,508.78L536.75,499.62L542.59,499.66L542.35,498.67L542.77,497.6L542.28,496.27L542.6,494.89L542.3,494.01L543.27,494.08L543.43,494.96L544.74,494.89L546.52,495.15L547.46,496.44L549.7,496.84L551.42,495.94L552.05,497.43L554.2,497.83L555.23,499.05L556.38,500.62L558.53,500.65L558.29,497.57L557.52,498.08L555.56,496.98L554.8,496.47L555.15,493.62L555.65,490.27L555.02,489.02L555.82,487.22L556.57,486.89L560.34,486.41L561.44,486.7L562.61,487.41L563.73,487.89L565.51,488.36z"/>
 		<path id="ZW" title="Zimbabwe" class="land" d="M562.71,527L561.22,526.7L560.27,527.06L558.92,526.55L557.78,526.52L555.99,525.16L553.82,524.7L553,522.8L552.99,521.75L551.79,521.43L548.62,518.18L547.73,516.47L547.17,515.95L546.09,513.6L549.22,513.92L550.13,514.26L551.08,514.19L552.63,512.3L555.07,509.9L556.08,509.68L556.42,508.67L558.01,507.52L560.14,507.12L560.32,508.2L562.66,508.14L563.96,508.75L564.56,509.47L565.9,509.68L567.35,510.62L567.36,514.31L566.81,516.35L566.69,518.55L567.14,519.43L566.83,521.17L566.4,521.44L565.66,523.59z"/>
 	</g>
-	<g xmlns="http://www.w3.org/2000/svg" id="locations">
-		<circle stroke="#ffffff" stroke-width="1" fill="#3652cf" cx="268" cy="339" r="5" title="New York City"/>
-		<circle stroke="#ffffff" stroke-width="1" fill="#3652cf" cx="474" cy="294" r="3" title="London"/>
-	</g>
 </svg></div>
 
 		<div class="travels-next container">
@@ -421,15 +416,37 @@
 					<span>(May, 2016)</span>
 			</p>
 		</div>
+
+		<div class="container">
+			<p>
+				At this point I would like to show some fancy pictures I am taking during my travels, but the thruth is, I never really document any of it. Walking around with my phone (or a huge camera), is such a distracting thing to do for me. One of the reasons <a href="https://instagram.com/morkro/" target="_blank">Instagram</a> never really worked for me.
+			</p>
+		</div>
    </section>
 </div>
 	</main>
 
 	<footer id="page-footer" role="contentinfo">
 	<div class="footer-inner container">
-		<div class="inner-left">
-			<p>I'm a German front-end developer who lives and works in Berlin.</p>
-			<ul class="socialmedia">
+		<ul>
+   <li><a href="/">
+      <span>Introduction</span>
+      <svg style="display:none;"><use xlink:href="#home"></use></svg>
+   </a></li>
+   <li><a href="/is">
+      <span>About</span>
+      <svg style="display:none;"><use xlink:href="#fingerprint"></use></svg>
+   </a></li>
+   <li><a href="/writes">
+      <span>Articles</span>
+      <svg style="display:none;"><use xlink:href="#articles"></use></svg>
+   </a></li>
+   <li><a href="/builds">
+      <span>Projects</span>
+      <svg style="display:none;"><use xlink:href="#compass"></use></svg>
+   </a></li>
+</ul>
+		<ul class="socialmedia">
 	<li><a href="https://twitter.com/morkro" target="_blank">
 		<svg><use xlink:href="#twitter"></use></svg>
 	</a></li>
@@ -449,38 +466,18 @@
 		<svg><use xlink:href="#codepen"></use></svg>
 	</a></li>
 </ul>
-		</div>
 
-		<div class="inner-right">
-			<ul>
-   <li><a href="/">
-      <span>Introduction</span>
-      <svg style="display:none;"><use xlink:href="#home"></use></svg>
-   </a></li>
-   <li><a href="/is">
-      <span>About</span>
-      <svg style="display:none;"><use xlink:href="#fingerprint"></use></svg>
-   </a></li>
-   <li><a href="/writes">
-      <span>Articles</span>
-      <svg style="display:none;"><use xlink:href="#articles"></use></svg>
-   </a></li>
-   <li><a href="/builds">
-      <span>Projects</span>
-      <svg style="display:none;"><use xlink:href="#compass"></use></svg>
-   </a></li>
-</ul>
-		</div>
-	</div>
-
-	<div class="footer-bottom">
-		<div class="container">
+		<div class="footer-sub">
 			<p>© <span class="footer-year">2016</span>  Moritz Kröger</p>
 			<a href="/imprint">Imprint</a>
 		</div>
+
+		<a href="#" class="footer-gotop">
+			<svg><use xlink:href="#arrow-top"></use></svg>
+		</a>
 	</div>
 </footer>
-	<script src="/../assets/main.min.js?v=20164615"></script>
+	<script src="/../assets/main.min.js?v=20160717"></script>
 
 
 </body>

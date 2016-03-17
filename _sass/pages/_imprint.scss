@@ -1,0 +1,23 @@
+/**
+ * IMPRINT
+ */
+$imprint-left-column: 41%;
+$imprint-right-column: 59%;
+
+.imprint-wrap {
+   display: flex;
+}
+
+.imprint-info {
+   width: $imprint-left-column;
+   text-align: right;
+
+   address {
+      margin-bottom: 30px;
+   }
+}
+
+.imprint-services {
+   padding-left: 60px;
+   width: $imprint-right-column;
+}
