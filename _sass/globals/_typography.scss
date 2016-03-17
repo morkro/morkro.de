@@ -96,15 +96,12 @@ a {
 /**
  * Code
  */
-code, kbd, pre, samp {
-	color: $code-color;
+code:not([data-lang]), kbd, pre:not([data-lang]), samp {
+	color: $special-text-color;
 	font-family: $RobotoMono;
 	font-size: 85%;
-	font-weight: 300;
-	background-color: $shade-of-grey-light;
-	border-radius: 3px;
+	font-weight: 400;
 	vertical-align: baseline;
-	padding: 0 4px 2px;
 	white-space: nowrap;
 }
 
