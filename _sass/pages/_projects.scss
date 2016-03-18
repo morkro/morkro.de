@@ -1,0 +1,49 @@
+/**
+ * PROJECTS
+ */
+$project-preview-width: 100px;
+$project-preview-gap: 30px;
+
+.projects-list {
+   width: 100%;
+   list-style: none;
+
+   li {
+      background: white;
+      display: flex;
+
+      &:nth-child(2n) {
+         margin: 4px 0;
+      }
+   }
+
+   a {
+      display: block;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      position: relative;
+      @extend .container;
+   }
+
+   h2 {
+      margin: 0 0 10px;
+      font-family: $RobotoMono;
+      font-size: 145%;
+      line-height: 24px;
+      letter-spacing: -1px;
+   }
+
+   img {
+      width: $project-preview-width;
+      height: auto;
+      float: left;
+      margin-right: $project-preview-gap;
+   }
+
+   p {
+      padding-left: $project-preview-width + $project-preview-gap;
+      color: $shade-of-grey-dark;
+      font-size: 85%;
+      line-height: 24px;
+   }
+}

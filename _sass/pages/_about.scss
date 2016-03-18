@@ -22,7 +22,7 @@
       display: inline-block;
       margin-top: 12px;
 
-      &:hover svg { transform: translateY(50%); }
+      &:hover svg { transform: translateY(25%); }
 
       @include media("<=tablet") {
          display: none;

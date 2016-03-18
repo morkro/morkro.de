@@ -10,8 +10,7 @@
       background: white;
 
       &:nth-child(2n) {
-         border-top: 4px solid $shade-of-grey-light;
-         border-bottom: 4px solid $shade-of-grey-light;
+         margin: 4px 0;
       }
    }
 

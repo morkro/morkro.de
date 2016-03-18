@@ -11,6 +11,7 @@ title: Projects | Moritz Kröger
       {% for project in site.data.projects %}
       <li>
          <a href="{{ project.url }}" target="_blank">
+            <img src="{{ project.img }}" alt="Picture of {{ project.title }}">
             <h2>{{ project.title }}</h2>
             <p>{{ project.description }}</p>
          </a>
