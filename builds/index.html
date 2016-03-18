@@ -6,4 +6,20 @@ title: Projects | Moritz Kröger
    <div class="headline-gradient container">
 		<h1 title="Let's build something together">Let's build something together</h1>
 	</div>
+
+   <ul class="projects-list">
+      {% for project in site.data.projects %}
+      <li>
+         <a href="{{ project.url }}" target="_blank">
+            <h2>{{ project.title }}</h2>
+            <p>{{ project.description }}</p>
+         </a>
+      </li>
+      {% endfor %}
+   </ul>
+
+   <a href="{{ site.data.socialnetworks.codepen.url }}" target="_blank">
+      Check out my recent snippets on <span>CodePen</span>
+      <svg><use xlink:href="#arrow-right"></use></svg>
+   </a>
 </div>

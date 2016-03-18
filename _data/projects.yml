@@ -1,10 +1,16 @@
 - frontbook:
-  logo: "../assets/logos/frontbook.svg"
+  img: "../assets/logos/frontbook.svg"
   title: "FrontBook"
-  description: "A small and modern frontend boilerplate, enabling you to write ES6 today in production-ready projects."
+  description: "FrontBook is my personal front-end boilerplate specialised on a proper ES6 transpiling process. It is available for Grunt and Gulp by now; other setups are in planning."
   url: "https://github.com/morkro/FrontBook"
 
+- emoji-syntax:
+  img: "../assets/projects/emoji-syntax.jpg"
+  title: "Emoji Syntax"
+  description: "Emoji Syntax is my latest project for the Atom text editor, a hackable editor for the 21st century. The project started out as a joke and eventually turned out to be a real thing. Emoji are everywhere today, why not just use them to support a developer scanning code?"
+  url: "https://github.com/morkro/atom-emoji-syntax"
+  
 - browdash:
-  title: "BrowDash<span>[alpha]</span>"
+  title: "BrowDash"
   description: "A fully customisable dashboard as Chrome extension, written with native Web Components and ES6."
   url: "https://github.com/morkro/BrowDash"

@@ -51,6 +51,13 @@
          margin-bottom: 20px;
       }
    }
+
+   p > a {
+      color: white;
+      cursor: text;
+      font-style: italic;
+      font-weight: 400;
+   }
 }
 
 .footer-menu {

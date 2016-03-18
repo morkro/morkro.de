@@ -1,12 +1,12 @@
 /* TEAM */
-Developer: Moritz Kröger
+Developer: Moritz Kröger — Front-end developer, author and open source contributor
 Contact: write@morkro.de
 Twitter: @
 Github: 
 Location: Berlin, Germany
 
 /* SITE */
-Last Update: 17 March 2016
+Last Update: 18 March 2016
 Language: English
 Standards: HTML5, CSS3, JavaScript
 Components: Ruby on Rails, Sass, Jekyll
