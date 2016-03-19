@@ -11,13 +11,12 @@
   url: "https://github.com/morkro/FrontBook"
 
 - domtimer:
-  img: ""
+  img: "../assets/projects/domtimer.jpg"
   title: "DOMtimer"
-  description: "A simple module to receive, set and count time on your interface."
+  description: "A front-end module to receive, set or count time for the DOM."
   url: "https://github.com/morkro/DOMtimer"
 
 - browdash:
-  img: "../assets/projects/browdash.jpg"
   title: "BrowDash"
   description: "This is a proof of concept extension for Google Chrome. I wanted to get to know the limits and feasibility of the Web Components specification. BrowDash is a customisable dashboard with widgets like weather, to-do lists, calculator and more."
   url: "https://github.com/morkro/BrowDash"

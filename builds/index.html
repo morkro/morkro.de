@@ -10,15 +10,16 @@ title: Projects | Moritz Kröger
 
       <p>
          I am working on a lot of different projects, but here I'm focused on my favorite personal work.
-         I am an active translator and developer on the <a href="http://sass-guidelin.es" target="_blank">Sass-Guidelines</a> project by Hugo Giraudel.
       </p>
    </div>
 
    <ul class="projects-list">
       {% for project in site.data.projects %}
-      <li>
+      <li {% if project.img %}class="has-image"{% endif %}>
          <a href="{{ project.url }}" target="_blank">
+            {% if project.img %}
             <img src="{{ project.img }}" alt="Picture of {{ project.title }}">
+            {% endif %}
             <h2>{{ project.title }}</h2>
             <p>{{ project.description }}</p>
          </a>
