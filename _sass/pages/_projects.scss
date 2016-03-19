@@ -4,9 +4,14 @@
 $project-preview-width: 100px;
 $project-preview-gap: 30px;
 
+.projects {
+   p { margin-top: $base-gap; }
+}
+
 .projects-list {
    width: 100%;
    list-style: none;
+   margin-top: $base-gap;
 
    li {
       background: white;
@@ -41,6 +46,7 @@ $project-preview-gap: 30px;
    }
 
    p {
+      margin-top: 0;
       padding-left: $project-preview-width + $project-preview-gap;
       color: $shade-of-grey-dark;
       font-size: 85%;

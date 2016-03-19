@@ -5,6 +5,5 @@ external:
 layout: post
 title: "ES2016: Should the Future of JavaScript Be Developer-Driven?"
 tags:
- - ecmascript2016
  - javascript
 ---

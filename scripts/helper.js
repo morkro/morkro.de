@@ -25,4 +25,18 @@ const easeInOutQuint = function (time, start, change, duration) {
 	return change / 2 * ((time -= 2) * time * time * time * time + 2) + start;
 };
 
-export { $, $$, getOffset, requestAnimFrame, easeInOutQuint };
+const windowPosition = function () {
+	return this.window && this.window.scrollTop ||
+		(document.documentElement.scrollTop ||
+		document.body.parentNode.scrollTop ||
+		document.body.scrollTop);
+};
+
+export {
+	$,
+	$$,
+	getOffset,
+	requestAnimFrame,
+	easeInOutQuint,
+	windowPosition
+};

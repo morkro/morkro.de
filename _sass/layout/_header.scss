@@ -68,7 +68,7 @@
 
    .active {
       color: $link-color;
-      cursor: default;
+      cursor: text;
 
       &::after {
          width: 100%;

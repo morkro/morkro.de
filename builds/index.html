@@ -2,10 +2,17 @@
 layout: default
 title: Projects | Moritz Kröger
 ---
-<div class="content-inner">
-   <div class="headline-gradient container">
-		<h1 title="Let's build something together">Let's build something together</h1>
-	</div>
+<div class="content-inner projects">
+   <div class="container">
+      <div class="headline-gradient">
+   		<h1 title="Let's build something together">Let's build something together</h1>
+   	</div>
+
+      <p>
+         I am working on a lot of different projects, but here I'm focused on my favorite personal work.
+         I am an active translator and developer on the <a href="http://sass-guidelin.es" target="_blank">Sass-Guidelines</a> project by Hugo Giraudel.
+      </p>
+   </div>
 
    <ul class="projects-list">
       {% for project in site.data.projects %}
@@ -18,9 +25,4 @@ title: Projects | Moritz Kröger
       </li>
       {% endfor %}
    </ul>
-
-   <a href="{{ site.data.socialnetworks.codepen.url }}" target="_blank">
-      Check out my recent snippets on <span>CodePen</span>
-      <svg><use xlink:href="#arrow-right"></use></svg>
-   </a>
 </div>

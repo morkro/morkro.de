@@ -13,11 +13,7 @@ setNavigationState({
    url: ['/', '/is', '/writes', '/builds']
 });
 
-scrollTo({
-   elements: $$('[data-scrollto]') ,
-   speed: 333,
-   offset: 10
-});
+scrollTo({ elements: $$('[data-scrollto]'), speed: 333 });
 
 setCurrentYear( $('.footer-year') );
 

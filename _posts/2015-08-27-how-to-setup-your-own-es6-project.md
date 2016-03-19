@@ -3,7 +3,7 @@ layout: post
 title: "How to setup an ES6 production-ready project"
 excerpt: "As ES6 is really hyped this year and the specification has eventually been finished, I wanted to start using it. By today I have turned almost all my private projects and a couple of client projects into a solid ES6 setup."
 tags:
- - ecmascript2015
+ - javascript
 ---
 
 As ES6 is really hyped this year and the specification has eventually been finished, I wanted to start using it. I have been _(okay I still am)_ the guy at work who took every chance talking about ES6 and all the glory it provides. Which might not have been the best idea with a lot of back-end developers joining the discussion:
