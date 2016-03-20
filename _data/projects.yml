@@ -11,7 +11,7 @@
   url: "https://github.com/morkro/FrontBook"
 
 - domtimer:
-  img: "../assets/projects/domtimer.jpg"
+  img: "../assets/projects/domtimer.svg"
   title: "DOMtimer"
   description: "A front-end module to receive, set or count time for the DOM."
   url: "https://github.com/morkro/DOMtimer"

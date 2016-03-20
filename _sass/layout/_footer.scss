@@ -11,12 +11,6 @@
       padding: 70px 0 20px;
    }
 
-   p {
-      color: $light-grey;
-      font-size: 90%;
-      line-height: 24px;
-   }
-
    span { font-size: inherit; }
 }
 
@@ -50,6 +44,12 @@
       @include media("<=422px") {
          margin-bottom: 20px;
       }
+   }
+
+   p {
+      color: $light-grey;
+      font-size: 90%;
+      line-height: 24px;
    }
 
    p > a {
@@ -137,6 +137,19 @@
          background: none;
          svg { fill: $link-hover; }
       }
+   }
+}
+
+.footer-engine {
+   margin-top: 50px;
+   text-align: center;
+   font-size: 70%;
+   color: rgba(255, 255, 255, .5);
+
+   a {
+      color: white;
+      transition: color 150ms ease-in-out;
+      &:hover { color: $link-color; }
    }
 }
 

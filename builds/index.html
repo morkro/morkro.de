@@ -16,7 +16,7 @@ classes: projects
 
    <ul class="projects-list">
       {% for project in site.data.projects %}
-      <li {% if project.img %}class="has-image"{% endif %}>
+      <li class="project-{{ project.title | downcase | replace:' ','' }} {% if project.img %}has-image{% endif %}">
          <a href="{{ project.url }}" target="_blank">
             {% if project.img %}
             <img src="{{ project.img }}" alt="Picture of {{ project.title }}">

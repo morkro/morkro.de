@@ -12,21 +12,30 @@ $project-preview-gap: 30px;
    width: 100%;
    list-style: none;
    margin-top: $base-gap;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
 
    li {
       background: white;
       display: flex;
+      width: calc(50% - 2px);
+      margin-bottom: 4px;
+      justify-content: flex-end;
 
-      &:nth-child(2n) {
-         margin: 4px 0;
+      &:nth-child(2n) a {
+         margin-right: auto;
       }
+
+      &.has-image h2 { display: none; }
    }
 
    a {
       display: block;
-      padding-top: 20px;
-      padding-bottom: 20px;
+      margin: 0;
+      padding: 20px;
       position: relative;
+      width: $page-width-half;
       @extend .container;
    }
 
@@ -36,13 +45,6 @@ $project-preview-gap: 30px;
       font-size: 145%;
       line-height: 24px;
       letter-spacing: -1px;
-   }
-
-   img {
-      width: $project-preview-width;
-      height: auto;
-      float: left;
-      margin-right: $project-preview-gap;
    }
 
    p {

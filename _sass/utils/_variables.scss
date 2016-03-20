@@ -33,7 +33,7 @@ $large-base-width:      1040px;
 $page-padding:          20px;
 $page-width:            #{$base-width + (2 * $page-padding)};
 $page-width-large:      #{$large-base-width + (2 * $page-padding)};
-$page-width-half:       #{$base-width / 2};
+$page-width-half:       #{($base-width / 2) + $page-padding};
 $base-gap:              75px;
 
 /**

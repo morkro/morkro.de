@@ -159,7 +159,6 @@
       }
 
       &:first-of-type a {
-         padding: $page-padding $page-padding $page-padding 0;
          text-align: right;
          &:hover ~ svg { transform: translateX(-15px); }
       }
@@ -168,7 +167,7 @@
    a {
       display: block;
       width: $page-width-half;
-      padding: $page-padding 0 $page-padding $page-padding;
+      padding: $page-padding;
       font-family: $RobotoMono;
       font-weight: 400;
       line-height: 24px;
