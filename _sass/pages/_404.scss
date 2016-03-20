@@ -1,0 +1,21 @@
+/**
+ * 404
+ */
+.template-404 .headline-gradient {
+   margin-bottom: $base-gap;
+}
+
+.content-404 {
+   padding-bottom: $base-gap;
+   text-align: center;
+
+   a:hover svg { transform: translateX(25%); }
+
+   svg {
+      width: 30px;
+      height: 30px;
+      vertical-align: middle;
+      transform: translateX(0);
+      transition: transform 150ms $easeOutBack;
+   }
+}

@@ -31,7 +31,12 @@
 .header-name {
    margin: 0;
    font-size: 130%;
-   letter-spacing: 0;
+
+   a {
+      color: $special-text-color;
+      font-weight: 400;
+      letter-spacing: 0;
+   }
 
    @include media("<=tablet") {
       display: block;
