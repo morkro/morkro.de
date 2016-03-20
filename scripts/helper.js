@@ -26,10 +26,9 @@ const easeInOutQuint = function (time, start, change, duration) {
 };
 
 const windowPosition = function () {
-	return this.window && this.window.scrollTop ||
-		(document.documentElement.scrollTop ||
+	return document.documentElement.scrollTop ||
 		document.body.parentNode.scrollTop ||
-		document.body.scrollTop);
+		document.body.scrollTop;
 };
 
 export {

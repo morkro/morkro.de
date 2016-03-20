@@ -216,7 +216,10 @@ $intro-right-column: 59%;
       }
    }
 
-   a { font-size: 80%; }
+   a {
+      font-size: 80%;
+      &:hover svg { fill: $special-text-color; }
+   }
 
    span { font-size: inherit; }
 
@@ -225,6 +228,7 @@ $intro-right-column: 59%;
       width: 15px;
       height: 15px;
       transform: translateY(2px);
+      transition: fill 150ms ease-in-out;
 
       @include media("<=450px") {
          width: 30px;

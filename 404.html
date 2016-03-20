@@ -1,39 +1,17 @@
 ---
 layout: default
 title: 404 | Moritz Kröger
+classes: 404
 ---
 
-<div id="main-content" class="content-error">
-	<aside class="content-aside">
-		<div class="aside-navigation" role="complementary">
-			{% include header.html %}
-			<div href="/" class="aside__author">
-				{% include author-img.html %}
-			</div>
-			
-		</div>
-	</aside>
+<div class="content-inner container">
+	<div class="headline-gradient">
+		<h1 title="You broke it!">You broke it!</h1>
+	</div>
 
-	<section class="content-body">
-		<header class="content-heading">
-			<h1 title="Woah! How did you find out about this place?">Woah! How did you find out about this place?</h1>
-		</header>
-		<p>
-			This is a really <span class="error__secret">secret area</span> and I'm a bit surprised you got here.<br>
-			But it could also just be a <strong>404 page</strong>, who knows ( ͡~ ͜ʖ ͡°)
-		</p>
+	<p>Don't worry, looks like the page you requested just doesn't exist.</p>
 
-		<form name="error__form" class="error__form">
-			<div class="error__caption">
-				<h2>Let's find out then!</h2>
-				<p>Type in the mighty password:</p>
-			</div>
-			<div class="error__gate">
-				<input type="password" placeholder="****" name="error__password" role="textbox">
-				<button type="button" class="btn btn-link">Get me in!</button>
-			</div>
-		</form>
-
-		{% include footer.html %}
-	</section>
+	<a href="/">
+		I'll guide you out of here <svg><use xlink:href="#arrow-right"></use></svg>
+	</a>
 </div>

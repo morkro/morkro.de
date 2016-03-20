@@ -31,7 +31,7 @@
 .header-name {
    margin: 0;
    font-size: 130%;
-   letter-spacing: -1px;
+   letter-spacing: 0;
 
    @include media("<=tablet") {
       display: block;
