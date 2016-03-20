@@ -4,7 +4,8 @@
 $project-preview-width: 100px;
 $project-preview-gap: 30px;
 
-.projects {
+.template-projects {
+   .content-inner { padding-bottom: $base-gap; }
    p { margin-top: $base-gap; }
 }
 
@@ -28,6 +29,16 @@ $project-preview-gap: 30px;
       }
 
       &.has-image h2 { display: none; }
+   }
+
+   .project-emojisyntax {
+      h2 { display: block !important; }
+      img {
+         width: 120px;
+         float: left;
+         margin-right: 20px;
+      }
+      p { padding-left: 140px; }
    }
 
    a {
@@ -56,5 +67,13 @@ $project-preview-gap: 30px;
       .has-image & {
          padding-left: $project-preview-width + $project-preview-gap;
       }
+   }
+}
+
+.projects-further {
+   svg {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
    }
 }
