@@ -21,21 +21,15 @@
    @include media("<=tablet") {
       display: block;
    }
-
-   > div {
-      width: 50%;
-
-      @include media("<=tablet") {
-         width: 100%;
-      }
-   }
 }
 
 .footer-info {
    text-align: left;
+   width: 60%;
 
    @include media("<=tablet") {
       text-align: center;
+      width: 100%;
    }
 
    p:not(:last-of-type) { margin-bottom: 20px; }
@@ -46,13 +40,19 @@
       }
    }
 
-   p {
+   > p {
+      width: 90%;
       color: $light-grey;
       font-size: 90%;
       line-height: 24px;
+      margin-bottom: 25px;
+
+      @include media("<=tablet") {
+         width: 100%;
+      }
    }
 
-   p > a {
+   > p > a {
       color: white;
       cursor: text;
       font-style: italic;
@@ -62,10 +62,12 @@
 
 .footer-menu {
    text-align: right;
+   width: 40%;
 
    @include media("<=tablet") {
       text-align: center;
       margin-top: 50px;
+      width: 100%;
    }
 
    a, span {
@@ -140,11 +142,16 @@
    }
 }
 
-.footer-engine {
-   margin-top: 50px;
-   text-align: center;
-   font-size: 70%;
-   color: rgba(255, 255, 255, .5);
+.footer-content {
+   p {
+      text-align: left;
+      font-size: 70%;
+      color: rgba(255, 255, 255, .5);
+
+      @include media("<=tablet") {
+         text-align: center;
+      }
+   }
 
    a {
       color: white;

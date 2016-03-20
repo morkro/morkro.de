@@ -25,7 +25,14 @@
 					<svg><use xlink:href="#codepen"></use></svg>
 				</a></li>
 			</ul>
-			<p>© <span class="footer-year">{{ site.time | date: "%Y" }}</span>  Moritz Kröger</p>
+
+			<div class="footer-content">
+				<p>
+					This website is made with <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>. All content and source code is available as <a href="https://github.com/morkro/morkro.de" target="_blank">open source</a>.
+					<br>
+					© <span class="footer-year">{{ site.time | date: "%Y" }}</span>  Moritz Kröger
+				</p>
+			</div>
 		</div>
 		<div class="footer-menu">
 			{% include menu.html %}
@@ -34,9 +41,6 @@
 	</div>
 
 	<div class="footer-sub container">
-		<p class="footer-engine">
-			This website is made with <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>. All content and source code is available as <a href="https://github.com/morkro/morkro.de" target="_blank">open source</a>.
-		</p>
 		<a href="#" class="footer-gotop" data-scrollto="#"><svg><use xlink:href="#arrow-top"></use></svg></a>
 	</div>
 </footer>
