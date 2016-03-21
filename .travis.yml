@@ -8,6 +8,7 @@ before_install:
   - rvm install 2.2.2
   - gem install jekyll
   - gem install octopress-autoprefixer
+  - gem install jekyll-paginate
 install:
   - npm install
 script:
