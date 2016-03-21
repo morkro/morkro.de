@@ -3,7 +3,7 @@ branches:
   only:
      - redesign
 node_js:
-  - 4.4.0
+  - "stable"
 before_install:
   - rvm install 2.2.2
   - gem install jekyll
@@ -14,4 +14,4 @@ install:
 script:
   - npm run dev
 after_success:
-  "curl -T index.html -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_HOST/$FTP_PATH"
+  "curl -T _public/index.html -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_HOST/$FTP_PATH"
