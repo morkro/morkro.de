@@ -4,6 +4,7 @@
       "compress": "uglifyjs scripts/main.min.js > assets/main.min.js -c",
       "js": "npm run bundle && npm run compress",
       "start": "npm run js && jekyll s --watch",
+      "dev": "npm run js && jekyll build",
       "prod": "npm run js && JEKYLL_ENV=PROD jekyll build"
    },
    "browserify": {
