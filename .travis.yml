@@ -10,6 +10,6 @@ before_install:
 install:
   - npm install
 script:
-  - npm dev
+  - npm run dev
 after_success:
   "curl -T index.html -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_HOST/$FTP_PATH"
