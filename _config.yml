@@ -23,6 +23,7 @@ exclude:
    - node_modules
    - package.json
    - scripts
+   - deploy.sh
 include:
    - .htaccess
    - scripts/main.min.js

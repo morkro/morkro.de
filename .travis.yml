@@ -14,4 +14,4 @@ install:
 script:
   - npm run dev
 after_success:
-  "curl -T _public/index.html -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_HOST/$FTP_PATH"
+  - ./deploy.sh
