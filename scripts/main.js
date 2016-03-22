@@ -3,9 +3,10 @@
 import { $, $$ } from './helper';
 import setNavigationState from './set-navigation-state';
 import currentPage from './current-page';
-import Scrollex from './scrollex';
 import setCurrentYear from './set-current-year';
 import highlightSVGMap from './highlight-svg-map';
+import Scrollex from './scrollex';
+import AnchoredHeadline from './anchored-headlines';
 
 // GENERAL
 const navigationConfig = {
@@ -33,6 +34,10 @@ if (currentPage('about')) {
 	   hover: '#ff7c00',
 	   defaultState: '#3652cf'
 	};
-	
+
 	highlightSVGMap(mapConfig);
+}
+else if (currentPage('article')) {
+   const anchor = new AnchoredHeadline($('.article-body'));
+   anchor.init();
 }
