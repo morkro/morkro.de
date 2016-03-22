@@ -2,6 +2,7 @@
 layout: post
 title: "How to setup an ES6 production-ready project"
 excerpt: "As ES6 is really hyped this year and the specification has eventually been finished, I wanted to start using it. By today I have turned almost all my private projects and a couple of client projects into a solid ES6 setup."
+classes: article
 tags:
  - javascript
 ---

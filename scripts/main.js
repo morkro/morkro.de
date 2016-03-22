@@ -6,7 +6,6 @@ import currentPage from './current-page';
 import setCurrentYear from './set-current-year';
 import highlightSVGMap from './highlight-svg-map';
 import Scrollex from './scrollex';
-import AnchoredHeadline from './anchored-headlines';
 
 // GENERAL
 const navigationConfig = {
@@ -36,8 +35,4 @@ if (currentPage('about')) {
 	};
 
 	highlightSVGMap(mapConfig);
-}
-else if (currentPage('article')) {
-   const anchor = new AnchoredHeadline($('.article-body'));
-   anchor.init();
 }

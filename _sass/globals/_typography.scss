@@ -98,6 +98,8 @@ a {
  */
 code:not([data-lang]), kbd, pre:not([data-lang]), samp {
 	color: $special-text-color;
+	background: rgba(255, 255, 255, .5);
+	padding: 0 2px;
 	font-family: $RobotoMono;
 	font-size: 85%;
 	font-weight: 400;
