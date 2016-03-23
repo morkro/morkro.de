@@ -9,16 +9,15 @@ branches:
 node_js:
   - "stable"
 before_install:
+  - lftp -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
+  - rm -r $FTP_PATH; exit
+install:
   - rvm install 2.2.2
   - gem install jekyll
   - gem install octopress-autoprefixer
   - gem install jekyll-paginate
-  - lftp -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
-  - rm -r $FTP_PATH
-install:
   - npm install
 script:
   - npm run dev
 after_success:
-  - cd _public
-  - find . -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://$FTP_HOST/$FTP_PATH{} \;
+  - lftp -e "mirror -R $PROJECT_PATH $FTP_PATH ; exit" -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
