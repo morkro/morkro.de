@@ -19,4 +19,4 @@ install:
 script:
   - npm run dev
 after_success:
-  - lftp -e "mirror -R -i .htaccess -i robots.txt ${PROJECT_PATH} ${FTP_PATH}; bye" -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
+  - lftp -e "mirror -R ${PROJECT_PATH} ${FTP_PATH}; mv ${FTP_PATH}/robots-pre.txt ${FTP_PATH}/robots.txt; mv ${FTP_PATH}/.htaccess-pre ${FTP_PATH}/.htaccess; bye" -u $FTP_USER,$FTP_PASSWORD $FTP_HOST

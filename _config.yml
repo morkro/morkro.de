@@ -20,7 +20,7 @@ exclude: [
    "node_modules", "package.json", "scripts"
 ]
 include:
-  - .htaccess
+  - .htaccess-pre
   - scripts/main.min.js
 
 # Plugins
