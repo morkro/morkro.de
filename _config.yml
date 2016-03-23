@@ -11,22 +11,17 @@ paginate: 10
 paginate_path: /writes/:num/
 
 # Where things are
-destination: dist
+destination: _public
 
 # Build
 encoding: "utf-8"
-exclude:
-   - README.md
-   - Gemfile
-   - .gitignore
-   - npm-debug.log
-   - node_modules
-   - package.json
-   - scripts
-   - deploy.sh
+exclude: [
+   "README.md", "Gemfile", ".gitignore", "npm-debug.log",
+   "node_modules", "package.json", "scripts"
+]
 include:
-   - .htaccess
-   - scripts/main.min.js
+  - .htaccess
+  - scripts/main.min.js
 
 # Plugins
 gems:
