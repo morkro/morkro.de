@@ -17,6 +17,7 @@
   url: "https://github.com/morkro/DOMtimer"
 
 - browdash:
+  img: "../assets/projects/browdash.png"
   title: "BrowDash"
   description: "This is a proof of concept extension for Google Chrome. I wanted to get to know the limits and feasibility of the Web Components specification. BrowDash is a customisable dashboard with widgets like weather, to-do lists, calculator and more."
   url: "https://github.com/morkro/BrowDash"
