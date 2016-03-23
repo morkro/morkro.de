@@ -9,8 +9,7 @@ branches:
 node_js:
   - "stable"
 before_install:
-  - set ftp:list-options -a
-  - lftp -e "rm -r ${FTP_PATH}; bye" -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
+  - lftp -e "set ftp:list-options -a; rm -r ${FTP_PATH}; bye" -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
 install:
   - rvm install 2.2.2
   - gem install jekyll
