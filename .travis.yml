@@ -1,4 +1,8 @@
 language: node_js
+addons:
+  apt:
+    packages:
+      - lftp
 branches:
   only:
      - redesign
@@ -9,9 +13,12 @@ before_install:
   - gem install jekyll
   - gem install octopress-autoprefixer
   - gem install jekyll-paginate
+  - lftp -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
+  - rm -r $FTP_PATH
 install:
   - npm install
 script:
   - npm run dev
 after_success:
-  - ./deploy.sh
+  - cd _public
+  - find . -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://$FTP_HOST/$FTP_PATH{} \;
