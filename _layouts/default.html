@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 {% include head.html %}
-<body>
-	<main role="main">
+<body {% if page.classes %}class="template-{{ page.classes }}"{% endif %}>
+	{% include iconset.html %}
+	{% include header.html %}
+
+	<main role="main" id="page-content">
 		{{ content }}
 	</main>
+
+	{% include footer.html %}
 	{% include scripts.html %}
 </body>
 </html>

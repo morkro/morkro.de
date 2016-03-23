@@ -1,7 +1,46 @@
-<footer id="footer" role="contentinfo">
-	<div class="footer__inner">
-		{% include socialmedia.html %}
-		{% include footer-copyright.html %}
-		<a href="/imprint">Imprint</a>
+<footer id="page-footer" role="contentinfo">
+	<div class="footer-inner container">
+		<div class="footer-info">
+			<p>
+				I am Moritz Kröger, a German front-end developer, author, and open source contributor who lives in Berlin.
+				I usually go with <a href="https://www.google.de/search?q=morkro" target="_blank">morkro</a> everywhere, but here are a few handy links anyway:
+			</p>
+
+			{% include twitter-button.html %}
+
+			<ul class="footer-socialmedia">
+				<li><a href="{{ site.data.socialnetworks.github.url }}" target="_blank">
+					<svg><use xlink:href="#github"></use></svg>
+				</a></li>
+				<li><a href="{{ site.data.socialnetworks.stackoverflow.url }}" target="_blank">
+					<svg><use xlink:href="#stackoverflow"></use></svg>
+				</a></li>
+				<li><a href="{{ site.data.socialnetworks.linkedin.url }}" target="_blank">
+					<svg><use xlink:href="#linkedin"></use></svg>
+				</a></li>
+				<li><a href="mailto:{{ site.email }}">
+					<svg><use xlink:href="#mail"></use></svg>
+				</a></li>
+				<li><a href="{{ site.data.socialnetworks.codepen.url }}" target="_blank">
+					<svg><use xlink:href="#codepen"></use></svg>
+				</a></li>
+			</ul>
+
+			<div class="footer-content">
+				<p>
+					This website is made with <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>. All content and source code is available as <a href="https://github.com/morkro/morkro.de" target="_blank">open source</a>.
+					<br>
+					© <span class="footer-year">{{ site.time | date: "%Y" }}</span>  Moritz Kröger
+				</p>
+			</div>
+		</div>
+		<div class="footer-menu">
+			{% include menu.html %}
+			<a href="/imprint">Imprint</a>
+		</div>
+	</div>
+
+	<div class="footer-sub container">
+		<a href="#" class="footer-gotop" data-scrollto="#"><svg><use xlink:href="#arrow-top"></use></svg></a>
 	</div>
 </footer>

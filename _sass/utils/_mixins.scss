@@ -1,27 +1,19 @@
 /**
- * MIXINS
- * ==============================
- *
- * Cross-browser support for @font-face. 
+ * Cross-browser support for @font-face.
  * Supports IE, Gecko, Webkit, Opera.
  * Usage: @include font-face($family, $files, [$weight], [$style]);
  */
 @mixin font-face(
-	$family, 
+	$family,
 	$files,
-	$weight: false, 
+	$weight: false,
 	$style: false
 ) {
 	@font-face {
 		font-family: quote($family);
 		src: url($files + '.ttf') unquote("format('truetype')");
 
-		@if $weight {
-			font-weight: $weight;
-		}
-
-		@if $style {
-			font-style: unquote($style);
-		}
+		@if $weight { font-weight: $weight; }
+		@if $style { font-style: unquote($style); }
 	}
 }

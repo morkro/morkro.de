@@ -1,9 +1,0 @@
-<!-- Table of Contents -->
-<div class="article__toc">
-	<h1>Table of Contents</h1>
-	<ul>
-		{% for toc in page.toc %}
-		<li><a href="{{ toc | downcase | split: ' ' | join: '-' | prepend: '#' }}">{{ toc }}</a></li>
-		{% endfor %}
-	</ul>
-</div>

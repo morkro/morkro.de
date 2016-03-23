@@ -1,62 +1,33 @@
 ---
-layout: articles
+layout: default
 ---
-
-<div id="main-content" class="content-article">
-	<aside class="content-aside">
-		<div class="aside-navigation" role="complementary">
-			{% include menu.html active="blog" %}
-
-			<div class="aside__author">
-				{% include author-img.html %}
+<div class="content-inner">
+	<article class="content-article container">
+		<header>
+			<div class="headline-gradient">
+				<h1 title="{{ page.title }}">{{ page.title }}</h1>
 			</div>
-			
-			{% include author-description.html %}
-			{% include tags.html %}
-		</div>
 
-		<div class="article__fixed hidden-tablet">
-			<!-- Go to top -->
-			<a href="#" class="article__upstairs link-gradient">
-				<svg viewBox="0 0 24 24"><path d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" /></svg>
-			</a>
-		</div>
-	</aside>
-
-	<article class="content-body">
-		<!-- Article: Heading -->
-		<header class="content-heading">
-			{% assign reading_time = content | strip_html | number_of_words | append: '.0' | divided_by: 180 %}
-
-			<h1 title="{{ page.title }}">{{ page.title }}</h1>
-
-			<span class="heading__published">
-				Published <span class="heading__time">{{ page.date | date: "%d %B %Y" }}</span>, tagged with {% for tag in page.tags %}<a href="/tag/{{tag}}"><strong>#{{ tag }}</strong></a> {% endfor %}
-			</span>
+			<ul class="article-info">
+				<li>
+					<span>Published</span>
+					<span>{{ page.date | date: "%d %B %Y" }}</span>
+				</li>
+				<li>
+					<span>Categories</span>
+					<span>{% for tag in page.tags %}#{{ tag }} {% endfor %}</span>
+				</li>
+			</ul>
 		</header>
 
-		{{ content }}
-
-		<!-- Article: Share -->
-		<section class="article__share">
-			<a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ site.url }}{{ page.url }}" data-via="morkro">Tweet</a>
-			<script>
-				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-			</script>
-
-			<script src="https://apis.google.com/js/platform.js" async defer>
-				{lang: 'en-GB'}
-			</script>
-			<div class="g-plus" data-action="share" data-annotation="bubble" data-href="{{ site.url }}{{ page.url }}"></div>
+		<section class="article-body">
+			{{ content }}
 		</section>
 
-		<!-- Article: Comments -->
-		<section class="article__comments">
+		<section class="article-comments">
 			<div id="disqus_thread"></div>
 			<script type="text/javascript">
-				/* * * CONFIGURATION VARIABLES * * */
 				var disqus_shortname = 'morkro';
-
 				/* * * DON'T EDIT BELOW THIS LINE * * */
 				(function() {
 				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -68,7 +39,40 @@ layout: articles
 				Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
 			</noscript>
 		</section>
-
-		{% include footer.html %}
 	</article>
+
+	<section class="content-posts">
+		<div class="posts-previous {% if page.previous.url %}active{% endif %}">
+			{% if page.previous.url %}
+			{% if page.previous.external %}
+			<a href="{{page.previous.external.url}}" target="_blank" class="posts-external">
+			{% else %}
+			<a href="{{page.previous.url}}">
+			{% endif %}
+				<span>Previous article</span>
+				{{page.previous.title}}
+				{% if page.previous.external %}
+				<svg><use xlink:href="#new-window"></use></svg>
+				{% endif %}
+			</a>
+			<svg><use xlink:href="#arrow-left"></use></svg>
+			{% endif %}
+		</div>
+		<div class="posts-next {% if page.next.url %}active{% endif %}">
+			{% if page.next.url %}
+			{% if page.next.external %}
+			<a href="{{page.next.external.url}}" target="_blank" class="posts-external">
+			{% else %}
+			<a href="{{page.next.url}}">
+			{% endif %}
+				<span>Next article</span>
+				{{page.next.title}}
+				{% if page.next.external %}
+				<svg><use xlink:href="#new-window"></use></svg>
+				{% endif %}
+			</a>
+			<svg><use xlink:href="#arrow-right"></use></svg>
+			{% endif %}
+		</div>
+	</section>
 </div>

@@ -1,0 +1,112 @@
+/**
+ * Headlines
+ */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 500;
+}
+
+h1 {
+	font-family: $RobotoMono;
+	font-size: 510%;
+	letter-spacing: -3px;
+	line-height: 120%;
+
+	@include media("<=tablet") {
+		font-size: 48px;
+		line-height: 48px;
+		letter-spacing: -1px;
+	}
+}
+
+h2 {
+	font-size: 160%;
+	line-height: 38px;
+	font-weight: 400;
+}
+
+h3 {
+	font-size: 130%;
+	font-weight: 300;
+}
+
+/**
+ * Copy
+ */
+p, span, a, address, button, li {
+	font-weight: 300;
+	font-size: 20px;
+	line-height: 32px;
+}
+
+p {
+	color: $text-color;
+}
+
+b, strong {
+	font-weight: 400;
+}
+
+em {
+	font-weight: 300;
+}
+
+blockquote {
+	margin-bottom: 30px;
+	width: 110%;
+	transform: translateX(-5%);
+	background: white;
+	border-left: 10px solid $shade-of-grey-medium;
+	padding: 15px 5%;
+	font-style: italic;
+
+	@include media("<=tablet") {
+		width: calc(100% + 80px); // Double of .container padding
+		transform: translateX(-40px);
+		padding: 15px 40px;
+	}
+}
+
+/**
+ * Links
+ */
+a {
+	cursor: pointer;
+	position: relative;
+	text-decoration: none;
+	font-size: inherit;
+	color: $link-color;
+	z-index: 1;
+	transition: color 100ms ease-in-out;
+
+	&:hover {
+		color: $link-hover;
+	}
+
+	&:active, &:focus {
+		background: lighten($link-color, 90%);
+		outline: none;
+	}
+
+	svg {
+		display: inline-block;
+		vertical-align: baseline;
+	}
+}
+
+/**
+ * Code
+ */
+code:not([data-lang]), kbd, pre:not([data-lang]), samp {
+	color: $special-text-color;
+	background: rgba(255, 255, 255, .5);
+	padding: 0 2px;
+	font-family: $RobotoMono;
+	font-size: 85%;
+	font-weight: 400;
+	vertical-align: baseline;
+	white-space: nowrap;
+}
+
+a { code, kbd, pre, samp {
+	color: inherit;
+} }

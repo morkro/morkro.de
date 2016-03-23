@@ -1,292 +1,23 @@
-/**
- * SYSTEM
- * ==============================
- *
- * General
- */
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
 
-html {
-	height: 100%;
-	box-shadow: inset 0px 4px 8px -5px rgba(0,0,0,.5);
-}
-
 body {
+	background-color: $background-color;
 	font-family: $Roboto;
 	font-weight: 300;
-	color: $grey;
+	font-size: 16px;
+	text-rendering: geometricPrecision;
 	// Enable best font rendering
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-@supports (border-image-source: none) and (border-image-slice: initial) {
-	html {
-		//box-shadow: inset 0px 8px 8px -5px rgba(0,0,0,.5);		
-	}
-
-	body::after {
-		content: "";
-		position: fixed;
-		z-index: 1;
-		width: 102%;
-		top: 0;
-		left: -1%;
-		border-width: 2px;
-		border-style: solid;
-		border-image-source: linear-gradient(to right, $blue, $red);
-		border-image-slice: 100% 1 1 1;
-		box-shadow: 0px 0px 6px 0px rgba(0,0,0,.5);
-	}
-
-	// I am sorry Firefox
-	@-moz-document url-prefix() {
-		body::before {
-			border-image-slice: 100% 0 0 0;
-		}
-	}
-}
-
-/**
- * Headlines
- */
-h1, h2, h3, h4, h5, h6 {
-	font-weight: 400;
-	margin: 0 0 50px 0;
-}
-
-h1 { 
-	font-family: $RobotoMono;
-	font-size: 52px; 
-	letter-spacing: -1px;
-	line-height: 56px;
-}
-
-h2 { 
-	font-size: 32px; 
-	line-height: 38px;
-}
-
-h3 {
-	font-size: 22px;
-}
-
-@media all and (max-width: 540px) {
-	h1 {
-		font-size: 38px;
-		line-height: 40px;
-	}
-}
-
-/**
- * Links
- */
-a {
-	cursor: pointer;
-	display: inline-block;
-	text-decoration: none;
-	font-size: inherit;
-	color: $blue;
-	transition: color 150ms ease-in-out;
-	
-	&:hover { color: $red; }
-	
-	&:active, &:focus {
-		background: rgba(33, 150, 243, .2);
-		outline: none;
-	}
-}
-
-.link-gradient {
-	position: relative;
-	display: block;
-	border: none;
-	padding: 0 15px;
-	font-weight: 400;
-	color: #131313;
-	background-color: rgba(0,0,0,0.05);
-	overflow: hidden;
-	z-index: 1;
-	line-height: 40px;
-	border-radius: 2px;
-	transition: all 150ms ease-in-out;
-
-	&:hover, &:active, &:focus {
-		background-color: $blue;
-		color: white;
-		svg { fill: white; }
-
-		&:after { 
-			transform: translateY(0); 
-			transition-delay: 50ms;
-		}
-	}
-
-	&:after {
-		content: "";
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
-		z-index: -1;
-		border-radius: 2px;
-		background: linear-gradient( to bottom, rgba(255,255,255,0) 0%, $red 100% );
-		transform: translateY(100%);
-		transition: transform 150ms ease-in-out;
-		transition-delay: 0;
-	}
-
-	svg {
-		fill: rgba(0, 0, 0, .4);
-		width: 26px;
-		height: 26px;
-		transition: all 150ms ease-in-out;
-	}
-}
-
-.link-feature {
-	background: rgba(0, 0, 0, .05);
-	border-radius: 2px;
-	padding: 10px 15px;
-	display: block;
-	transition: background 150ms ease-in-out, color 150ms ease-in-out;
-
-	&:hover, &:active, &:focus {
-		background: rgba(33, 150, 243, .2);
-	}
-
-	img {
-		width: 24px;
-		height: 24px;
-		display: inline-block;
-		vertical-align: middle;
-		transform: translateY(-2px);
-	}
-
-	strong {
-		font-family: $RobotoMono;
-		font-size: 22px;
-		display: block;
-	}
-
-	span {
-		font-size: 16px;
-		line-height: 22px;
-		color: rgba(0, 0, 0, .3);
-	}
-}
-
-/**
- * Copy
- */
-p, span, a, address, button {
-	font-weight: 300;
-	font-size: 16px;
-	line-height: 30px;
-}
-
-p {
-	color: rgba(0,0,0,.7);
-}
-
-b, strong {
-	font-weight: 400;
-}
-
-code, kbd, pre, samp {
-	font-family: $RobotoMono;
-	background-color: rgba(0, 0, 0, .1);
-	border-radius: 2px;
-	color: rgba(0, 0, 0, .8);
-	vertical-align: baseline;
-	padding: 0 4px 1px;
-	font-weight: 400;
-}
-
-a { code, kbd, pre, samp {
-	color: inherit;
-} }
-
-.btn {
-	position: relative;
-	display: block;
-	border: none;
-	padding: 0 15px;
-	font-weight: 400;
-	color: #131313;
-	background-color: rgba(0,0,0,0.05);
-	overflow: hidden;
-	z-index: 1;
-	line-height: 40px;
-	border-radius: 2px;
-
-	&[disabled] {
-		color: rgba(0, 0, 0, .4);
-	}
-
-	&.btn-link {
-		&:hover, &:active, &:focus {
-			background-color: $blue;
-			color: white;
-			outline: none;
-			svg { fill: white; }
-
-			&:after { 
-				transform: translateY(0); 
-				transition-delay: 50ms;
-			}
-		}
-
-		&:after {
-			content: "";
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			top: 0;
-			left: 0;
-			z-index: -1;
-			border-radius: 2px;
-			background: linear-gradient( to bottom, rgba(255,255,255,0) 0%, $red 100% );
-			transform: translateY(100%);
-			transition: transform 150ms ease-in-out;
-			transition-delay: 0;
-		}
-	}
-}
-
-.keyword-js {
-	position: relative;
-	padding-right: 17px;
-
-	&.js-large { padding-right: 24px; }
-
-	&::after {
-		position: absolute;
-		content: "";
-		background-image: url(../../assets/icons/js.svg);
-		background-size: 18px 18px;
-		width: 18px;
-		height: 18px;
-		right: -2px;
-		top: -1px;
-	}
-
-	&.js-large::after {
-		background-size: 24px 24px;
-		width: 24px;
-		height: 24px;
-		right: -2px;
-		top: 0;
-	}
-}
-
-.is-red {
-	color: $red !important;
+::selection {
+	background-color: $blue;
+	color: white;
 }
 
 /**
@@ -308,17 +39,6 @@ input {
 	}
 }
 
-@supports (border-image-source: none) and (border-image-slice: initial) {
-	input {
-		&:active, &:focus {
-			border-width: 2px;
-			border-style: solid;
-			border-image-source: linear-gradient(to right, $blue, $red);
-			border-image-slice: 1;
-		}
-	}
-}
-
 /**
  * Images
  * This is experimental and not fully supported in most browsers.
@@ -331,4 +51,5 @@ img[src$=".jpg"], img[src$=".png"] {
 
 img {
 	width: 100%;
+	height: auto;
 }

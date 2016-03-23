@@ -1,7 +1,42 @@
-$grey: #131313;
-$blue: #2196f3;
-$red: #f44336;
+/**
+ * COLOR
+ */
+$light-grey:            #ebebeb;
+$medium-grey:           #f1f1f1;
+$dark-grey:             #292822;
+$shade-of-grey-light:   rgba(0, 0, 0, .05);
+$shade-of-grey-medium:  rgba(0, 0, 0, .1);
+$shade-of-grey-medium2: rgba(0, 0, 0, .2);
+$shade-of-grey-dark:    rgba(0, 0, 0, .5);
+$shade-of-grey-darker:  rgba(0,0,0,.8);
+$shade-of-white-light:  rgba(255, 255, 255, .5);
+$blue:                  #3652cf;
+$purple:                #87637b;
+$orange:                #ff7c00;
 
-$min-desktop: "all and (max-width: 1024px)";
-$tablet: "all and (max-width: 940px)";
-$max-mobile: "all and (max-width: 768px)";
+$background-color:      black;
+$content-background:    $medium-grey;
+$footer-background:     $shade-of-grey-medium2;
+$link-color:            $blue;
+$link-hover:            $orange;
+$text-color:            $shade-of-grey-darker;
+$special-text-color:    black;
+$gradient-start:        $blue;
+$gradient-end:          $orange;
+$code-color:            $purple;
+
+/**
+ * DIMENSIONS
+ */
+$base-width:            880px;
+$large-base-width:      1040px;
+$page-padding:          20px;
+$page-width:            #{$base-width + (2 * $page-padding)};
+$page-width-large:      #{$large-base-width + (2 * $page-padding)};
+$page-width-half:       #{($base-width / 2) + $page-padding};
+$base-gap:              75px;
+
+/**
+ * EASINGS
+ */
+$easeOutBack:           cubic-bezier(0.175, 0.885, 0.32, 1.275);

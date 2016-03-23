@@ -2,8 +2,8 @@
 layout: post
 title: "How to setup an ES6 production-ready project"
 excerpt: "As ES6 is really hyped this year and the specification has eventually been finished, I wanted to start using it. By today I have turned almost all my private projects and a couple of client projects into a solid ES6 setup."
+classes: article
 tags:
- - ecmascript2015
  - javascript
 ---
 
@@ -11,7 +11,7 @@ As ES6 is really hyped this year and the specification has eventually been finis
 
 > Sounds cool Moritz, but when can we use it? :trollface:
 
-Sad to say that browser support is still under heavy development, and using it in a production environment was beyond considering. 
+Sad to say that browser support is still under heavy development, and using it in a production environment was beyond considering.
 So I accepted our fate, having to wait for a couple of years. And what about _all_ the browser who won't have any ES6 features but still need to be supported? _Sigh_, let's add another few years.
 
 Fortunately ES6 turns JavaScript into the [language for compilers](https://www.youtube.com/watch?v=PlmsweSNhTw). And there are already plenty of **ES6 to ES5** transpilers, which make it possible to write ES6 for production-ready projects today. _A dream comes true!_ By now I have turned almost all my private projects and a couple of client projects into a solid ES6 setup.
@@ -22,7 +22,7 @@ Fortunately ES6 turns JavaScript into the [language for compilers](https://www.y
 
 Compiler or transpiler? Let me explain this here because I was also confused when I first stumbled upon this. A **compiler** turns a high-level programming language into a low-level programming language. Whereas a **transpiler**, or [_source-to-source compiler_](https://en.wikipedia.org/wiki/Source-to-source_compiler), remains on the same level of complexity translating from one high-level programming language to another.
 
-The **three major transpiler** out there are [Babel.js](https://babeljs.io/) with currently [**71%**](http://kangax.github.io/compat-table/es6/#babel) of feature compatibility, [Traceur](https://github.com/google/traceur-compiler) supporting [**59%**](http://kangax.github.io/compat-table/es6/#tr) and [TypeScript](http://www.typescriptlang.org/) with [**52%**](http://kangax.github.io/compat-table/es6/#typescript). This is already quite good and the majority of features are supported _(a lot of the unsupported features refer to Subclassing and Proxying)_. I recommend using Babel as it provides the best support and you probably want to feel as free as possible writing ES6. 
+The **three major transpiler** out there are [Babel.js](https://babeljs.io/) with currently [**71%**](http://kangax.github.io/compat-table/es6/#babel) of feature compatibility, [Traceur](https://github.com/google/traceur-compiler) supporting [**59%**](http://kangax.github.io/compat-table/es6/#tr) and [TypeScript](http://www.typescriptlang.org/) with [**52%**](http://kangax.github.io/compat-table/es6/#typescript). This is already quite good and the majority of features are supported _(a lot of the unsupported features refer to Subclassing and Proxying)_. I recommend using Babel as it provides the best support and you probably want to feel as free as possible writing ES6.
 
 The features I tend to use the most are `=>` arrow functions, classes, `const` and `let`, template strings and modules. And I am really trying to find a good use case for generator functions. This can quickly change based on my project requirements though, but I guess this is what most developers will want to use at the beginning.
 
@@ -33,7 +33,7 @@ Babel is great, but lacks one huge feature: **ES6 modules**. [**Browserify**](ht
 ## Combine and automate
 
 Browserify + Babel is a common setup today and together they cover a lot of features which front-end developers are most interested about. Even though both have their own Command Line Interface, it is quite annoying and time consuming to type `$ browserify` everytime a file has been modified.
-So I suggest to use a task runner, as this is part of a default front-end setup nowadays. 
+So I suggest to use a task runner, as this is part of a default front-end setup nowadays.
 
 For the rest of this article I will use **Grunt** as an example, but everything is easily portable to a Gulp setup.
 
@@ -127,7 +127,7 @@ module.exports = function (grunt) {
       target: 'src/scripts/**/*.js'
     },
     /**
-     * Run predefined tasks whenever watched files are added, 
+     * Run predefined tasks whenever watched files are added,
      * modified or deleted.
      */
     watch: {
@@ -140,7 +140,7 @@ module.exports = function (grunt) {
 };
 {% endhighlight %}
 
-We defined two tasks at the beginning: 
+We defined two tasks at the beginning:
 
 - `grunt build`: Compiles your ES6 code to proper ES5 code and tests it via ESLint.
 - `grunt dev`: This is basically the same as `grunt build`, just with an additional `watch` task. So when anything changes in your code, everything will be compiled and linted automatically.
@@ -210,7 +210,7 @@ class Timer {
   constructor(element) {
     this.element = element;
   }
-  
+
   getTime() {
     let date = new Date();
     let hours = date.getHours();
@@ -248,7 +248,7 @@ timeElement.update();
 
 This is pretty straight-forward. We imported the class, assigned it to the `timeElement` variable and called `update()` to initialise the module.
 
-Pretty cool, isn't it? We don't have to worry much about the global scope anymore and can eventually think in a more modularised way. 
+Pretty cool, isn't it? We don't have to worry much about the global scope anymore and can eventually think in a more modularised way.
 
 ### The ES5 output
 
@@ -327,7 +327,7 @@ Babel has a short [table](https://babeljs.io/docs/advanced/caveats/) of its cave
 
 ### Babel and `Object.assign`
 
-This is another thing. `Object.assign` is only supported with [Chrome 45 and Firefox 34](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Browser_compatibility). If you use it though, Babel won't polyfill it and just keep it as is. In order to add the polyfill, we have to modify our `transform` option in the `Gruntfile.js` to use the `runtime` transformer. 
+This is another thing. `Object.assign` is only supported with [Chrome 45 and Firefox 34](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Browser_compatibility). If you use it though, Babel won't polyfill it and just keep it as is. In order to add the polyfill, we have to modify our `transform` option in the `Gruntfile.js` to use the `runtime` transformer.
 
 There is also a [`babel-plugin-object-assign`](https://github.com/babel-plugins/babel-plugin-object-assign) plugin which replaces all occurences of `Object.assign` with an extend helper.
 
@@ -341,7 +341,7 @@ I have made own ES6 boilerplate called [**<img src="/../assets/logos/frontbook.s
 
 ## TL;DR
 
-A good ES6 setup requires three main dependencies: [Babel.js](https://babeljs.io/), [Browserify](http://browserify.org/) and a task runner such as [Grunt](http://gruntjs.com/) or [gulp](http://gulpjs.com/). Babel [covers 71%](http://kangax.github.io/compat-table/es6/#babel) of the ES6 feature set and Browserify adds the great module system. 
+A good ES6 setup requires three main dependencies: [Babel.js](https://babeljs.io/), [Browserify](http://browserify.org/) and a task runner such as [Grunt](http://gruntjs.com/) or [gulp](http://gulpjs.com/). Babel [covers 71%](http://kangax.github.io/compat-table/es6/#babel) of the ES6 feature set and Browserify adds the great module system.
 
 Running `$ browserify` in the command line every time you modify something is quite annoying and time consuming. Let's use a task runner for that. You will need:
 

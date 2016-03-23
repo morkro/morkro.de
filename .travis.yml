@@ -1,15 +1,22 @@
 language: node_js
+addons:
+  apt:
+    packages:
+      - lftp
 branches:
   only:
-     - redesign
+     - master
 node_js:
-  - 4.4.0
+  - "stable"
 before_install:
-  - rvm install 2.2.2
-  - gem install sass
+  - lftp -e "set ftp:list-options -a; rm -r ${FTP_PATH}; bye" -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
 install:
+  - rvm install 2.2.2
+  - gem install jekyll
+  - gem install octopress-autoprefixer
+  - gem install jekyll-paginate
   - npm install
 script:
-  - npm start
+  - npm run prod
 after_success:
-  "curl -T index.html -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_HOST/$FTP_PATH"
+  - lftp -e "mirror -R ${PROJECT_PATH} ${FTP_PATH}; mv ${FTP_PATH}/robots-pre.txt ${FTP_PATH}/robots.txt; mv ${FTP_PATH}/.htaccess-pre ${FTP_PATH}/.htaccess; bye" -u $FTP_USER,$FTP_PASSWORD $FTP_HOST

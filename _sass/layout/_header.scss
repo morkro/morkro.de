@@ -1,0 +1,139 @@
+/**
+ * HEADER
+ */
+#page-header {
+   width: 100%;
+   top: 0;
+   background-image: linear-gradient(
+      180deg,
+      white,
+      white 40%,
+      $content-background 100%
+   );
+}
+
+.header-inner {
+   height: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding-top: 30px;
+   padding-bottom: 30px;
+
+   @include media("<=tablet") {
+      display: block;
+   }
+}
+
+/**
+ * Name
+ */
+.header-name {
+   margin: 0;
+   font-size: 130%;
+
+   a {
+      color: $special-text-color;
+      font-weight: 400;
+      letter-spacing: 0;
+   }
+
+   @include media("<=tablet") {
+      display: block;
+      text-align: center;
+      margin-bottom: 30px;
+   }
+}
+
+/**
+ * Navigation
+ */
+.header-nav ul {
+   list-style: none;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   @include media("<=tablet") {
+      justify-content: space-between;
+   }
+
+   @include media("<=500px") {
+      svg { display: block !important; }
+      span { display: none; }
+   }
+
+   li:not(:last-child) {
+      margin-right: 45px;
+
+      @include media("<=tablet") {
+         margin-right: 0;
+      }
+   }
+
+   .active {
+      color: $link-color;
+      cursor: text;
+
+      &::after {
+         width: 100%;
+         height: 3px;
+         position: absolute;
+         content: "";
+         background-color: $link-hover;
+         bottom: -2px;
+         left: 0;
+         transform: scaleX(0);
+         transform-origin: center;
+         transition: transform 175ms $easeOutBack;
+      }
+
+      &:hover::after { transform: scaleX(1); }
+
+      &::before {
+         background-color: $link-color;
+         transform: scaleX(1);
+      }
+
+      svg { fill: $link-color; }
+   }
+
+   a {
+      color: $shade-of-grey-dark;
+      font-size: 100%;
+      font-weight: 400;
+      position: relative;
+      transition: color 150ms ease-in-out;
+
+      &:hover {
+         color: $shade-of-grey-darker;
+
+         &::before { transform: scaleX(1); }
+      }
+
+      &::before {
+         width: 100%;
+         height: 3px;
+         position: absolute;
+         content: "";
+         background-color: $shade-of-grey-darker;
+         bottom: -2px;
+         left: 0;
+         transform: scaleX(0);
+         transform-origin: center;
+         transition: transform 175ms $easeOutBack;
+      }
+
+      @include media("<=500px") {
+         &::before, &::after { display: none; }
+      }
+   }
+
+   svg {
+      width: 30px;
+      height: 30px;
+      fill: $shade-of-grey-dark;
+
+      &:hover { fill: $shade-of-grey-darker; }
+   }
+}

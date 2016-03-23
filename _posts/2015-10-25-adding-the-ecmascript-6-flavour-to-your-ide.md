@@ -2,15 +2,12 @@
 layout: post
 title: "Adding the ECMAScript 6 flavour to your IDE"
 excerpt: "Using ECMAScript 6 features is all cool and feels good, but all that makes little sense without syntax support in an IDE."
+classes: article
 tags:
- - ecmascript2015
  - javascript
- - sublime-text
- - visual-studio-code
- - webstorm
 ---
 
-Using ECMAScript 6 features is all cool and feels good, but all that makes little sense without syntax support in an IDE. Since the specification just has been finished earlier this year, some IDE's still don't support the syntax yet and need some little extra work. 
+Using ECMAScript 6 features is all cool and feels good, but all that makes little sense without syntax support in an IDE. Since the specification just has been finished earlier this year, some IDE's still don't support the syntax yet and need some little extra work.
 
 Everyone has their favourite IDE and I can't cover them all. At my work the most used ones are **Sublime Text 3**, **Visual Studio Code**, and **WebStorm**. I think that roughly represents usage in the web developer community, hence I will only cover these.
 
@@ -53,7 +50,7 @@ Of course this also has a downside: everything is a bit more complicated. You ne
 
 In this case it wasn't as complicated as I feared in the beginning. I switched between two plugins since and am really happy with the latest.
 
-I started with [JavaScriptNext](https://packagecontrol.io/packages/JavaScriptNext%20-%20ES6%20Syntax) (works for both Sublime Text 2 and 3) and used the highlighter for a few month. It works fine though, except that it doesn't come with support for JSX syntax. A bummer while working on React projects. 
+I started with [JavaScriptNext](https://packagecontrol.io/packages/JavaScriptNext%20-%20ES6%20Syntax) (works for both Sublime Text 2 and 3) and used the highlighter for a few month. It works fine though, except that it doesn't come with support for JSX syntax. A bummer while working on React projects.
 
 <a href="/../assets/img/2015-10/sublimetext-es6-jsnext.png" target="_blank"><img class="screenshot" src="/../assets/img/2015-10/sublimetext-es6-jsnext.png"></a>
 
@@ -63,7 +60,7 @@ Hence I decided to switch and discovered [babel-sublime](https://github.com/babe
 
 ### Setting as the default syntax
 
-If you don't want to manually change the syntax highlighter everytime you open a JavaScript file, you need to set the plugin as default. 
+If you don't want to manually change the syntax highlighter everytime you open a JavaScript file, you need to set the plugin as default.
 
 - Open a `.js` or `.jsx` file,
 - select `View`, go to `Syntax` -> `Open all with current extension as...`,

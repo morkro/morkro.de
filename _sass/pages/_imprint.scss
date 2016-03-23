@@ -1,49 +1,43 @@
 /**
  * IMPRINT
  */
-.imprint__wrap {
-	margin-top: 30px;
-	display: flex;
-	flex-wrap: wrap;
+$imprint-left-column: 25%;
+$imprint-right-column: 75%;
 
-	h2 {
-		margin: 0 0 20px;
+.imprint-wrap {
+   display: flex;
+   padding-bottom: $base-gap;
 
-		span {
-			font-size: inherit;
-			color: rgba(0, 0, 0, .3);
-		}
-	}
+   @include media("<=tablet") {
+      display: block;
+   }
 
-	svg {
-		fill: #B3B3B3;
-		width: 24px;
-		height: 24px;
-		transform: translateY(2px);
-	}
-
-	address {
-		font-style: inherit;
-	}
+   h2 {
+      margin-bottom: 15px;
+   }
 }
 
-.imprint__address,
-.imprint__contact {
-	width: 50%;
+.imprint-info {
+   width: $imprint-left-column;
+   text-align: right;
+
+   @include media("<=tablet") {
+      width: 100%;
+      margin-bottom: 30px;
+      text-align: left;
+   }
+
+   address {
+      margin-bottom: 30px;
+   }
 }
 
-.imprint__more {
-	margin-top: 50px;
-	width: 100%;
-}
+.imprint-services {
+   padding-left: 60px;
+   width: $imprint-right-column;
 
-@media #{$tablet} {
-	.imprint__address,
-	.imprint__contact {
-		width: 100%;
-	}
-
-	.imprint__contact {
-		margin-top: 50px;
-	}
+   @include media("<=tablet") {
+      width: 100%;
+      padding-left: 0;
+   }
 }

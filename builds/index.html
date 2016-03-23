@@ -1,0 +1,39 @@
+---
+layout: default
+title: Projects | Moritz Kröger
+classes: projects
+---
+<div class="content-inner">
+   <div class="container">
+      <div class="headline-gradient">
+   		<h1 title="Let's build something together">Let's build something together</h1>
+   	</div>
+
+      <p>
+         I am working on a lot of different projects, but here I'm focused on my favorite personal work.
+      </p>
+   </div>
+
+   <ul class="projects-list">
+      {% for project in site.data.projects %}
+      <li class="project-{{ project.title | downcase | replace:' ','' }} {% if project.img %}has-image{% endif %}">
+         <a href="{{ project.url }}" target="_blank">
+            {% if project.img %}
+            <img src="{{ project.img }}" alt="Picture of {{ project.title }}">
+            {% endif %}
+            <h2>{{ project.title }}</h2>
+            <p>{{ project.description }}</p>
+         </a>
+      </li>
+      {% endfor %}
+   </ul>
+
+   <div class="projects-further container">
+      <p>
+         Every now and then I also post snippets of what I've just learned on
+         <a href="{{ site.data.socialnetworks.github.url }}" target="_blank">
+            CodePen <svg><use xlink:href="#codepen"></use></svg>
+         </a>
+      </p>
+   </div>
+</div>
