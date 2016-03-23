@@ -4,8 +4,8 @@
 	background: white;
 	color: #929292;
 	margin: 0 0 $base-gap / 2;
-	border-top: 1px solid rgba(0, 0, 0, .2);
-	border-bottom: 1px solid rgba(0, 0, 0, .2);
+	border-top: 4px solid rgba(0, 0, 0, 0.1);
+   border-bottom: 4px solid rgba(0, 0, 0, 0.1);
 
 	pre, code, kbd, samp {
 		white-space: pre;
@@ -14,7 +14,7 @@
 	}
 
 	code { padding: 0; }
-	pre { padding: 10px; }
+	pre { padding: 15px 10px; }
 
 	span {
 		line-height: 20px;
