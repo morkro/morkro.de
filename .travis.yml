@@ -5,7 +5,7 @@ addons:
       - lftp
 branches:
   only:
-     - redesign
+     - master
 node_js:
   - "stable"
 before_install:
@@ -17,6 +17,6 @@ install:
   - gem install jekyll-paginate
   - npm install
 script:
-  - npm run dev
+  - npm run prod
 after_success:
   - lftp -e "mirror -R ${PROJECT_PATH} ${FTP_PATH}; mv ${FTP_PATH}/robots-pre.txt ${FTP_PATH}/robots.txt; mv ${FTP_PATH}/.htaccess-pre ${FTP_PATH}/.htaccess; bye" -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
