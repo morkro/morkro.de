@@ -118,12 +118,24 @@
    }
 
    h2 {
+      display: inline-block;
       margin-top: $base-gap;
       font-size: 240%;
+      background-repeat: no-repeat;
+      background-size: 100% 6px;
+      background-position: center bottom 0px;
+      background-image: linear-gradient(
+         to right,
+         $gradient-start,
+         $gradient-end
+      );
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      -moz-background-inline-policy: each-box;
    }
 
    h3 {
-      margin: $base-gap / 2 0 5px;
+      margin: $base-gap / 2 0 15px;
       font-size: 160%;
    }
 

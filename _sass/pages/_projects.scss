@@ -15,36 +15,32 @@ $project-preview-gap: 30px;
    margin-top: $base-gap;
    display: flex;
    flex-wrap: wrap;
-   justify-content: space-between;
+   justify-content: center;
 
    li {
       background: white;
-      display: flex;
-      width: calc(50% - 2px);
+      width: calc(30% - 2px);
       margin-bottom: 4px;
-      justify-content: flex-end;
-
-      &:nth-child(2n) a {
-         margin-right: auto;
-      }
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &.has-image h2 { display: none; }
    }
 
-   .project-emojisyntax {
-      h2 { display: block !important; }
-      img {
-         width: 120px;
-         float: left;
-         margin-right: 20px;
-      }
-      p { padding-left: 140px; }
-   }
+   // .project-emojisyntax {
+   //    h2 { display: block !important; }
+   //    img {
+   //       width: 120px;
+   //    }
+   //    p { padding-left: 140px; }
+   // }
 
    a {
       display: block;
       margin: 0;
-      padding: 20px;
+      padding: 30px 20px;
       position: relative;
       width: $page-width-half;
       @extend .container;
@@ -59,6 +55,7 @@ $project-preview-gap: 30px;
    }
 
    p {
+      display: none;
       margin-top: 0;
       color: $shade-of-grey-dark;
       font-size: 85%;
@@ -67,6 +64,10 @@ $project-preview-gap: 30px;
       .has-image & {
          padding-left: $project-preview-width + $project-preview-gap;
       }
+   }
+
+   img {
+      width: 70%;
    }
 }
 
