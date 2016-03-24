@@ -4,8 +4,8 @@
 $project-preview-width: 100px;
 $project-preview-gap: 30px;
 
-.template-projects {
-   p { margin-top: $base-gap; }
+.template-projects .content-inner p {
+   margin-top: $base-gap;
 }
 
 .projects-list {
