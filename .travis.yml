@@ -8,8 +8,6 @@ branches:
      - master
 node_js:
   - "stable"
-before_install:
-  - lftp -e "set ftp:list-options -a; rm -r ${FTP_PATH}; bye" -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
 install:
   - rvm install 2.2.2
   - gem install jekyll
@@ -19,4 +17,5 @@ install:
 script:
   - npm run prod
 after_success:
+  - lftp -e "set ftp:list-options -a; rm -r ${FTP_PATH}; bye" -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
   - lftp -e "mirror -R ${PROJECT_PATH} ${FTP_PATH}; mv ${FTP_PATH}/robots-pre.txt ${FTP_PATH}/robots.txt; mv ${FTP_PATH}/.htaccess-pre ${FTP_PATH}/.htaccess; bye" -u $FTP_USER,$FTP_PASSWORD $FTP_HOST
