@@ -16,8 +16,8 @@ destination: _public
 # Build
 encoding: "utf-8"
 exclude: [
-   "README.md", "Gemfile", ".gitignore", "npm-debug.log",
-   "node_modules", "package.json", "scripts"
+  "README.md", "Gemfile", ".gitignore", "npm-debug.log",
+  "node_modules", "package.json", "scripts"
 ]
 include:
   - .htaccess-pre
