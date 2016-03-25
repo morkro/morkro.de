@@ -6,3 +6,4 @@ ErrorDocument 404 /404.html
 RedirectMatch 404 /\..*$
 # Disable Directory Browsing
 Options -Indexes
+Options +MultiViews
