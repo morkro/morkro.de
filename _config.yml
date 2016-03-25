@@ -6,7 +6,7 @@ baseurl: ""
 url: "http://morkro.de"
 
 # Settings
-permalink:	/writes/:year/:title
+permalink: /writes/:year/:title/
 paginate: 10
 paginate_path: /writes/:num/
 
