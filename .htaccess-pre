@@ -6,4 +6,5 @@ ErrorDocument 404 /404.html
 RedirectMatch 404 /\..*$
 # Disable Directory Browsing
 Options -Indexes
+# https://httpd.apache.org/docs/current/content-negotiation.html#multiviews
 Options +MultiViews
