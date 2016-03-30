@@ -33,13 +33,9 @@ $project-preview-gap: 30px;
    a {
       display: block;
       margin: 0 auto;
-      padding: 30px 20px;
+      padding: 30px $page-padding;
       position: relative;
       @extend .container;
-
-      @include media("<=tablet") {
-         padding: 30px 40px;
-      }
    }
 
    h2 {
