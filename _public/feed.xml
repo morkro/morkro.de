@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
 	<channel>
 		<title>Moritz Kröger — Front-end developer, author and open source contributor</title>
-		<description>I am Moritz Kröger, a German front-end developer who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions.</description>
+		<description>I am Moritz Kröger, a German front-end developer, author, and open source contributor who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions.</description>
 		<link>http://morkro.de</link>
 		<atom:link href="http://morkro.de/feed.xml" rel="self" type="application/rss+xml" />
 		

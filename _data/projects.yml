@@ -10,6 +10,12 @@
   description: "FrontBook is my personal front-end boilerplate specialised on a proper ES6 transpiling process. It is available for Grunt and Gulp by now; other setups are in planning."
   url: "https://github.com/morkro/FrontBook"
 
+- github-gist-word-count:
+  img: "../assets/projects/gist-word-count.jpg"
+  title: "GitHub Gist Word Count"
+  description: "This is a tiny Chrome extension, adding a word and character count to your files on GitHub Gist."
+  url: "https://github.com/morkro/chrome-gist-word-count"
+
 - domtimer:
   img: "../assets/projects/domtimer.svg"
   title: "DOMtimer"
