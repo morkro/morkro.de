@@ -3,8 +3,8 @@
 /* TEAM */
 Developer: {{ site.title }}
 Contact: {{ site.email }}
-Twitter: @{{ site.twitter_username }}
-Github: {{ site.github_username }}
+Twitter: {{ site.data.socialnetworks.twitter.name }}
+Github: {{ site.data.socialnetworks.github.name }}
 Location: Berlin, Germany
 
 /* SITE */
