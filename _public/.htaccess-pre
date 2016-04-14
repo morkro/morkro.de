@@ -1,0 +1,8 @@
+# Use UTF-8 encoding for anything served text/plain or text/html
+AddDefaultCharset utf-8
+# 404
+ErrorDocument 404 /404/index.html
+# Redirect access to hidden files and directories (.htaccess, .git...)
+RedirectMatch 404 /\..*$
+# Disable Directory Browsing
+Options -Indexes

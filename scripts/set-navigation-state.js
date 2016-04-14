@@ -1,5 +1,3 @@
-'use strict';
-
 export default function setNavigationState (config = {}) {
 	const location = window.location.pathname.split('/')[1].replace(/index\.html/g, '');
 	const className = config.className || 'active';

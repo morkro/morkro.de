@@ -17,7 +17,8 @@ destination: _public
 encoding: "utf-8"
 exclude: [
   "README.md", "Gemfile", ".gitignore", "npm-debug.log",
-  "node_modules", "package.json", "scripts"
+  "node_modules", "package.json", "scripts", ".eslintrc",
+  ".eslintignore"
 ]
 include:
   - .htaccess-pre

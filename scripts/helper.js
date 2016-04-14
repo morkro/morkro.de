@@ -11,6 +11,12 @@ const getOffset = elem => {
 	return offsetTop;
 };
 
+const isMacOS = () => navigator.userAgent.indexOf('Mac OS X') != -1;
+
+const currentPage = (name) => {
+	return document.body.classList.contains(`template-${name}`);
+};
+
 const requestAnimFrame = function () {
 	return window.requestAnimationFrame ||
 		window.webkitRequestAnimationFrame ||
@@ -35,6 +41,8 @@ export {
 	$,
 	$$,
 	getOffset,
+	isMacOS,
+	currentPage,
 	requestAnimFrame,
 	easeInOutQuint,
 	windowPosition

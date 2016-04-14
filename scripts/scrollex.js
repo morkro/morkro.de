@@ -1,18 +1,18 @@
 import {
-   $,
-   requestAnimFrame,
-   easeInOutQuint,
-   windowPosition
+	$,
+	requestAnimFrame,
+	easeInOutQuint,
+	windowPosition
 } from './helper';
 
 /**
- * @name Scrollex
- * @description Scrolls to the element defined in '[data-scrollto]'.
- * @param {Object} options
- * @example
- * let scroll = new Scrollex({ elements: '.foo', speed: 550 });
- * scroll.init();
- */
+* @name Scrollex
+* @description Scrolls to the element defined in '[data-scrollto]'.
+* @param {Object} options
+* @example
+* let scroll = new Scrollex({ elements: '.foo', speed: 550 });
+* scroll.init();
+*/
 export default class Scrollex {
 	constructor (options = {}) {
 		this.keyword = options.keyword || 'data-scrollto';
@@ -24,44 +24,44 @@ export default class Scrollex {
 	}
 
 	/**
-	 * @description Iterates through all nodes and stores them.
-	 * @param  {NodeList} nodes
-	 * @return {Array}
-	 */
+	* @description Iterates through all nodes and stores them.
+	* @param  {NodeList} nodes
+	* @return {Array}
+	*/
 	resolve (nodes) {
 		const stored = [];
 		for (let i = 0; i < nodes.length; i++) {
-         let keyword = nodes[i].getAttribute(this.keyword);
-         if (keyword === '#') keyword = 'body';
+			let keyword = nodes[i].getAttribute(this.keyword);
+			if (keyword === '#') keyword = 'body';
 			stored[i] = [nodes[i], $(keyword)];
 		}
 		return stored;
 	}
 
 	/**
-	 * @description Sets the scrollTop value to the host element
-	 * @param  {Number} amount
-	 */
+	* @description Sets the scrollTop value to the host element
+	* @param  {Number} amount
+	*/
 	moveBody (amount) {
 		document.documentElement.scrollTop = amount;
 		document.body.scrollTop = amount;
 	}
 
 	/**
-	 * @description Blocks default behavior and scrolls to position defined by "this.keyword"
-	 * @param  {HTMLElement} item
-	 * @param  {Object} event
-	 */
+	* @description Blocks default behavior and scrolls to position defined by "this.keyword"
+	* @param  {HTMLElement} item
+	* @param  {Object} event
+	*/
 	scrollTo (item, event) {
 		event.preventDefault();
 		event.target.blur();
 
-      let currentTime = 0;
+		let currentTime = 0;
 		const start = windowPosition();
 		const change = item.getBoundingClientRect().top + this.offset;
 		const animateScroll = () => {
 			currentTime += this.increment;
-			let easing = easeInOutQuint(currentTime, start, change, this.speed);
+			const easing = easeInOutQuint(currentTime, start, change, this.speed);
 			this.moveBody(easing);
 			if (currentTime < this.speed) {
 				requestAnimFrame()(animateScroll);
@@ -75,12 +75,12 @@ export default class Scrollex {
 	}
 
 	/**
-	 * @description Initialises the module by adding all event listener
-	 */
+	* @description Initialises the module by adding all event listener
+	*/
 	init () {
 		for (let i = 0; i < this.elements.length; i++) {
 			this.elements[i][0]
-            .addEventListener('click', this.scrollTo.bind(this, this.elements[i][1]), false);
+			.addEventListener('click', this.scrollTo.bind(this, this.elements[i][1]), false);
 		}
 	}
 }
