@@ -43,6 +43,10 @@
       font-size: 145%;
       line-height: 24px;
       letter-spacing: -1px;
+
+		@include media("<=tablet") {
+			line-height: 38px;
+		}
    }
 
    p {
@@ -75,7 +79,7 @@
 .content-article header {
    margin-bottom: $base-gap;
 
-   @include media("<=phone") {
+   @include media("<=tablet") {
       margin-bottom: 50px;
    }
 }
@@ -87,7 +91,7 @@
    justify-content: space-around;
    text-align: center;
 
-   @include media("<=phone") {
+   @include media("<=tablet") {
       margin-top: 50px;
       display: block;
    }

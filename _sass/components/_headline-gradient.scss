@@ -23,6 +23,7 @@
       @include media("<=tablet") {
          background-size: 100% 6px;
          background-position: center bottom 7px;
+			padding: 0 10px;
       }
    }
 }
