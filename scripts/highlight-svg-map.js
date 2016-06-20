@@ -1,8 +1,11 @@
 export default function highlightSVGMap (config = {}) {
-	const trigger = config.trigger;
-	const hover = config.hover;
-	const defaultState = config.defaultState;
-	const country = config.map.querySelector(`${trigger.getAttribute(config.attr)}`);
+	const { trigger, hover, defaultState, attr, map } = config;
+
+	if (!trigger.getAttribute(attr)) {
+		return;
+	}
+
+	const country = map.querySelector(`${trigger.getAttribute(attr)}`);
 
 	function toggleHighlight (event) {
 		if (event.type === 'mouseover') {
