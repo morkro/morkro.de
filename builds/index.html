@@ -6,7 +6,7 @@ classes: projects
 <div class="content-inner">
    <div class="container">
       <div class="headline-gradient">
-   		<h1 title="Open source projects">Open source projects</h1>
+   		<h1 itemprop="title" title="Open source projects">Open source projects</h1>
    	</div>
 
       <p>
@@ -14,15 +14,15 @@ classes: projects
       </p>
    </div>
 
-   <ul class="projects-list">
+   <ul itemscope itemtype="http://schema.org/ItemList" class="projects-list">
       {% for project in site.data.projects %}
-      <li class="project-{{ project.title | downcase | replace:' ','' }} {% if project.img %}has-image{% endif %}">
-         <a href="{{ project.url }}" target="_blank">
+      <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="project-{{ project.title | downcase | replace:' ','' }} {% if project.img %}has-image{% endif %}">
+         <a itemprop="url" href="{{ project.url }}" target="_blank">
             {% if project.img %}
-            <img src="{{ project.img }}" alt="Picture of {{ project.title }}">
+            <img itemprop="image" src="{{ project.img }}" alt="Picture of {{ project.title }}">
             {% endif %}
-            <h2>{{ project.title }}</h2>
-            <p>{{ project.description }}</p>
+            <h2 itemprop="name">{{ project.title }}</h2>
+            <p itemprop="description">{{ project.description }}</p>
          </a>
       </li>
       {% endfor %}

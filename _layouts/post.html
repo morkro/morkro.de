@@ -2,16 +2,16 @@
 layout: default
 ---
 <div class="content-inner">
-	<article class="content-article container">
+	<article itemscope itemtype="http://schema.org/Article" class="content-article container">
 		<header>
 			<div class="headline-gradient">
-				<h1 title="{{ page.title }}">{{ page.title }}</h1>
+				<h1 title="{{ page.title }}" itemprop="title">{{ page.title }}</h1>
 			</div>
 
 			<ul class="article-info">
 				<li>
 					<span>Published</span>
-					<span>{{ page.date | date: "%d %B %Y" }}</span>
+					<span itemprop="datePublished">{{ page.date | date: "%d %B %Y" }}</span>
 				</li>
 				<li>
 					<span>Categories</span>
@@ -20,12 +20,12 @@ layout: default
 			</ul>
 		</header>
 
-		<section class="article-body">
+		<section itemtype="articleBody" class="article-body">
 			{{ content }}
 		</section>
 
 		<section class="article-comments">
-			<div id="disqus_thread"></div>
+			<div itemprop="comment" id="disqus_thread"></div>
 			<script type="text/javascript">
 				var disqus_shortname = 'morkro';
 				/* * * DON'T EDIT BELOW THIS LINE * * */
