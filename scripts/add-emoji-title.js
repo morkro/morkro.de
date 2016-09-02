@@ -1,11 +1,11 @@
-import { isMacOS, currentPage } from './helper';
+import { isMacOS, currentPage } from './helper'
 
 export default function addEmojiTitle (config = {}) {
-	const title = document.title.split('|');
+	const title = document.title.split('|')
 
-	Object.keys(config).forEach(page => {
-		if (isMacOS() && currentPage(page)) {
-			document.title = `${title[0]}${config[page]} | ${title[1]}`;
-		}
-	});
+	Object.keys(config)
+		.filter(page => isMacOS() && currentPage(page))
+		.forEach(page => {
+			document.title = `${title[0]}${config[page]} | ${title[1]}`
+		})
 }

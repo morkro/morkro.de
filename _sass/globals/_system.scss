@@ -6,13 +6,17 @@
 
 body {
 	background-color: $background-color;
-	font-family: $Roboto;
+	font-family: $Myriad;
 	font-weight: 300;
 	font-size: 16px;
 	text-rendering: geometricPrecision;
 	// Enable best font rendering
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	&.fonts-loaded {
+		font-family: $Roboto;
+	}
 }
 
 ::selection {
@@ -25,9 +29,13 @@ body {
  */
 input {
 	border: 2px solid rgba(0,0,0,0.2);
-	font-family: $RobotoMono;
+	font-family: $Courier;
 	padding: 5px 15px;
 	transition: border 150ms ease-in-out;
+
+	.fonts-loaded & {
+		font-family: $RobotoMono;
+	}
 
 	&:hover {
 		border: 2px solid rgba(0,0,0,0.3);

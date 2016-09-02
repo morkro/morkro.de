@@ -6,10 +6,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-family: $RobotoMono;
+	font-family: $Courier;
 	font-size: 510%;
 	letter-spacing: -3px;
 	line-height: 120%;
+
+	.fonts-loaded & {
+		font-family: $RobotoMono;
+	}
 
 	@include media("<=tablet") {
 		font-size: 46px;
@@ -100,11 +104,15 @@ code:not([data-lang]), kbd, pre:not([data-lang]), samp {
 	color: $special-text-color;
 	background: rgba(255, 255, 255, .5);
 	padding: 0 2px;
-	font-family: $RobotoMono;
+	font-family: $Courier;
 	font-size: 85%;
 	font-weight: 400;
 	vertical-align: baseline;
 	white-space: nowrap;
+
+	.fonts-loaded & {
+		font-family: $RobotoMono;
+	}
 }
 
 a { code, kbd, pre, samp {
