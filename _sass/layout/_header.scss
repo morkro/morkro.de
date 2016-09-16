@@ -127,6 +127,10 @@
       @include media("<=500px") {
          &::before, &::after { display: none; }
       }
+
+      span {
+        font-weight: 400;
+      }
    }
 
    svg {
