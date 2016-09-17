@@ -2,13 +2,15 @@
  * FOOTER
  */
 #page-footer {
-   width: 100%;
+   width: 100vw;
+	 transform: translateX(-#{$page-border});
    padding: $base-gap 0 35px;
    text-align: center;
    background-color: black;
 
    @include media("<=tablet") {
       padding: 70px 0 20px;
+			transform: translateX(-#{$page-border-medium});
    }
 
    span { font-size: inherit; }

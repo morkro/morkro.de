@@ -4,12 +4,7 @@
 #page-header {
    width: 100%;
    top: 0;
-   background-image: linear-gradient(
-      180deg,
-      white,
-      white 40%,
-      $content-background 100%
-   );
+	 background-color: $content-background;
 }
 
 .header-inner {

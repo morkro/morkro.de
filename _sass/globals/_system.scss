@@ -9,6 +9,8 @@ body {
 	font-family: $Myriad;
 	font-weight: 300;
 	font-size: 16px;
+	border: $page-border solid white;
+	border-bottom: none;
 	text-rendering: geometricPrecision;
 	// Enable best font rendering
 	-webkit-font-smoothing: antialiased;
@@ -16,6 +18,10 @@ body {
 
 	&.fonts-loaded {
 		font-family: $Roboto;
+	}
+
+	@include media("<=tablet") {
+		 border-width: $page-border-medium;
 	}
 }
 
