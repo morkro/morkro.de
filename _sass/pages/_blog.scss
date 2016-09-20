@@ -4,6 +4,7 @@
 .blog-list {
    margin-top: 90px;
    width: 100%;
+   list-style: none;
 
    li {
       width: 100%;
@@ -11,6 +12,10 @@
 
       &:nth-child(2n) {
          margin: 4px 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
       }
    }
 

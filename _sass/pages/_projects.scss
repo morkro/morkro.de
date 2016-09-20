@@ -18,6 +18,10 @@ $project-preview-gap: 30px;
       background-color: white;
       width: 100%;
       display: flex;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
    }
 
    img {

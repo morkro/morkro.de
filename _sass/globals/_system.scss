@@ -15,6 +15,7 @@ body {
 	// Enable best font rendering
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	overflow-x: hidden;
 
 	&.fonts-loaded {
 		font-family: $Roboto;
