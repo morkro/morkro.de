@@ -19,13 +19,13 @@
 					<description>{{ post.content | xml_escape }}</description>
 				{% endif %}
 				<pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-				{{ if post.external }}
+				{% if post.external %}
 				<link>{{ post.external.url }}</link>
 				<guid isPermaLink="true">{{ post.external.url }}</guid>
-				{{ else }}
+				{% else %}
 				<link>{{ site.url }}{{ post.url }}</link>
 				<guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
-				{{ endif }}
+				{% endif %}
 			</item>
 		{% endfor %}
 	</channel>
