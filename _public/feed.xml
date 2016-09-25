@@ -18,9 +18,6 @@
 				<link>https://www.sitepoint.com/es6-default-parameters/</link>
 				<guid isPermaLink="true">https://www.sitepoint.com/es6-default-parameters/</guid>
 				
-				<link>http://morkro.de/writes/2016/clean-code-with-es6-default-parameters-property-shorthands/</link>
-				<guid isPermaLink="true">http://morkro.de/writes/2016/clean-code-with-es6-default-parameters-property-shorthands/</guid>
-				
 			</item>
 		
 			<item>
@@ -34,9 +31,6 @@
 				
 				<link>https://www.sitepoint.com/write-maintainable-javascript/</link>
 				<guid isPermaLink="true">https://www.sitepoint.com/write-maintainable-javascript/</guid>
-				
-				<link>http://morkro.de/writes/2016/untangling-spaghetti-code-how-to-write-maintainable-javascript/</link>
-				<guid isPermaLink="true">http://morkro.de/writes/2016/untangling-spaghetti-code-how-to-write-maintainable-javascript/</guid>
 				
 			</item>
 		
@@ -52,9 +46,6 @@
 				<link>http://www.sitepoint.com/write-atom-packages-using-vanilla-javascript/</link>
 				<guid isPermaLink="true">http://www.sitepoint.com/write-atom-packages-using-vanilla-javascript/</guid>
 				
-				<link>http://morkro.de/writes/2016/how-to-write-atom-packages-using-vanilla-javascript/</link>
-				<guid isPermaLink="true">http://morkro.de/writes/2016/how-to-write-atom-packages-using-vanilla-javascript/</guid>
-				
 			</item>
 		
 			<item>
@@ -69,9 +60,6 @@
 				<link>http://www.sitepoint.com/es2016-should-future-of-javascript-be-developer-driven/</link>
 				<guid isPermaLink="true">http://www.sitepoint.com/es2016-should-future-of-javascript-be-developer-driven/</guid>
 				
-				<link>http://morkro.de/writes/2016/should-the-future-of-javascript-be-developer-driven/</link>
-				<guid isPermaLink="true">http://morkro.de/writes/2016/should-the-future-of-javascript-be-developer-driven/</guid>
-				
 			</item>
 		
 			<item>
@@ -81,9 +69,6 @@
 					<description>Using ECMAScript 6 features is all cool and feels good, but all that makes little sense without syntax support in an IDE.</description>
 				
 				<pubDate>Sun, 25 Oct 2015 00:00:00 +0200</pubDate>
-				
-				<link></link>
-				<guid isPermaLink="true"></guid>
 				
 				<link>http://morkro.de/writes/2015/adding-the-ecmascript-6-flavour-to-your-ide/</link>
 				<guid isPermaLink="true">http://morkro.de/writes/2015/adding-the-ecmascript-6-flavour-to-your-ide/</guid>
@@ -97,9 +82,6 @@
 					<description>As ES6 is really hyped this year and the specification has eventually been finished, I wanted to start using it. By today I have turned almost all my private projects and a couple of client projects into a solid ES6 setup.</description>
 				
 				<pubDate>Thu, 27 Aug 2015 00:00:00 +0200</pubDate>
-				
-				<link></link>
-				<guid isPermaLink="true"></guid>
 				
 				<link>http://morkro.de/writes/2015/how-to-setup-your-own-es6-project/</link>
 				<guid isPermaLink="true">http://morkro.de/writes/2015/how-to-setup-your-own-es6-project/</guid>
