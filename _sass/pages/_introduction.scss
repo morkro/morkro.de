@@ -191,12 +191,28 @@ $intro-right-column: 59%;
 	&:hover {
 		background: $link-color;
 		color: white;
+
+		span {
+			color: $shade-of-white-light;
+		}
 	}
 
 	svg {
 		fill: $shade-of-grey-dark;
 		width: 20px;
 		height: 20px;
+	}
+
+	span {
+		color: $shade-of-grey-dark;
+		display: block;
+		font-size: 85%;
+		line-height: 130%;
+		margin-top: 6px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		transition: color 150ms ease-in-out;
 	}
 }
 

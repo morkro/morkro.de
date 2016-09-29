@@ -10,8 +10,7 @@
 				<title>Clean Code with ES6 Default Parameters &amp; Property Shorthands</title>
 				
 				
-					<description>
-</description>
+					<description>Creating a method also means writing an API. Whether it is for yourself, another developer on your team, or other developers using your project. Depending on the size, complexity, and purpose of your function, you have to think of default settings and the API of your input/output</description>
 				
 				<pubDate>Thu, 14 Jul 2016 00:00:00 +0200</pubDate>
 				
@@ -24,8 +23,7 @@
 				<title>Untangling Spaghetti Code: How to Write Maintainable JavaScript</title>
 				
 				
-					<description>
-</description>
+					<description>Almost every developer has had the experience of maintaining or taking over a legacy project. The code can be messy, undocumented and it can take days to fully understand everything. But, with proper planning, analysis, and a good workflow, it is possible to turn a spaghetti codebase into a clean, organised, and scalable one</description>
 				
 				<pubDate>Wed, 18 May 2016 00:00:00 +0200</pubDate>
 				
@@ -38,8 +36,7 @@
 				<title>How to Write Atom Packages Using Vanilla JavaScript</title>
 				
 				
-					<description>
-</description>
+					<description>Atom is a modern, to the core hackable editor. This is great, but for developers who aren’t fluent in CoffeeScript, it is hard to follow the documentation. Understanding the ecosystem of Atom can become confusing. Let’s go through all aspects of how writing an Atom package in JavaScript works</description>
 				
 				<pubDate>Tue, 22 Mar 2016 00:00:00 +0100</pubDate>
 				
@@ -52,8 +49,7 @@
 				<title>ES2016: Should the Future of JavaScript Be Developer-Driven?</title>
 				
 				
-					<description>
-</description>
+					<description>Recently, it was announced that the next version of JavaScript (ES2016) will be comprised of a very small feature set, namely Array.prototype.includes. Considering the plethora of new features introduced by ES6, some people might be surprised at exactly how small a release ES2016 will be</description>
 				
 				<pubDate>Tue, 16 Feb 2016 00:00:00 +0100</pubDate>
 				

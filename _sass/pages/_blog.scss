@@ -2,270 +2,279 @@
  * BLOG: List
  */
 .blog-list {
-   margin-top: 90px;
-   width: 100%;
-   list-style: none;
+	margin-top: $base-gap;
+	width: 100%;
+	list-style: none;
 
-   li {
-      width: 100%;
-      background: white;
+	li {
+		width: 100%;
+		background: white;
 
-      &:nth-child(2n) {
-         margin: 4px 0;
-      }
+		&:nth-child(2n) {
+			margin: 10px 0;
+		}
 
-      &:last-child {
-        margin-bottom: 0;
-      }
-   }
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
 
-   a {
-      display: block;
-      padding-top: 20px;
-      padding-bottom: 20px;
-      position: relative;
-      @extend .container;
+	a {
+		display: block;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		position: relative;
+		@extend .container;
 
-      &:visited > span {
-         background-color: white;
-      }
-   }
+		&:visited > span {
+			background-color: white;
+		}
+	}
 
-   a > span {
-      position: absolute;
-      height: 10px;
-      width: 10px;
-      background: $link-hover;
-      border-radius: 50%;
-      left: -20px;
-      top: 50%;
-      transform: translateY(-50%);
-   }
+	a > span {
+		position: absolute;
+		height: 10px;
+		width: 10px;
+		background: $link-hover;
+		border-radius: 50%;
+		left: -20px;
+		top: 50%;
+		transform: translateY(-50%);
+	}
 
-   h2 {
-      margin: 0;
-      font-family: $RobotoMono;
-      font-size: 145%;
-      line-height: 24px;
-      letter-spacing: -1px;
+	h2 {
+		margin: 0;
+		font-family: $RobotoMono;
+		font-size: 145%;
+		line-height: 145%;
+		letter-spacing: -1px;
 
 		@include media("<=tablet") {
 			line-height: 38px;
 		}
-   }
+	}
 
-   p {
-      color: $shade-of-grey-dark;
-      font-size: 85%;
-   }
+	p {
+		font-size: 85%;
 
-   time {
-      font-weight: 400;
-   }
+		&:after {
+			content: "...";
+		}
+	}
+}
 
-   time, span {
-      color: $text-color;
-      font-size: 100%;
-   }
+.blog-post-meta {
+	font-size: 80%;
+	margin: 6px 0 4px;
+	color: $shade-of-grey-dark;
+
+	time {
+		font-weight: 400;
+	}
+
+	time, span {
+		font-size: 100%;
+	}
 }
 
 .blog-post-external {
-   svg {
-      width: 28px;
-      height: 28px;
-      fill: $shade-of-grey-dark;
-      vertical-align: middle;
-   }
+	svg {
+		width: 28px;
+		height: 28px;
+		fill: $shade-of-grey-dark;
+		vertical-align: middle;
+		transform: translateY(-2px);
+	}
 }
 
 /**
  * BLOG: Article
  */
 .content-article header {
-   margin-bottom: $base-gap;
+	margin-bottom: $base-gap;
 
-   @include media("<=tablet") {
-      margin-bottom: 50px;
-   }
+	@include media("<=tablet") {
+		margin-bottom: 50px;
+	}
 }
 
 .article-info {
-   margin-top: $base-gap;
-   list-style: none;
-   display: flex;
-   justify-content: space-around;
-   text-align: center;
+	margin-top: $base-gap;
+	list-style: none;
+	display: flex;
+	justify-content: space-around;
+	text-align: center;
 
-   @include media("<=tablet") {
-      margin-top: 50px;
-      display: block;
-   }
+	@include media("<=tablet") {
+		margin-top: 50px;
+		display: block;
+	}
 
-   span, a {
-      line-height: 24px;
-      font-weight: 400;
-   }
+	span, a {
+		line-height: 24px;
+		font-weight: 400;
+	}
 
-   li > span {
-      display: block;
-      font-size: 100%;
-   }
+	li > span {
+		display: block;
+		font-size: 100%;
+	}
 
-   li > span:first-of-type {
-      color: $shade-of-grey-dark;
-      font-size: 14px;
-      font-weight: 300;
-   }
+	li > span:first-of-type {
+		color: $shade-of-grey-dark;
+		font-size: 14px;
+		font-weight: 300;
+	}
 }
 
 .article-body {
-   margin-bottom: $base-gap;
+	margin-bottom: $base-gap;
 
-   h2, h3, h4, h5, h6 {
-      font-weight: 500;
-      margin: $base-gap / 2 0;
-   }
+	h2, h3, h4, h5, h6 {
+		font-weight: 500;
+		margin: $base-gap / 2 0;
+	}
 
-   h2 {
-      display: inline-block;
-      margin-top: $base-gap;
-      font-size: 240%;
-      background-repeat: no-repeat;
-      background-size: 100% 6px;
-      background-position: center bottom 0px;
-      background-image: linear-gradient(
-         to right,
-         $gradient-start,
-         $gradient-end
-      );
-      box-decoration-break: clone;
-      -webkit-box-decoration-break: clone;
-      -moz-background-inline-policy: each-box;
-   }
+	h2 {
+		display: inline-block;
+		margin-top: $base-gap;
+		font-size: 240%;
+		background-repeat: no-repeat;
+		background-size: 100% 6px;
+		background-position: center bottom 0px;
+		background-image: linear-gradient(
+			to right,
+			$gradient-start,
+			$gradient-end
+		);
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+		-moz-background-inline-policy: each-box;
+	}
 
-   h3 {
-      margin: $base-gap / 2 0 15px;
-      font-size: 160%;
-   }
+	h3 {
+		margin: $base-gap / 2 0 15px;
+		font-size: 160%;
+	}
 
-   p:not(:last-of-type),
-   ul, hr {
-      margin-bottom: 30px;
-   }
+	p:not(:last-of-type),
+	ul, hr {
+		margin-bottom: 30px;
+	}
 
-   > p:first-of-type {
-      font-size: 160%;
-      font-weight: 400;
-      line-height: 150%;
+	> p:first-of-type {
+		font-size: 160%;
+		font-weight: 400;
+		line-height: 150%;
 
-      @include media("<=tablet") {
-         font-size: 140%;
-         line-height: 30px;
-      }
-   }
+		@include media("<=tablet") {
+			font-size: 140%;
+			line-height: 30px;
+		}
+	}
 
-   ul {
-      padding-left: 20px;
-      list-style-type: circle;
-   }
+	ul {
+		padding-left: 20px;
+		list-style-type: circle;
+	}
 
-   li {
-      color: $text-color;
-   }
+	li {
+		color: $text-color;
+	}
 
-   hr {
-      border: none;
-      border-top: 2px solid $shade-of-grey-light;
-   }
+	hr {
+		border: none;
+		border-top: 2px solid $shade-of-grey-light;
+	}
 }
 
 .content-article .thanks-for-reading {
-   margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .article-share {
-   margin-bottom: $base-gap;
-   background: white;
-   width: 110%;
-   transform: translateX(-5%);
-   padding: 0 0 30px;
-   display: flex;
-   justify-content: center;
+	margin-bottom: $base-gap;
+	background: white;
+	width: 110%;
+	transform: translateX(-5%);
+	padding: 0 0 30px;
+	display: flex;
+	justify-content: center;
 
-   iframe {
-      margin-right: 15px;
-   }
+	iframe {
+		margin-right: 15px;
+	}
 }
 
 .content-posts {
-   width: 100%;
-   display: flex;
-   margin-top: $base-gap;
+	width: 100%;
+	display: flex;
+	margin-top: $base-gap;
 
-   div {
-      width: 50%;
-      background: $shade-of-white-light;
-      display: flex;
-      justify-content: flex-start;
+	div {
+		width: 50%;
+		background: $shade-of-white-light;
+		display: flex;
+		justify-content: flex-start;
 
-      &.active {
-         background: white;
-      }
+		&.active {
+			background: white;
+		}
 
-      &:first-of-type {
-         direction: rtl;
-         border-right: 4px solid $shade-of-grey-light;
-      }
+		&:first-of-type {
+			direction: rtl;
+			border-right: 4px solid $shade-of-grey-light;
+		}
 
-      &:first-of-type a {
-         text-align: right;
-         &:hover ~ svg { transform: translateX(-15px); }
-      }
-   }
+		&:first-of-type a {
+			text-align: right;
+			&:hover ~ svg { transform: translateX(-15px); }
+		}
+	}
 
-   a {
-      display: block;
-      width: $page-width-half;
-      padding: $page-padding;
-      font-family: $RobotoMono;
-      font-weight: 400;
-      line-height: 24px;
-      letter-spacing: -1px;
+	a {
+		display: block;
+		width: $page-width-half;
+		padding: $page-padding;
+		font-family: $RobotoMono;
+		font-weight: 400;
+		line-height: 24px;
+		letter-spacing: -1px;
 
-      @include media("<=phone") {
-         padding: 15px;
-      }
+		@include media("<=phone") {
+			padding: 15px;
+		}
 
-      &.posts-external svg {
-         width: 20px;
-         height: 20px;
-         fill: rgba(0,0,0,.3);
-         vertical-align: text-bottom;;
-      }
+		&.posts-external svg {
+			width: 20px;
+			height: 20px;
+			fill: rgba(0,0,0,.3);
+			vertical-align: text-bottom;;
+		}
 
-      span {
-         display: block;
-         font-family: $Roboto;
-         font-size: 100%;
-         color: $text-color;
-         letter-spacing: 0;
-      }
+		span {
+			display: block;
+			font-family: $Roboto;
+			font-size: 100%;
+			color: $text-color;
+			letter-spacing: 0;
+		}
 
-      &:hover ~ svg { transform: translateX(15px); }
-   }
+		&:hover ~ svg { transform: translateX(15px); }
+	}
 
-   svg {
-      width: 30px;
-      height: 30px;
-      fill: $shade-of-grey-dark;
-      align-self: center;
-      transform: translateX(0);
-      transition: transform 100ms ease-in-out;
-   }
+	svg {
+		width: 30px;
+		height: 30px;
+		fill: $shade-of-grey-dark;
+		align-self: center;
+		transform: translateX(0);
+		transition: transform 100ms ease-in-out;
+	}
 
-   a ~ svg {
-      @include media("<=1015px") {
-         display: none;
-      }
-   }
+	a ~ svg {
+		@include media("<=1015px") {
+			display: none;
+		}
+	}
 }

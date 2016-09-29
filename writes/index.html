@@ -23,14 +23,15 @@ classes: blog
 				<span></span>
 				<h2 itemprop="title">{{ post.title }}</h2>
 			{% endif %}
-				<p>
+				<div class="blog-post-meta">
 					<time itemprop="datePublished" datetime='{{ post.date | date: "%B %e, %" }}'>{{ post.date | date: "%d %B %Y" }}</time>,
 					{% if post.external %}
 					Published on <span itemprop="publisher">{{ post.external.host }}</span>
 					{% else %}
 					Published in <span>{% for tag in post.tags %}#{{ tag }} {% endfor %}</span>
 					{% endif %}
-				</p>
+				</div>
+				<p>{{ post.excerpt }}</p>
 			</a>
 		</li>
 	{% endfor %}
