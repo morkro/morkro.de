@@ -2,7 +2,17 @@
  * 404
  */
 .template-404 .headline-gradient {
-   margin-bottom: $base-gap;
+  margin-bottom: $base-gap;
+
+  h1 {
+    background-position: center top 35px;
+  }
+}
+
+.template-404 {
+  #page-header { background: linear-gradient(to left, $content-background 55%, white 55%); }
+  #page-content { background: linear-gradient(to right, $content-background 55%, white 55%); }
+  #page-footer { background: linear-gradient(to left, black 55%, $dark-grey 55%); }
 }
 
 .content-404 {
