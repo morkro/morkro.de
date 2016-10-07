@@ -9,8 +9,8 @@
       display: inline;
       padding: 0 25px;
       background-repeat: no-repeat;
-      background-size: 100% 12px;
-      background-position: center bottom 10px;
+      background-size: 100% 8px;
+      background-position: center bottom 14px;
       background-image: linear-gradient(
          to right,
          $gradient-start,
@@ -21,8 +21,8 @@
       -moz-background-inline-policy: each-box;
 
       @include media("<=tablet") {
-         background-size: 100% 6px;
-         background-position: center bottom 7px;
+         background-size: 100% 4px;
+         background-position: center bottom 8px;
 			padding: 0 10px;
       }
    }
