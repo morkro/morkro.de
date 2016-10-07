@@ -60,7 +60,7 @@ input {
  * Anyway, I want to test this feature.
  */
 img[src$=".jpg"], img[src$=".png"] {
-	image-rendering: optimizeQuality;
+	image-rendering: pixelated;
 	-ms-interpolation-mode: bicubic;
 }
 

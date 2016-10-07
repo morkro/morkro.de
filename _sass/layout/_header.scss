@@ -30,6 +30,10 @@
    overflow: hidden;
    border-radius: $base-radius;
 
+   &:hover a {
+      border-image: linear-gradient(to right, $gradient-start, $gradient-end) 1 1;
+   }
+
    a {
       color: $special-text-color;
       font-weight: 400;
@@ -38,8 +42,9 @@
       border: {
          width: 2px;
          style: solid;
-         image: linear-gradient(to right, rgba(0,0,0,.2), rgba(0,0,0,.3)) 1 1;
+         image: linear-gradient(to right, rgba(0,0,0,.3), rgba(0,0,0,.2)) 1 1;
       }
+      transition: border-image 150ms ease-in-out;
    }
 
    @include media("<=tablet") {
