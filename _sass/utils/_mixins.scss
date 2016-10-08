@@ -17,3 +17,16 @@
 		@if $style { font-style: unquote($style); }
 	}
 }
+
+@mixin animated-border ($background-color) {
+	width: 100%;
+   height: 2px;
+   position: absolute;
+   content: "";
+   bottom: 0;
+   left: 0;
+	background-color: $background-color;
+   transform: scaleX(0);
+   transform-origin: center;
+   transition: transform 175ms $easeOutBack;
+}

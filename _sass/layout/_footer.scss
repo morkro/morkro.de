@@ -91,16 +91,7 @@
       }
 
       &::before {
-         width: 100%;
-         height: 2px;
-         position: absolute;
-         content: "";
-         background-color: $link-color;
-         bottom: -2px;
-         left: 0;
-         transform: scaleX(0);
-         transform-origin: center;
-         transition: transform 175ms $easeOutBack;
+         @include animated-border($link-color);
       }
 
       @include media("<=500px") {
