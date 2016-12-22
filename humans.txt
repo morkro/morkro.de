@@ -11,5 +11,5 @@ Location: Berlin, Germany
 Last Update: {{ site.time | date: "%-d %B %Y" }}
 Language: English
 Standards: HTML5, CSS3, JavaScript
-Components: Ruby on Rails, Sass, Jekyll
+Components: Ruby on Rails, Sass, Jekyll, Babel, Browserify
 Software: Atom.io

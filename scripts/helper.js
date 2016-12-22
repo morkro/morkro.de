@@ -14,8 +14,14 @@ const getOffset = elem => {
 const isMacOS = () =>
 	navigator.userAgent.indexOf('Mac OS X') != -1
 
-const currentPage = (name) =>
-	document.body.classList.contains(`template-${name}`)
+const currentPage = (name) => {
+	if (!name) {
+		const tmpl = /^template-/
+		return Array.from(document.body.classList)
+			.find(name => tmpl.test(name)).replace(tmpl, '')
+	}
+	return document.body.classList.contains(`template-${name}`)
+}
 
 const requestAnimFrame = () =>
 	window.requestAnimationFrame ||

@@ -10,7 +10,7 @@
     "test": "eslint --ignore-path=.eslintignore scripts/",
     "js": "npm run bundle && npm run compress",
     "start": "npm run test && npm run js && jekyll s --watch",
-    "dev": "npm run test && npm run js && jekyll build",
+    "dev": "npm run test && npm run js && bundle exec jekyll serve",
     "prod": "npm run test && npm run js && JEKYLL_ENV=PROD jekyll build"
   },
   "browserify": {
@@ -33,6 +33,7 @@
     "babelify": "^7.2.x",
     "browserify": "^13.0.x",
     "fontfaceobserver": "^2.0.4",
-    "uglify-js": "^2.6.x"
+    "uglify-js": "^2.6.x",
+    "whatwg-fetch": "^2.0.1"
   }
 }
