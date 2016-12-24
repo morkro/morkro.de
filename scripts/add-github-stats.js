@@ -1,4 +1,7 @@
 import 'whatwg-fetch'
+import { $ } from './helper'
+
+const $projectsList = $('.projects-banner')
 
 function filter (repositories) {
 	const chosen = ['atom-emoji-syntax', 'frontbook', 'papyrus']
@@ -16,7 +19,13 @@ function prepare (repositories) {
 }
 
 function updateDOM (repositories) {
-	console.log(repositories)
+	repositories.forEach(repo => {
+		const { name, stars } = repo
+		const shortened = name.replace(/atom/, '').replace(/-/g, '').toLowerCase()
+		const $starsEl = $projectsList.querySelector(`.project-${shortened} .project-stars`)
+		$starsEl.insertBefore(document.createTextNode(stars), $starsEl.childNodes[0])
+		$starsEl.style.display = 'flex'
+	})
 }
 
 export default function addGitHubStats () {

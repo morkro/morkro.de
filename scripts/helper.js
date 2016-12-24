@@ -17,8 +17,8 @@ const isMacOS = () =>
 const currentPage = (name) => {
 	if (!name) {
 		const tmpl = /^template-/
-		return Array.from(document.body.classList)
-			.find(name => tmpl.test(name)).replace(tmpl, '')
+		const classes = [...document.body.classList]
+		return classes.find(name => tmpl.test(name)).replace(tmpl, '')
 	}
 	return document.body.classList.contains(`template-${name}`)
 }
