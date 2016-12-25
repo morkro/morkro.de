@@ -5,6 +5,20 @@ $intro-left-column: 41%;
 $intro-right-column: 59%;
 
 /**
+ * Header
+ */
+.template-introduction .header-name {
+  &::after,
+  img {
+    display: none;
+  }
+
+  a {
+    cursor: text;
+  }
+}
+
+/**
  * Start
  */
 .intro-start {

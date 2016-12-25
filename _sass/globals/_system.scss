@@ -60,8 +60,8 @@ input {
  * Anyway, I want to test this feature.
  */
 img[src$=".jpg"], img[src$=".png"] {
-	image-rendering: pixelated;
-	-ms-interpolation-mode: bicubic;
+	image-rendering: crisp-edges;
+	-ms-interpolation-mode: nearest-neighbor;
 }
 
 img {
