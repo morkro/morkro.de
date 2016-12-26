@@ -7,6 +7,19 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Redux without React — State Management in Vanilla JavaScript</title>
+				
+				
+					<description>Recently, I had one of those moments again and started working on a web application using Redux and nothing else but vanilla JavaScript. In this article I want to outline how I structured my app, examine some of my earlier (and ultimately unsuccessful) iterations, before looking at the solutions I settled on and what I learned along the way.</description>
+				
+				<pubDate>Mon, 24 Oct 2016 00:00:00 +0200</pubDate>
+				
+				<link>https://www.sitepoint.com/redux-without-react-state-management-vanilla-javascript/</link>
+				<guid isPermaLink="true">https://www.sitepoint.com/redux-without-react-state-management-vanilla-javascript/</guid>
+				
+			</item>
+		
+			<item>
 				<title>Clean Code with ES6 Default Parameters &amp; Property Shorthands</title>
 				
 				

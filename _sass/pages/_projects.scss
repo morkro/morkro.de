@@ -8,7 +8,23 @@ $project-preview-gap: 30px;
    margin-top: $base-gap;
 }
 
-.projects-banner {
+.template-projects .project-stars {
+	display: none;
+	justify-content: flex-end;
+	align-items: center;
+	align-content: flex-end;
+	font-size: 70%;
+	font-weight: 500;
+	color: $special-text-color;
+
+	svg {
+		width: 16px;
+		height: 16px;
+		margin-left: 2px;
+	}
+}
+
+.projects-featured {
 	display: flex;
 	justify-content: space-between;
 	list-style: none;
@@ -19,15 +35,19 @@ $project-preview-gap: 30px;
 		width: 32%;
 		background: white;
 		border-radius: $base-radius / 2;
-		transition: box-shadow 250ms $easeOutBack;
+		transition: box-shadow 250ms $easeOutBack, transform 250ms $easeOutBack;
 
 		&:hover {
-			box-shadow: 0 0 25px rgba(0, 0, 0, .15);
+			transform: scale(1.01);
+			box-shadow: $base-shadow;
 		}
 	}
 
 	a {
-		display: block;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 100%;
 		padding: 15px;
 	}
 
@@ -42,74 +62,50 @@ $project-preview-gap: 30px;
 		line-height: 24px;
 	}
 
-	.project-stars {
-		display: none;
-		justify-content: flex-end;
-		align-items: center;
-		align-content: flex-end;
-		font-size: 70%;
-		font-weight: 500;
-		color: $special-text-color;
-
-		svg {
-			width: 16px;
-			height: 16px;
-			margin-left: 2px;
-		}
+	& li:not(.project-tetrys) .project-image {
+		padding: 15px 15px 5px;
+		background: $shade-of-grey-light;
 	}
 }
 
 .projects-list {
    width: 100%;
    list-style: none;
-   margin-top: $base-gap;
+   margin-top: $base-gap - 50px;
+	padding-bottom: $base-gap;
 
    li {
       margin-bottom: 10px;
       background-color: white;
       width: 100%;
-      display: flex;
 
       &:last-child {
         margin-bottom: 0;
       }
    }
 
-   img {
-      width: 300px;
-      float: left;
-      margin-right: 30px;
+	.project-stars {
+		margin-left: 15px;
+	}
 
-      @include media("<=tablet") {
-         display: none;
-      }
-   }
+	h3 {
+		font-size: 100%;
+		margin-right: 15px;
+	}
 
    a {
-      display: block;
-      margin: 0 auto;
-      padding: 30px $page-padding;
-      position: relative;
-      @extend .container;
+      display: flex;
+		justify-content: space-between;
+		padding: 15px;
+
+		div {
+			display: flex;
+			align-items: center;
+		}
    }
 
-   h2 {
-      margin: 0 0 10px;
-      font-family: $RobotoMono;
-      font-size: 145%;
-      line-height: 24px;
-      letter-spacing: -1px;
-   }
-
-   p {
-      margin-top: 0;
-      color: $shade-of-grey-dark;
-      font-size: 85%;
-      line-height: 24px;
-      padding-left: 330px;
-
-      @include media("<=tablet") {
-         padding-left: 0;
-      }
-   }
+	p {
+		font-size: 16px;
+		line-height: 24px;
+	}
 }
