@@ -4,6 +4,7 @@ import addEmojiTitle from './add-emoji-title'
 import setNavigationState from './set-navigation-state'
 import setCurrentYear from './set-current-year'
 import highlightSVGMap from './highlight-svg-map'
+import addGitHubStats from './add-github-stats'
 import Scrollex from './scrollex'
 
 /**
@@ -54,4 +55,7 @@ if (currentPage('about')) {
 		hover: '#ff7c00',
 		defaultState: '#3652cf'
 	})
+}
+else if (currentPage('projects')) {
+	addGitHubStats()
 }

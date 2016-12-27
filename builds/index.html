@@ -3,28 +3,45 @@ layout: default
 title: Projects | Moritz Kröger
 classes: projects
 ---
-<div class="content-inner">
-   <div class="container">
-      <div class="headline-gradient">
-   		<h1 itemprop="title" title="Open source projects">Open source projects</h1>
-   	</div>
+<div class="container">
+	<div class="headline-gradient">
+		<h1 itemprop="title" title="Open source projects">Open Source</h1>
+	</div>
 
-      <p>
-         I am working on a lot of different projects, but here I'm focused on my favorite personal work.
-      </p>
-   </div>
+	<p>
+		Working with software on the web, and especially on the front-end side, means working with open source. All my knowledge comes from shared experience and projects of other developers. Hence, giving back to the community is key for me. All my projects are publicly available, can be forked, modified, and contributed to.
+	</p>
 
-   <ul itemscope itemtype="http://schema.org/ItemList" class="projects-list">
-      {% for project in site.data.projects %}
-      <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="project-{{ project.title | downcase | replace:' ','' }} {% if project.img %}has-image{% endif %}">
-         <a itemprop="url" href="{{ project.url }}" target="_blank">
-            {% if project.img %}
-            <img itemprop="image" src="{{ project.img }}" alt="Picture of {{ project.title }}">
-            {% endif %}
-            <h2 itemprop="name">{{ project.title }}</h2>
-            <p itemprop="description">{{ project.description }}</p>
-         </a>
-      </li>
-      {% endfor %}
-   </ul>
+	<ul itemscope itemtype="http://schema.org/ItemList" class="projects-featured">
+		{% for project in site.data.projects.banner %}
+		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="project-{{ project.title | downcase | replace:' ','' }}">
+			<a itemprop="url" href="{{ project.url }}" target="_blank">
+				{% if project.img %}
+				<div class="project-image">
+					<img itemprop="image" src="{{ project.img }}" alt="{{ project.title }} logo">
+				</div>
+				{% endif %}
+				<h3 itemprop="name">{{ project.title }}</h3>
+				<p itemprop="description">{{ project.description }}</p>
+				<span class="project-stars"><svg><use xlink:href="#star"></use></svg></span>
+			</a>
+		</li>
+		{% endfor %}
+	</ul>
+
+	<h2>Take a look at other projects</h2>
+
+	<ul itemscope itemtype="http://schema.org/ItemList" class="projects-list">
+		{% for project in site.data.projects.list %}
+		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="project-{{ project.title | downcase | replace:' ','' }}">
+			<a itemprop="url" href="{{ project.url }}" target="_blank">
+				<div>
+					<h3 itemprop="name">{{ project.title }}</h3>
+					<p itemprop="description">{{ project.description }}</p>
+				</div>
+				<span class="project-stars"><svg><use xlink:href="#star"></use></svg></span>
+			</a>
+		</li>
+		{% endfor %}
+	</ul>
 </div>

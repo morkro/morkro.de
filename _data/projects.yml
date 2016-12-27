@@ -1,29 +1,32 @@
-- emoji-syntax:
-  img: "../assets/projects/emoji-syntax.jpg"
-  title: "Emoji Syntax"
-  description: "Emoji Syntax is my latest project for the Atom text editor, a hackable editor for the 21st century. The project started out as a joke and eventually turned out to be a real thing. Emoji are everywhere today, why not just use them to support a developer scanning code?"
-  url: "https://github.com/morkro/atom-emoji-syntax"
+banner:
+  - atom-emoji-syntax:
+    img: "../assets/projects/emojisyntax.svg"
+    title: "Emoji Syntax"
+    description: "An Atom editor package which adds customisable emoji to your syntax keywords."
+    url: "https://github.com/morkro/atom-emoji-syntax"
 
-- frontbook:
-  img: "../assets/projects/frontbook.svg"
-  title: "FrontBook"
-  description: "FrontBook is my personal front-end boilerplate specialised on a proper ES6 transpiling process. It is available for Grunt and Gulp by now; other setups are in planning."
-  url: "https://github.com/morkro/FrontBook"
+  - frontbook:
+    img: "../assets/projects/frontbook.svg"
+    title: "FrontBook"
+    description: "Personal front-end boilerplate specialised on a proper ES20XX transpiling process."
+    url: "https://github.com/morkro/FrontBook"
 
-- github-gist-word-count:
-  img: "../assets/projects/gist-word-count.jpg"
-  title: "GitHub Gist Word Count"
-  description: "This is a tiny Chrome extension, adding a word and character count to your files on GitHub Gist."
-  url: "https://github.com/morkro/chrome-gist-word-count"
+  - papyrus:
+    img: "../assets/projects/tetrys.png"
+    title: "Tetrys"
+    description: "Tetris as Progressive Web Application."
+    url: "https://github.com/morkro/tetrys"
 
-- domtimer:
-  img: "../assets/projects/domtimer.svg"
-  title: "DOMtimer"
-  description: "A front-end module to receive, set or count time for the DOM."
-  url: "https://github.com/morkro/DOMtimer"
-
-- browdash:
-  img: "../assets/projects/browdash.png"
-  title: "BrowDash"
-  description: "This is a proof of concept extension for Google Chrome. I wanted to get to know the limits and feasibility of the Web Components specification. BrowDash is a customisable dashboard with widgets like weather, to-do lists, calculator and more."
-  url: "https://github.com/morkro/BrowDash"
+list:
+  - browdash:
+    title: "BrowDash"
+    description: "Proof of concept web application testing the limits and feasibility of the Web Components specification."
+    url: "https://github.com/morkro/browdash"
+  - domtimer:
+    title: "DOMtimer"
+    description: "A front-end module to receive, set or count time for the DOM."
+    url: "https://github.com/morkro/domtimer"
+  - gist-word-count:
+    title: "Chrome Gist Word Count"
+    description: "Adds a word and character count to your files on GitHub Gist."
+    url: "https://github.com/morkro/chrome-gist-word-count"
