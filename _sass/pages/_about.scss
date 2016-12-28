@@ -49,6 +49,10 @@
 .about-text {
    margin-bottom: $base-gap;
 
+	p:not(:last-of-type) {
+		margin-bottom: $page-gap * 2;
+	}
+
    > div:not(.special-info) {
       display: flex;
       flex-direction: row;
@@ -58,7 +62,7 @@
       }
 
       &:not(:last-of-type) {
-         margin-bottom: 30px;
+         margin-bottom: $page-gap * 2;
       }
 
       &:hover .about-mark svg {
@@ -72,7 +76,7 @@
    padding-top: 5px;
 
    @include media("<=tablet") {
-      margin: 0 auto 30px;
+      margin: 0 auto $page-gap * 2;
       padding-top: 0;
       text-align: center;
    }
@@ -102,7 +106,7 @@
       transform: translateX(3%);
 
       @include media("<=tablet") {
-         margin-bottom: 30px;
+         margin-bottom: $page-gap * 2;
       }
    }
 }
