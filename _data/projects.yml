@@ -18,6 +18,10 @@ banner:
     url: "https://github.com/morkro/tetrys"
 
 list:
+  - papyrus:
+    title: "Papyrus"
+    description: "Unofficial Dropbox Paper desktop app"
+    url: "https://github.com/morkro/papyrus"
   - browdash:
     title: "BrowDash"
     description: "Proof of concept web application testing the limits and feasibility of the Web Components specification."

@@ -2,7 +2,7 @@ import 'whatwg-fetch'
 import { $ } from './helper'
 
 const featured = ['atom-emoji-syntax', 'frontbook', 'tetrys']
-const listed = ['browdash', 'domtimer', 'chrome-gist-word-count']
+const listed = ['papyrus', 'browdash', 'domtimer', 'chrome-gist-word-count']
 const $projectsFeatured = $('.projects-featured')
 const $projectsList = $('.projects-list')
 
