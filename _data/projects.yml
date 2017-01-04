@@ -8,7 +8,7 @@ banner:
   - frontbook:
     img: "../assets/projects/frontbook.svg"
     title: "FrontBook"
-    description: "Personal front-end boilerplate specialised on a proper ES20XX transpiling process."
+    description: "Personal front-end boilerplate specialised on a proper ES201* transpiling process."
     url: "https://github.com/morkro/FrontBook"
 
   - papyrus:
