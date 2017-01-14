@@ -86,9 +86,10 @@ $project-preview-gap: 30px;
 		}
 	}
 
-	& li:not(.project-tetrys) .project-image {
+	& li .project-image {
 		padding: $page-border $page-border 5px;
 		background: $shade-of-grey-light;
+		margin-bottom: $page-border;
 	}
 }
 

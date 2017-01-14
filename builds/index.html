@@ -16,13 +16,15 @@ classes: projects
 		{% for project in site.data.projects.banner %}
 		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="project-{{ project.title | downcase | replace:' ','' }}">
 			<a itemprop="url" href="{{ project.url }}" target="_blank">
-				{% if project.img %}
-				<div class="project-image">
-					<img itemprop="image" src="{{ project.img }}" alt="{{ project.title }} logo">
+				<div>
+					{% if project.img %}
+					<div class="project-image">
+						<img itemprop="image" src="{{ project.img }}" alt="{{ project.title }} logo">
+					</div>
+					{% endif %}
+					<h3 itemprop="name">{{ project.title }}</h3>
+					<p itemprop="description">{{ project.description }}</p>
 				</div>
-				{% endif %}
-				<h3 itemprop="name">{{ project.title }}</h3>
-				<p itemprop="description">{{ project.description }}</p>
 				<span class="project-stars"><svg><use xlink:href="#star"></use></svg></span>
 			</a>
 		</li>
