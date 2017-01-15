@@ -87,9 +87,12 @@ $project-preview-gap: 30px;
 	}
 
 	& li .project-image {
-		padding: $page-border $page-border 5px;
+		padding: $page-border;
 		background: $shade-of-grey-light;
 		margin-bottom: $page-border;
+		min-height: 90px;
+		display: flex;
+		align-items: center;
 	}
 }
 
