@@ -24,7 +24,7 @@ classes: blog
 				<h2 itemprop="title">{{ post.title }}</h2>
 			{% endif %}
 				<div class="blog-post-meta">
-					<time itemprop="datePublished" datetime='{{ post.date | date: "%B %e, %" }}'>{{ post.date | date: "%d %B %Y" }}</time>,
+					<time itemprop="datePublished" datetime='{{ post.date | date: "%d %B %Y" }}'>{{ post.date | date: "%d %B %Y" }}</time>,
 					{% if post.external %}
 					Published on <span itemprop="publisher">{{ post.external.host }}</span>
 					{% else %}
