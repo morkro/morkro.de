@@ -1,5 +1,5 @@
 # Moritz Kröger Portfolio [![Build Status](https://travis-ci.org/morkro/morkro.de.svg?branch=master)](https://travis-ci.org/morkro/morkro.de)
-Here lies the source code of my personal website [moritz.berlin](http://moritz.berlin). All code is open and free to use for everyone.
+Here lies the source code of my personal website [moritz.berlin](https://moritz.berlin). All code is open and free to use for everyone.
 
 ## Technology Stack
 The website uses a static page generator running with Ruby to build the website, and Node.js to compile the front-end JavaScript.

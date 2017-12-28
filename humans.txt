@@ -2,6 +2,7 @@
 ---
 /* TEAM */
 Developer: {{ site.title }}
+Designer: {{ site.title }}
 Contact: {{ site.email }}
 Twitter: {{ site.data.socialnetworks.twitter.name }}
 Github: {{ site.data.socialnetworks.github.name }}

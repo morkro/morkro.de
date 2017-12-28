@@ -4,7 +4,7 @@ title: Moritz Kröger 🙋 — Full-Stack Developer, Author, and Open Source con
 email: write@morkro.de
 description: "I am Moritz Kröger, (German) Full-Stack Developer, Author, and Open Source contributor who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions."
 baseurl: ""
-url: "http://morkro.de"
+url: "https://morkro.de"
 
 # Settings
 permalink: /writes/:year/:title/

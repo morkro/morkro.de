@@ -1,19 +1,13 @@
 <script src="/../assets/main.min.js?v={{ site.time | date: "%Y%M%d" }}"></script>
 
 {% if jekyll.environment == 'PROD' %}
-<script async type="text/javascript">
-	var _paq = _paq || [];
-	_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-	_paq.push(["setCookieDomain", "*.www.morkro.de"]);
-	_paq.push(['trackPageView']);
-	_paq.push(['enableLinkTracking']);
-	(function() {
-	var u="//piwik.morkro.de/";
-	_paq.push(['setTrackerUrl', u+'piwik.php']);
-	_paq.push(['setSiteId', 2]);
-	var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-	g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-	})();
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-83519650-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-83519650-1');
 </script>
-<noscript><p><img src="//piwik.morkro.de/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
 {% endif %}
