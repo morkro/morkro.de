@@ -75,7 +75,7 @@ export default class Scrollex {
 	init () {
 		for (let i = 0; i < this.elements.length; i++) {
 			this.elements[i][0]
-			.addEventListener('click', this.scrollTo.bind(this, this.elements[i][1]), false)
+				.addEventListener('click', this.scrollTo.bind(this, this.elements[i][1]), false)
 		}
 	}
 }
