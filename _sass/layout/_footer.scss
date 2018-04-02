@@ -2,174 +2,198 @@
  * FOOTER
  */
 #page-footer {
-   width: 100vw;
-	 transform: translateX(-#{$page-border});
-   padding: $base-gap 0 35px;
-   text-align: center;
-   background-color: black;
+	width: 100vw;
+	transform: translateX(-#{$page-border});
+	padding: $base-gap 0 35px;
+	text-align: center;
+	background-color: black;
 
-   @include media("<=tablet") {
-      padding: 70px 0 20px;
-			transform: translateX(-#{$page-border-medium});
-   }
+	@include media('<=tablet') {
+		padding: 70px 0 20px;
+		transform: translateX(-#{$page-border-medium});
+	}
 
-   span { font-size: inherit; }
+	span {
+		font-size: inherit;
+	}
 }
 
 .footer-inner {
-   display: flex;
-   justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 
-   @include media("<=tablet") {
-      display: block;
-   }
+	@include media('<=tablet') {
+		display: block;
+	}
 }
 
 .footer-info {
-   text-align: left;
-   width: 60%;
+	text-align: left;
+	width: 60%;
 
-   @include media("<=tablet") {
-      text-align: center;
-      width: 100%;
-   }
+	@include media('<=tablet') {
+		text-align: center;
+		width: 100%;
+	}
 
-   p:not(:last-of-type) { margin-bottom: 20px; }
+	p:not(:last-of-type) {
+		margin-bottom: 20px;
+	}
 
-   iframe {
-      @include media("<=422px") {
-         margin-bottom: 20px;
-      }
-   }
+	iframe {
+		@include media('<=422px') {
+			margin-bottom: 20px;
+		}
+	}
 
-   > p {
-      width: 90%;
-      color: $light-grey;
-      font-size: 90%;
-      line-height: 24px;
-      margin-bottom: 25px;
+	> p {
+		width: 90%;
+		color: $light-grey;
+		font-size: 90%;
+		line-height: 24px;
+		margin-bottom: 25px;
 
-      @include media("<=tablet") {
-         width: 100%;
-      }
-   }
+		@include media('<=tablet') {
+			width: 100%;
+		}
+	}
 
-   > p > a {
-      color: white;
-      cursor: text;
-      font-style: italic;
-      font-weight: 400;
-   }
+	> p > a {
+		color: white;
+		cursor: text;
+		font-style: italic;
+		font-weight: 400;
+	}
 }
 
 .footer-menu {
-   text-align: right;
-   width: 40%;
+	text-align: right;
+	width: 40%;
 
-   @include media("<=tablet") {
-      text-align: center;
-      margin-top: 50px;
-      width: 100%;
-   }
+	@include media('<=tablet') {
+		text-align: center;
+		margin-top: 50px;
+		width: 100%;
+	}
 
-   a, span {
-      font-size: 90%;
-      font-weight: 400;
-   }
+	a,
+	span {
+		font-size: 90%;
+		font-weight: 400;
+	}
 
-   ul { list-style: none; }
+	ul {
+		list-style: none;
+	}
 
-   a {
-      color: white;
-      position: relative;
-      transition: color 150ms ease-in-out;
+	a {
+		color: white;
+		position: relative;
+		transition: color 150ms ease-in-out;
 
-      &:hover {
-         color: $link-color;
+		&:hover {
+			color: $link-color;
 
-         &::before { transform: scaleX(1); }
-      }
+			&::before {
+				transform: scaleX(1);
+			}
+		}
 
-      &::before {
-         @include animated-border($link-color);
-      }
+		&::before {
+			@include animated-border($link-color);
+		}
 
-      @include media("<=500px") {
-         &::before, &::after { display: none; }
-      }
-   }
+		@include media('<=500px') {
+			&::before,
+			&::after {
+				display: none;
+			}
+		}
+	}
 
-   > a {
-      font-size: 70%;
-   }
+	> a {
+		font-size: 70%;
+	}
 }
 
 .footer-socialmedia {
-   margin-left: 15px;
-   margin-bottom: 20px;
-   display: inline-block;
-   list-style: none;
+	margin-left: 15px;
+	margin-bottom: 20px;
+	display: inline-block;
+	list-style: none;
 
-   svg {
-      width: 22px;
-      height: 22px;
-      fill: white;
-      transition: fill 150ms ease-in-out;
-   }
+	svg {
+		width: 22px;
+		height: 22px;
+		fill: white;
+		transition: fill 150ms ease-in-out;
+	}
 
-   li {
-      display: inline-block;
-      margin-right: 15px;
-   }
+	li {
+		display: inline-block;
+		margin-right: 15px;
+	}
 
-   a {
-      display: block;
-      line-height: 0;
+	a {
+		display: block;
+		line-height: 0;
 
-      &:hover svg { fill: $link-color; }
+		&:hover svg {
+			fill: $link-color;
+		}
 
-      &:active, &:focus {
-         background: none;
-         svg { fill: $link-hover; }
-      }
-   }
+		&:active,
+		&:focus {
+			background: none;
+			svg {
+				fill: $link-hover;
+			}
+		}
+	}
 }
 
 .footer-content {
-   p {
-      text-align: left;
-      font-size: 70%;
-      color: rgba(255, 255, 255, .5);
+	p {
+		text-align: left;
+		font-size: 70%;
+		color: rgba(255, 255, 255, 0.5);
 
-      @include media("<=tablet") {
-         text-align: center;
-      }
-   }
+		@include media('<=tablet') {
+			text-align: center;
+		}
+	}
 
-   a {
-      color: white;
-      transition: color 150ms ease-in-out;
-      &:hover { color: $link-color; }
-   }
+	a {
+		color: white;
+		transition: color 150ms ease-in-out;
+		&:hover {
+			color: $link-color;
+		}
+	}
 }
 
 .footer-gotop {
-   display: inline-block;
-   padding: 0;
-   margin-top: 50px;
+	display: inline-block;
+	padding: 0;
+	margin-top: 50px;
 
-   &:hover svg { transform: translateY(-25%); }
+	&:hover svg {
+		transform: translateY(-25%);
+	}
 
-   &:active, &:focus {
-      background: none;
-      svg { transform: translateY(-25%); }
-   }
+	&:active,
+	&:focus {
+		background: none;
+		svg {
+			transform: translateY(-25%);
+		}
+	}
 
-   svg {
-      width: 30px;
-      height: 30px;
-      fill: white;
-      transform: translateY(0);
-      transition: transform 150ms $easeOutBack;
-   }
+	svg {
+		width: 30px;
+		height: 30px;
+		fill: white;
+		transform: translateY(0);
+		transition: transform 150ms $easeOutBack;
+	}
 }

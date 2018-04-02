@@ -2,16 +2,16 @@
  * SPECIAL TEXT NOTIFICATION
  */
 .special-info {
-   background: white;
-   width: 110%;
-   margin: 50px 0;
-   padding: 30px  $page-padding;
-   border-left: none;
-   text-align: center;
-   font-style: italic;
-   transform: translateX(-5%);
+	background: white;
+	width: 110%;
+	margin: 50px 0;
+	padding: 30px $page-padding;
+	border-left: none;
+	text-align: center;
+	font-style: italic;
+	transform: translateX(-5%);
 
-   @include media("<=tablet") {
-      padding: 30px #{$page-padding * 2};
-   }
+	@include media('<=tablet') {
+		padding: 30px #{$page-padding * 2};
+	}
 }

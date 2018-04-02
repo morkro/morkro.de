@@ -10,7 +10,7 @@ $project-preview-gap: 30px;
 }
 
 .template-projects .headline-gradient + p {
-   margin-top: $base-gap;
+	margin-top: $base-gap;
 }
 
 .template-projects .project-stars {
@@ -36,7 +36,7 @@ $project-preview-gap: 30px;
 	margin-top: $base-gap;
 	margin-bottom: $base-gap;
 
-	@include media("<=tablet") {
+	@include media('<=tablet') {
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
@@ -53,7 +53,7 @@ $project-preview-gap: 30px;
 			box-shadow: $base-shadow;
 		}
 
-		@include media("<=tablet") {
+		@include media('<=tablet') {
 			width: 100%;
 			margin-bottom: $page-gap;
 		}
@@ -81,36 +81,36 @@ $project-preview-gap: 30px;
 		font-size: 16px;
 		line-height: 24px;
 
-		@include media("<=tablet") {
+		@include media('<=tablet') {
 			margin-top: $page-gap;
 		}
 	}
+}
 
-	& li .project-image {
-		padding: $page-border;
-		background: $shade-of-grey-light;
-		margin-bottom: $page-border;
-		min-height: 90px;
-		display: flex;
-		align-items: center;
-	}
+.project-image {
+	padding: $page-border;
+	background: $shade-of-grey-light;
+	margin-bottom: $page-border;
+	min-height: 90px;
+	display: flex;
+	align-items: center;
 }
 
 .projects-list {
-   width: 100%;
-   list-style: none;
-   margin-top: $base-gap - 50px;
+	width: 100%;
+	list-style: none;
+	margin-top: $base-gap - 50px;
 	padding-bottom: $base-gap;
 
-   li {
-      margin-bottom: 10px;
-      background-color: white;
-      width: 100%;
+	li {
+		margin-bottom: 10px;
+		background-color: white;
+		width: 100%;
 
-      &:last-child {
-        margin-bottom: 0;
-      }
-   }
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
 
 	.project-stars {
 		margin-left: $page-gap;
@@ -121,12 +121,12 @@ $project-preview-gap: 30px;
 		margin-right: $page-gap;
 	}
 
-   a {
-      display: flex;
+	a {
+		display: flex;
 		justify-content: space-between;
 		padding: $page-border;
 
-		@include media("<=tablet") {
+		@include media('<=tablet') {
 			flex-direction: column;
 		}
 
@@ -134,12 +134,12 @@ $project-preview-gap: 30px;
 			display: flex;
 			align-items: center;
 
-			@include media("<=tablet") {
+			@include media('<=tablet') {
 				flex-direction: column;
 				align-items: flex-start;
 			}
 		}
-   }
+	}
 
 	p {
 		font-size: 16px;

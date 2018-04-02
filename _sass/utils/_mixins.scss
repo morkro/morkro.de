@@ -3,30 +3,29 @@
  * Supports IE, Gecko, Webkit, Opera.
  * Usage: @include font-face($family, $files, [$weight], [$style]);
  */
-@mixin font-face(
-	$family,
-	$files,
-	$weight: false,
-	$style: false
-) {
+@mixin font-face($family, $files, $weight: false, $style: false) {
 	@font-face {
 		font-family: quote($family);
-		src: url($files + '.ttf') unquote("format('truetype')");
+		src: url($files+'.ttf') unquote("format('truetype')");
 
-		@if $weight { font-weight: $weight; }
-		@if $style { font-style: unquote($style); }
+		@if $weight {
+			font-weight: $weight;
+		}
+		@if $style {
+			font-style: unquote($style);
+		}
 	}
 }
 
-@mixin animated-border ($background-color) {
+@mixin animated-border($background-color) {
 	width: 100%;
-   height: 2px;
-   position: absolute;
-   content: "";
-   bottom: 0;
-   left: 0;
+	height: 2px;
+	position: absolute;
+	content: '';
+	bottom: 0;
+	left: 0;
 	background-color: $background-color;
-   transform: scaleX(0);
-   transform-origin: center;
-   transition: transform 175ms $easeOutBack;
+	transform: scaleX(0);
+	transform-origin: center;
+	transition: transform 175ms $easeOutBack;
 }

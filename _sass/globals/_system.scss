@@ -21,8 +21,8 @@ body {
 		font-family: $Roboto;
 	}
 
-	@include media("<=tablet") {
-		 border-width: $page-border-medium;
+	@include media('<=tablet') {
+		border-width: $page-border-medium;
 	}
 }
 
@@ -35,7 +35,7 @@ body {
  * Forms
  */
 input {
-	border: 2px solid rgba(0,0,0,0.2);
+	border: 2px solid rgba(0, 0, 0, 0.2);
 	font-family: $Courier;
 	padding: 5px 15px;
 	transition: border 150ms ease-in-out;
@@ -45,11 +45,12 @@ input {
 	}
 
 	&:hover {
-		border: 2px solid rgba(0,0,0,0.3);
+		border: 2px solid rgba(0, 0, 0, 0.3);
 	}
 
-	&:active, &:focus {
-		border: 2px solid rgba(0,0,0,0.5);
+	&:active,
+	&:focus {
+		border: 2px solid rgba(0, 0, 0, 0.5);
 		outline: none;
 	}
 }
@@ -59,7 +60,8 @@ input {
  * This is experimental and not fully supported in most browsers.
  * Anyway, I want to test this feature.
  */
-img[src$=".jpg"], img[src$=".png"] {
+img[src$='.jpg'],
+img[src$='.png'] {
 	image-rendering: crisp-edges;
 	-ms-interpolation-mode: nearest-neighbor;
 }

@@ -2,129 +2,131 @@
  * ABOUT
  */
 .about-intro {
-   margin-top: $base-gap;
-   position: relative;
-   z-index: 1;
+	margin-top: $base-gap;
+	position: relative;
+	z-index: 1;
 
-   p {
-      font-size: 160%;
-      font-weight: 400;
-      line-height: 150%;
-      color: $special-text-color;
+	p {
+		font-size: 160%;
+		font-weight: 400;
+		line-height: 150%;
+		color: $special-text-color;
 
-      @include media("<=tablet") {
-         font-size: 140%;
-         line-height: 30px;
-      }
-   }
+		@include media('<=tablet') {
+			font-size: 140%;
+			line-height: 30px;
+		}
+	}
 
-   a {
-      display: inline-block;
-      margin-top: 12px;
+	a {
+		display: inline-block;
+		margin-top: 12px;
 
-      &:hover svg { transform: translateY(25%); }
+		&:hover svg {
+			transform: translateY(25%);
+		}
 
-      @include media("<=tablet") {
-         display: none;
-      }
-   }
+		@include media('<=tablet') {
+			display: none;
+		}
+	}
 
-   svg {
-      width: 30px;
-      height: 30px;
-      transform: translateY(0);
-      transition: transform 150ms $easeOutBack;
-   }
+	svg {
+		width: 30px;
+		height: 30px;
+		transform: translateY(0);
+		transition: transform 150ms $easeOutBack;
+	}
 }
 
 .about-photo {
-   margin-top: -90px;
-   margin-bottom: 50px;
+	margin-top: -90px;
+	margin-bottom: 50px;
 
-   @include media("<=tablet") {
-      margin-top: 50px;
-   }
+	@include media('<=tablet') {
+		margin-top: 50px;
+	}
 }
 
 .about-text {
-   margin-bottom: $base-gap;
+	margin-bottom: $base-gap;
 
 	p:not(:last-of-type) {
 		margin-bottom: $page-gap * 2;
 	}
 
-   > div:not(.special-info) {
-      display: flex;
-      flex-direction: row;
+	> div:not(.special-info) {
+		display: flex;
+		flex-direction: row;
 
-      @include media("<=tablet") {
-         display: block;
-      }
+		@include media('<=tablet') {
+			display: block;
+		}
 
-      &:not(:last-of-type) {
-         margin-bottom: $page-gap * 2;
-      }
+		&:not(:last-of-type) {
+			margin-bottom: $page-gap * 2;
+		}
 
-      &:hover .about-mark svg {
-         fill: $blue;
-      }
-   }
+		&:hover .about-mark svg {
+			fill: $blue;
+		}
+	}
 }
 
 .about-mark {
-   margin-right: 50px;
-   padding-top: 5px;
+	margin-right: 50px;
+	padding-top: 5px;
 
-   @include media("<=tablet") {
-      margin: 0 auto $page-gap * 2;
-      padding-top: 0;
-      text-align: center;
-   }
+	@include media('<=tablet') {
+		margin: 0 auto $page-gap * 2;
+		padding-top: 0;
+		text-align: center;
+	}
 
-   svg {
-      width: 35px;
-      height: 35px;
-      fill: $shade-of-grey-dark;
-      transition: fill 150ms ease-in-out;
-   }
+	svg {
+		width: 35px;
+		height: 35px;
+		fill: $shade-of-grey-dark;
+		transition: fill 150ms ease-in-out;
+	}
 }
 
 .about-travels {
-   width: 100%;
-   background: white;
-   padding: 45px 0 $base-gap;
-   overflow-x: hidden;
+	width: 100%;
+	background: white;
+	padding: 45px 0 $base-gap;
+	overflow-x: hidden;
 
-   .headline-gradient {
-      margin-bottom: $base-gap;
-   }
+	.headline-gradient {
+		margin-bottom: $base-gap;
+	}
 
-   .travels-map {
-      display: block;
-      max-width: 90%;
-      margin: $base-gap auto 0;
-      transform: translateX(3%);
+	.travels-map {
+		display: block;
+		max-width: 90%;
+		margin: $base-gap auto 0;
+		transform: translateX(3%);
 
-      @include media("<=tablet") {
-         margin-bottom: $page-gap * 2;
-      }
-   }
+		@include media('<=tablet') {
+			margin-bottom: $page-gap * 2;
+		}
+	}
 }
 
 .travels-next {
-   display: none;
-   text-align: center;
+	display: none;
+	text-align: center;
 
-   svg {
-      width: 35px;
-      height: 35px;
-      display: inline-block;
-      vertical-align: middle;
-      transform: translateY(-2px);
-   }
+	svg {
+		width: 35px;
+		height: 35px;
+		display: inline-block;
+		vertical-align: middle;
+		transform: translateY(-2px);
+	}
 
-   span:not(.travels-nextcity) {
-      color: $shade-of-grey-dark;
-      font-style: italic;
-   }
+	span:not(.travels-nextcity) {
+		color: $shade-of-grey-dark;
+		font-style: italic;
+	}
 }

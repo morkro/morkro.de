@@ -2,28 +2,24 @@
  * HEADLINES
  */
 .headline-gradient {
-   text-align: center;
-   margin-bottom: 6px;
+	text-align: center;
+	margin-bottom: 6px;
 
-   h1 {
-      display: inline;
-      padding: 0 25px;
-      background-repeat: no-repeat;
-      background-size: 100% 8px;
-      background-position: center bottom 14px;
-      background-image: linear-gradient(
-         to right,
-         $gradient-start,
-         $gradient-end
-      );
-      box-decoration-break: clone;
-      -webkit-box-decoration-break: clone;
-      -moz-background-inline-policy: each-box;
+	h1 {
+		display: inline;
+		padding: 0 25px;
+		background-repeat: no-repeat;
+		background-size: 100% 8px;
+		background-position: center bottom 14px;
+		background-image: linear-gradient(to right, $gradient-start, $gradient-end);
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+		-moz-background-inline-policy: each-box;
 
-      @include media("<=tablet") {
-         background-size: 100% 4px;
-         background-position: center bottom 8px;
+		@include media('<=tablet') {
+			background-size: 100% 4px;
+			background-position: center bottom 8px;
 			padding: 0 10px;
-      }
-   }
+		}
+	}
 }

@@ -1,3 +1,4 @@
+/* stylelint-disable scss/selector-no-redundant-nesting-selector */
 .highlight {
 	$light-grey: #efefef;
 
@@ -5,7 +6,7 @@
 	color: #929292;
 	margin: 0 0 $base-gap / 2;
 	border-top: 4px solid rgba(0, 0, 0, 0.1);
-   border-bottom: 4px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 4px solid rgba(0, 0, 0, 0.1);
 
 	pre, code, kbd, samp {
 		white-space: pre;
@@ -97,3 +98,4 @@
 	.vi { color: #C82829; }									// Name.Variable
 	.il { color: #F5871F; }
 }
+/* stylelint-enable */

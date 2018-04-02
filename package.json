@@ -1,18 +1,20 @@
 {
   "name": "morkro.de",
-  "version": "1.3.10",
+  "version": "1.3.11",
   "description": "Portfolio of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
   "scripts": {
     "bundle": "browserify -e scripts/main.js > scripts/main.min.js",
     "compress": "uglifyjs scripts/main.min.js > assets/main.min.js -c",
-    "test": "eslint --ignore-path=.eslintignore scripts/",
+    "lint:js": "eslint --ignore-path=.eslintignore scripts/",
+    "lint:css": "stylelint \"_sass/**/*.scss\" --syntax scss",
+    "lint": "npm run lint:js && npm run lint:css",
     "js": "npm run bundle && npm run compress",
     "watch": "watch -p \"scripts/*.js\" -c \"npm run js\"",
-    "start": "npm run test && npm run js && jekyll serve --watch",
-    "dev": "npm run test && npm run js && bundle exec jekyll serve",
-    "prod": "npm run test && npm run js && JEKYLL_ENV=PROD jekyll build"
+    "start": "npm run lint && npm run js && jekyll serve --watch",
+    "dev": "npm run lint && npm run js && bundle exec jekyll serve",
+    "prod": "npm run lint && npm run js && JEKYLL_ENV=PROD jekyll build"
   },
   "browserify": {
     "transform": [
@@ -27,7 +29,9 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^4.19.0"
+    "eslint": "^4.19.0",
+    "stylelint": "^9.2.0",
+    "stylelint-scss": "^3.0.0"
   },
   "dependencies": {
     "babel-core": "^6.26.0",

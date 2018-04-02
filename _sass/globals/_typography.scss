@@ -1,7 +1,12 @@
 /**
  * Headlines
  */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	font-weight: 500;
 }
 
@@ -16,7 +21,7 @@ h1 {
 		font-family: $RobotoMono;
 	}
 
-	@include media("<=tablet") {
+	@include media('<=tablet') {
 		font-size: 46px;
 		line-height: 48px;
 		letter-spacing: -1px;
@@ -37,7 +42,12 @@ h3 {
 /**
  * Copy
  */
-p, span, a, address, button, li {
+p,
+span,
+a,
+address,
+button,
+li {
 	font-weight: 300;
 	font-size: 20px;
 	line-height: 32px;
@@ -47,7 +57,8 @@ p {
 	color: $normal-text;
 }
 
-b, strong {
+b,
+strong {
 	font-weight: 400;
 }
 
@@ -64,7 +75,7 @@ blockquote {
 	padding: 15px 5%;
 	font-style: italic;
 
-	@include media("<=tablet") {
+	@include media('<=tablet') {
 		width: calc(100% + 40px); // Double of .container padding
 		transform: translateX(-20px);
 		padding: 15px 20px;
@@ -87,7 +98,8 @@ a {
 		color: $link-hover;
 	}
 
-	&:active, &:focus {
+	&:active,
+	&:focus {
 		background: lighten($link-color, 90%);
 		outline: none;
 	}
@@ -101,9 +113,12 @@ a {
 /**
  * Code
  */
-code:not([data-lang]), kbd, pre:not([data-lang]), samp {
+code:not([data-lang]),
+kbd,
+pre:not([data-lang]),
+samp {
 	color: $special-text-color;
-	background: rgba(255, 255, 255, .5);
+	background: rgba(255, 255, 255, 0.5);
 	padding: 0 2px;
 	font-family: $Courier;
 	font-size: 85%;
@@ -116,6 +131,11 @@ code:not([data-lang]), kbd, pre:not([data-lang]), samp {
 	}
 }
 
-a { code, kbd, pre, samp {
-	color: inherit;
-} }
+a {
+	code,
+	kbd,
+	pre,
+	samp {
+		color: inherit;
+	}
+}

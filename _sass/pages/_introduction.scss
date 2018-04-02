@@ -8,345 +8,350 @@ $intro-right-column: 59%;
  * Header
  */
 .template-introduction .header-name {
-  &::after,
-  img {
-    display: none;
-  }
+	&::after,
+	img {
+		display: none;
+	}
 
-  a {
-    cursor: text;
-  }
+	a {
+		cursor: text;
+	}
 }
 
 /**
  * Start
  */
 .intro-start {
-    margin-bottom: $base-gap;
-    display: flex;
-    flex-flow: row wrap;
+	margin-bottom: $base-gap;
+	display: flex;
+	flex-flow: row wrap;
 
-    .headline-gradient {
-         flex: 1 100%;
-         display: flex;
-         justify-content: flex-end;
-         margin-bottom: -115px;
-         position: relative;
-         z-index: 1;
+	.headline-gradient {
+		flex: 1 100%;
+		display: flex;
+		justify-content: flex-end;
+		margin-bottom: -115px;
+		position: relative;
+		z-index: 1;
 
-         @include media("<=950px") {
-             margin-bottom: -4%;
-             justify-content: center;
-         }
+		@include media('<=950px') {
+			margin-bottom: -4%;
+			justify-content: center;
+		}
 
-         @include media("<=850px") {
-             margin-bottom: 0;
-         }
+		@include media('<=850px') {
+			margin-bottom: 0;
+		}
 
-         @include media("<=tablet") {
-             order: 1;
-             display: block;
-         }
+		@include media('<=tablet') {
+			order: 1;
+			display: block;
+		}
 
-         h1 {
-             font-size: 450%;
-             margin: 0;
+		h1 {
+			font-size: 450%;
+			margin: 0;
 
-             @include media(">=tablet") {
-                  font-size: 675%;
-                  background-size: 100% 8px;
-                  background-position: center bottom 15px;
-             }
+			@include media('>=tablet') {
+				font-size: 675%;
+				background-size: 100% 8px;
+				background-position: center bottom 15px;
+			}
 
-             @include media("<=tablet") {
-                  line-height: 70px;
-                  background-size: 100% 6px;
-                  background-position: center bottom 14px;
-             }
-         }
-    }
+			@include media('<=tablet') {
+				line-height: 70px;
+				background-size: 100% 6px;
+				background-position: center bottom 14px;
+			}
+		}
+	}
 }
 
 .intro-start-photo {
-    display: flex;
-    flex: 1 auto;
-    width: $intro-left-column;
+	display: flex;
+	flex: 1 auto;
+	width: $intro-left-column;
 
-    @include media("<=tablet") {
-         flex: 1 100%;
-         order: 3;
-         margin-top: $base-gap;
-    }
+	@include media('<=tablet') {
+		flex: 1 100%;
+		order: 3;
+		margin-top: $base-gap;
+	}
 
-    img {
-         align-self: flex-end;
+	img {
+		align-self: flex-end;
 
-         @include media("<=tablet") {
-             width: 50%;
-             margin: 0 auto;
-         }
-    }
+		@include media('<=tablet') {
+			width: 50%;
+			margin: 0 auto;
+		}
+	}
 }
 
 .intro-start-content {
-    width: $intro-right-column;
-    padding-left: 60px;
-    flex: 1 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+	width: $intro-right-column;
+	padding-left: 60px;
+	flex: 1 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
 
-    @include media("<=tablet") {
-         flex: 1 100%;
-         order: 2;
-         padding-left: 0;
-    }
+	@include media('<=tablet') {
+		flex: 1 100%;
+		order: 2;
+		padding-left: 0;
+	}
 
-    p {
-         background: white;
-         padding: 20px 25px;
-         font-weight: 400;
-         font-size: 174%;
-         line-height: 38px;
-         color: $special-text-color;
-         align-self: flex-end;
+	p {
+		background: white;
+		padding: 20px 25px;
+		font-weight: 400;
+		font-size: 174%;
+		line-height: 38px;
+		color: $special-text-color;
+		align-self: flex-end;
 
-         @include media("<=1040px") {
-             font-size: 150%;
-             line-height: 34px;
-         }
+		@include media('<=1040px') {
+			font-size: 150%;
+			line-height: 34px;
+		}
 
-         @include media("<=825px") {
-             font-size: 140%;
-             line-height: 30px;
-         }
-    }
+		@include media('<=825px') {
+			font-size: 140%;
+			line-height: 30px;
+		}
+	}
 }
 
 /**
  * Sections
  */
 .intro-section {
-    margin-bottom: $base-gap;
-    display: flex;
+	margin-bottom: $base-gap;
+	display: flex;
 
-    @include media("<=825px") {
-         display: block;
-    }
+	@include media('<=825px') {
+		display: block;
+	}
 
-    aside {
-         width: $intro-left-column;
-         text-align: right;
+	aside {
+		width: $intro-left-column;
+		text-align: right;
 
-         @include media("<=825px") {
-             width: 100%;
-             text-align: center;
-             margin-bottom: 30px;
-         }
-    }
+		@include media('<=825px') {
+			width: 100%;
+			text-align: center;
+			margin-bottom: 30px;
+		}
+	}
 
-    aside p {
-         font-size: 100%;
-         color: $shade-of-grey-dark;
-    }
+	aside p {
+		font-size: 100%;
+		color: $shade-of-grey-dark;
+	}
 
-    h2 {
-         font-size: 300%;
-         font-family: $RobotoMono;
-         font-weight: 300;
-         line-height: 48px;
-         margin-bottom: 10px;
+	h2 {
+		font-size: 300%;
+		font-family: $RobotoMono;
+		font-weight: 300;
+		line-height: 48px;
+		margin-bottom: 10px;
 
-         @include media("<=450px") {
-             font-size: 250%;
-             line-height: 40px;
-         }
-    }
+		@include media('<=450px') {
+			font-size: 250%;
+			line-height: 40px;
+		}
+	}
 }
 
 .intro-content {
-    width: $intro-right-column;
-    padding-left: 60px;
+	width: $intro-right-column;
+	padding-left: 60px;
 
-    @include media("<=825px") {
-         width: 100%;
-         padding-left: 0;
-    }
+	@include media('<=825px') {
+		width: 100%;
+		padding-left: 0;
+	}
 
-    p {
-         padding-top: 5px;
+	p {
+		padding-top: 5px;
 
-         &:not(:last-of-type) {
-             margin-bottom: 30px;
-         }
-    }
+		&:not(:last-of-type) {
+			margin-bottom: 30px;
+		}
+	}
 
-    svg {
-         width: 24px;
-         height: 24px;
-         vertical-align: text-bottom;
-         display: inline-block;
-    }
+	svg {
+		width: 24px;
+		height: 24px;
+		vertical-align: text-bottom;
+		display: inline-block;
+	}
 }
 
-.intro-writing-link  {
-   font-family: $RobotoMono;
-   font-size: 100%;
-   font-weight: 400;
-   background: white;
-   display: block;
-   width: 100%;
-   line-height: 20px;
-   padding: 15px 10px;
-   margin-top: 10px;
-   transition: background 150ms ease-in-out,
-               color 150ms ease-in-out;
+.intro-writing-link {
+	font-family: $RobotoMono;
+	font-size: 100%;
+	font-weight: 400;
+	background: white;
+	display: block;
+	width: 100%;
+	line-height: 20px;
+	padding: 15px 10px;
+	margin-top: 10px;
+	transition: background 150ms ease-in-out, color 150ms ease-in-out;
 
-   &:hover {
-      background: $link-color;
-      color: white;
+	&:hover {
+		background: $link-color;
+		color: white;
 
-      span {
-         color: $shade-of-white-light;
-      }
-   }
+		span {
+			color: $shade-of-white-light;
+		}
+	}
 
-   svg {
-      fill: $shade-of-grey-dark;
-      width: 20px;
-      height: 20px;
-   }
+	svg {
+		fill: $shade-of-grey-dark;
+		width: 20px;
+		height: 20px;
+	}
 
-   span {
-      color: $shade-of-grey-dark;
-      display: block;
-      font-size: 85%;
-      line-height: 130%;
-      margin-top: 6px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-      transition: color 150ms ease-in-out;
-   }
+	span {
+		color: $shade-of-grey-dark;
+		display: block;
+		font-size: 85%;
+		line-height: 130%;
+		margin-top: 6px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		transition: color 150ms ease-in-out;
+	}
 }
 
 .section-list {
-    display: flex;
-    justify-content: flex-end;
-    list-style: none;
+	display: flex;
+	justify-content: flex-end;
+	list-style: none;
 
-    @include media("<=825px") {
-         justify-content: center;
-    }
+	@include media('<=825px') {
+		justify-content: center;
+	}
 
-    @include media("<=450px") {
-         margin-top: 20px;
-         justify-content: space-around;
-         span { display: none; }
-    }
+	@include media('<=450px') {
+		margin-top: 20px;
+		justify-content: space-around;
+		span {
+			display: none;
+		}
+	}
 
-    li:not(:first-of-type) {
-         margin-left: 15px;
+	li:not(:first-of-type) {
+		margin-left: 15px;
 
-         @include media("<=450px") {
-             margin: 0;
-         }
-    }
+		@include media('<=450px') {
+			margin: 0;
+		}
+	}
 
-    a {
-         font-size: 80%;
-         &:hover svg { fill: $special-text-color; }
-    }
+	a {
+		font-size: 80%;
+		&:hover svg {
+			fill: $special-text-color;
+		}
+	}
 
-    span { font-size: inherit; }
+	span {
+		font-size: inherit;
+	}
 
-    svg {
-         fill: $shade-of-grey-dark;
-         width: 15px;
-         height: 15px;
-         transform: translateY(2px);
-         transition: fill 150ms ease-in-out;
+	svg {
+		fill: $shade-of-grey-dark;
+		width: 15px;
+		height: 15px;
+		transform: translateY(2px);
+		transition: fill 150ms ease-in-out;
 
-         @include media("<=450px") {
-             width: 30px;
-             height: 30px;
-         }
-    }
+		@include media('<=450px') {
+			width: 30px;
+			height: 30px;
+		}
+	}
 }
 
 /**
  * Teaser
  */
 .intro-teaser {
-    width: 100%;
-    padding: $base-gap 0;
-    background: white;
-    text-align: center;
+	width: 100%;
+	padding: $base-gap 0;
+	background: white;
+	text-align: center;
 }
 
 .teaser-main-link {
-    display: block;
-    font-family: $RobotoMono;
-    font-size: 200%;
-    font-weight: 300;
-    width: 45%;
-    margin: 0 auto;
-    line-height: 43px;
+	display: block;
+	font-family: $RobotoMono;
+	font-size: 200%;
+	font-weight: 300;
+	width: 45%;
+	margin: 0 auto;
+	line-height: 43px;
 
-    @include media("<=tablet") {
-         font-size: 170%;
-         width: 100%;
-    }
+	@include media('<=tablet') {
+		font-size: 170%;
+		width: 100%;
+	}
 
-    @include media("<=500px") {
-         font-size: 150%;
-         line-height: 28px;
-    }
+	@include media('<=500px') {
+		font-size: 150%;
+		line-height: 28px;
+	}
 
-    a {
-         color: $special-text-color;
-         font-weight: inherit;
-         line-height: inherit;
-    }
+	a {
+		color: $special-text-color;
+		font-weight: inherit;
+		line-height: inherit;
+	}
 
-    span {
-         color: $link-color;
-         font-size: inherit;
-         font-weight: inherit;
-         transition: color 150ms ease-in-out;
-    }
+	span {
+		color: $link-color;
+		font-size: inherit;
+		font-weight: inherit;
+		transition: color 150ms ease-in-out;
+	}
 
-    &:hover span {
-         color: $link-hover;
-    }
+	&:hover span {
+		color: $link-hover;
+	}
 
-    svg {
-         fill: $special-text-color;
-         width: 40px;
-         height: 40px;
-         vertical-align: bottom;
-         transition: translateX(0);
-         transition: transform 150ms $easeOutBack;
+	svg {
+		fill: $special-text-color;
+		width: 40px;
+		height: 40px;
+		vertical-align: bottom;
+		transition: translateX(0);
+		transition: transform 150ms $easeOutBack;
 
-         @include media("<=500px") {
-             width: 30px;
-             height: 30px;
-         }
-    }
+		@include media('<=500px') {
+			width: 30px;
+			height: 30px;
+		}
+	}
 
-    &:hover svg {
-         transform: translateX(50%);
-    }
+	&:hover svg {
+		transform: translateX(50%);
+	}
 }
 
 .teaser-social-link {
-    margin-top: 15px;
-    display: inline-block;
+	margin-top: 15px;
+	display: inline-block;
 
-    svg {
-         width: 15px;
-         height: 15px;
-         fill: $link-color;
-         transform: translateY(2px);
-    }
+	svg {
+		width: 15px;
+		height: 15px;
+		fill: $link-color;
+		transform: translateY(2px);
+	}
 }

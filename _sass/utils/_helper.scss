@@ -8,23 +8,28 @@
  *    ":before" to contain the top-margins of child elements.
  */
 .clearfix {
-	*zoom: 1;  				// For IE 6/7 only (trigger hasLayout).
+	*zoom: 1; // For IE 6/7 only (trigger hasLayout).
 
-	&:before, &:after {
-		content: " ";		// 1
-		display: table;	// 2
+	&:before,
+	&:after {
+		content: ' '; // 1
+		display: table; // 2
 	}
 
 	&:after {
-		clear:both;
+		clear: both;
 	}
 }
 
 /**
  * Floating helpers used in combination with clearfix.
  */
-.left { float: left; }
-.right { float: right; }
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
 
 /**
  * Page grid
@@ -36,5 +41,10 @@
 	padding: 0 $page-padding;
 }
 
-.container { max-width: $page-width; }
-.container-large { max-width: $page-width-large; }
+.container {
+	max-width: $page-width;
+}
+
+.container-large {
+	max-width: $page-width-large;
+}

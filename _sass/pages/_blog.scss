@@ -49,7 +49,7 @@
 		line-height: 145%;
 		letter-spacing: -1px;
 
-		@include media("<=tablet") {
+		@include media('<=tablet') {
 			line-height: 38px;
 		}
 	}
@@ -58,7 +58,7 @@
 		font-size: 85%;
 
 		&:after {
-			content: "...";
+			content: '...';
 		}
 	}
 }
@@ -72,7 +72,8 @@
 		font-weight: 400;
 	}
 
-	time, span {
+	time,
+	span {
 		font-size: 100%;
 	}
 }
@@ -93,7 +94,7 @@
 .content-article header {
 	margin-bottom: $base-gap;
 
-	@include media("<=tablet") {
+	@include media('<=tablet') {
 		margin-bottom: 50px;
 	}
 }
@@ -105,12 +106,13 @@
 	justify-content: space-around;
 	text-align: center;
 
-	@include media("<=tablet") {
+	@include media('<=tablet') {
 		margin-top: 50px;
 		display: block;
 	}
 
-	span, a {
+	span,
+	a {
 		line-height: 24px;
 		font-weight: 400;
 	}
@@ -130,7 +132,11 @@
 .article-body {
 	margin-bottom: $base-gap;
 
-	h2, h3, h4, h5, h6 {
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		font-weight: 500;
 		margin: $base-gap / 2 0;
 	}
@@ -142,11 +148,7 @@
 		background-repeat: no-repeat;
 		background-size: 100% 6px;
 		background-position: center bottom 0px;
-		background-image: linear-gradient(
-			to right,
-			$gradient-start,
-			$gradient-end
-		);
+		background-image: linear-gradient(to right, $gradient-start, $gradient-end);
 		box-decoration-break: clone;
 		-webkit-box-decoration-break: clone;
 		-moz-background-inline-policy: each-box;
@@ -158,7 +160,8 @@
 	}
 
 	p:not(:last-of-type),
-	ul, hr {
+	ul,
+	hr {
 		margin-bottom: 30px;
 	}
 
@@ -167,7 +170,7 @@
 		font-weight: 400;
 		line-height: 150%;
 
-		@include media("<=tablet") {
+		@include media('<=tablet') {
 			font-size: 140%;
 			line-height: 30px;
 		}
@@ -228,7 +231,9 @@
 
 		&:first-of-type a {
 			text-align: right;
-			&:hover ~ svg { transform: translateX(-15px); }
+			&:hover ~ svg {
+				transform: translateX(-15px);
+			}
 		}
 	}
 
@@ -241,15 +246,15 @@
 		line-height: 24px;
 		letter-spacing: -1px;
 
-		@include media("<=phone") {
+		@include media('<=phone') {
 			padding: 15px;
 		}
 
 		&.posts-external svg {
 			width: 20px;
 			height: 20px;
-			fill: rgba(0,0,0,.3);
-			vertical-align: text-bottom;;
+			fill: rgba(0, 0, 0, 0.3);
+			vertical-align: text-bottom;
 		}
 
 		span {
@@ -260,7 +265,9 @@
 			letter-spacing: 0;
 		}
 
-		&:hover ~ svg { transform: translateX(15px); }
+		&:hover ~ svg {
+			transform: translateX(15px);
+		}
 	}
 
 	svg {
@@ -273,7 +280,7 @@
 	}
 
 	a ~ svg {
-		@include media("<=1015px") {
+		@include media('<=1015px') {
 			display: none;
 		}
 	}

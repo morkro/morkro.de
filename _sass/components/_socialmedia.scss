@@ -2,30 +2,44 @@
  * SOCIALMEDIA
  */
 .socialmedia {
-   list-style: none;
+	list-style: none;
 
-   li {
-      display: inline-block;
-      margin: 0 3px;
-      &:last-child { margin-right: 0; }
-   }
+	li {
+		display: inline-block;
+		margin: 0 3px;
+		&:last-child {
+			margin-right: 0;
+		}
+	}
 
-   a {
-      display: block;
-      line-height: 0;
+	a {
+		display: block;
+		line-height: 0;
 
-      &[href*="github"]:hover svg { fill: black; }
-      &[href*="twitter"]:hover svg { fill: $blue; }
-      &[href*="stackoverflow"]:hover svg { fill: $orange; }
-      &[href*="linkedin"]:hover svg { fill: $blue; }
-      &[href*="xml"]:hover svg { fill: $orange; }
-      &[href*="mailto"]:hover svg { fill: black; }
-   }
+		&[href*='github']:hover svg {
+			fill: black;
+		}
+		&[href*='twitter']:hover svg {
+			fill: $blue;
+		}
+		&[href*='stackoverflow']:hover svg {
+			fill: $orange;
+		}
+		&[href*='linkedin']:hover svg {
+			fill: $blue;
+		}
+		&[href*='xml']:hover svg {
+			fill: $orange;
+		}
+		&[href*='mailto']:hover svg {
+			fill: black;
+		}
+	}
 
-   svg {
-      width: 22px;
-      height: 22px;
-      fill: $shade-of-grey-dark;
-      transition: fill 100ms ease-in-out;
-   }
+	svg {
+		width: 22px;
+		height: 22px;
+		fill: $shade-of-grey-dark;
+		transition: fill 100ms ease-in-out;
+	}
 }
