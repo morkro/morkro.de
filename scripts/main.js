@@ -38,24 +38,29 @@ const navigationConfig = {
  * =========================================================================== *
  */
 // GENERAL
-Promise.all([fontRoboto.load(), fontRobotoMono.load()]).then(() =>
-	document.body.classList.add('fonts-loaded')
-)
+Promise.all([fontRoboto.load(), fontRobotoMono.load()])
+	.then(() => document.body.classList.add('fonts-loaded'))
 addEmojiTitle(titleConfig)
 setNavigationState(navigationConfig)
 setCurrentYear( $('.footer-year') )
 scrollex.init()
 
 // PAGE SPECIFIC
-if (currentPage('about')) {
-	highlightSVGMap({
-		map: $('#map'),
-		trigger: $('.travels-nextcity'),
-		attr: 'data-area',
-		hover: '#ff7c00',
-		defaultState: '#3652cf'
-	})
-}
-else if (currentPage('projects')) {
-	addGitHubStats()
+switch (currentPage()) {
+	case 'about':
+		highlightSVGMap({
+			map: $('#map'),
+			trigger: $('.travels-nextcity'),
+			attr: 'data-area',
+			hover: '#ff7c00',
+			defaultState: '#3652cf'
+		})
+		break
+
+	case 'projects':
+		addGitHubStats()
+		break
+
+	default:
+		break
 }

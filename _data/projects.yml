@@ -5,15 +5,15 @@ banner:
     description: "An Atom editor package which adds customisable emoji to your syntax keywords."
     url: "https://github.com/morkro/atom-emoji-syntax"
 
-  - frontbook:
-    img: "../assets/projects/frontbook.svg"
-    title: "FrontBook"
-    description: "Personal front-end boilerplate specialised on a proper ES201* transpiling process."
-    url: "https://github.com/morkro/FrontBook"
+  - happy-plants:
+    img: "../assets/projects/happyplants.svg"
+    title: "HappyPlants"
+    description: "HappyPlants is a mobile-first, progressive web application which helps organising and keeping track of your plants. See the list of"
+    url: "https://github.com/morkro/happy-plants"
 
   - papyrus:
     img: "../assets/projects/papyrus.svg"
-    title: "papyrus"
+    title: "Papyrus"
     description: "Unofficial Dropbox Paper desktop app"
     url: "https://github.com/morkro/papyrus"
 
@@ -22,15 +22,15 @@ list:
     title: "Tetrys"
     description: "Tetris as Progressive Web Application."
     url: "https://github.com/morkro/tetrys"
-  - browdash:
-    title: "BrowDash"
-    description: "Proof of concept web application testing the limits and feasibility of the Web Components specification."
-    url: "https://github.com/morkro/browdash"
+  - frontbook:
+    title: "Frontbook"
+    description: "Personal front-end boilerplate specialised on a proper ES201* transpiling process."
+    url: "https://github.com/morkro/frontbook"
   - domtimer:
     title: "DOMtimer"
     description: "A front-end module to receive, set or count time for the DOM."
     url: "https://github.com/morkro/domtimer"
-  - gist-word-count:
+  - chrome-gist-word-count:
     title: "Chrome Gist Word Count"
     description: "Adds a word and character count to your files on GitHub Gist."
     url: "https://github.com/morkro/chrome-gist-word-count"

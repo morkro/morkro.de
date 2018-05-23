@@ -3,18 +3,24 @@ layout: default
 title: Projects | Moritz Kröger
 classes: projects
 ---
+
 <div class="container">
 	<div class="headline-gradient">
 		<h1 itemprop="title" title="Open source projects">Open Source</h1>
 	</div>
 
 	<p>
-		Working with software on the web, and especially on the front-end side, means working with open source. All my knowledge comes from shared experience and projects of other developers. Hence, giving back to the community is key for me. All my projects are publicly available, can be forked, modified, and contributed to.
+		Working with software on the web, and especially on the front-end side, means working with open source.
+		All my knowledge comes from shared experience and projects of other developers.
+		Hence, giving back to the community is key for me. All my projects are publicly available,
+		can be forked, modified, and contributed to.
 	</p>
 
 	<ul itemscope itemtype="http://schema.org/ItemList" class="projects-featured">
-		{% for project in site.data.projects.banner %}
-		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="project-{{ project.title | downcase | replace:' ','' }}">
+		{% assign projects = site.data.projects.banner %}
+
+		{% for project in projects %}
+		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="project-{{ projects[forloop.index0].first }}">
 			<a itemprop="url" href="{{ project.url }}" target="_blank">
 				<div>
 					{% if project.img %}
@@ -34,8 +40,9 @@ classes: projects
 	<h2>Take a look at other projects</h2>
 
 	<ul itemscope itemtype="http://schema.org/ItemList" class="projects-list">
-		{% for project in site.data.projects.list %}
-		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="project-{{ project.title | downcase | replace:' ','' }}">
+		{% assign lists = site.data.projects.list %}
+		{% for project in lists %}
+		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="project-{{ lists[forloop.index0].first }}">
 			<a itemprop="url" href="{{ project.url }}" target="_blank">
 				<div>
 					<h3 itemprop="name">{{ project.title }}</h3>
