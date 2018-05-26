@@ -188,7 +188,7 @@ My ES6 specific configurations are:
 }
 {% endhighlight %}
 <div class="note--snippet">
-	<p>Take a look at the rest of my <code>.eslintrc</code> configuration <a href="https://github.com/morkro/FrontBook/blob/master/.eslintrc" target="_blank">here</a>.</p>
+	<p>Take a look at the rest of my <code>.eslintrc</code> configuration <a href="https://github.com/morkro/FrontBook/blob/master/.eslintrc" target="_blank" rel="noopener">here</a>.</p>
 </div>
 
 Let's be honest: I just turned everything on because _I want all ES6 features_. If I don't want specific features, I would just disable them.

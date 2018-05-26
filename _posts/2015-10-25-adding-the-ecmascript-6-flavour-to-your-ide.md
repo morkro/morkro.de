@@ -34,11 +34,11 @@ Place the <code>jsconfig.json</code> in your project directory <em>(it could als
 <div class="clearfix" style="margin-top:15px;">
     <div class="left" style="width:48%;">
         <strong>Before:</strong>
-        <a href="/../assets/img/2015-10/vsc-without-es6.png" target="_blank"><img class="screenshot" src="/../assets/img/2015-10/vsc-without-es6.png"></a>
+        <a href="/../assets/img/2015-10/vsc-without-es6.png" target="_blank" rel="noopener"><img class="screenshot" src="/../assets/img/2015-10/vsc-without-es6.png"></a>
     </div>
     <div class="right" style="width:48%;">
         <strong>After, yay!</strong>
-        <a href="/../assets/img/2015-10/vsc-with-es6.png" target="_blank"><img class="screenshot" src="/../assets/img/2015-10/vsc-with-es6.png"></a>
+        <a href="/../assets/img/2015-10/vsc-with-es6.png" target="_blank" rel="noopener"><img class="screenshot" src="/../assets/img/2015-10/vsc-with-es6.png"></a>
     </div>
 </div>
 
@@ -52,11 +52,11 @@ In this case it wasn't as complicated as I feared in the beginning. I switched b
 
 I started with [JavaScriptNext](https://packagecontrol.io/packages/JavaScriptNext%20-%20ES6%20Syntax) (works for both Sublime Text 2 and 3) and used the highlighter for a few month. It works fine though, except that it doesn't come with support for JSX syntax. A bummer while working on React projects.
 
-<a href="/../assets/img/2015-10/sublimetext-es6-jsnext.png" target="_blank"><img class="screenshot" src="/../assets/img/2015-10/sublimetext-es6-jsnext.png"></a>
+<a href="/../assets/img/2015-10/sublimetext-es6-jsnext.png" target="_blank" rel="noopener"><img class="screenshot" src="/../assets/img/2015-10/sublimetext-es6-jsnext.png"></a>
 
 Hence I decided to switch and discovered [babel-sublime](https://github.com/babel/babel-sublime) with support for ES6 and JSX syntax (you can it find as **Babel** through Package Control). In my opinion it even looked a bit prettier compared to JavaScriptNext.
 
-<a href="/../assets/img/2015-10/sublimetext-es6-babel.png" target="_blank"><img class="screenshot" src="/../assets/img/2015-10/sublimetext-es6-babel.png"></a>
+<a href="/../assets/img/2015-10/sublimetext-es6-babel.png" target="_blank" rel="noopener"><img class="screenshot" src="/../assets/img/2015-10/sublimetext-es6-babel.png"></a>
 
 ### Setting as the default syntax
 
@@ -70,7 +70,7 @@ If you don't want to manually change the syntax highlighter everytime you open a
 
 WebStorm is the easiest one of all three. You simply activate ECMAScript 6 highlighting in the settings and you're set. Go to `Preferences` -> `Languages & Frameworks` -> `JavaScript` and set the language version to `ECMAScript 6`. *You might also turn `Prefer Strict mode` on, if you don't have it already.*
 
-<a href="/../assets/img/2015-10/webstorm-es6.png" target="_blank"><img class="screenshot" src="/../assets/img/2015-10/webstorm-es6.png"></a>
+<a href="/../assets/img/2015-10/webstorm-es6.png" target="_blank" rel="noopener"><img class="screenshot" src="/../assets/img/2015-10/webstorm-es6.png"></a>
 
 ## Conclusion
 

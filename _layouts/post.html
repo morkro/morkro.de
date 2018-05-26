@@ -47,7 +47,7 @@ layout: default
 		<div class="posts-previous {% if page.previous.url %}active{% endif %}">
 			{% if page.previous.url %}
 			{% if page.previous.external %}
-			<a href="{{page.previous.external.url}}" target="_blank" class="posts-external">
+			<a href="{{page.previous.external.url}}" target="_blank" rel="noopener" class="posts-external">
 			{% else %}
 			<a href="{{page.previous.url}}">
 			{% endif %}
@@ -63,7 +63,7 @@ layout: default
 		<div class="posts-next {% if page.next.url %}active{% endif %}">
 			{% if page.next.url %}
 			{% if page.next.external %}
-			<a href="{{page.next.external.url}}" target="_blank" class="posts-external">
+			<a href="{{page.next.external.url}}" target="_blank" rel="noopener" class="posts-external">
 			{% else %}
 			<a href="{{page.next.url}}">
 			{% endif %}

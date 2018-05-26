@@ -23,13 +23,13 @@ classes: introduction
 	<aside>
 		<h2>Development</h2>
 		<ul class="section-list">
-			<li><a href="{{ site.data.socialnetworks.github.url }}" target="_blank">
+			<li><a href="{{ site.data.socialnetworks.github.url }}" target="_blank" rel="noopener">
 				<svg><use xlink:href="#github"></use></svg> <span>GitHub</span>
 			</a></li>
-			<li><a href="{{ site.data.socialnetworks.stackoverflow.url }}" target="_blank">
+			<li><a href="{{ site.data.socialnetworks.stackoverflow.url }}" target="_blank" rel="noopener">
 				<svg><use xlink:href="#stackoverflow"></use></svg> <span>StackOverflow</span>
 			</a></li>
-			<li><a href="{{ site.data.socialnetworks.codepen.url }}" target="_blank">
+			<li><a href="{{ site.data.socialnetworks.codepen.url }}" target="_blank" rel="noopener">
 				<svg><use xlink:href="#codepen"></use></svg> <span>Codepen</span>
 			</a></li>
 		</ul>
@@ -49,7 +49,7 @@ classes: introduction
 		<h2>Writing</h2>
 
 		<ul class="section-list">
-			<li><a href="{{ site.data.socialnetworks.sitepoint.url }}" target="_blank">
+			<li><a href="{{ site.data.socialnetworks.sitepoint.url }}" target="_blank" rel="noopener">
 				<svg><use xlink:href="#sitepoint"></use></svg> <span>SitePoint</span>
 			</a></li>
 		</ul>
@@ -64,7 +64,7 @@ classes: introduction
 		</p>
 		{% for post in site.posts limit:1 %}
 		{% if post.external %}
-		<a href="{{ post.external.url }}" target="_blank" class="intro-writing-link">
+		<a href="{{ post.external.url }}" target="_blank" rel="noopener" class="intro-writing-link">
 		{% else %}
 		<a href="{{ post.url }}" class="intro-writing-link">
 		{% endif %}
@@ -84,7 +84,7 @@ classes: introduction
 			Get to know more of me on my <span>bio</span> page
 			<svg><use xlink:href="#arrow-right"></use></svg>
 		</a></h3>
-		<a href="{{ site.data.socialnetworks.twitter.url }}" class="teaser-social-link" target="_blank">
+		<a href="{{ site.data.socialnetworks.twitter.url }}" class="teaser-social-link" target="_blank" rel="noopener">
 			<svg><use xlink:href="#twitter"></use></svg> Chirrrp!
 		</a>
 	</div>

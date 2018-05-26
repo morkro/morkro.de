@@ -21,7 +21,7 @@ classes: projects
 
 		{% for project in projects %}
 		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="project-{{ projects[forloop.index0].first }}">
-			<a itemprop="url" href="{{ project.url }}" target="_blank">
+			<a itemprop="url" href="{{ project.url }}" target="_blank" rel="noopener">
 				<div>
 					{% if project.img %}
 					<div class="project-image">
@@ -43,7 +43,7 @@ classes: projects
 		{% assign lists = site.data.projects.list %}
 		{% for project in lists %}
 		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="project-{{ lists[forloop.index0].first }}">
-			<a itemprop="url" href="{{ project.url }}" target="_blank">
+			<a itemprop="url" href="{{ project.url }}" target="_blank" rel="noopener">
 				<div>
 					<h3 itemprop="name">{{ project.title }}</h3>
 					<p itemprop="description">{{ project.description }}</p>

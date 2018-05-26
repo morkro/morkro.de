@@ -12,7 +12,7 @@ classes: blog
 	{% for post in paginator.posts %}
 		<li itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 			{% if post.external %}
-			<a href="{{ post.external.url }}" target="_blank" class="blog-post-external">
+			<a href="{{ post.external.url }}" target="_blank" rel="noopener" class="blog-post-external">
 				<span></span>
 				<h2 itemprop="title">
 					{{ post.title }}
