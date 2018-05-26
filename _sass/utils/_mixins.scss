@@ -6,6 +6,7 @@
 @mixin font-face($family, $files, $weight: false, $style: false) {
 	@font-face {
 		font-family: quote($family);
+		font-display: swap;
 		src: url($files+'.ttf') unquote("format('truetype')");
 
 		@if $weight {
