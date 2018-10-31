@@ -18,6 +18,10 @@ banner:
     url: "https://github.com/morkro/papyrus"
 
 list:
+  - vue-a11y-dialog:
+    title: "Vue A11yDialog"
+    description: "Vue.js component for a11y-dialog"
+    url: "https://github.com/morkro/vue-a11y-dialog"
   - tetrys:
     title: "Tetrys"
     description: "Tetris as Progressive Web Application."
