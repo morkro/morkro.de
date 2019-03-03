@@ -36,21 +36,23 @@ classes: introduction
 			</a></li>
 		</ul>
 
-		<h2>
-			Check out my latest article:
-		</h2>
-		{% for post in site.posts limit:1 %}
-		{% if post.external %}
-		<a href="{{ post.external.url }}" target="_blank" rel="noopener" class="intro-writing-link">
-		{% else %}
-		<a href="{{ post.url }}" class="intro-writing-link">
-		{% endif %}
-			{{ post.title }}
+		<div class="intro-aside-article">
+			<h2>
+				Check out my latest article:
+			</h2>
+			{% for post in site.posts limit:1 %}
 			{% if post.external %}
-			<svg><use xlink:href="#new-window"></use></svg>
+			<a href="{{ post.external.url }}" target="_blank" rel="noopener" class="intro-writing-link">
+			{% else %}
+			<a href="{{ post.url }}" class="intro-writing-link">
 			{% endif %}
-		</a>
-		{% endfor %}
+				{{ post.title }}
+				{% if post.external %}
+				<svg><use xlink:href="#new-window"></use></svg>
+				{% endif %}
+			</a>
+			{% endfor %}
+		</div>
 	</aside>
 	<div class="intro-content">
 		<p>
