@@ -14,54 +14,31 @@ classes: introduction
 
 	<div class="intro-start-content">
 		<p>
-			I am Moritz Kröger, (German) Full-Stack Developer, Author, and Open Source contributor who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions.
+			I am Moritz Kröger, Lead Engineer, DevOps Enthusiast, and Open Source contributor who lives in Berlin.
+			Although Germans typically have a thing for extra long compound words, I am a friend of short functions.
 		</p>
 	</div>
 </section>
 
 <section class="intro-section container-large">
 	<aside>
-		<h2>Development</h2>
+		<h2>Networks</h2>
+
 		<ul class="section-list">
+			<li><a href="{{ site.data.socialnetworks.linkedin.url }}" target="_blank" rel="noopener">
+				<span>LinkedIn</span> <svg><use xlink:href="#linkedin"></use></svg>
+			</a></li>
 			<li><a href="{{ site.data.socialnetworks.github.url }}" target="_blank" rel="noopener">
-				<svg><use xlink:href="#github"></use></svg> <span>GitHub</span>
+				<span>GitHub</span> <svg><use xlink:href="#github"></use></svg>
 			</a></li>
 			<li><a href="{{ site.data.socialnetworks.stackoverflow.url }}" target="_blank" rel="noopener">
-				<svg><use xlink:href="#stackoverflow"></use></svg> <span>StackOverflow</span>
-			</a></li>
-			<li><a href="{{ site.data.socialnetworks.codepen.url }}" target="_blank" rel="noopener">
-				<svg><use xlink:href="#codepen"></use></svg> <span>Codepen</span>
+				<span>StackOverflow</span> <svg><use xlink:href="#stackoverflow"></use></svg>
 			</a></li>
 		</ul>
-	</aside>
-	<div class="intro-content">
-		<p>
-			As a developer I focus on JavaScript <svg><use xlink:href="#javascript"></use></svg> and the ECMAScript language specification. But emerging technologies in general spark my interest. I like working on the front- and back-end of the web, contribute to and publish my own open source projects on a regular basis. Sharing knowledge and supporting others — this is what the web is really all about for me.
-		</p>
-		<p>
-			I am currently working at <strong>McKinsey & Company</strong> as Digital Specialist, solving all kinds of engineering problems for our clients.
-		</p>
-	</div>
-</section>
 
-<section class="intro-section intro-writing container-large">
-	<aside>
-		<h2>Writing</h2>
-
-		<ul class="section-list">
-			<li><a href="{{ site.data.socialnetworks.sitepoint.url }}" target="_blank" rel="noopener">
-				<svg><use xlink:href="#sitepoint"></use></svg> <span>SitePoint</span>
-			</a></li>
-		</ul>
-	</aside>
-	<div class="intro-content">
-		<p>
-			I love finding solutions, exploring technologies and sharing what I've learned. Writing has become a fresh way for me to express myself as developer. I am an author on SitePoint and publish articles on my own <a href="/writes">blog</a>.<br>
-			It is still a very new territory for me, so I'm happy to get your feedback!
-		</p>
-		<p>
-			<strong>Check out my latest article:</strong>
-		</p>
+		<h2>
+			Check out my latest article:
+		</h2>
 		{% for post in site.posts limit:1 %}
 		{% if post.external %}
 		<a href="{{ post.external.url }}" target="_blank" rel="noopener" class="intro-writing-link">
@@ -72,9 +49,24 @@ classes: introduction
 			{% if post.external %}
 			<svg><use xlink:href="#new-window"></use></svg>
 			{% endif %}
-			<span>{{ post.excerpt }}</span>
 		</a>
 		{% endfor %}
+	</aside>
+	<div class="intro-content">
+		<p>
+			As a Teach Lead, I lead software engineering teams and specialise in Web & Mobile Application Development,
+			primarily — but not limited to — in a JavaScript stack.
+			I am also experienced in hiring tech talent, for clients as well as in-house.
+		</p>
+		<p>
+			As an engineer, I focus on JavaScript <svg><use xlink:href="#javascript"></use></svg>
+			and the ECMAScript language specification. But emerging technologies in general spark my interest.
+			I like working on the front- and back-end of the web, contribute to and publish my own open source projects
+			on a regular basis. Sharing knowledge and supporting others — this is what the web is really all about for me.
+		</p>
+		<p>
+			I am currently working at <strong>McKinsey & Company</strong> as Digital Specialist, solving all kinds of engineering problems for our clients.
+		</p>
 	</div>
 </section>
 
