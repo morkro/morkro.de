@@ -22,6 +22,10 @@ list:
     title: "Vue A11yDialog"
     description: "Vue.js component for a11y-dialog"
     url: "https://github.com/morkro/vue-a11y-dialog"
+  - euromat:
+    title: "Euromat"
+    description: "🇪🇺 Vue.js powered voting application using Netlify-CMS"
+    url: "https://github.com/morkro/euromat"
   - tetrys:
     title: "Tetrys"
     description: "Tetris as Progressive Web Application."
@@ -30,10 +34,6 @@ list:
     title: "Frontbook"
     description: "Personal front-end boilerplate specialised on a proper ES201* transpiling process."
     url: "https://github.com/morkro/frontbook"
-  - domtimer:
-    title: "DOMtimer"
-    description: "A front-end module to receive, set or count time for the DOM."
-    url: "https://github.com/morkro/domtimer"
   - chrome-gist-word-count:
     title: "Chrome Gist Word Count"
     description: "Adds a word and character count to your files on GitHub Gist."

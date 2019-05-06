@@ -2,7 +2,13 @@ import 'whatwg-fetch'
 import { $ } from './helper'
 
 const featured = ['atom-emoji-syntax', 'happy-plants', 'papyrus']
-const listed = ['vue-a11y-dialog', 'tetrys', 'frontbook', 'domtimer', 'chrome-gist-word-count']
+const listed = [
+	'vue-a11y-dialog',
+	'euromat',
+	'tetrys',
+	'frontbook',
+	'chrome-gist-word-count'
+]
 
 function prepare (repositories) {
 	return repositories.map(({ name, html_url, stargazers_count, created_at }) => (
