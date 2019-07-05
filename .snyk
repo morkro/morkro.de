@@ -1,0 +1,32 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - eslint > table > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - stylelint-scss > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - stylelint > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - eslint > inquirer > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - stylelint > postcss-reporter > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - stylelint > table > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - eslint > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - stylelint > postcss-jsx > @babel/core > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - stylelint > postcss-jsx > @babel/core > @babel/generator > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - stylelint > postcss-jsx > @babel/core > @babel/traverse > @babel/types > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - stylelint > postcss-jsx > @babel/core > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - stylelint > postcss-jsx > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
+    - stylelint > postcss-jsx > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash:
+        patched: '2019-07-05T08:50:22.893Z'
