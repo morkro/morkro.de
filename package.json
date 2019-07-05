@@ -14,7 +14,9 @@
     "watch": "watch -p \"scripts/*.js\" -c \"npm run js\"",
     "start": "npm run lint && npm run js && jekyll serve --watch",
     "dev": "npm run lint && npm run js && bundle exec jekyll serve",
-    "prod": "npm run lint && npm run js && JEKYLL_ENV=PROD jekyll build"
+    "prod": "npm run lint && npm run js && JEKYLL_ENV=PROD jekyll build",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "browserify": {
     "transform": [
@@ -42,6 +44,8 @@
     "browserify": "^16.1.1",
     "fontfaceobserver": "^2.1.0",
     "uglify-js": "^3.3.15",
-    "whatwg-fetch": "^3.0.0"
-  }
+    "whatwg-fetch": "^3.0.0",
+    "snyk": "^1.192.0"
+  },
+  "snyk": true
 }
