@@ -30,3 +30,25 @@ patch:
         patched: '2019-07-05T08:50:22.893Z'
     - stylelint > postcss-jsx > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash:
         patched: '2019-07-05T08:50:22.893Z'
+    - snyk > snyk-nuget-plugin > lodash:
+        patched: '2019-07-05T14:13:02.843Z'
+    - snyk > lodash:
+        patched: '2019-07-05T14:13:02.843Z'
+    - snyk > snyk-config > lodash:
+        patched: '2019-07-05T14:13:02.843Z'
+    - snyk > @snyk/dep-graph > lodash:
+        patched: '2019-07-05T14:13:02.843Z'
+    - snyk > inquirer > lodash:
+        patched: '2019-07-05T14:13:02.843Z'
+    - snyk > snyk-mvn-plugin > lodash:
+        patched: '2019-07-05T14:13:02.843Z'
+    - snyk > snyk-nodejs-lockfile-parser > lodash:
+        patched: '2019-07-05T14:13:02.843Z'
+    - snyk > snyk-nodejs-lockfile-parser > graphlib > lodash:
+        patched: '2019-07-05T14:13:02.843Z'
+    - snyk > snyk-go-plugin > graphlib > lodash:
+        patched: '2019-07-05T14:13:02.843Z'
+    - snyk > @snyk/dep-graph > graphlib > lodash:
+        patched: '2019-07-05T14:13:02.843Z'
+    - snyk > snyk-php-plugin > @snyk/composer-lockfile-parser > lodash:
+        patched: '2019-07-05T14:13:02.843Z'
