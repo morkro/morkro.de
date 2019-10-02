@@ -178,6 +178,14 @@ $intro-right-column: 59%;
 		}
 	}
 
+	a {
+		color: inherit;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
 	svg {
 		width: 24px;
 		height: 24px;
