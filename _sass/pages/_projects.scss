@@ -45,7 +45,7 @@ $project-preview-gap: 30px;
 	li {
 		width: 32%;
 		background: white;
-		border-radius: var(--base-radius) / 2;
+		border-radius: calc(var(--base-radius) / 2);
 		transition: box-shadow 250ms var(--ease-out-back), transform 250ms var(--ease-out-back);
 
 		&:hover {

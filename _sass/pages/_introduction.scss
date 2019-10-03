@@ -285,7 +285,7 @@ $intro-right-column: 59%;
 }
 
 .intro-aside-article {
-	margin-top: var(--base-gap) / 2;
+	margin-top: calc(var(--base-gap) / 2);
 
 	@include media('<=825px') {
 		display: none;

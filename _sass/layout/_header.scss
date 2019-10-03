@@ -61,7 +61,7 @@ $avatar-size: 32px;
 		top: 0;
 		z-index: 1;
 		background: var(--blue);
-		border-radius: var(--base-radius) / 2;
+		border-radius: clac(var(--base-radius) / 2);
 		transform: scale(0);
 		transform-origin: center;
 		transition: transform 175ms var(--ease-out-back);
@@ -70,7 +70,7 @@ $avatar-size: 32px;
 	img {
 		width: $avatar-size;
 		height: $avatar-size;
-		border-radius: var(--base-radius) / 2;
+		border-radius: clac(var(--base-radius) / 2);
 		box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
 		margin-right: 15px;
 	}

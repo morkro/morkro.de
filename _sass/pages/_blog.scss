@@ -138,7 +138,7 @@
 	h5,
 	h6 {
 		font-weight: 500;
-		margin: var(--base-gap) / 2 0;
+		margin: calc(var(--base-gap) / 2) 0;
 	}
 
 	h2 {
@@ -155,7 +155,7 @@
 	}
 
 	h3 {
-		margin: var(--base-gap) / 2 0 15px;
+		margin: calc(var(--base-gap) / 2) 0 15px;
 		font-size: 160%;
 	}
 
