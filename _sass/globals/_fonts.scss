@@ -27,10 +27,10 @@
 @include font-face("Roboto Mono", "../assets/fonts/RobotoMono-Black", 600);
 @include font-face("Roboto Mono", "../assets/fonts/RobotoMono-BlackItalic", 600, italic);
 
-/**
- * FONT-FAMILY VARIABLES
- */
-$Roboto:	"Roboto", sans-serif;
-$RobotoMono: "Roboto Mono", monospace;
-$Myriad:	"Myriad Pro", Myriad, Arial, sans-serif;
-$Courier: "Courier", Andale Mono, monospace;
+// ONT-FAMILY VARIABLES
+:root {
+  --font-roboto:	"Roboto", sans-serif;
+  --font-roboto-mono: "Roboto Mono", monospace;
+  --font-myriad:	"Myriad Pro", Myriad, Arial, sans-serif;
+  --font-courier: "Courier", Andale Mono, monospace;
+}

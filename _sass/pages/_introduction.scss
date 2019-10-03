@@ -22,7 +22,7 @@ $intro-right-column: 59%;
  * Start
  */
 .intro-start {
-	margin-bottom: $base-gap;
+	margin-bottom: var(--base-gap);
 	display: flex;
 	flex-flow: row wrap;
 
@@ -75,7 +75,7 @@ $intro-right-column: 59%;
 	@include media('<=tablet') {
 		flex: 1 100%;
 		order: 3;
-		margin-top: $base-gap;
+		margin-top: var(--base-gap);
 	}
 
 	img {
@@ -108,7 +108,7 @@ $intro-right-column: 59%;
 		font-weight: 400;
 		font-size: 174%;
 		line-height: 38px;
-		color: $special-text-color;
+		color: var(--special-text-color);
 		align-self: flex-end;
 
 		@include media('<=1040px') {
@@ -127,7 +127,7 @@ $intro-right-column: 59%;
  * Sections
  */
 .intro-section {
-	margin-bottom: $base-gap;
+	margin-bottom: var(--base-gap);
 	display: flex;
 
 	@include media('<=825px') {
@@ -147,11 +147,11 @@ $intro-right-column: 59%;
 
 	aside p {
 		font-size: 100%;
-		color: $shade-of-grey-dark;
+		color: var(--shade-of-grey-dark);
 	}
 
 	h2 {
-		font-family: $Roboto;
+		font-family: var(--font-roboto);
 		font-weight: 400;
 		margin-bottom: 10px;
 
@@ -195,7 +195,7 @@ $intro-right-column: 59%;
 }
 
 .intro-writing-link {
-	font-family: $RobotoMono;
+	font-family: var(--font-roboto-mono);
 	font-size: 100%;
 	font-weight: 400;
 	background: white;
@@ -207,22 +207,22 @@ $intro-right-column: 59%;
 	transition: background 150ms ease-in-out, color 150ms ease-in-out;
 
 	&:hover {
-		background: $link-color;
+		background: var(--link-color);
 		color: white;
 
 		span {
-			color: $shade-of-white-light;
+			color: var(--shade-of-white-light);
 		}
 	}
 
 	svg {
-		fill: $shade-of-grey-dark;
+		fill: var(--shade-of-grey-dark);
 		width: 20px;
 		height: 20px;
 	}
 
 	span {
-		color: $shade-of-grey-dark;
+		color: var(--shade-of-grey-dark);
 		display: block;
 		font-size: 85%;
 		line-height: 130%;
@@ -262,7 +262,7 @@ $intro-right-column: 59%;
 	a {
 		font-size: 80%;
 		&:hover svg {
-			fill: $special-text-color;
+			fill: var(--special-text-color);
 		}
 	}
 
@@ -271,7 +271,7 @@ $intro-right-column: 59%;
 	}
 
 	svg {
-		fill: $shade-of-grey-dark;
+		fill: var(--shade-of-grey-dark);
 		width: 15px;
 		height: 15px;
 		transform: translateY(2px);
@@ -285,7 +285,7 @@ $intro-right-column: 59%;
 }
 
 .intro-aside-article {
-	margin-top: $base-gap / 2;
+	margin-top: var(--base-gap) / 2;
 
 	@include media('<=825px') {
 		display: none;
@@ -297,14 +297,14 @@ $intro-right-column: 59%;
  */
 .intro-teaser {
 	width: 100%;
-	padding: $base-gap 0;
+	padding: var(--base-gap) 0;
 	background: white;
 	text-align: center;
 }
 
 .teaser-main-link {
 	display: block;
-	font-family: $RobotoMono;
+	font-family: var(--font-roboto-mono);
 	font-size: 200%;
 	font-weight: 300;
 	width: 45%;
@@ -322,29 +322,29 @@ $intro-right-column: 59%;
 	}
 
 	a {
-		color: $special-text-color;
+		color: var(--special-text-color);
 		font-weight: inherit;
 		line-height: inherit;
 	}
 
 	span {
-		color: $link-color;
+		color: var(--link-color);
 		font-size: inherit;
 		font-weight: inherit;
 		transition: color 150ms ease-in-out;
 	}
 
 	&:hover span {
-		color: $link-hover;
+		color: var(--link-hover);
 	}
 
 	svg {
-		fill: $special-text-color;
+		fill: var(--special-text-color);
 		width: 40px;
 		height: 40px;
 		vertical-align: bottom;
 		transition: translateX(0);
-		transition: transform 150ms $easeOutBack;
+		transition: transform 150ms var(--ease-out-back);
 
 		@include media('<=500px') {
 			width: 30px;
@@ -364,7 +364,7 @@ $intro-right-column: 59%;
 	svg {
 		width: 15px;
 		height: 15px;
-		fill: $link-color;
+		fill: var(--link-color);
 		transform: translateY(2px);
 	}
 }

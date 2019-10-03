@@ -11,14 +11,14 @@ h6 {
 }
 
 h1 {
-	font-family: $Courier;
+	font-family: var(--font-courier);
 	font-size: 510%;
 	font-weight: 300;
 	letter-spacing: -3px;
 	line-height: 120%;
 
 	.fonts-loaded & {
-		font-family: $RobotoMono;
+		font-family: var(--font-roboto-mono);
 	}
 
 	@include media('<=tablet') {
@@ -54,7 +54,7 @@ li {
 }
 
 p {
-	color: $normal-text;
+	color: var(--normal-text);
 }
 
 b,
@@ -71,7 +71,7 @@ blockquote {
 	width: 110%;
 	transform: translateX(-5%);
 	background: white;
-	border-left: 10px solid $shade-of-grey-medium;
+	border-left: 10px solid var(--shade-of-grey-medium);
 	padding: 15px 5%;
 	font-style: italic;
 
@@ -90,17 +90,17 @@ a {
 	position: relative;
 	text-decoration: none;
 	font-size: inherit;
-	color: $link-color;
+	color: var(--link-color);
 	z-index: 1;
 	transition: color 100ms ease-in-out;
 
 	&:hover {
-		color: $link-hover;
+		color: var(--link-hover);
 	}
 
 	&:active,
 	&:focus {
-		background: lighten($link-color, 90%);
+		background: white;
 		outline: none;
 	}
 
@@ -117,17 +117,17 @@ code:not([data-lang]),
 kbd,
 pre:not([data-lang]),
 samp {
-	color: $special-text-color;
+	color: var(--special-text-color);
 	background: rgba(255, 255, 255, 0.5);
 	padding: 0 2px;
-	font-family: $Courier;
+	font-family: var(--font-courier);
 	font-size: 85%;
 	font-weight: 400;
 	vertical-align: baseline;
 	white-space: nowrap;
 
 	.fonts-loaded & {
-		font-family: $RobotoMono;
+		font-family: var(--font-roboto-mono);
 	}
 }
 

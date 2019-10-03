@@ -1,10 +1,10 @@
 /* stylelint-disable scss/selector-no-redundant-nesting-selector */
 .highlight {
-	$light-grey: #efefef;
+	--light-grey: #efefef;
 
 	background: white;
 	color: #929292;
-	margin: 0 0 $base-gap / 2;
+	margin: 0 0 var(--base-gap) / 2;
 	border-top: 4px solid rgba(0, 0, 0, 0.1);
   border-bottom: 4px solid rgba(0, 0, 0, 0.1);
 
@@ -25,12 +25,12 @@
 	}
 
 	&::selection {
-		background-color: $light-grey;
+		background-color: var(--light-grey);
 	}
 
 	& code::selection,
 	& span::selection {
-		background-color: $light-grey;
+		background-color: var(--light-grey);
 	}
 
 	.hll { background-color: #EFEFEF; }

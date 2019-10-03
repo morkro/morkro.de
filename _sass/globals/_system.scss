@@ -5,11 +5,11 @@
 }
 
 body {
-	background-color: $background-color;
-	font-family: $Myriad;
+	background-color: var(--background-color);
+	font-family: var(--font-myriad);
 	font-weight: 300;
 	font-size: 16px;
-	border: $page-border solid white;
+	border: var(--page-border) solid white;
 	border-bottom: none;
 	text-rendering: geometricPrecision;
 	// Enable best font rendering
@@ -18,16 +18,16 @@ body {
 	overflow-x: hidden;
 
 	&.fonts-loaded {
-		font-family: $Roboto;
+		font-family: var(--font-roboto);
 	}
 
 	@include media('<=tablet') {
-		border-width: $page-border-medium;
+		border-width: var(--page-border-medium);
 	}
 }
 
 ::selection {
-	background-color: $blue;
+	background-color: var(--blue);
 	color: white;
 }
 
@@ -36,12 +36,12 @@ body {
  */
 input {
 	border: 2px solid rgba(0, 0, 0, 0.2);
-	font-family: $Courier;
+	font-family: var(--font-courier);
 	padding: 5px 15px;
 	transition: border 150ms ease-in-out;
 
 	.fonts-loaded & {
-		font-family: $RobotoMono;
+		font-family: var(--font-roboto-mono);
 	}
 
 	&:hover {

@@ -10,13 +10,13 @@
 	left: 0;
 	transform: scaleX(0);
 	transform-origin: center;
-	transition: transform 175ms $easeOutBack;
+	transition: transform 175ms var(--ease-out-back);
 }
 
 #page-header {
 	width: 100%;
 	top: 0;
-	background-color: $content-background;
+	background-color: var(--content-background);
 }
 
 .header-inner {
@@ -44,7 +44,7 @@ $avatar-size: 32px;
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	font-family: $Roboto !important;
+	font-family: var(--font-roboto) !important;
 
 	&:hover::after {
 		transform: scale(1);
@@ -60,23 +60,23 @@ $avatar-size: 32px;
 		left: 0;
 		top: 0;
 		z-index: 1;
-		background: $blue;
-		border-radius: $base-radius / 2;
+		background: var(--blue);
+		border-radius: var(--base-radius) / 2;
 		transform: scale(0);
 		transform-origin: center;
-		transition: transform 175ms $easeOutBack;
+		transition: transform 175ms var(--ease-out-back);
 	}
 
 	img {
 		width: $avatar-size;
 		height: $avatar-size;
-		border-radius: $base-radius / 2;
+		border-radius: var(--base-radius) / 2;
 		box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
 		margin-right: 15px;
 	}
 
 	a {
-		color: $special-text-color;
+		color: var(--special-text-color);
 		font-weight: 400;
 		letter-spacing: 0;
 	}
@@ -124,11 +124,11 @@ $avatar-size: 32px;
 	}
 
 	.active {
-		color: $link-color;
+		color: var(--link-color);
 		cursor: text;
 
 		&::after {
-			@include animated-border($link-hover);
+			@include animated-border(var(--link-hover));
 		}
 
 		&:hover::after {
@@ -136,24 +136,24 @@ $avatar-size: 32px;
 		}
 
 		&::before {
-			background-color: $link-color;
+			background-color: var(--link-color);
 			transform: scaleX(1);
 		}
 
 		svg {
-			fill: $link-color;
+			fill: var(--link-color);
 		}
 	}
 
 	a {
-		color: $shade-of-grey-dark;
+		color: var(--shade-of-grey-dark);
 		font-size: 100%;
 		font-weight: 400;
 		position: relative;
 		transition: color 150ms ease-in-out;
 
 		&:hover {
-			color: $shade-of-grey-darker;
+			color: var(--shade-of-grey-darker);
 
 			&::before {
 				transform: scaleX(1);
@@ -161,7 +161,7 @@ $avatar-size: 32px;
 		}
 
 		&::before {
-			@include animated-border($shade-of-grey-darker);
+			@include animated-border(var(--shade-of-grey-darker));
 		}
 
 		@include media('<=500px') {
@@ -179,10 +179,10 @@ $avatar-size: 32px;
 	svg {
 		width: 30px;
 		height: 30px;
-		fill: $shade-of-grey-dark;
+		fill: var(--shade-of-grey-dark);
 
 		&:hover {
-			fill: $shade-of-grey-darker;
+			fill: var(--shade-of-grey-darker);
 		}
 	}
 }

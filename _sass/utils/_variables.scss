@@ -1,47 +1,42 @@
-/**
- * COLOR
- */
-$light-grey:            #ebebeb;
-$medium-grey:           #f1f1f1;
-$dark-grey:             #292822;
-$shade-of-grey-light:   rgba(0, 0, 0, .05);
-$shade-of-grey-medium:  rgba(0, 0, 0, .1);
-$shade-of-grey-medium2: rgba(0, 0, 0, .2);
-$shade-of-grey-dark:    rgba(0, 0, 0, .5);
-$shade-of-grey-darker:  rgba(0,0,0,.8);
-$shade-of-white-light:  rgba(255, 255, 255, .5);
-$blue:                  #3652cf;
-$purple:                #87637b;
-$orange:                #ff7c00;
-
-$background-color:      black;
-$content-background:    $medium-grey;
-$footer-background:     $shade-of-grey-medium2;
-$link-color:            $blue;
-$link-hover:            $orange;
-$normal-text:           $shade-of-grey-darker;
-$special-text-color:    black;
-$gradient-start:        $blue;
-$gradient-end:          $orange;
-$code-color:            $purple;
-$base-shadow:				0 0 25px rgba(0, 0, 0, .15);
-
-/**
- * DIMENSIONS
- */
-$base-width:            920px;
-$large-base-width:      1040px;
-$base-gap:              75px;
-$base-radius:           4px;
-$page-padding:          20px;
-$page-width:            #{$base-width + (2 * $page-padding)};
-$page-width-large:      #{$large-base-width + (2 * $page-padding)};
-$page-width-half:       #{($base-width / 2) + $page-padding};
-$page-gap:							15px;
-$page-border:           15px;
-$page-border-medium:    7px;
-
-/**
- * EASINGS
- */
-$easeOutBack:           cubic-bezier(0.175, 0.885, 0.32, 1.275);
+:root {
+  // COLOR
+  --light-grey:            #ebebeb;
+  --medium-grey:           #f1f1f1;
+  --dark-grey:             #292822;
+  --shade-of-grey-light:   rgba(0, 0, 0, .05);
+  --shade-of-grey-medium:  rgba(0, 0, 0, .1);
+  --shade-of-grey-medium2: rgba(0, 0, 0, .2);
+  --shade-of-grey-dark:    rgba(0, 0, 0, .5);
+  --shade-of-grey-darker:  rgba(0,0,0,.8);
+  --shade-of-white-light:  rgba(255, 255, 255, .5);
+  --blue:                  #3652cf;
+  --purple:                #87637b;
+  --orange:                #ff7c00;
+  
+  --background-color:      black;
+  --content-background:    var(--medium-grey);
+  --footer-background:     var(--shade-of-grey-medium2);
+  --link-color:            var(--blue);
+  --link-hover:            var(--orange);
+  --normal-text:           var(--shade-of-grey-darker);
+  --special-text-color:    black;
+  --gradient-start:        var(--blue);
+  --gradient-end:          var(--orange);
+  --base-shadow:				   0 0 25px rgba(0, 0, 0, .15);
+  
+  // DIMENSIONS
+  --base-width:            920px;
+  --large-base-width:      1040px;
+  --base-gap:              75px;
+  --base-radius:           4px;
+  --page-padding:          20px;
+  --page-width:            calc(var(--base-width) + (2 * var(--page-padding)));
+  --page-width-large:      calc(var(--large-base-width) + (2 * var(--page-padding)));
+  --page-width-half:       calc((var(--base-width) / 2) + var(--page-padding));
+  --page-gap:							 15px;
+  --page-border:           15px;
+  --page-border-medium:    7px;
+  
+  // EASINGS
+  --ease-out-back:         cubic-bezier(0.175, 0.885, 0.32, 1.275);  
+}

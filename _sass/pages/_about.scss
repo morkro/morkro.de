@@ -2,7 +2,7 @@
  * ABOUT
  */
 .about-intro {
-	margin-top: $base-gap;
+	margin-top: var(--base-gap);
 	position: relative;
 	z-index: 1;
 
@@ -10,7 +10,7 @@
 		font-size: 160%;
 		font-weight: 400;
 		line-height: 150%;
-		color: $special-text-color;
+		color: var(--special-text-color);
 
 		@include media('<=tablet') {
 			font-size: 140%;
@@ -35,7 +35,7 @@
 		width: 30px;
 		height: 30px;
 		transform: translateY(0);
-		transition: transform 150ms $easeOutBack;
+		transition: transform 150ms var(--ease-out-back);
 	}
 }
 
@@ -49,10 +49,10 @@
 }
 
 .about-text {
-	margin-bottom: $base-gap;
+	margin-bottom: var(--base-gap);
 
 	p:not(:last-of-type) {
-		margin-bottom: $page-gap * 2;
+		margin-bottom: calc(var(--page-gap) * 2);
 	}
 
 	> div:not(.special-info) {
@@ -64,11 +64,11 @@
 		}
 
 		&:not(:last-of-type) {
-			margin-bottom: $page-gap * 2;
+			margin-bottom: calc(var(--page-gap) * 2);
 		}
 
 		&:hover .about-mark svg {
-			fill: $blue;
+			fill: var(--blue);
 		}
 	}
 }
@@ -78,7 +78,7 @@
 	padding-top: 5px;
 
 	@include media('<=tablet') {
-		margin: 0 auto $page-gap * 2;
+		margin: 0 auto calc(var(--page-gap) * 2);
 		padding-top: 0;
 		text-align: center;
 	}
@@ -86,7 +86,7 @@
 	svg {
 		width: 35px;
 		height: 35px;
-		fill: $shade-of-grey-dark;
+		fill: var(--shade-of-grey-dark);
 		transition: fill 150ms ease-in-out;
 	}
 }
@@ -94,21 +94,21 @@
 .about-travels {
 	width: 100%;
 	background: white;
-	padding: 45px 0 $base-gap;
+	padding: 45px 0 var(--base-gap);
 	overflow-x: hidden;
 
 	.headline-gradient {
-		margin-bottom: $base-gap;
+		margin-bottom: var(--base-gap);
 	}
 
 	.travels-map {
 		display: block;
 		max-width: 90%;
-		margin: $base-gap auto 0;
+		margin: var(--base-gap) auto 0;
 		transform: translateX(3%);
 
 		@include media('<=tablet') {
-			margin-bottom: $page-gap * 2;
+			margin-bottom: calc(var(--page-gap) * 2);
 		}
 	}
 }
@@ -126,7 +126,7 @@
 	}
 
 	span:not(.travels-nextcity) {
-		color: $shade-of-grey-dark;
+		color: var(--shade-of-grey-dark);
 		font-style: italic;
 	}
 }

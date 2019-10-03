@@ -1,4 +1,4 @@
 .shadow-img {
-  border-radius: $base-radius / 2;
-  box-shadow: $base-shadow;
+  border-radius: var(--base-radius) / 2;
+  box-shadow: var(--base-shadow);
 }

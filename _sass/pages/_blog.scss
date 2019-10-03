@@ -2,7 +2,7 @@
  * BLOG: List
  */
 .blog-list {
-	margin-top: $base-gap;
+	margin-top: var(--base-gap);
 	width: 100%;
 	list-style: none;
 
@@ -35,7 +35,7 @@
 		position: absolute;
 		height: 10px;
 		width: 10px;
-		background: $link-hover;
+		background: var(--link-hover);
 		border-radius: 50%;
 		left: -20px;
 		top: 50%;
@@ -44,7 +44,7 @@
 
 	h2 {
 		margin: 0;
-		font-family: $RobotoMono;
+		font-family: var(--font-roboto-mono);
 		font-size: 145%;
 		line-height: 145%;
 		letter-spacing: -1px;
@@ -66,7 +66,7 @@
 .blog-post-meta {
 	font-size: 80%;
 	margin: 6px 0 4px;
-	color: $shade-of-grey-dark;
+	color: var(--shade-of-grey-dark);
 
 	time {
 		font-weight: 400;
@@ -82,7 +82,7 @@
 	svg {
 		width: 28px;
 		height: 28px;
-		fill: $shade-of-grey-dark;
+		fill: var(--shade-of-grey-dark);
 		vertical-align: middle;
 		transform: translateY(-2px);
 	}
@@ -92,7 +92,7 @@
  * BLOG: Article
  */
 .content-article header {
-	margin-bottom: $base-gap;
+	margin-bottom: var(--base-gap);
 
 	@include media('<=tablet') {
 		margin-bottom: 50px;
@@ -100,7 +100,7 @@
 }
 
 .article-info {
-	margin-top: $base-gap;
+	margin-top: var(--base-gap);
 	list-style: none;
 	display: flex;
 	justify-content: space-around;
@@ -123,14 +123,14 @@
 	}
 
 	li > span:first-of-type {
-		color: $shade-of-grey-dark;
+		color: var(--shade-of-grey-dark);
 		font-size: 14px;
 		font-weight: 300;
 	}
 }
 
 .article-body {
-	margin-bottom: $base-gap;
+	margin-bottom: var(--base-gap);
 
 	h2,
 	h3,
@@ -138,24 +138,24 @@
 	h5,
 	h6 {
 		font-weight: 500;
-		margin: $base-gap / 2 0;
+		margin: var(--base-gap) / 2 0;
 	}
 
 	h2 {
 		display: inline-block;
-		margin-top: $base-gap;
+		margin-top: var(--base-gap);
 		font-size: 240%;
 		background-repeat: no-repeat;
 		background-size: 100% 6px;
 		background-position: center bottom 0px;
-		background-image: linear-gradient(to right, $gradient-start, $gradient-end);
+		background-image: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
 		box-decoration-break: clone;
 		-webkit-box-decoration-break: clone;
 		-moz-background-inline-policy: each-box;
 	}
 
 	h3 {
-		margin: $base-gap / 2 0 15px;
+		margin: var(--base-gap) / 2 0 15px;
 		font-size: 160%;
 	}
 
@@ -182,12 +182,12 @@
 	}
 
 	li {
-		color: $normal-text;
+		color: var(--normal-text);
 	}
 
 	hr {
 		border: none;
-		border-top: 2px solid $shade-of-grey-light;
+		border-top: 2px solid var(--shade-of-grey-light);
 	}
 }
 
@@ -196,7 +196,7 @@
 }
 
 .article-share {
-	margin-bottom: $base-gap;
+	margin-bottom: var(--base-gap);
 	background: white;
 	width: 110%;
 	transform: translateX(-5%);
@@ -212,11 +212,11 @@
 .content-posts {
 	width: 100%;
 	display: flex;
-	margin-top: $base-gap;
+	margin-top: var(--base-gap);
 
 	div {
 		width: 50%;
-		background: $shade-of-white-light;
+		background: var(--shade-of-white-light);
 		display: flex;
 		justify-content: flex-start;
 
@@ -226,7 +226,7 @@
 
 		&:first-of-type {
 			direction: rtl;
-			border-right: 4px solid $shade-of-grey-light;
+			border-right: 4px solid var(--shade-of-grey-light);
 		}
 
 		&:first-of-type a {
@@ -239,9 +239,9 @@
 
 	a {
 		display: block;
-		width: $page-width-half;
-		padding: $page-padding;
-		font-family: $RobotoMono;
+		width: var(--page-width-half);
+		padding: var(--page-padding);
+		font-family: var(--font-roboto-mono);
 		font-weight: 400;
 		line-height: 24px;
 		letter-spacing: -1px;
@@ -259,9 +259,9 @@
 
 		span {
 			display: block;
-			font-family: $Roboto;
+			font-family: var(--font-roboto);
 			font-size: 100%;
-			color: $normal-text;
+			color: var(--normal-text);
 			letter-spacing: 0;
 		}
 
@@ -273,7 +273,7 @@
 	svg {
 		width: 30px;
 		height: 30px;
-		fill: $shade-of-grey-dark;
+		fill: var(--shade-of-grey-dark);
 		align-self: center;
 		transform: translateX(0);
 		transition: transform 100ms ease-in-out;

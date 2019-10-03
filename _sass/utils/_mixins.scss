@@ -28,5 +28,5 @@
 	background-color: $background-color;
 	transform: scaleX(0);
 	transform-origin: center;
-	transition: transform 175ms $easeOutBack;
+	transition: transform 175ms var(--ease-out-back);
 }

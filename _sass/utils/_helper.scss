@@ -38,13 +38,13 @@
 .container-large {
 	width: 100%;
 	margin: 0 auto;
-	padding: 0 $page-padding;
+	padding: 0 var(--page-padding);
 }
 
 .container {
-	max-width: $page-width;
+	max-width: var(--page-width);
 }
 
 .container-large {
-	max-width: $page-width-large;
+	max-width: var(--page-width-large);
 }

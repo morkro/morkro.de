@@ -20,16 +20,16 @@
 			fill: black;
 		}
 		&[href*='twitter']:hover svg {
-			fill: $blue;
+			fill: var(--blue);
 		}
 		&[href*='stackoverflow']:hover svg {
-			fill: $orange;
+			fill: var(--orange);
 		}
 		&[href*='linkedin']:hover svg {
-			fill: $blue;
+			fill: var(--blue);
 		}
 		&[href*='xml']:hover svg {
-			fill: $orange;
+			fill: var(--orange);
 		}
 		&[href*='mailto']:hover svg {
 			fill: black;
@@ -39,7 +39,7 @@
 	svg {
 		width: 22px;
 		height: 22px;
-		fill: $shade-of-grey-dark;
+		fill: var(--shade-of-grey-dark);
 		transition: fill 100ms ease-in-out;
 	}
 }

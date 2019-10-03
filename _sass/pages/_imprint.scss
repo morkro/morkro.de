@@ -6,7 +6,7 @@ $imprint-right-column: 75%;
 
 .imprint-wrap {
 	display: flex;
-	padding-bottom: $base-gap;
+	padding-bottom: var(--base-gap);
 
 	@include media('<=tablet') {
 		display: block;

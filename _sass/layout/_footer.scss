@@ -3,14 +3,14 @@
  */
 #page-footer {
 	width: 100vw;
-	transform: translateX(-#{$page-border});
-	padding: $base-gap 0 35px;
+	transform: translateX(calc(-1 * var(--page-border)));
+	padding: var(--base-gap) 0 35px;
 	text-align: center;
 	background-color: black;
 
 	@include media('<=tablet') {
 		padding: 70px 0 20px;
-		transform: translateX(-#{$page-border-medium});
+		transform: translateX(calc(-1 * var(--page-border-medium)));
 	}
 
 	span {
@@ -48,7 +48,7 @@
 
 	> p {
 		width: 90%;
-		color: $light-grey;
+		color: var(--light-grey);
 		font-size: 90%;
 		line-height: 24px;
 		margin-bottom: 25px;
@@ -92,7 +92,7 @@
 		transition: color 150ms ease-in-out;
 
 		&:hover {
-			color: $link-color;
+			color: var(--link-color);
 
 			&::before {
 				transform: scaleX(1);
@@ -100,7 +100,7 @@
 		}
 
 		&::before {
-			@include animated-border($link-color);
+			@include animated-border(var(--link-color));
 		}
 
 		@include media('<=500px') {
@@ -139,14 +139,14 @@
 		line-height: 0;
 
 		&:hover svg {
-			fill: $link-color;
+			fill: var(--link-color);
 		}
 
 		&:active,
 		&:focus {
 			background: none;
 			svg {
-				fill: $link-hover;
+				fill: var(--link-hover);
 			}
 		}
 	}
@@ -167,7 +167,7 @@
 		color: white;
 		transition: color 150ms ease-in-out;
 		&:hover {
-			color: $link-color;
+			color: var(--link-color);
 		}
 	}
 }
@@ -194,6 +194,6 @@
 		height: 30px;
 		fill: white;
 		transform: translateY(0);
-		transition: transform 150ms $easeOutBack;
+		transition: transform 150ms var(--ease-out-back);
 	}
 }
