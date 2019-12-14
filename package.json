@@ -28,7 +28,8 @@
   },
   "dependencies": {
     "fontfaceobserver": "^2.1.0",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.0.0",
+    "snyk": "^1.258.2"
   },
   "snyk": true
 }
