@@ -6,7 +6,12 @@
 				I usually go with <a href="https://www.google.de/search?q=morkro" target="_blank" rel="noopener">morkro</a> everywhere, but here are a few handy links anyway:
 			</p>
 
-			{% include twitter-button.html %}
+			<a href="https://twitter.com/morkro" class="twitter-follow-button" data-show-count="false">
+				Follow @morkro
+			</a>
+			<script>
+				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+			</script>
 
 			<ul class="footer-socialmedia">
 				<li><a href="{{ site.data.socialnetworks.github.url }}" target="_blank" rel="noopener">
@@ -41,6 +46,8 @@
 	</div>
 
 	<div class="footer-sub container">
-		<a href="#" class="footer-gotop" data-scrollto="#"><svg><use xlink:href="#arrow-top"></use></svg></a>
+		<a href="#" class="footer-gotop" data-scrollto="#">
+			<svg><use xlink:href="#arrow-top"></use></svg>
+		</a>
 	</div>
 </footer>

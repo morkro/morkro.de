@@ -3,7 +3,6 @@ import { $, $$, currentPage } from './helper'
 import addEmojiTitle from './add-emoji-title'
 import setNavigationState from './set-navigation-state'
 import setCurrentYear from './set-current-year'
-import highlightSVGMap from './highlight-svg-map'
 import addGitHubStats from './add-github-stats'
 import Scrollex from './scrollex'
 
@@ -47,16 +46,6 @@ scrollex.init()
 
 // PAGE SPECIFIC
 switch (currentPage()) {
-	case 'about':
-		highlightSVGMap({
-			map: $('#map'),
-			trigger: $('.travels-nextcity'),
-			attr: 'data-area',
-			hover: '#ff7c00',
-			defaultState: '#3652cf'
-		})
-		break
-
 	case 'projects':
 		addGitHubStats()
 		break
