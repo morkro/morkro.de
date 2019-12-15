@@ -1,6 +1,8 @@
 const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document)
 
+const $el = tag => document.createElement(tag)
+
 const getOffset = elem => {
 	let offsetTop = 0
 	do {
@@ -13,6 +15,9 @@ const getOffset = elem => {
 
 const isMacOS = () =>
 	navigator.userAgent.indexOf('Mac OS X') != -1
+
+const isMobileDevice = () =>
+	window.matchMedia('only screen and (max-width: 760px)').matches
 
 const currentPage = (name) => {
 	if (!name) {
@@ -44,8 +49,10 @@ const easeInOutQuint = function (time, start, change, duration) {
 export {
 	$,
 	$$,
+	$el,
 	getOffset,
 	isMacOS,
+	isMobileDevice,
 	currentPage,
 	requestAnimFrame,
 	easeInOutQuint,

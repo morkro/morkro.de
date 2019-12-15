@@ -4,6 +4,7 @@ import addEmojiTitle from './add-emoji-title'
 import setNavigationState from './set-navigation-state'
 import setCurrentYear from './set-current-year'
 import addGitHubStats from './add-github-stats'
+import loadInstagram from './instagram'
 import Scrollex from './scrollex'
 
 /**
@@ -48,6 +49,10 @@ scrollex.init()
 switch (currentPage()) {
 	case 'projects':
 		addGitHubStats()
+		break
+
+	case 'instagram':
+		loadInstagram()
 		break
 
 	default:
