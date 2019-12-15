@@ -1,6 +1,6 @@
 {
   "name": "morkro.de",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "Portfolio of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
@@ -9,8 +9,7 @@
     "lint:css": "stylelint \"_sass/**/*.scss\" --syntax scss",
     "lint": "npm run lint:js && npm run lint:css",
     "rollup": "rollup --config",
-    "watch": "watch -p \"scripts/*.js\" -c \"npm run rollup\"",
-    "start": "npm run lint && npm run js && jekyll serve --watch",
+    "start": "npm run lint && npm run rollup && jekyll serve --watch",
     "dev": "npm run lint && npm run rollup && bundle exec jekyll serve",
     "prod": "npm run lint && npm run rollup && JEKYLL_ENV=PROD jekyll build",
     "snyk-protect": "snyk protect",

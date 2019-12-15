@@ -1,6 +1,14 @@
 <script src="/../assets/main.min.js?v={{ site.time | date: "%Y%M%d" }}"></script>
 
 {% if jekyll.environment == 'PROD' %}
+<!-- Sentry -->
+<script src="https://browser.sentry-cdn.com/5.10.2/bundle.min.js" integrity="sha384-ssBfXiBvlVC7bdA/VX03S88B5MwXQWdnpJRbUYFPgswlOBwETwTp6F3SMUNpo9M9" crossorigin="anonymous"></script>
+<script>
+	Sentry.init({
+		dsn: 'https://7f46396b781f4276bbbcbd9ca833f1de@sentry.io/1857555'
+	})
+</script>
+
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-83519650-1"></script>
 <script>
