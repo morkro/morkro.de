@@ -1,4 +1,4 @@
-# Moritz Kröger Portfolio [![Build Status](https://travis-ci.org/morkro/morkro.de.svg?branch=master)](https://travis-ci.org/morkro/morkro.de)
+# 🙋🏻‍♀️ Moritz Kröger Portfolio [![Netlify Status](https://api.netlify.com/api/v1/badges/9cda398d-be03-491b-a9ac-afdfd2245bc1/deploy-status)](https://app.netlify.com/sites/moritz/deploys)
 
 Here lies the source code of my personal website [moritz.berlin](https://moritz.berlin). All code is open and free to use for everyone.
 
