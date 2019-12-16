@@ -15,19 +15,24 @@
 
 			<ul class="footer-socialmedia">
 				<li><a href="{{ site.data.socialnetworks.github.url }}" target="_blank" rel="noopener">
-					<svg><use xlink:href="#github"></use></svg>
+					<svg aria-hidden="true"><use xlink:href="#github"></use></svg>
+					<span class="visually-hidden">Github</span>
 				</a></li>
 				<li><a href="{{ site.data.socialnetworks.stackoverflow.url }}" target="_blank" rel="noopener">
-					<svg><use xlink:href="#stackoverflow"></use></svg>
+					<svg aria-hidden="true"><use xlink:href="#stackoverflow"></use></svg>
+					<span class="visually-hidden">StackOverflow</span>
 				</a></li>
 				<li><a href="{{ site.data.socialnetworks.linkedin.url }}" target="_blank" rel="noopener">
-					<svg><use xlink:href="#linkedin"></use></svg>
+					<svg aria-hidden="true"><use xlink:href="#linkedin"></use></svg>
+					<span class="visually-hidden">LinkedIn</span>
 				</a></li>
 				<li><a href="mailto:{{ site.email }}">
-					<svg><use xlink:href="#mail"></use></svg>
+					<svg aria-hidden="true"><use xlink:href="#mail"></use></svg>
+					<span class="visually-hidden">E-Mail</span>
 				</a></li>
 				<li><a href="{{ site.data.socialnetworks.codepen.url }}" target="_blank" rel="noopener">
-					<svg><use xlink:href="#codepen"></use></svg>
+					<svg aria-hidden="true"><use xlink:href="#codepen"></use></svg>
+					<span class="visually-hidden">Codepen</span>
 				</a></li>
 			</ul>
 
@@ -47,7 +52,12 @@
 
 	<div class="footer-sub container">
 		<a href="#" class="footer-gotop" data-scrollto="#">
-			<svg><use xlink:href="#arrow-top"></use></svg>
+			<svg aria-hidden="true">
+				<use xlink:href="#arrow-top"></use>
+			</svg>
+			<span class="visually-hidden">
+				Back to top
+			</span>
 		</a>
 	</div>
 </footer>

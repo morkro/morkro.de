@@ -2,6 +2,10 @@
 <html lang="en">
 {% include head.html %}
 <body {% if page.classes %}class="template-{{ page.classes }}"{% endif %}>
+	<a href="#page-content" class="a11y-jump visually-hidden">
+		Jump directly to main content
+	</a>
+
 	{% include iconset.html %}
 	{% include header.html %}
 
