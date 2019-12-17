@@ -98,9 +98,13 @@ a {
 		color: var(--link-hover);
 	}
 
-	&:active,
-	&:focus {
+	&:active {
 		background: white;
+		outline: none;
+	}
+
+	&:focus {
+		box-shadow: 0 0 10px 0px var(--blue);
 		outline: none;
 	}
 
