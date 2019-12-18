@@ -129,6 +129,7 @@
 		width: 22px;
 		height: 22px;
 		fill: white;
+		color: white;
 		transition: fill 150ms ease-in-out;
 	}
 
@@ -143,6 +144,7 @@
 
 		&:hover svg {
 			fill: var(--link-color);
+			color: var(--link-color);
 		}
 
 		&:active,
@@ -150,6 +152,7 @@
 			background: none;
 			svg {
 				fill: var(--link-hover);
+				color: var(--link-hover);
 			}
 		}
 	}

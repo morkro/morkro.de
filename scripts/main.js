@@ -51,7 +51,7 @@ switch (currentPage()) {
 		addGitHubStats()
 		break
 
-	case 'instagram':
+	case 'about':
 		loadInstagram()
 		break
 

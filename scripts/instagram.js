@@ -7,6 +7,7 @@ function createLink (post) {
 	const $link = $el('a')
 	$link.setAttribute('href', post.link)
 	$link.setAttribute('target', '_blank')
+	$link.setAttribute('rel', 'noopener')
 	return $link
 }
 
