@@ -40,18 +40,20 @@ classes: introduction
 			<h2>
 				Check out my latest article:
 			</h2>
-			{% for post in site.posts limit:1 %}
-			{% if post.external %}
-			<a href="{{ post.external.url }}" target="_blank" rel="noopener" class="intro-writing-link">
-			{% else %}
-			<a href="{{ post.url }}" class="intro-writing-link">
-			{% endif %}
-				{{ post.title }}
+			<p>
+				{% for post in site.posts limit:1 %}
 				{% if post.external %}
-				<svg><use xlink:href="#new-window"></use></svg>
+				<a href="{{ post.external.url }}" target="_blank" rel="noopener" class="intro-writing-link">
+				{% else %}
+				<a href="{{ post.url }}" class="intro-writing-link">
 				{% endif %}
-			</a>
-			{% endfor %}
+					{{ post.title }}
+					{% if post.external %}
+					<svg><use xlink:href="#new-window"></use></svg>
+					{% endif %}
+				</a>
+				{% endfor %}
+			</p>
 		</div>
 	</aside>
 
@@ -61,7 +63,7 @@ classes: introduction
 			I am also experienced in hiring tech talent, for clients as well as in-house, and coaching engineering teams in <strong>Agile development practices</strong>.
 		</p>
 		<p>
-			As an engineer, I focus on JavaScript <svg><use xlink:href="#javascript"></use></svg>, TypeScript, DevOps,
+			As an engineer, I focus on JavaScript <svg aria-hidden="true"><use xlink:href="#javascript"></use></svg>, TypeScript, DevOps,
 			and the ECMAScript language specification. But emerging technologies in general spark my interest.
 			I like working on the front- and back-end of the web, contribute to and publish my own open source projects
 			on a regular basis. <strong>Sharing knowledge and supporting others</strong> — this is what the web is really all about for me.
@@ -69,7 +71,7 @@ classes: introduction
 		<p>
 			I am currently working at
 			<a class="content-ref-job" href="https://mckinsey.com" target="_blank" rel="noopener">
-				<img src="/assets/img/mck.png" alt="McKinsey & Company Logo">
+				<img src="/assets/img/mck.png" alt="McKinsey & Company Logo" aria-hidden="true">
 				<strong>McKinsey & Company</strong>
 			</a>
 			as <strong>Digital Expert</strong>, solving all kinds of engineering problems for our clients.
@@ -77,24 +79,14 @@ classes: introduction
 	</div>
 </section>
 
-<!-- <section class="intro-plants">
-	<div class="container-large">
-		<h1>Plants, plants, plants</h1>
-
-		<div class="plants-content">
-			foo
-		</div>
-	</div>
-</section> -->
-
 <section class="intro-teaser">
 	<div class="container-large">
-		<h3 class="teaser-main-link">
+		<p class="teaser-main-link">
 			<a href="/is">
 				Get to know more of me on my <span>bio</span> page
 				<svg><use xlink:href="#arrow-right"></use></svg>
 			</a>
-		</h3>
+		</p>
 		<a href="{{ site.data.socialnetworks.instagram.url }}" class="teaser-social-link" target="_blank" rel="noopener">
 			<svg><use xlink:href="#instagram"></use></svg> Plants, plants, plants
 		</a>

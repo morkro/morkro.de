@@ -13,7 +13,10 @@ function createLink (post) {
 
 function createImage (post) {
 	const $img = $el('img')
-	$img.setAttribute('alt', post.caption.text)
+	const description = post.caption.text
+		.replace(/(#[^\u2000-\u206F\u2E00-\u2E7F\s\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]*)/g, '')
+		.trim()
+	$img.setAttribute('alt', description)
 	if (isMobileDevice()) {
 		$img.setAttribute('src', post.images.low_resolution.url)
 	} else {
@@ -27,7 +30,6 @@ function createList (json) {
 	const $children = Array.from($list.children)
 
 	for (const [index, post] of json.data.entries()) {
-		console.log(post)
 		const $link = createLink(post)
 		const $img = createImage(post)
 		const $child = $children[index]
