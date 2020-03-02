@@ -246,6 +246,7 @@ $intro-right-column: 59%;
 	display: flex;
 	justify-content: flex-end;
 	list-style: none;
+	flex-wrap: wrap;
 
 	@include media('<=825px') {
 		justify-content: center;
