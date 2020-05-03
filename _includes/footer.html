@@ -2,53 +2,114 @@
 	<div class="footer-inner container">
 		<div class="footer-info">
 			<p>
-				I am Moritz Kröger, Lead Engineer, DevOps Enthusiast, and Open Source contributor who lives in Berlin.
-				I usually go with <a href="https://www.google.de/search?q=morkro" target="_blank" rel="noopener">morkro</a> everywhere, but here are a few handy links anyway:
+				I am Moritz Kröger, Lead Engineer, DevOps Enthusiast, and Open Source
+				contributor who lives in Berlin. I usually go with
+				<a
+					href="https://www.google.de/search?q=morkro"
+					target="_blank"
+					rel="noopener"
+					>morkro</a
+				>
+				everywhere, but here are a few handy links anyway:
 			</p>
 
-			<a href="https://twitter.com/morkro" class="twitter-follow-button" data-show-count="false">
-				Follow @morkro
-			</a>
-			<script>
-				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-			</script>
-
 			<ul class="footer-socialmedia">
-				<li><a href="{{ site.data.socialnetworks.offsetearth.url }}" target="_blank" rel="noopener">
-					<svg aria-hidden="true"><use xlink:href="#earth"></use></svg>
-					<span class="visually-hidden">Offset.earth</span>
-				</a></li>
-				<li><a href="{{ site.data.socialnetworks.instagram.url }}" target="_blank" rel="noopener">
-					<svg aria-hidden="true"><use xlink:href="#instagram"></use></svg>
-					<span class="visually-hidden">Instagram</span>
-				</a></li>
-				<li><a href="{{ site.data.socialnetworks.github.url }}" target="_blank" rel="noopener">
-					<svg aria-hidden="true"><use xlink:href="#github"></use></svg>
-					<span class="visually-hidden">Github</span>
-				</a></li>
-				<li><a href="{{ site.data.socialnetworks.stackoverflow.url }}" target="_blank" rel="noopener">
-					<svg aria-hidden="true"><use xlink:href="#stackoverflow"></use></svg>
-					<span class="visually-hidden">StackOverflow</span>
-				</a></li>
-				<li><a href="{{ site.data.socialnetworks.linkedin.url }}" target="_blank" rel="noopener">
-					<svg aria-hidden="true"><use xlink:href="#linkedin"></use></svg>
-					<span class="visually-hidden">LinkedIn</span>
-				</a></li>
-				<li><a href="mailto:{{ site.email }}">
-					<svg aria-hidden="true"><use xlink:href="#mail"></use></svg>
-					<span class="visually-hidden">E-Mail</span>
-				</a></li>
-				<li><a href="{{ site.data.socialnetworks.codepen.url }}" target="_blank" rel="noopener">
-					<svg aria-hidden="true"><use xlink:href="#codepen"></use></svg>
-					<span class="visually-hidden">Codepen</span>
-				</a></li>
+				<li>
+					<a
+						href="{{ site.data.socialnetworks.twitter.url }}"
+						target="_blank"
+						rel="noopener"
+					>
+						<svg aria-hidden="true"><use xlink:href="#twitter"></use></svg>
+						<span class="visually-hidden">Twitter</span>
+					</a>
+				</li>
+				<li>
+					<a
+						href="{{ site.data.socialnetworks.offsetearth.url }}"
+						target="_blank"
+						rel="noopener"
+					>
+						<svg aria-hidden="true"><use xlink:href="#earth"></use></svg>
+						<span class="visually-hidden">Offset.earth</span>
+					</a>
+				</li>
+				<li>
+					<a
+						href="{{ site.data.socialnetworks.instagram.url }}"
+						target="_blank"
+						rel="noopener"
+					>
+						<svg aria-hidden="true"><use xlink:href="#instagram"></use></svg>
+						<span class="visually-hidden">Instagram</span>
+					</a>
+				</li>
+				<li>
+					<a
+						href="{{ site.data.socialnetworks.github.url }}"
+						target="_blank"
+						rel="noopener"
+					>
+						<svg aria-hidden="true"><use xlink:href="#github"></use></svg>
+						<span class="visually-hidden">Github</span>
+					</a>
+				</li>
+				<li>
+					<a
+						href="{{ site.data.socialnetworks.stackoverflow.url }}"
+						target="_blank"
+						rel="noopener"
+					>
+						<svg aria-hidden="true">
+							<use xlink:href="#stackoverflow"></use>
+						</svg>
+						<span class="visually-hidden">StackOverflow</span>
+					</a>
+				</li>
+				<li>
+					<a
+						href="{{ site.data.socialnetworks.linkedin.url }}"
+						target="_blank"
+						rel="noopener"
+					>
+						<svg aria-hidden="true"><use xlink:href="#linkedin"></use></svg>
+						<span class="visually-hidden">LinkedIn</span>
+					</a>
+				</li>
+				<li>
+					<a href="mailto:{{ site.email }}">
+						<svg aria-hidden="true"><use xlink:href="#mail"></use></svg>
+						<span class="visually-hidden">E-Mail</span>
+					</a>
+				</li>
+				<li>
+					<a
+						href="{{ site.data.socialnetworks.codepen.url }}"
+						target="_blank"
+						rel="noopener"
+					>
+						<svg aria-hidden="true"><use xlink:href="#codepen"></use></svg>
+						<span class="visually-hidden">Codepen</span>
+					</a>
+				</li>
 			</ul>
 
 			<div class="footer-content">
 				<p>
-					This website ({{ site.version }}) is made with <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a> and all content is <a href="https://github.com/morkro/morkro.de" target="_blank" rel="noopener">open source</a>.
-					<br>
-					© <span class="footer-year">{{ site.time | date: "%Y" }}</span>  Moritz Kröger
+					This website ({{ site.version }}) is made with
+					<a href="https://jekyllrb.com/" target="_blank" rel="noopener"
+						>Jekyll</a
+					>
+					and all content is
+					<a
+						href="https://github.com/morkro/morkro.de"
+						target="_blank"
+						rel="noopener"
+						>open source</a
+					>.
+					<br />
+					© <span class="footer-year">{{ site.time | date: "%Y" }}</span> Moritz
+					Kröger
 				</p>
 			</div>
 		</div>

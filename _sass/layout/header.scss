@@ -5,7 +5,7 @@
 	width: 100%;
 	height: 2px;
 	position: absolute;
-	content: '';
+	content: "";
 	bottom: 0;
 	left: 0;
 	transform: scaleX(0);
@@ -27,7 +27,7 @@
 	padding-top: 30px;
 	padding-bottom: 30px;
 
-	@include media('<=tablet') {
+	@include media("<=tablet") {
 		flex-direction: column;
 	}
 }
@@ -51,7 +51,7 @@ $avatar-size: 32px;
 	}
 
 	&::after {
-		content: url('/../assets/icons/home.svg');
+		content: url("/../assets/icons/home.svg");
 		padding-top: 4px;
 		padding-left: 4px;
 		width: $avatar-size - 4px;
@@ -61,7 +61,7 @@ $avatar-size: 32px;
 		top: 0;
 		z-index: 1;
 		background: var(--blue);
-		border-radius: clac(var(--base-radius) / 2);
+		border-radius: calc(var(--base-radius) / 2);
 		transform: scale(0);
 		transform-origin: center;
 		transition: transform 175ms var(--ease-out-back);
@@ -70,8 +70,8 @@ $avatar-size: 32px;
 	img {
 		width: $avatar-size;
 		height: $avatar-size;
-		border-radius: clac(var(--base-radius) / 2);
-		box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+		border-radius: calc(var(--base-radius) / 2);
+		box-shadow: 0 2px 9px rgba(0, 0, 0, 0.15);
 		margin-right: 15px;
 	}
 
@@ -81,7 +81,7 @@ $avatar-size: 32px;
 		letter-spacing: 0;
 	}
 
-	@include media('<=tablet') {
+	@include media("<=tablet") {
 		margin-bottom: 30px;
 		line-height: inherit;
 	}
@@ -91,7 +91,7 @@ $avatar-size: 32px;
  * Navigation
  */
 .header-nav {
-	@include media('<=tablet') {
+	@include media("<=tablet") {
 		width: 100%;
 	}
 }
@@ -102,11 +102,11 @@ $avatar-size: 32px;
 	align-items: center;
 	justify-content: center;
 
-	@include media('<=tablet') {
+	@include media("<=tablet") {
 		justify-content: space-between;
 	}
 
-	@include media('<=500px') {
+	@include media("<=500px") {
 		svg {
 			display: block !important;
 		}
@@ -118,7 +118,7 @@ $avatar-size: 32px;
 	li:not(:last-child) {
 		margin-right: 45px;
 
-		@include media('<=tablet') {
+		@include media("<=tablet") {
 			margin-right: 0;
 		}
 	}
@@ -164,7 +164,7 @@ $avatar-size: 32px;
 			@include animated-border(var(--shade-of-grey-darker));
 		}
 
-		@include media('<=500px') {
+		@include media("<=500px") {
 			&::before,
 			&::after {
 				display: none;

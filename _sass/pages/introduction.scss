@@ -5,20 +5,6 @@ $intro-left-column: 41%;
 $intro-right-column: 59%;
 
 /**
- * Header
- */
-.template-introduction .header-name {
-	&::after,
-	img {
-		display: none;
-	}
-
-	a {
-		cursor: text;
-	}
-}
-
-/**
  * Start
  */
 .intro-start {
@@ -34,16 +20,16 @@ $intro-right-column: 59%;
 		position: relative;
 		z-index: 1;
 
-		@include media('<=950px') {
+		@include media("<=950px") {
 			margin-bottom: -4%;
 			justify-content: center;
 		}
 
-		@include media('<=850px') {
+		@include media("<=850px") {
 			margin-bottom: 0;
 		}
 
-		@include media('<=tablet') {
+		@include media("<=tablet") {
 			order: 1;
 			display: block;
 		}
@@ -52,13 +38,13 @@ $intro-right-column: 59%;
 			font-size: 450%;
 			margin: 0;
 
-			@include media('>=tablet') {
+			@include media(">=tablet") {
 				font-size: 675%;
 				background-size: 100% 8px;
 				background-position: center bottom 15px;
 			}
 
-			@include media('<=tablet') {
+			@include media("<=tablet") {
 				line-height: 70px;
 				background-size: 100% 6px;
 				background-position: center bottom 14px;
@@ -72,7 +58,7 @@ $intro-right-column: 59%;
 	flex: 1 auto;
 	width: $intro-left-column;
 
-	@include media('<=tablet') {
+	@include media("<=tablet") {
 		flex: 1 100%;
 		order: 3;
 		margin-top: var(--base-gap);
@@ -81,7 +67,7 @@ $intro-right-column: 59%;
 	img {
 		align-self: flex-end;
 
-		@include media('<=tablet') {
+		@include media("<=tablet") {
 			width: 50%;
 			margin: 0 auto;
 		}
@@ -96,7 +82,7 @@ $intro-right-column: 59%;
 	flex-direction: column;
 	justify-content: flex-end;
 
-	@include media('<=tablet') {
+	@include media("<=tablet") {
 		flex: 1 100%;
 		order: 2;
 		padding-left: 0;
@@ -111,12 +97,12 @@ $intro-right-column: 59%;
 		color: var(--special-text-color);
 		align-self: flex-end;
 
-		@include media('<=1040px') {
+		@include media("<=1040px") {
 			font-size: 150%;
 			line-height: 34px;
 		}
 
-		@include media('<=825px') {
+		@include media("<=825px") {
 			font-size: 140%;
 			line-height: 30px;
 		}
@@ -130,7 +116,7 @@ $intro-right-column: 59%;
 	margin-bottom: var(--base-gap);
 	display: flex;
 
-	@include media('<=825px') {
+	@include media("<=825px") {
 		display: block;
 	}
 
@@ -138,7 +124,7 @@ $intro-right-column: 59%;
 		width: $intro-left-column;
 		text-align: right;
 
-		@include media('<=825px') {
+		@include media("<=825px") {
 			width: 100%;
 			text-align: center;
 			margin-bottom: 30px;
@@ -155,7 +141,7 @@ $intro-right-column: 59%;
 		font-weight: 400;
 		margin-bottom: 10px;
 
-		@include media('<=450px') {
+		@include media("<=450px") {
 			display: none;
 		}
 	}
@@ -165,7 +151,7 @@ $intro-right-column: 59%;
 	width: $intro-right-column;
 	padding-left: 60px;
 
-	@include media('<=825px') {
+	@include media("<=825px") {
 		width: 100%;
 		padding-left: 0;
 	}
@@ -195,10 +181,10 @@ $intro-right-column: 59%;
 
 	.content-ref-job img {
 		display: inline-block;
-    width: 18px;
-    height: 18px;
-    border-radius: 2px;
-    transform: translateY(2px);
+		width: 18px;
+		height: 18px;
+		border-radius: 2px;
+		transform: translateY(2px);
 	}
 }
 
@@ -248,11 +234,11 @@ $intro-right-column: 59%;
 	list-style: none;
 	flex-wrap: wrap;
 
-	@include media('<=825px') {
+	@include media("<=825px") {
 		justify-content: center;
 	}
 
-	@include media('<=450px') {
+	@include media("<=450px") {
 		margin-top: 20px;
 		justify-content: space-around;
 		span {
@@ -263,7 +249,7 @@ $intro-right-column: 59%;
 	li:not(:first-of-type) {
 		margin-left: 15px;
 
-		@include media('<=450px') {
+		@include media("<=450px") {
 			margin: 0;
 		}
 	}
@@ -286,7 +272,7 @@ $intro-right-column: 59%;
 		transform: translateY(2px);
 		transition: fill 150ms ease-in-out;
 
-		@include media('<=450px') {
+		@include media("<=450px") {
 			width: 30px;
 			height: 30px;
 		}
@@ -296,7 +282,7 @@ $intro-right-column: 59%;
 .intro-aside-article {
 	margin-top: calc(var(--base-gap) / 2);
 
-	@include media('<=825px') {
+	@include media("<=825px") {
 		display: none;
 	}
 }
@@ -344,12 +330,12 @@ $intro-right-column: 59%;
 	margin: 0 auto;
 	line-height: 43px;
 
-	@include media('<=tablet') {
+	@include media("<=tablet") {
 		font-size: 170%;
 		width: 100%;
 	}
 
-	@include media('<=500px') {
+	@include media("<=500px") {
 		font-size: 150%;
 		line-height: 28px;
 	}
@@ -379,7 +365,7 @@ $intro-right-column: 59%;
 		transition: translateX(0);
 		transition: transform 150ms var(--ease-out-back);
 
-		@include media('<=500px') {
+		@include media("<=500px") {
 			width: 30px;
 			height: 30px;
 		}

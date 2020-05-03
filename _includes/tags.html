@@ -1,15 +1,10 @@
-<div class="aside__tags"> 
+<div class="aside__tags">
 	<h2>Browse by tags</h2>
 	<ul>
-	{% for tag in site.tags %}
-		{% assign t = tag | first | downcase | replace:" ","-" %}
-		{% assign posts = tag | last %}
-		
-		{% if {{category}} == #{{t}} %}
+		{% for tag in site.tags %} {% assign t = tag | first | downcase | replace:"
+		","-" %} {% assign posts = tag | last %} {% if {{category}} == #{{t}} %}
 		<li>
-			<p>
-				#{{t}} <span>[{{ posts | size }}]</span>	
-			</p>
+			<p>#{{t}} <span>[{{ posts | size }}]</span></p>
 		</li>
 		{% else %}
 		<li>
@@ -17,8 +12,6 @@
 				#{{t}} <span>[{{ posts | size }}]</span>
 			</a>
 		</li>
-		{% endif %}
-		
-	{% endfor %}
+		{% endif %} {% endfor %}
 	</ul>
 </div>

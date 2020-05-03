@@ -1,31 +1,32 @@
 ---
 ---
+
 @charset "UTF-8";
 
 // VENDORS
-@import "vendors/_normalize";
+@import "vendors/normalize";
 // UTILS
-@import "utils/_variables";
-@import "utils/_mixins";
-@import "utils/_include-media";
-@import "utils/_helper";
+@import "utils/variables";
+@import "utils/mixins";
+@import "utils/include-media";
+@import "utils/helper";
 // GLOBALS
-@import "globals/_fonts";
-@import "globals/_system";
-@import "globals/_typography";
+@import "globals/fonts";
+@import "globals/system";
+@import "globals/typography";
 // COMPONENTS
-@import "components/_syntax";
-@import "components/_shadow-img";
-@import "components/_headline-gradient";
-@import "components/_special-info";
-@import "components/_socialmedia";
+@import "components/syntax";
+@import "components/shadow-img";
+@import "components/headline-gradient";
+@import "components/special-info";
+@import "components/socialmedia";
 // LAYOUT
-@import "layout/_header";
-@import "layout/_content";
-@import "layout/_footer";
+@import "layout/header";
+@import "layout/content";
+@import "layout/footer";
 // PAGES
-@import "pages/_introduction";
-@import "pages/_about";
-@import "pages/_blog";
-@import "pages/_projects";
-@import "pages/_404";
+@import "pages/introduction";
+@import "pages/about";
+@import "pages/blog";
+@import "pages/projects";
+@import "pages/404";

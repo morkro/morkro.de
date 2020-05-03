@@ -1,6 +1,6 @@
 {
   "name": "morkro.de",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "Portfolio of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
@@ -27,8 +27,8 @@
   },
   "dependencies": {
     "fontfaceobserver": "^2.1.0",
-    "whatwg-fetch": "^3.0.0",
-    "snyk": "^1.258.2"
+    "snyk": "^1.258.2",
+    "whatwg-fetch": "^3.0.0"
   },
   "snyk": true
 }

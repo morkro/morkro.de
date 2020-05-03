@@ -8,7 +8,7 @@
 	text-align: center;
 	background-color: black;
 
-	@include media('<=tablet') {
+	@include media("<=tablet") {
 		padding: 70px 0 20px;
 		transform: translateX(calc(-1 * var(--page-border-medium)));
 	}
@@ -26,7 +26,7 @@
 	display: flex;
 	justify-content: space-between;
 
-	@include media('<=tablet') {
+	@include media("<=tablet") {
 		display: block;
 	}
 }
@@ -35,7 +35,7 @@
 	text-align: left;
 	width: 60%;
 
-	@include media('<=tablet') {
+	@include media("<=tablet") {
 		text-align: center;
 		width: 100%;
 	}
@@ -45,7 +45,7 @@
 	}
 
 	iframe {
-		@include media('<=422px') {
+		@include media("<=422px") {
 			margin-bottom: 20px;
 		}
 	}
@@ -57,7 +57,7 @@
 		line-height: 24px;
 		margin-bottom: 25px;
 
-		@include media('<=tablet') {
+		@include media("<=tablet") {
 			width: 100%;
 		}
 	}
@@ -73,7 +73,7 @@
 	text-align: right;
 	width: 40%;
 
-	@include media('<=tablet') {
+	@include media("<=tablet") {
 		text-align: center;
 		margin-top: 50px;
 		width: 100%;
@@ -106,7 +106,7 @@
 			@include animated-border(var(--link-color));
 		}
 
-		@include media('<=500px') {
+		@include media("<=500px") {
 			&::before,
 			&::after {
 				display: none;
@@ -120,7 +120,6 @@
 }
 
 .footer-socialmedia {
-	margin-left: 15px;
 	margin-bottom: 20px;
 	display: inline-block;
 	list-style: none;
@@ -164,7 +163,7 @@
 		font-size: 70%;
 		color: rgba(255, 255, 255, 0.5);
 
-		@include media('<=tablet') {
+		@include media("<=tablet") {
 			text-align: center;
 		}
 	}
