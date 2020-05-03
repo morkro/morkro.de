@@ -1,3 +1,10 @@
+---
+---
+
+@charset "UTF-8";
+
+@import 'utils/index';
+
 /**
  * ABOUT
  */
@@ -75,9 +82,9 @@
 	.logo-link img {
 		display: inline-block;
 		width: 18px;
-    height: 18px;
-    border-radius: 2px;
-    transform: translateY(2px);
+		height: 18px;
+		border-radius: 2px;
+		transform: translateY(2px);
 	}
 }
 
@@ -154,7 +161,7 @@
 			background: white;
 
 			&:after {
-				content: "";
+				content: '';
 				display: block;
 				background-image: url('/../assets/icons/sun.svg');
 				background-size: contain;
@@ -182,12 +189,12 @@
 
 	a {
 		display: block;
-    width: 100%;
+		width: 100%;
 		height: 100%;
 		position: relative;
 
 		&::before {
-			content: "";
+			content: '';
 			opacity: 0;
 			position: absolute;
 			width: calc(8px + 100%);
@@ -216,7 +223,7 @@
 
 	img {
 		object-fit: cover;
-    width: 100%;
-    height: 100%;
+		width: 100%;
+		height: 100%;
 	}
 }

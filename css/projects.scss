@@ -1,3 +1,10 @@
+---
+---
+
+@charset "UTF-8";
+
+@import 'utils/index';
+
 /**
  * PROJECTS
  */
@@ -46,7 +53,8 @@ $project-preview-gap: 30px;
 		width: 32%;
 		background: white;
 		border-radius: calc(var(--base-radius) / 2);
-		transition: box-shadow 250ms var(--ease-out-back), transform 250ms var(--ease-out-back);
+		transition: box-shadow 250ms var(--ease-out-back),
+			transform 250ms var(--ease-out-back);
 
 		&:hover {
 			transform: scale(1.01);

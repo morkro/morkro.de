@@ -1,3 +1,10 @@
+---
+---
+
+@charset "UTF-8";
+
+@import 'utils/index';
+
 /**
  * BLOG: List
  */
@@ -21,10 +28,11 @@
 
 	a {
 		display: block;
-		padding-top: 20px;
-		padding-bottom: 20px;
 		position: relative;
-		@extend .container;
+		width: 100%;
+		max-width: var(--page-width);
+		margin: 0 auto;
+		padding: 20px var(--page-padding);
 
 		&:visited > span {
 			background-color: white;
@@ -148,7 +156,11 @@
 		background-repeat: no-repeat;
 		background-size: 100% 6px;
 		background-position: center bottom 0px;
-		background-image: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+		background-image: linear-gradient(
+			to right,
+			var(--gradient-start),
+			var(--gradient-end)
+		);
 		box-decoration-break: clone;
 		-webkit-box-decoration-break: clone;
 		-moz-background-inline-policy: each-box;

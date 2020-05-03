@@ -3,30 +3,10 @@
 
 @charset "UTF-8";
 
-// VENDORS
-@import "vendors/normalize";
-// UTILS
-@import "utils/variables";
-@import "utils/mixins";
-@import "utils/include-media";
-@import "utils/helper";
-// GLOBALS
-@import "globals/fonts";
-@import "globals/system";
-@import "globals/typography";
-// COMPONENTS
-@import "components/syntax";
-@import "components/shadow-img";
-@import "components/headline-gradient";
-@import "components/special-info";
-@import "components/socialmedia";
-// LAYOUT
-@import "layout/header";
-@import "layout/content";
-@import "layout/footer";
-// PAGES
-@import "pages/introduction";
-@import "pages/about";
-@import "pages/blog";
-@import "pages/projects";
-@import "pages/404";
+@import 'vendors/normalize';
+@import 'utils/index';
+@import 'globals/index';
+@import 'components/headline-gradient';
+@import 'components/shadow-img';
+@import 'components/socialmedia';
+@import 'layout/index';

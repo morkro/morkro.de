@@ -1,3 +1,10 @@
+---
+---
+
+@charset "UTF-8";
+
+@import 'utils/index';
+
 /**
  * 404
  */
@@ -11,10 +18,18 @@
 
 .template-404 {
 	#page-header {
-		background: linear-gradient(to left, var(--content-background) 55%, white 55%);
+		background: linear-gradient(
+			to left,
+			var(--content-background) 55%,
+			white 55%
+		);
 	}
 	#page-content {
-		background: linear-gradient(to right, var(--content-background) 55%, white 55%);
+		background: linear-gradient(
+			to right,
+			var(--content-background) 55%,
+			white 55%
+		);
 	}
 	#page-footer {
 		background: linear-gradient(to left, black 55%, var(--dark-grey) 55%);

@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-{% include head.html %}
-<body {% if page.classes %}class="template-{{ page.classes }}"{% endif %}>
-	<a href="#page-content" class="a11y-jump visually-hidden">
-		Jump directly to main content
-	</a>
+	{% include head.html page=page.classes %}
+	<body {% if page.classes %}class="template-{{ page.classes }}" {% endif %}>
+		<a href="#page-content" class="a11y-jump visually-hidden">
+			Jump directly to main content
+		</a>
 
-	{% include iconset.html %}
-	{% include header.html %}
+		{% include iconset.html %} {% include header.html %}
 
-	<main role="main" id="page-content">
-		{{ content }}
-	</main>
+		<main role="main" id="page-content">
+			{{ content }}
+		</main>
 
-	{% include footer.html %}
-	{% include scripts.html page=page.classes %}
-</body>
+		{% include footer.html %} {% include scripts.html page=page.classes %}
+	</body>
 </html>
