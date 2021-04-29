@@ -5,8 +5,8 @@
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
   "scripts": {
-    "lint:js": "eslint --ignore-path=.eslintignore scripts/",
-    "lint:css": "stylelint \"_sass/**/*.scss\" --syntax scss",
+    "lint:js": "eslint --ignore-path=.eslintignore src/scripts/",
+    "lint:css": "stylelint \"src/_sass/**/*.scss\" --syntax scss",
     "lint": "npm run lint:js && npm run lint:css",
     "rollup": "rollup --config",
     "start": "npm run lint && npm run rollup && jekyll serve --watch",
