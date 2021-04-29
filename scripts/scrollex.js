@@ -1,29 +1,30 @@
 import { $, requestAnimFrame, easeInOutQuint, windowPosition } from './helper'
 
 /**
-* @name Scrollex
-* @description Scrolls to the element defined in '[data-scrollto]'.
-* @param {Object} options
-* @example
-* let scroll = new Scrollex({ elements: '.foo', speed: 550 })
-* scroll.init()
-*/
+ * @name Scrollex
+ * @description Scrolls to the element defined in '[data-scrollto]'.
+ * @param {Object} options
+ * @example
+ * let scroll = new Scrollex({ elements: '.foo', speed: 550 })
+ * scroll.init()
+ */
 export default class Scrollex {
-	constructor (options = {}) {
+	constructor(options = {}) {
 		this.keyword = options.keyword || 'data-scrollto'
 		this.speed = options.speed || 333
 		this.elements = this.resolve(options.elements)
 		this.increment = options.increment || 20
 		this.offset = options.offset || 10
-		this.callback = typeof options.callback === 'function' ? options.callback : function() {}
+		this.callback =
+			typeof options.callback === 'function' ? options.callback : function () {}
 	}
 
 	/**
-	* @description Iterates through all nodes and stores them.
-	* @param  {NodeList} nodes
-	* @return {Array}
-	*/
-	resolve (nodes) {
+	 * @description Iterates through all nodes and stores them.
+	 * @param  {NodeList} nodes
+	 * @return {Array}
+	 */
+	resolve(nodes) {
 		const stored = []
 		for (let i = 0; i < nodes.length; i++) {
 			let keyword = nodes[i].getAttribute(this.keyword)
@@ -34,20 +35,20 @@ export default class Scrollex {
 	}
 
 	/**
-	* @description Sets the scrollTop value to the host element
-	* @param  {Number} amount
-	*/
-	moveBody (amount) {
+	 * @description Sets the scrollTop value to the host element
+	 * @param  {Number} amount
+	 */
+	moveBody(amount) {
 		document.documentElement.scrollTop = amount
 		document.body.scrollTop = amount
 	}
 
 	/**
-	* @description Blocks default behavior and scrolls to position defined by "this.keyword"
-	* @param  {HTMLElement} item
-	* @param  {Object} event
-	*/
-	scrollTo (item, event) {
+	 * @description Blocks default behavior and scrolls to position defined by "this.keyword"
+	 * @param  {HTMLElement} item
+	 * @param  {Object} event
+	 */
+	scrollTo(item, event) {
 		event.preventDefault()
 		event.target.blur()
 
@@ -60,8 +61,7 @@ export default class Scrollex {
 			this.moveBody(easing)
 			if (currentTime < this.speed) {
 				requestAnimFrame()(animateScroll)
-			}
-			else if (this.callback) {
+			} else if (this.callback) {
 				this.callback()
 			}
 		}
@@ -70,12 +70,15 @@ export default class Scrollex {
 	}
 
 	/**
-	* @description Initialises the module by adding all event listener
-	*/
-	init () {
+	 * @description Initialises the module by adding all event listener
+	 */
+	init() {
 		for (let i = 0; i < this.elements.length; i++) {
-			this.elements[i][0]
-				.addEventListener('click', this.scrollTo.bind(this, this.elements[i][1]), false)
+			this.elements[i][0].addEventListener(
+				'click',
+				this.scrollTo.bind(this, this.elements[i][1]),
+				false
+			)
 		}
 	}
 }

@@ -17,19 +17,19 @@ const fontRobotoMono = new FontFaceObserver('Roboto Mono')
 const scrollex = new Scrollex({
 	elements: $$('[data-scrollto]'),
 	speed: 333,
-	offset: -10
+	offset: -10,
 })
 const titleConfig = {
 	about: '🙋',
 	blog: '📰',
 	projects: '📦',
 	imprint: '📄',
-	404: '🔮'
+	404: '🔮',
 }
 const navigationConfig = {
 	parent: $('#page-header'),
 	className: 'active',
-	url: ['/', '/is', '/writes', '/builds']
+	url: ['/', '/is', '/writes', '/builds'],
 }
 
 /**
@@ -38,11 +38,12 @@ const navigationConfig = {
  * =========================================================================== *
  */
 // GENERAL
-Promise.all([fontRoboto.load(), fontRobotoMono.load()])
-	.then(() => document.body.classList.add('fonts-loaded'))
+Promise.all([fontRoboto.load(), fontRobotoMono.load()]).then(() =>
+	document.body.classList.add('fonts-loaded')
+)
 addEmojiTitle(titleConfig)
 setNavigationState(navigationConfig)
-setCurrentYear( $('.footer-year') )
+setCurrentYear($('.footer-year'))
 scrollex.init()
 
 // PAGE SPECIFIC

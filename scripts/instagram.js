@@ -1,9 +1,14 @@
 import 'whatwg-fetch'
 import { $, $el, isMobileDevice } from './helper'
 
-const instagramAPI = 'https://api.instagram.com/v1/users/self/media/recent/?access_token=38879863.d1ca157.372823cf31b5429bbd6863d84db75635'
+const instagramAPI =
+	'https://api.instagram.com/v1/users/self/media/recent/?access_token=38879863.d1ca157.372823cf31b5429bbd6863d84db75635'
 
-function createLink (post) {
+/**
+ * @param {*} post
+ * @returns {HTMLLinkElement}
+ */
+function createLink(post) {
 	const $link = $el('a')
 	$link.setAttribute('href', post.link)
 	$link.setAttribute('target', '_blank')
@@ -11,10 +16,13 @@ function createLink (post) {
 	return $link
 }
 
-function createImage (post) {
+function createImage(post) {
 	const $img = $el('img')
 	const description = post.caption.text
-		.replace(/(#[^\u2000-\u206F\u2E00-\u2E7F\s\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]*)/g, '')
+		.replace(
+			/(#[^\u2000-\u206F\u2E00-\u2E7F\s\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]*)/g,
+			''
+		)
 		.trim()
 	$img.setAttribute('alt', description)
 	if (isMobileDevice()) {
@@ -25,7 +33,7 @@ function createImage (post) {
 	return $img
 }
 
-function createList (json) {
+function createList(json) {
 	const $list = $('.instagram-list')
 	const $children = Array.from($list.children)
 
@@ -41,8 +49,8 @@ function createList (json) {
 	$list.classList.remove('is-loading')
 }
 
-export default function loadInstagram () {
+export default function loadInstagram() {
 	fetch(instagramAPI)
-		.then(response => response.json())
+		.then((response) => response.json())
 		.then(createList)
 }
