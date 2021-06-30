@@ -1,9 +1,21 @@
 <footer id="page-footer" role="contentinfo">
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		viewBox="0 0 1440 45"
+		aria-hidden="true"
+		focusable="false"
+	>
+		<path
+			fill="#000"
+			fill-rule="evenodd"
+			d="M984.457 32.182c53.352-1.698 104.799-7.169 156.258-12.946l15.905-1.797c66.964-7.595 90.201-10.343 166.257-6.991 60.533 2.668 103.125 13.858 117.127 25.87V45H-5.375c-1.86-5.455.526-11.064 5.89-15.196l.975-.746C14.422 19.266 31.165 11.02 55.103 7.065c47.74-7.87 96.066-9.287 143.915.38l1.48.303c156.487 32.335 228.197 8.662 363.656-4.071 186.988-17.568 253.336 33.81 420.303 28.505z"
+		/>
+	</svg>
 	<div class="footer-inner container">
 		<div class="footer-info">
 			<p>
-				I am Moritz Kröger, Lead Engineer, DevOps Enthusiast, and Open Source
-				contributor who lives in Berlin. I usually go with
+				I am Moritz Kröger, Engineering Manager and Open Source contributor who
+				lives in Berlin. I usually go with
 				<a
 					href="https://www.google.de/search?q=morkro"
 					target="_blank"
@@ -20,7 +32,9 @@
 						target="_blank"
 						rel="noopener"
 					>
-						<svg aria-hidden="true"><use xlink:href="#twitter"></use></svg>
+						<svg aria-hidden="true" focusable="false">
+							<use xlink:href="#twitter"></use>
+						</svg>
 						<span class="visually-hidden">Twitter</span>
 					</a>
 				</li>
@@ -30,7 +44,9 @@
 						target="_blank"
 						rel="noopener"
 					>
-						<svg aria-hidden="true"><use xlink:href="#earth"></use></svg>
+						<svg aria-hidden="true" focusable="false">
+							<use xlink:href="#earth"></use>
+						</svg>
 						<span class="visually-hidden">Offset.earth</span>
 					</a>
 				</li>
@@ -40,7 +56,9 @@
 						target="_blank"
 						rel="noopener"
 					>
-						<svg aria-hidden="true"><use xlink:href="#instagram"></use></svg>
+						<svg aria-hidden="true" focusable="false">
+							<use xlink:href="#instagram"></use>
+						</svg>
 						<span class="visually-hidden">Instagram</span>
 					</a>
 				</li>
@@ -50,7 +68,9 @@
 						target="_blank"
 						rel="noopener"
 					>
-						<svg aria-hidden="true"><use xlink:href="#github"></use></svg>
+						<svg aria-hidden="true" focusable="false">
+							<use xlink:href="#github"></use>
+						</svg>
 						<span class="visually-hidden">Github</span>
 					</a>
 				</li>
@@ -60,7 +80,7 @@
 						target="_blank"
 						rel="noopener"
 					>
-						<svg aria-hidden="true">
+						<svg aria-hidden="true" focusable="false">
 							<use xlink:href="#stackoverflow"></use>
 						</svg>
 						<span class="visually-hidden">StackOverflow</span>
@@ -72,13 +92,17 @@
 						target="_blank"
 						rel="noopener"
 					>
-						<svg aria-hidden="true"><use xlink:href="#linkedin"></use></svg>
+						<svg aria-hidden="true" focusable="false">
+							<use xlink:href="#linkedin"></use>
+						</svg>
 						<span class="visually-hidden">LinkedIn</span>
 					</a>
 				</li>
 				<li>
 					<a href="mailto:{{ site.email }}">
-						<svg aria-hidden="true"><use xlink:href="#mail"></use></svg>
+						<svg aria-hidden="true" focusable="false">
+							<use xlink:href="#mail"></use>
+						</svg>
 						<span class="visually-hidden">E-Mail</span>
 					</a>
 				</li>
@@ -88,7 +112,9 @@
 						target="_blank"
 						rel="noopener"
 					>
-						<svg aria-hidden="true"><use xlink:href="#codepen"></use></svg>
+						<svg aria-hidden="true" focusable="false">
+							<use xlink:href="#codepen"></use>
+						</svg>
 						<span class="visually-hidden">Codepen</span>
 					</a>
 				</li>
@@ -115,17 +141,15 @@
 		</div>
 		<div class="footer-menu">
 			{% include menu.html %}
+			<a href="#" class="footer-gotop" data-scrollto="#">
+				<span class="visually-hidden">Back to top</span>
+				<svg aria-hidden="true" focusable="false">
+					<use xlink:href="#arrow-top"></use>
+				</svg>
+				<svg class="footer-gotop-blob" aria-hidden="true" focusable="false">
+					<use xlink:href="#blob"></use>
+				</svg>
+			</a>
 		</div>
-	</div>
-
-	<div class="footer-sub container">
-		<a href="#" class="footer-gotop" data-scrollto="#">
-			<svg aria-hidden="true">
-				<use xlink:href="#arrow-top"></use>
-			</svg>
-			<span class="visually-hidden">
-				Back to top
-			</span>
-		</a>
 	</div>
 </footer>

@@ -3,14 +3,13 @@
  */
 #page-footer {
 	width: 100vw;
-	transform: translateX(calc(-1 * var(--page-border)));
-	padding: var(--base-gap) 0 35px;
+	padding: calc(0.5 * var(--base-gap)) 0 35px;
 	text-align: center;
-	background-color: black;
+	background-color: var(--background-color);
+	position: relative;
 
-	@include media("<=tablet") {
+	@include media('<=tablet') {
 		padding: 70px 0 20px;
-		transform: translateX(calc(-1 * var(--page-border-medium)));
 	}
 
 	span {
@@ -20,13 +19,22 @@
 	a:focus {
 		box-shadow: 0 0 10px 0px var(--orange);
 	}
+
+	> svg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		transform: translateY(-98%);
+	}
 }
 
 .footer-inner {
 	display: flex;
 	justify-content: space-between;
 
-	@include media("<=tablet") {
+	@include media('<=tablet') {
 		display: block;
 	}
 }
@@ -35,7 +43,7 @@
 	text-align: left;
 	width: 60%;
 
-	@include media("<=tablet") {
+	@include media('<=tablet') {
 		text-align: center;
 		width: 100%;
 	}
@@ -45,7 +53,7 @@
 	}
 
 	iframe {
-		@include media("<=422px") {
+		@include media('<=422px') {
 			margin-bottom: 20px;
 		}
 	}
@@ -57,7 +65,7 @@
 		line-height: 24px;
 		margin-bottom: 25px;
 
-		@include media("<=tablet") {
+		@include media('<=tablet') {
 			width: 100%;
 		}
 	}
@@ -73,7 +81,7 @@
 	text-align: right;
 	width: 40%;
 
-	@include media("<=tablet") {
+	@include media('<=tablet') {
 		text-align: center;
 		margin-top: 50px;
 		width: 100%;
@@ -106,7 +114,7 @@
 			@include animated-border(var(--link-color));
 		}
 
-		@include media("<=500px") {
+		@include media('<=500px') {
 			&::before,
 			&::after {
 				display: none;
@@ -163,7 +171,7 @@
 		font-size: 70%;
 		color: rgba(255, 255, 255, 0.5);
 
-		@include media("<=tablet") {
+		@include media('<=tablet') {
 			text-align: center;
 		}
 	}
@@ -178,27 +186,45 @@
 }
 
 .footer-gotop {
-	display: inline-block;
+	display: inline-flex;
 	padding: 0;
-	margin-top: 50px;
+	margin-top: 15px;
 
-	&:hover svg {
-		transform: translateY(-25%);
+	&::before {
+		display: none;
+	}
+
+	&:hover svg:not(.footer-gotop-blob) {
+		transform: translateY(-65%) translateX(-50%);
+	}
+
+	&:hover .footer-gotop-blob {
+		fill: var(--blue);
 	}
 
 	&:active,
 	&:focus {
 		background: none;
-		svg {
-			transform: translateY(-25%);
+		svg:not(.footer-gotop-blob) {
+			transform: translateY(-65%) translateX(-50%);
 		}
 	}
 
-	svg {
+	svg:not(.footer-gotop-blob) {
 		width: 30px;
 		height: 30px;
 		fill: white;
-		transform: translateY(0);
+		transform: translateY(-50%) translateX(-50%);
 		transition: transform 150ms var(--ease-out-back);
+		position: absolute;
+		top: 50%;
+		left: 50%;
+	}
+
+	.footer-gotop-blob {
+		width: 65px;
+		height: 70px;
+		fill: var(--dark-grey);
+		transition: fill 150ms var(--ease-out-back);
 	}
 }

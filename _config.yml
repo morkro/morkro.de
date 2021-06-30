@@ -3,10 +3,10 @@ source: ./src
 destination: _public
 
 # Site info
-version: 1.5.6
-title: Moritz Kröger 🙋 — Lead Engineer, DevOps Enthusiast, and Open Source contributor
+version: 1.5.7
+title: Moritz Kröger 🙋 — Engineering Manager, Tech Lead, and Open Source contributor
 email: write@morkro.de
-description: "I am Moritz Kröger, Lead Engineer, DevOps Enthusiast, and Open Source contributor who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions."
+description: "I am Moritz Kröger, Engineering Manager, Tech Lead, and Open Source contributor who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions."
 baseurl: ""
 url: "https://morkro.de"
 
