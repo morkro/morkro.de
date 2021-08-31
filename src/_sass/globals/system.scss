@@ -4,6 +4,15 @@
 	padding: 0;
 }
 
+@media (prefers-reduced-motion: reduce) {
+	*,
+	::before,
+	::after {
+		transition-duration: 0ms !important;
+		animation-duration: 0ms !important;
+	}
+}
+
 body {
 	background-color: var(--background-color);
 	font-family: var(--font-myriad);
@@ -50,9 +59,12 @@ body {
 }
 
 .a11y-jump {
-	padding: 10px 20px;
+	padding: calc(0.5 * var(--page-padding)) var(--page-padding);
 	font-weight: 400;
 	z-index: 2;
+	background: white;
+	top: var(--page-padding);
+	left: var(--page-padding);
 }
 
 /**

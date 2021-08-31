@@ -104,8 +104,7 @@ a {
 	}
 
 	&:focus {
-		box-shadow: 0 0 10px 0px var(--blue);
-		outline: none;
+		outline: 2px dashed var(--blue);
 	}
 
 	svg {
