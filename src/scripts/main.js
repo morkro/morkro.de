@@ -1,36 +1,37 @@
 import FontFaceObserver from 'fontfaceobserver'
 import { $, $$, currentPage } from './helper'
 import addEmojiTitle from './add-emoji-title'
+import animateScrollTo from './animate-scroll-to'
 import setNavigationState from './set-navigation-state'
 import setCurrentYear from './set-current-year'
 import addGitHubStats from './add-github-stats'
 import loadInstagram from './instagram'
-import Scrollex from './scrollex'
 
 /**
  * =========================================================================== *
  *                                CONFIGURATION
  * =========================================================================== *
  */
+const config = {
+	user: {
+		prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)')
+			.matches,
+	},
+	titles: {
+		about: '🙋',
+		blog: '📰',
+		projects: '📦',
+		imprint: '📄',
+		404: '🔮',
+	},
+	navigation: {
+		parent: $('#page-header'),
+		className: 'active',
+		url: ['/', '/is', '/writes', '/builds'],
+	},
+}
 const fontRoboto = new FontFaceObserver('Roboto')
 const fontRobotoMono = new FontFaceObserver('Roboto Mono')
-const scrollex = new Scrollex({
-	elements: $$('[data-scrollto]'),
-	speed: 333,
-	offset: -10,
-})
-const titleConfig = {
-	about: '🙋',
-	blog: '📰',
-	projects: '📦',
-	imprint: '📄',
-	404: '🔮',
-}
-const navigationConfig = {
-	parent: $('#page-header'),
-	className: 'active',
-	url: ['/', '/is', '/writes', '/builds'],
-}
 
 /**
  * =========================================================================== *
@@ -41,10 +42,16 @@ const navigationConfig = {
 Promise.all([fontRoboto.load(), fontRobotoMono.load()]).then(() =>
 	document.body.classList.add('fonts-loaded')
 )
-addEmojiTitle(titleConfig)
-setNavigationState(navigationConfig)
+addEmojiTitle(config.titles)
+setNavigationState(config.navigation)
 setCurrentYear($('.footer-year'))
-scrollex.init()
+
+// A11Y
+if (config.user.prefersReducedMotion === false) {
+	for (const $el of $$('[data-scrollto]')) {
+		animateScrollTo($el)
+	}
+}
 
 // PAGE SPECIFIC
 switch (currentPage()) {
