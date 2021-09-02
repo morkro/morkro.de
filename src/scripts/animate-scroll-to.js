@@ -1,14 +1,16 @@
-import { $, requestAnimFrame, easeInOutQuint, windowPosition } from './helper'
+import { $, requestAnimFrame, easeInOutQuint } from './helper'
 
 const animationSpeed = 333
 const animationOffset = -10
 const animationIncrement = 20
 
-function resolveNode(node) {
-	let keyword = node.getAttribute('data-scrollto')
-	if (keyword === '#') keyword = 'body'
-	return [node, $(keyword)]
-}
+/**
+ * @returns {number}
+ */
+const windowPosition = () =>
+	document.documentElement.scrollTop ||
+	document.body.parentNode.scrollTop ||
+	document.body.scrollTop
 
 /**
  * @param {Number} amount
@@ -22,9 +24,13 @@ function moveDocument(amount) {
  * @param {HTMLElement} $el
  * @param {Function} callback
  */
-export default function animateScrollTo($el, callback = () => {}) {
-	const selector = $el.getAttribute('data-scrollto')
-	const $destination = selector === '#' ? $('body') : $(selector)
+export default function animateScrollTo(
+	$el,
+	dataset = '',
+	callback = () => {}
+) {
+	const attr = $el.dataset[dataset]
+	const $destination = attr === '#' ? document.body : $(attr)
 
 	$el.addEventListener('click', (event) => {
 		event.preventDefault()

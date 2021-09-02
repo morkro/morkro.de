@@ -1,20 +1,26 @@
 <ul>
 	<li>
-		<a href="/is">
+		<a href="/is" {% if page.title contains "About" %} class="active" {% endif %}>
 			<span>About</span>
-			<svg style="display: none;"><use xlink:href="#fingerprint"></use></svg>
+			<svg aria-hidden="true" style="display: none">
+				<use xlink:href="#fingerprint"></use>
+			</svg>
 		</a>
 	</li>
 	<li>
-		<a href="/writes">
+		<a href="/writes" {% if page.title contains "Articles" %} class="active" {% endif %}>
 			<span>Articles</span>
-			<svg style="display: none;"><use xlink:href="#articles"></use></svg>
+			<svg aria-hidden="true" style="display: none">
+				<use xlink:href="#articles"></use>
+			</svg>
 		</a>
 	</li>
 	<li>
-		<a href="/builds">
+		<a href="/builds" {% if page.title contains "Projects" %} class="active" {% endif %}>
 			<span>Projects</span>
-			<svg style="display: none;"><use xlink:href="#compass"></use></svg>
+			<svg aria-hidden="true" style="display: none">
+				<use xlink:href="#compass"></use>
+			</svg>
 		</a>
 	</li>
 </ul>

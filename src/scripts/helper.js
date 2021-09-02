@@ -8,20 +8,6 @@ const $$ = document.querySelectorAll.bind(document)
 const $el = (tag) => document.createElement(tag)
 
 /**
- * @param {HTMLElement} elem
- * @returns {number}
- */
-const getOffset = (elem) => {
-	let offsetTop = 0
-	do {
-		if (!isNaN(elem.offsetTop)) {
-			offsetTop += elem.offsetTop
-		}
-	} while ((elem = elem.offsetParent))
-	return offsetTop
-}
-
-/**
  * @returns {boolean}
  */
 const isMacOS = () => navigator.userAgent.indexOf('Mac OS X') != -1
@@ -31,6 +17,12 @@ const isMacOS = () => navigator.userAgent.indexOf('Mac OS X') != -1
  */
 const isMobileDevice = () =>
 	window.matchMedia('only screen and (max-width: 760px)').matches
+
+/**
+ * @returns {boolean}
+ */
+const prefersReducedMotion = () =>
+	window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
  * @description Checks if a page is currently being visited.
@@ -55,15 +47,6 @@ const requestAnimFrame = () =>
 	}
 
 /**
- * @returns {number}
- */
-const windowPosition = () =>
-	document.documentElement.scrollTop ||
-	document.body.parentNode.scrollTop ||
-	document.body.scrollTop
-
-/**
- *
  * @param {number} time
  * @param {number} start
  * @param {number} change
@@ -78,14 +61,13 @@ const easeInOutQuint = function (time, start, change, duration) {
 }
 
 export {
+	$el,
 	$,
 	$$,
-	$el,
-	getOffset,
 	isMacOS,
 	isMobileDevice,
+	prefersReducedMotion,
 	currentPage,
 	requestAnimFrame,
 	easeInOutQuint,
-	windowPosition,
 }

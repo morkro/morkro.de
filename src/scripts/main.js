@@ -1,59 +1,41 @@
 import FontFaceObserver from 'fontfaceobserver'
-import { $, $$, currentPage } from './helper'
+import { $, $$, currentPage, prefersReducedMotion } from './helper'
 import addEmojiTitle from './add-emoji-title'
 import animateScrollTo from './animate-scroll-to'
-import setNavigationState from './set-navigation-state'
 import setCurrentYear from './set-current-year'
 import addGitHubStats from './add-github-stats'
 import loadInstagram from './instagram'
 
-/**
- * =========================================================================== *
- *                                CONFIGURATION
- * =========================================================================== *
- */
 const config = {
-	user: {
-		prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)')
-			.matches,
-	},
-	titles: {
+	pageTitles: {
 		about: '🙋',
 		blog: '📰',
 		projects: '📦',
 		imprint: '📄',
 		404: '🔮',
 	},
-	navigation: {
-		parent: $('#page-header'),
-		className: 'active',
-		url: ['/', '/is', '/writes', '/builds'],
-	},
 }
-const fontRoboto = new FontFaceObserver('Roboto')
-const fontRobotoMono = new FontFaceObserver('Roboto Mono')
 
-/**
- * =========================================================================== *
- *                                  LET'S GO
- * =========================================================================== *
- */
-// GENERAL
-Promise.all([fontRoboto.load(), fontRobotoMono.load()]).then(() =>
-	document.body.classList.add('fonts-loaded')
-)
-addEmojiTitle(config.titles)
-setNavigationState(config.navigation)
+/* 1. Load webfonts */
+Promise.all([
+	new FontFaceObserver('Roboto').load(),
+	new FontFaceObserver('Roboto Mono').load(),
+]).then(() => document.body.classList.add('fonts-loaded'))
+
+/* 2. Modify page titles */
+addEmojiTitle(config.pageTitles)
+
+/* 3. Update footer year */
 setCurrentYear($('.footer-year'))
 
-// A11Y
-if (config.user.prefersReducedMotion === false) {
+/* 4. Only use animated scrolling if the user has it enabled */
+if (prefersReducedMotion() === false) {
 	for (const $el of $$('[data-scrollto]')) {
-		animateScrollTo($el)
+		animateScrollTo($el, 'scrollto')
 	}
 }
 
-// PAGE SPECIFIC
+/** 5. Run page-specific code */
 switch (currentPage()) {
 	case 'projects':
 		addGitHubStats()
