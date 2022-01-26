@@ -1,5 +1,4 @@
-import 'whatwg-fetch'
-import { $$, $el } from './helper'
+import { $$ } from './helper'
 
 /**
  * @typedef {Object} GitHubRepositoryAPI

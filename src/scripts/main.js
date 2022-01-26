@@ -5,7 +5,6 @@ import addEmojiTitle from './add-emoji-title'
 import animateScrollTo from './animate-scroll-to'
 import setCurrentYear from './set-current-year'
 import addGitHubStats from './add-github-stats'
-// import loadInstagram from './instagram'
 
 /* 1. Set preferred theme */
 setPreferredTheme()

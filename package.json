@@ -1,6 +1,6 @@
 {
   "name": "morkro.de",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Portfolio of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
@@ -27,8 +27,7 @@
     "stylelint-scss": "^4.0.0"
   },
   "dependencies": {
-    "fontfaceobserver": "^2.1.0",
-    "whatwg-fetch": "^3.6.2"
+    "fontfaceobserver": "^2.1.0"
   },
   "snyk": true
 }
