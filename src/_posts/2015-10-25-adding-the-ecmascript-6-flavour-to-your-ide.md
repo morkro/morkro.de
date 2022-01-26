@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Adding the ECMAScript 6 flavour to your IDE"
-excerpt: "Using ECMAScript 6 features is all cool and feels good, but all that makes little sense without syntax support in an IDE."
+title: 'Adding the ECMAScript 6 flavour to your IDE'
+excerpt: 'Using ECMAScript 6 features is all cool and feels good, but all that makes little sense without syntax support in an IDE.'
 classes: article
 tags:
- - javascript
+  - javascript
 ---
 
 Using ECMAScript 6 features is all cool and feels good, but all that makes little sense without syntax support in an IDE. Since the specification just has been finished earlier this year, some IDE's still don't support the syntax yet and need some little extra work.
@@ -15,11 +15,11 @@ Everyone has their favourite IDE and I can't cover them all. At my work the most
 
 With the [June 2015 release](http://blogs.msdn.com/b/vscode/archive/2015/07/06/vs-code-es6.aspx) VSCode finally supports ES6 syntax. Unfortunately it's not activated by default and needs a `jsconfig.json` file in the projects directory. This is a bummer for me, as it kinda feels like still in beta and is just inconvinient.
 
-<div class="clearfix">
-<p class="left" style="width:50%;">
+<div style="display:flex;justify-content:space-between;">
+<p style="width:50%;">
 Place the <code>jsconfig.json</code> in your project directory <em>(it could also be in the source folder)</em>, restart Visual Studio Code and you will see that all warnings are gone.
 </p>
-<div class="right" style="width:45%;">
+<div style="width:45%;">
 {% highlight json %}
 {
   "compilerOptions": {
@@ -31,12 +31,12 @@ Place the <code>jsconfig.json</code> in your project directory <em>(it could als
 </div>
 </div>
 
-<div class="clearfix" style="margin-top:15px;">
-    <div class="left" style="width:48%;">
+<div style="display:flex;justify-content:space-between;margin-top:15px;">
+    <div style="width:48%;">
         <strong>Before:</strong>
         <a href="/../assets/img/2015-10/vsc-without-es6.png" target="_blank" rel="noopener"><img class="screenshot" src="/../assets/img/2015-10/vsc-without-es6.png"></a>
     </div>
-    <div class="right" style="width:48%;">
+    <div style="width:48%;">
         <strong>After, yay!</strong>
         <a href="/../assets/img/2015-10/vsc-with-es6.png" target="_blank" rel="noopener"><img class="screenshot" src="/../assets/img/2015-10/vsc-with-es6.png"></a>
     </div>
@@ -68,7 +68,7 @@ If you don't want to manually change the syntax highlighter everytime you open a
 
 ## WebStorm
 
-WebStorm is the easiest one of all three. You simply activate ECMAScript 6 highlighting in the settings and you're set. Go to `Preferences` -> `Languages & Frameworks` -> `JavaScript` and set the language version to `ECMAScript 6`. *You might also turn `Prefer Strict mode` on, if you don't have it already.*
+WebStorm is the easiest one of all three. You simply activate ECMAScript 6 highlighting in the settings and you're set. Go to `Preferences` -> `Languages & Frameworks` -> `JavaScript` and set the language version to `ECMAScript 6`. _You might also turn `Prefer Strict mode` on, if you don't have it already._
 
 <a href="/../assets/img/2015-10/webstorm-es6.png" target="_blank" rel="noopener"><img class="screenshot" src="/../assets/img/2015-10/webstorm-es6.png"></a>
 

@@ -1,10 +1,10 @@
 /**
  * CONTENT
  */
-#page-content {
+#content {
 	width: 100%;
 	padding: var(--base-gap) 0 0;
-	background: var(--content-background);
+	background: var(--background-content);
 
 	@include media('<=tablet') {
 		padding-top: 40px;

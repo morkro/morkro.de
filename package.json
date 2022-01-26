@@ -1,29 +1,30 @@
 {
   "name": "morkro.de",
-  "version": "1.5.11",
+  "version": "1.6.0",
   "description": "Portfolio of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
   "scripts": {
     "lint:js": "eslint --ignore-path=.eslintignore src/scripts/",
-    "lint:css": "stylelint \"src/_sass/**/*.scss\" --syntax scss",
+    "lint:css": "stylelint \"src/_sass/**/*.scss\"",
     "lint": "npm run lint:js && npm run lint:css",
     "rollup": "rollup --config",
     "start": "npm run lint && npm run rollup && jekyll serve --watch",
-    "dev": "npm run lint && npm run rollup && bundle exec jekyll serve",
+    "dev": "npm run lint && npm run rollup && bundle exec jekyll serve --livereload",
     "prod": "npm run lint && npm run rollup && JEKYLL_ENV=PROD jekyll build",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^13.0.0",
-    "eslint": "^7.28.0",
-    "rollup": "^2.52.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "eslint": "^8.2.0",
+    "postcss-scss": "^4.0.2",
+    "rollup": "^2.60.0",
     "rollup-plugin-babel-minify": "^10.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
-    "snyk": "^1.633.0",
-    "stylelint": "^13.13.1",
-    "stylelint-scss": "^3.19.0"
+    "snyk": "^1.760.0",
+    "stylelint": "^14.0.1",
+    "stylelint-scss": "^4.0.0"
   },
   "dependencies": {
     "fontfaceobserver": "^2.1.0",

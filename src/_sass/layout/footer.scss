@@ -2,10 +2,10 @@
  * FOOTER
  */
 #page-footer {
-	width: 100vw;
+	width: 100%;
 	padding: calc(0.5 * var(--base-gap)) 0 35px;
 	text-align: center;
-	background-color: var(--background-color);
+	background-color: var(--background-base);
 	position: relative;
 
 	@include media('<=tablet') {
@@ -37,7 +37,7 @@
 
 .footer-info {
 	text-align: left;
-	width: 60%;
+	width: 70%;
 
 	@include media('<=tablet') {
 		text-align: center;
@@ -57,9 +57,9 @@
 	> p {
 		width: 90%;
 		color: var(--light-grey);
-		font-size: 90%;
+		font-size: var(--font-size-base);
 		line-height: 24px;
-		margin-bottom: 25px;
+		margin-bottom: var(--page-gap);
 
 		@include media('<=tablet') {
 			width: 100%;
@@ -67,7 +67,7 @@
 	}
 
 	> p > a {
-		color: white;
+		color: var(--normal-text-inverse);
 		cursor: text;
 		font-weight: 400;
 	}
@@ -75,7 +75,6 @@
 
 .footer-menu {
 	text-align: right;
-	width: 40%;
 
 	@include media('<=tablet') {
 		text-align: center;
@@ -85,7 +84,7 @@
 
 	a,
 	span {
-		font-size: 90%;
+		font-size: var(--font-size-base);
 		font-weight: 400;
 	}
 
@@ -94,7 +93,7 @@
 	}
 
 	a {
-		color: white;
+		color: var(--normal-text-inverse);
 		position: relative;
 		transition: color 150ms ease-in-out;
 
@@ -119,20 +118,20 @@
 	}
 
 	> a {
-		font-size: 70%;
+		font-size: var(--font-size-small);
 	}
 }
 
 .footer-socialmedia {
-	margin-bottom: 20px;
+	margin-bottom: calc(2 * var(--page-gap));
 	display: inline-block;
 	list-style: none;
 
 	svg {
-		width: 22px;
-		height: 22px;
-		fill: white;
-		color: white;
+		width: var(--icon-size-small);
+		height: var(--icon-size-small);
+		fill: var(--normal-text-inverse);
+		color: var(--normal-text-inverse);
 		transition: fill 150ms ease-in-out;
 	}
 
@@ -144,15 +143,17 @@
 	a {
 		display: block;
 		line-height: 0;
+		transform: scale(1);
+		transform-origin: center;
 
 		&:hover svg {
 			fill: var(--link-color);
 			color: var(--link-color);
 		}
 
-		&:active,
-		&:focus {
+		&:active {
 			background: none;
+
 			svg {
 				fill: var(--link-hover);
 				color: var(--link-hover);
@@ -164,7 +165,7 @@
 .footer-content {
 	p {
 		text-align: left;
-		font-size: 70%;
+		font-size: var(--font-size-small);
 		color: rgba(255, 255, 255, 0.5);
 
 		@include media('<=tablet') {
@@ -173,43 +174,44 @@
 	}
 
 	a {
-		color: white;
+		color: var(--normal-text-inverse);
 		transition: color 150ms ease-in-out;
-		&:hover {
-			color: var(--link-color);
-		}
+	}
+
+	.anim-underline {
+		--border-color: var(--normal-text-inverse);
 	}
 }
 
 .footer-gotop {
 	display: inline-flex;
 	padding: 0;
-	margin-top: 15px;
+	margin-top: var(--page-gap);
+	transform: perspective(1px) translateZ(0);
+
+	&:hover,
+	&:active {
+		animation-name: hvr-bob-float, hvr-bob;
+		animation-duration: 0.3s, 1.5s;
+		animation-delay: 0s, 0.3s;
+		animation-timing-function: ease-out, ease-in-out;
+		animation-iteration-count: 1, infinite;
+		animation-fill-mode: forwards;
+		animation-direction: normal, alternate;
+	}
 
 	&::before {
 		display: none;
 	}
 
-	&:hover svg:not(.footer-gotop-blob) {
-		transform: translateY(-65%) translateX(-50%);
-	}
-
 	&:hover .footer-gotop-blob {
-		fill: var(--blue);
-	}
-
-	&:active,
-	&:focus {
-		background: none;
-		svg:not(.footer-gotop-blob) {
-			transform: translateY(-65%) translateX(-50%);
-		}
+		fill: var(--blue) !important;
 	}
 
 	svg:not(.footer-gotop-blob) {
-		width: 30px;
-		height: 30px;
-		fill: white;
+		width: var(--icon-size);
+		height: var(--icon-size);
+		fill: var(--white);
 		transform: translateY(-50%) translateX(-50%);
 		transition: transform 150ms var(--ease-out-back);
 		position: absolute;
@@ -222,5 +224,9 @@
 		height: 70px;
 		fill: var(--dark-grey);
 		transition: fill 150ms var(--ease-out-back);
+
+		@at-root html[data-theme='dark'] & {
+			fill: var(--background-content);
+		}
 	}
 }

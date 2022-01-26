@@ -3,10 +3,10 @@ source: ./src
 destination: _public
 
 # Site info
-version: 1.5.11
-title: Moritz Kröger 🙋 — Engineering Manager, Tech Lead, and Open Source contributor
+version: 1.6.0
+title: Moritz Kröger 🙋 — Software Engineering Director and Open Source contributor
 email: write@morkro.de
-description: "I am Moritz Kröger, Engineering Manager, Tech Lead, and Open Source contributor who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions."
+description: "I am Moritz Kröger, Software Engineering Director and Open Source contributor who lives in Berlin. Although Germans typically have a thing for extra long compound words, I am a friend of short functions."
 baseurl: ""
 url: "https://morkro.de"
 
@@ -32,6 +32,7 @@ exclude:
     "rollup.config.js",
     ".snyk",
     ".stylelintrc.json",
+    "bin",
   ]
 include:
   - scripts/main.min.js

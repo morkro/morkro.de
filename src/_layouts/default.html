@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 	{% include head.html page=page.classes %}
 	<body {% if page.classes %}class="template-{{ page.classes }}" {% endif %}>
-		<a href="#page-content" class="a11y-jump visually-hidden">
+		<a href="#content" class="a11y-jump sr-only">
 			Jump directly to main content
 		</a>
 
 		{% include iconset.html %} {% include header.html %}
 
-		<main role="main" id="page-content">
-			{{ content }}
-		</main>
+		<main role="main" id="content">{{ content }}</main>
 
 		{% include footer.html %} {% include scripts.html page=page.classes %}
 	</body>

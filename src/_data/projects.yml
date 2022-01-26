@@ -1,40 +1,20 @@
-banner:
-  - atom-emoji-syntax:
-    img: "../assets/projects/emojisyntax.svg"
-    title: "Emoji Syntax"
-    description: "An Atom editor package which adds customisable emoji to your syntax keywords."
-    url: "https://github.com/morkro/atom-emoji-syntax"
-
-  - happy-plants:
-    img: "../assets/projects/happyplants.svg"
-    title: "HappyPlants"
-    description: "HappyPlants is a mobile-first, progressive web application which helps organising and keeping track of your plants. See the list of"
-    url: "https://github.com/morkro/happy-plants"
-
-  - papyrus:
-    img: "../assets/projects/papyrus.svg"
-    title: "Papyrus"
-    description: "Unofficial Dropbox Paper desktop app"
-    url: "https://github.com/morkro/papyrus"
-
-list:
-  - vue-a11y-dialog:
-    title: "Vue A11yDialog"
-    description: "Vue.js component for a11y-dialog"
-    url: "https://github.com/morkro/vue-a11y-dialog"
-  - euromat:
-    title: "Euromat"
-    description: "🇪🇺 Vue.js powered voting application using Netlify-CMS"
-    url: "https://github.com/morkro/euromat"
-  - tetrys:
-    title: "Tetrys"
-    description: "Tetris as Progressive Web Application."
-    url: "https://github.com/morkro/tetrys"
-  - frontbook:
-    title: "Frontbook"
-    description: "Personal front-end boilerplate specialised on a proper ES201* transpiling process."
-    url: "https://github.com/morkro/frontbook"
-  - chrome-gist-word-count:
-    title: "Chrome Gist Word Count"
-    description: "Adds a word and character count to your files on GitHub Gist."
-    url: "https://github.com/morkro/chrome-gist-word-count"
+- happy-plants:
+  img: "../assets/projects/happyplants.svg"
+  title: "HappyPlants"
+  description: "HappyPlants is a mobile-first, progressive web application which helps organising and keeping track of your plants. See the list of"
+  url: "https://github.com/morkro/happy-plants"
+- vue-a11y-dialog:
+  img: "../assets/projects/vuea11ydialog.svg"
+  title: "Vue A11yDialog"
+  description: "Vue.js wrapper component for <code>a11y-dialog</code> supporting both Vue 3 and Vue 2."
+  url: "https://github.com/morkro/vue-a11y-dialog"
+- atom-emoji-syntax:
+  img: "../assets/projects/emojisyntax.svg"
+  title: "Emoji Syntax"
+  description: "An <i>Atom</i> editor package which adds customisable emoji to your syntax keywords. This started out as a joke and proof-of-concept but eventually grew into a small extension with over 11k downloads."
+  url: "https://github.com/morkro/atom-emoji-syntax"
+- papyrus:
+  img: "../assets/projects/papyrus.svg"
+  title: "Papyrus"
+  description: "Unofficial Dropbox Paper desktop application using Electron"
+  url: "https://github.com/morkro/papyrus"

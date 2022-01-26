@@ -8,31 +8,33 @@
 /**
  * 404
  */
-.template-404 .headline-gradient {
+.template-404 .headline-highlight {
 	margin-bottom: var(--base-gap);
-
-	h1 {
-		background-position: center top 35px;
-	}
 }
 
 .template-404 {
 	#page-header {
 		background: linear-gradient(
 			to left,
-			var(--content-background) 55%,
-			white 55%
+			var(--background-content) 55%,
+			var(--background-highlight) 55%
 		);
 	}
-	#page-content {
+
+	#content {
 		background: linear-gradient(
 			to right,
-			var(--content-background) 55%,
-			white 55%
+			var(--background-content) 55%,
+			var(--background-highlight) 55%
 		);
 	}
+
 	#page-footer {
-		background: linear-gradient(to left, black 55%, var(--dark-grey) 55%);
+		background: linear-gradient(
+			to left,
+			var(--background-base) 55%,
+			var(--dark-grey) 55%
+		);
 	}
 }
 
@@ -45,8 +47,9 @@
 	}
 
 	svg {
-		width: 30px;
-		height: 30px;
+		fill: var(--normal-text);
+		width: var(--icon-size);
+		height: var(--icon-size);
 		vertical-align: middle;
 		transform: translateX(0);
 		transition: transform 150ms var(--ease-out-back);

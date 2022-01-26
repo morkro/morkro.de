@@ -1,21 +1,17 @@
 <footer id="page-footer" role="contentinfo">
 	<svg
-		xmlns="http://www.w3.org/2000/svg"
+		class="section-border black"
 		viewBox="0 0 1440 45"
 		aria-hidden="true"
 		focusable="false"
 	>
-		<path
-			fill="#000"
-			fill-rule="evenodd"
-			d="M984.457 32.182c53.352-1.698 104.799-7.169 156.258-12.946l15.905-1.797c66.964-7.595 90.201-10.343 166.257-6.991 60.533 2.668 103.125 13.858 117.127 25.87V45H-5.375c-1.86-5.455.526-11.064 5.89-15.196l.975-.746C14.422 19.266 31.165 11.02 55.103 7.065c47.74-7.87 96.066-9.287 143.915.38l1.48.303c156.487 32.335 228.197 8.662 363.656-4.071 186.988-17.568 253.336 33.81 420.303 28.505z"
-		/>
+		<use xlink:href="#border"></use>
 	</svg>
-	<div class="footer-inner container">
+	<div class="footer-inner container-large">
 		<div class="footer-info">
 			<p>
-				I am Moritz Kröger, Engineering Manager and Open Source contributor who
-				lives in Berlin. I usually go with
+				I am Moritz Kröger, Software Engineering Director and Open Source
+				contributor who lives in Berlin. I usually go with
 				<a
 					href="https://www.google.de/search?q=morkro"
 					target="_blank"
@@ -30,72 +26,91 @@
 					<a
 						href="{{ site.data.socialnetworks.twitter.url }}"
 						target="_blank"
-						rel="noopener"
+						rel="noopene noreferrerr"
+						title="Twitter"
 					>
 						<svg aria-hidden="true" focusable="false">
 							<use xlink:href="#twitter"></use>
 						</svg>
-						<span class="visually-hidden">Twitter</span>
+						<span class="sr-only">Twitter</span>
 					</a>
 				</li>
 				<li>
 					<a
-						href="{{ site.data.socialnetworks.offsetearth.url }}"
+						href="{{ site.data.socialnetworks.ecologi.url }}"
 						target="_blank"
-						rel="noopener"
+						rel="noopene noreferrerr"
+						title="Ecologi"
 					>
 						<svg aria-hidden="true" focusable="false">
 							<use xlink:href="#earth"></use>
 						</svg>
-						<span class="visually-hidden">Offset.earth</span>
+						<span class="sr-only">Ecologi</span>
 					</a>
 				</li>
 				<li>
 					<a
 						href="{{ site.data.socialnetworks.instagram.url }}"
 						target="_blank"
-						rel="noopener"
+						rel="noopene noreferrerr"
+						title="Instagram"
 					>
 						<svg aria-hidden="true" focusable="false">
 							<use xlink:href="#instagram"></use>
 						</svg>
-						<span class="visually-hidden">Instagram</span>
+						<span class="sr-only">Instagram</span>
 					</a>
 				</li>
 				<li>
 					<a
 						href="{{ site.data.socialnetworks.github.url }}"
 						target="_blank"
-						rel="noopener"
+						rel="noopene noreferrerr"
+						title="Github"
 					>
 						<svg aria-hidden="true" focusable="false">
 							<use xlink:href="#github"></use>
 						</svg>
-						<span class="visually-hidden">Github</span>
+						<span class="sr-only">GitHub</span>
 					</a>
 				</li>
 				<li>
 					<a
 						href="{{ site.data.socialnetworks.stackoverflow.url }}"
 						target="_blank"
-						rel="noopener"
+						rel="noopene noreferrerr"
+						title="StackOverflow"
 					>
 						<svg aria-hidden="true" focusable="false">
 							<use xlink:href="#stackoverflow"></use>
 						</svg>
-						<span class="visually-hidden">StackOverflow</span>
+						<span class="sr-only">StackOverflow</span>
 					</a>
 				</li>
 				<li>
 					<a
 						href="{{ site.data.socialnetworks.linkedin.url }}"
 						target="_blank"
-						rel="noopener"
+						rel="noopene noreferrerr"
+						title="LinkedIn"
 					>
 						<svg aria-hidden="true" focusable="false">
 							<use xlink:href="#linkedin"></use>
 						</svg>
-						<span class="visually-hidden">LinkedIn</span>
+						<span class="sr-only">LinkedIn</span>
+					</a>
+				</li>
+				<li>
+					<a
+						href="{{ site.data.socialnetworks.codepen.url }}"
+						target="_blank"
+						rel="noopener noreferrer"
+						title="Codepen"
+					>
+						<svg aria-hidden="true" focusable="false">
+							<use xlink:href="#codepen"></use>
+						</svg>
+						<span class="sr-only">Codepen</span>
 					</a>
 				</li>
 				<li>
@@ -103,19 +118,7 @@
 						<svg aria-hidden="true" focusable="false">
 							<use xlink:href="#mail"></use>
 						</svg>
-						<span class="visually-hidden">E-Mail</span>
-					</a>
-				</li>
-				<li>
-					<a
-						href="{{ site.data.socialnetworks.codepen.url }}"
-						target="_blank"
-						rel="noopener"
-					>
-						<svg aria-hidden="true" focusable="false">
-							<use xlink:href="#codepen"></use>
-						</svg>
-						<span class="visually-hidden">Codepen</span>
+						<span class="sr-only">E-Mail</span>
 					</a>
 				</li>
 			</ul>
@@ -123,14 +126,19 @@
 			<div class="footer-content">
 				<p>
 					This website ({{ site.version }}) is made with
-					<a href="https://jekyllrb.com/" target="_blank" rel="noopener"
+					<a
+						href="https://jekyllrb.com/"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="anim-underline"
 						>Jekyll</a
 					>
 					and all content is
 					<a
 						href="https://github.com/morkro/morkro.de"
 						target="_blank"
-						rel="noopener"
+						rel="noopener noreferrer"
+						class="anim-underline"
 						>open source</a
 					>.
 					<br />
@@ -139,10 +147,11 @@
 				</p>
 			</div>
 		</div>
+
 		<div class="footer-menu">
 			{% include menu.html %}
 			<a href="#" class="footer-gotop" data-scrollto="#">
-				<span class="visually-hidden">Back to top</span>
+				<span class="sr-only">Back to top</span>
 				<svg aria-hidden="true" focusable="false">
 					<use xlink:href="#arrow-top"></use>
 				</svg>

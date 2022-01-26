@@ -1,14 +1,17 @@
 import { isMacOS, currentPage } from './helper'
 
-/**
- * @typedef {{ [key: string]: string }} EmojiTitleConfig
- */
+const config = {
+	about: '🙋',
+	blog: '📰',
+	projects: '📦',
+	imprint: '📄',
+	404: '🔮',
+}
 
 /**
  * @description Adds an emoji to the page title.
- * @param {EmojiTitleConfig} config
  */
-export default function addEmojiTitle(config = {}) {
+export default function addEmojiTitle() {
 	const title = document.title.split('|')
 
 	Object.keys(config)

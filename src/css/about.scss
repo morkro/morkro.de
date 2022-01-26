@@ -8,21 +8,26 @@
 /**
  * ABOUT
  */
+.about-title {
+	display: flex;
+	justify-content: center;
+
+	h1 {
+		margin: 0;
+		margin-top: var(--base-gap);
+	}
+}
+
 .about-intro {
 	margin-top: var(--base-gap);
 	position: relative;
 	z-index: 1;
 
 	p {
-		font-size: 160%;
+		font-size: var(--font-size-large);
 		font-weight: 400;
 		line-height: 150%;
 		color: var(--special-text-color);
-
-		@include media('<=tablet') {
-			font-size: 140%;
-			line-height: 30px;
-		}
 	}
 
 	a {
@@ -39,8 +44,9 @@
 	}
 
 	svg {
-		width: 30px;
-		height: 30px;
+		fill: var(--normal-text);
+		width: var(--icon-size);
+		height: var(--icon-size);
 		transform: translateY(0);
 		transition: transform 150ms var(--ease-out-back);
 	}
@@ -49,9 +55,53 @@
 .about-photo {
 	margin-top: -90px;
 	margin-bottom: 50px;
+	// height: 669px; /* Height of image */
+	position: relative;
+	z-index: 0;
 
 	@include media('<=tablet') {
 		margin-top: 50px;
+	}
+
+	svg:not(.about-photo-shape) {
+		position: absolute;
+		z-index: 1;
+
+		@include media('<=1080px') {
+			display: none;
+		}
+
+		&.photo-top-left {
+			top: 0;
+			left: 0;
+		}
+
+		&.photo-bottom-right {
+			bottom: -1%;
+			right: 8%;
+		}
+
+		&:first-of-type {
+			transform: translatey(30%);
+		}
+	}
+
+	> div {
+		filter: drop-shadow(8px 12px 0px var(--blue));
+
+		img {
+			clip-path: url(#about-photo-mask);
+			display: block;
+			height: 100%;
+			width: 100%;
+			object-fit: cover;
+		}
+	}
+
+	.about-photo-shape {
+		position: absolute;
+		height: 0;
+		width: 0;
 	}
 }
 
@@ -62,7 +112,7 @@
 		margin-bottom: calc(var(--page-gap) * 2);
 	}
 
-	> div:not(.special-info) {
+	> div {
 		display: flex;
 		flex-direction: row;
 
@@ -99,21 +149,40 @@
 	}
 
 	svg {
-		width: 35px;
-		height: 35px;
+		width: calc(var(--icon-size) * 1.175);
+		height: calc(var(--icon-size) * 1.175);
 		fill: var(--shade-of-grey-dark);
 		transition: fill 150ms ease-in-out;
+
+		@at-root html[data-theme='dark'] & {
+			fill: var(--grey);
+		}
 	}
 }
 
 .about-travels {
 	width: 100%;
-	background: white;
-	padding: 45px 0 var(--base-gap);
+	background: var(--blue);
+	padding: 45px 0 calc(1.5 * var(--base-gap));
 	overflow-x: hidden;
+	position: relative;
 
-	.headline-gradient {
-		margin-bottom: var(--base-gap);
+	@at-root html[data-theme='dark'] & {
+		background: var(--background-highlight);
+
+		.section-border {
+			--background-base: var(--background-highlight);
+		}
+	}
+
+	.section-border {
+		--background-base: var(--blue);
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		background: var(--background-content);
 	}
 
 	.travels-map {
@@ -126,25 +195,30 @@
 			margin-bottom: calc(var(--page-gap) * 2);
 		}
 	}
+
+	p {
+		color: var(--white);
+	}
 }
 
 .about-plants {
-	margin-top: 45px;
+	padding-top: var(--base-gap);
 	text-align: center;
+	position: relative;
 
-	.headline-gradient {
+	.section-border {
+		--background-base: var(--background-content);
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		transform: translateY(-98%);
+	}
+
+	.headline-highlight {
+		margin-top: 0;
 		margin-bottom: var(--base-gap);
-	}
-}
-
-@keyframes rotate {
-	from {
-		transform: rotate(0deg);
-		transform-origin: center;
-	}
-	to {
-		transform: rotate(180deg);
-		transform-origin: center;
 	}
 }
 
@@ -156,25 +230,6 @@
 	list-style: none;
 	margin-top: var(--base-gap);
 
-	&.is-loading {
-		li {
-			background: white;
-
-			&:after {
-				content: '';
-				display: block;
-				background-image: url('/../assets/icons/sun.svg');
-				background-size: contain;
-				background-position: center;
-				width: 10%;
-				height: 10%;
-				animation-name: rotate;
-				animation-duration: 1s;
-				animation-iteration-count: infinite;
-			}
-		}
-	}
-
 	@include media('<=tablet') {
 		grid-template-columns: repeat(auto-fill, minmax(45vw, 1fr));
 		grid-auto-rows: 50vw;
@@ -185,6 +240,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		z-index: 0;
 	}
 
 	a {
@@ -193,30 +249,32 @@
 		height: 100%;
 		position: relative;
 
-		&::before {
-			content: '';
-			opacity: 0;
+		> div {
 			position: absolute;
-			width: calc(8px + 100%);
-			height: calc(8px + 100%);
-			transform: translate(-4px, -4px);
-			border: 8px solid transparent;
-			box-sizing: border-box;
-			border-image: linear-gradient(
-				to right,
-				var(--gradient-start),
-				var(--gradient-end)
-			);
-			border-image-slice: 1;
+			z-index: 1;
+			opacity: 0;
+			width: 100%;
+			height: 100%;
+			justify-content: center;
+			align-content: center;
+			display: flex;
+			transition: opacity 150ms var(--ease-out-back);
+
+			svg:not(.blob) {
+				fill: var(--white);
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				width: 15%;
+			}
+
+			svg.blob {
+				fill: var(--blue);
+				width: 30%;
+			}
 		}
 
-		&:hover,
-		&:focus {
-			z-index: 10;
-		}
-
-		&:hover::before,
-		&:focus::before {
+		&:hover > div {
 			opacity: 1;
 		}
 	}

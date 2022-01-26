@@ -26,7 +26,7 @@ function moveDocument(amount) {
  */
 export default function animateScrollTo(
 	$el,
-	dataset = '',
+	dataset = 'scrollto',
 	callback = () => {}
 ) {
 	const attr = $el.dataset[dataset]
