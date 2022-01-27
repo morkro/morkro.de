@@ -18,6 +18,26 @@
 	}
 }
 
+.article-warning {
+	background: var(--orange);
+	width: 100%;
+	margin-bottom: var(--base-gap);
+	padding: var(--page-gap);
+	display: flex;
+	gap: var(--page-gap);
+	box-shadow: 4px 4px 0 var(--blue);
+	color: var(--special-text-color);
+
+	p {
+		color: inherit;
+	}
+
+	svg {
+		width: calc(2 * var(--icon-size));
+		height: calc(2 * var(--icon-size));
+	}
+}
+
 .article-info {
 	margin-top: var(--base-gap);
 	list-style: none;

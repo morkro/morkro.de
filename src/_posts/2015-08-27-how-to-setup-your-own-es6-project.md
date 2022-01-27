@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "How to setup an ES6 production-ready project"
-excerpt: "As ES6 is really hyped this year and the specification has eventually been finished, I wanted to start using it. By today I have turned almost all my private projects and a couple of client projects into a solid ES6 setup."
+title: 'How to setup an ES6 production-ready project'
+excerpt: 'As ES6 is really hyped this year and the specification has eventually been finished, I wanted to start using it. By today I have turned almost all my private projects and a couple of client projects into a solid ES6 setup.'
 classes: article
 tags:
- - javascript
+  - javascript
 ---
 
 As ES6 is really hyped this year and the specification has eventually been finished, I wanted to start using it. I have been _(okay I still am)_ the guy at work who took every chance talking about ES6 and all the glory it provides. Which might not have been the best idea with a lot of back-end developers joining the discussion:
@@ -42,17 +42,17 @@ For the rest of this article I will use **Grunt** as an example, but everything 
 {% highlight plaintext %}
 cool-es6-project/
 ├── dist/
-│  ├── assets/...
-│  ├── styles.min.css
-│  ├── app.js
-│  ├── index.html
+│ ├── assets/...
+│ ├── styles.min.css
+│ ├── app.js
+│ ├── index.html
 ├── src/
-│  ├── scripts/
-│  │  ├── module.js
-│  │  ├── index.js
-│  ├── styles/...
-│  ├── assets/...
-│  ├── index.html
+│ ├── scripts/
+│ │ ├── module.js
+│ │ ├── index.js
+│ ├── styles/...
+│ ├── assets/...
+│ ├── index.html
 ├── Gruntfile.js
 ├── package.json
 └── .eslintrc
@@ -66,14 +66,14 @@ A `package.json` usually contains relevant meta data for the project. Here are t
 
 {% highlight json %}
 {
-  "name": "cool-es6-project",
-  "devDependencies": {
-    "grunt": "0.4.x",
-    "babelify": "^6.1.2",
-    "grunt-browserify": "^3.8.0",
-    "grunt-eslint": "^16.0.0",
-    "grunt-contrib-watch": "0.6.x"
-  }
+"name": "cool-es6-project",
+"devDependencies": {
+"grunt": "0.4.x",
+"babelify": "^6.1.2",
+"grunt-browserify": "^3.8.0",
+"grunt-eslint": "^16.0.0",
+"grunt-contrib-watch": "0.6.x"
+}
 }
 {% endhighlight %}
 
@@ -91,52 +91,52 @@ Run `npm install` from the projects directory to make sure all dependencies are 
 
 {% highlight javascript %}
 module.exports = function (grunt) {
-  'use strict';
+'use strict';
 
-  grunt.loadNpmTasks('grunt-eslint');
-  grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+grunt.loadNpmTasks('grunt-eslint');
+grunt.loadNpmTasks('grunt-browserify');
+grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('dev', ['browserify', 'eslint', 'watch']);
-  grunt.registerTask('build', ['browserify', 'eslint']);
+grunt.registerTask('dev', ['browserify', 'eslint', 'watch']);
+grunt.registerTask('build', ['browserify', 'eslint']);
 
-  grunt.initConfig({
-    /**
-     * Write ES6 today, compile it to ES5.
-     */
-    browserify: {
-      dist: {
-        options: {
-          transform: [
-            ['babelify', { loose: 'all' }]
-          ],
-          browserifyOptions: { debug: true }
-        },
-        files: {
-          'dist/app.js': ['src/scripts/**/*.js']
-        }
-      }
-    },
-    /**
-     * Validates ES6 files via ESLint.
-     */
-    eslint: {
-      options: {
-        configFile: '.eslintrc'
-      },
-      target: 'src/scripts/**/*.js'
-    },
-    /**
-     * Run predefined tasks whenever watched files are added,
-     * modified or deleted.
-     */
-    watch: {
-      scripts: {
-        files: ['src/scripts/**/*.js'],
-        tasks: ['browserify', 'eslint']
-      }
-    }
-  });
+grunt.initConfig({
+/**
+_ Write ES6 today, compile it to ES5.
+_/
+browserify: {
+dist: {
+options: {
+transform: [
+['babelify', { loose: 'all' }]
+],
+browserifyOptions: { debug: true }
+},
+files: {
+'dist/app.js': ['src/scripts/**/_.js']
+}
+}
+},
+/\*\*
+_ Validates ES6 files via ESLint.
+_/
+eslint: {
+options: {
+configFile: '.eslintrc'
+},
+target: 'src/scripts/\*\*/_.js'
+},
+/**
+_ Run predefined tasks whenever watched files are added,
+_ modified or deleted.
+\*/
+watch: {
+scripts: {
+files: ['src/scripts/**/\*.js'],
+tasks: ['browserify', 'eslint']
+}
+}
+});
 };
 {% endhighlight %}
 
@@ -157,36 +157,37 @@ My ES6 specific configurations are:
 
 {% highlight json %}
 {
-  "env": {
-    "browser": true,
-    "es6": true
-  },
-  "ecmaFeatures": {
-    "arrowFunctions": true,
-    "binaryLiterals": true,
-    "blockBindings": true,
-    "classes": true,
-    "defaultParams": true,
-    "destructuring": true,
-    "forOf": true,
-    "generators": true,
-    "modules": true,
-    "objectLiteralComputedProperties": true,
-    "objectLiteralDuplicateProperties": true,
-    "objectLiteralShorthandMethods": true,
-    "objectLiteralShorthandProperties": true,
-    "octalLiterals": true,
-    "regexUFlag": true,
-    "regexYFlag": true,
-    "spread": true,
-    "superInFunctions": false,
-    "templateStrings": true,
-    "unicodeCodePointEscapes": true,
-    "globalReturn": true,
-    "jsx": true
-  }
+"env": {
+"browser": true,
+"es6": true
+},
+"ecmaFeatures": {
+"arrowFunctions": true,
+"binaryLiterals": true,
+"blockBindings": true,
+"classes": true,
+"defaultParams": true,
+"destructuring": true,
+"forOf": true,
+"generators": true,
+"modules": true,
+"objectLiteralComputedProperties": true,
+"objectLiteralDuplicateProperties": true,
+"objectLiteralShorthandMethods": true,
+"objectLiteralShorthandProperties": true,
+"octalLiterals": true,
+"regexUFlag": true,
+"regexYFlag": true,
+"spread": true,
+"superInFunctions": false,
+"templateStrings": true,
+"unicodeCodePointEscapes": true,
+"globalReturn": true,
+"jsx": true
+}
 }
 {% endhighlight %}
+
 <div class="note--snippet">
 	<p>Take a look at the rest of my <code>.eslintrc</code> configuration <a href="https://github.com/morkro/FrontBook/blob/master/.eslintrc" target="_blank" rel="noopener">here</a>.</p>
 </div>
@@ -207,29 +208,32 @@ We will create a simple module using the new `class` syntax, `export` it and the
 const INTERVAL = 1000;
 
 class Timer {
-  constructor(element) {
-    this.element = element;
-  }
+constructor(element) {
+this.element = element;
+}
 
-  getTime() {
-    let date = new Date();
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
+getTime() {
+let date = new Date();
+let hours = date.getHours();
+let minutes = date.getMinutes();
 
     return hours + ':' + minutes;
-  }
 
-  update() {
-    this.element.textContent = this.getTime();
+}
+
+update() {
+this.element.textContent = this.getTime();
 
     setInterval(() => {
       this.element.textContent = this.getTime();
     }, INTERVAL);
-  }
+
+}
 }
 
 export default Timer;
 {% endhighlight %}
+
 <div class="note--snippet">
 	<p>We could also use a template string in <code>getTime()</code>, but unfortunately the syntax highlighter I use don't support them yet.</p>
 </div>
@@ -258,51 +262,54 @@ Since all this will be compiled to proper ES5 code, let's take a quick look at h
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+function \_interopRequireDefault(obj) { return obj && obj.\_\_esModule ? obj : { 'default': obj }; }
 
-var _moduleJs = require('./module.js');
+var \_moduleJs = require('./module.js');
 
-var _moduleJs2 = _interopRequireDefault(_moduleJs);
+var \_moduleJs2 = \_interopRequireDefault(\_moduleJs);
 
-var timeElement = new _moduleJs2['default'](document.querySelector('time'));
+var timeElement = new \_moduleJs2['default'](<document.querySelector('time')>);
 
 timeElement.update();
 
 },{"./module.js":2}],2:[function(require,module,exports){
 'use strict';
 
-exports.__esModule = true;
+exports.\_\_esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function \_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var INTERVAL = 1000;
 
 var Timer = (function () {
-  function Timer(element) {
-    _classCallCheck(this, Timer);
+function Timer(element) {
+\_classCallCheck(this, Timer);
 
     this.element = element;
-  }
 
-  Timer.prototype.getTime = function getTime() {
-    var date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
+}
+
+Timer.prototype.getTime = function getTime() {
+var date = new Date();
+var hours = date.getHours();
+var minutes = date.getMinutes();
 
     return hours + ':' + minutes;
-  };
 
-  Timer.prototype.update = function update() {
-    var _this = this;
+};
+
+Timer.prototype.update = function update() {
+var \_this = this;
 
     this.element.textContent = this.getTime();
 
     setInterval(function () {
       _this.element.textContent = _this.getTime();
     }, INTERVAL);
-  };
 
-  return Timer;
+};
+
+return Timer;
 })();
 
 exports['default'] = Timer;
@@ -316,7 +323,9 @@ As you can see Browserify use a helper function at the beginning to bundle all m
 This file can be found in `dist/app.js` and should be included in your HTML views:
 
 {% highlight html %}
+
 <script type="text/javascript" src="app.js"></script>
+
 {% endhighlight %}
 
 ## What to keep in mind
@@ -337,7 +346,7 @@ So, that's it. We could now move on and extend this setup with a good view handl
 
 I have made own ES6 boilerplate called [**<img src="/../assets/logos/frontbook.svg" width="18" height="18" style="width:18px;vertical-align:baseline;"> FrontBook**](https://github.com/morkro/FrontBook) open source and like to share it here. It also covers some more topics such as views, styles and assets. Feel free to check it out for your own projects and customise to your needs.
 
-----
+---
 
 ## TL;DR
 

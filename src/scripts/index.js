@@ -1,5 +1,5 @@
 import FontFaceObserver from 'fontfaceobserver'
-import { $$, currentPage, prefersReducedMotion } from './helper'
+import { $, $$, currentPage, prefersReducedMotion } from './helper'
 import setPreferredTheme from './set-theme'
 import addEmojiTitle from './add-emoji-title'
 import animateScrollTo from './animate-scroll-to'

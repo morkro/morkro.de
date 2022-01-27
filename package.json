@@ -1,11 +1,11 @@
 {
   "name": "morkro.de",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Portfolio of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
   "scripts": {
-    "lint:js": "eslint --ignore-path=.eslintignore src/scripts/",
+    "lint:js": "eslint src/scripts/",
     "lint:css": "stylelint \"src/_sass/**/*.scss\"",
     "lint": "npm run lint:js && npm run lint:css",
     "rollup": "rollup --config",

@@ -3,9 +3,9 @@ const minify = require('rollup-plugin-babel-minify')
 const commonjs = require('rollup-plugin-commonjs')
 
 module.exports = {
-	input: 'src/scripts/main.js',
+	input: 'src/scripts/index.js',
 	output: {
-		file: 'src/assets/main.min.js',
+		file: 'src/assets/fun.min.js',
 		format: 'iife',
 	},
 	plugins: [
