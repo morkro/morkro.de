@@ -21,7 +21,8 @@ layout: default
 			</ul>
 		</header>
 
-		{% if page.date | date: "%Y" === "2015" %}
+		{% assign pubYear = page.date | date: "%Y" %}
+		{% if pubYear == "2015" %}
 			{% include article-outdated-warning.html %}
 		{% endif %}
 
