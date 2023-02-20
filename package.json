@@ -11,11 +11,12 @@
     "rollup": "rollup --config",
     "start": "npm run lint && npm run rollup && jekyll serve --watch",
     "dev": "npm run lint && npm run rollup && bundle exec jekyll serve --livereload",
-    "prod": "npm run lint && npm run rollup && JEKYLL_ENV=PROD jekyll build",
+    "prod": "npm run lint && npm run rollup && NODE_ENV=PROD jekyll build",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
   "devDependencies": {
+    "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "eslint": "^8.2.0",
     "postcss-scss": "^4.0.2",
