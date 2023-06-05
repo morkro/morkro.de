@@ -125,7 +125,7 @@
 
 			<div class="footer-content">
 				<p>
-					This website ({{ site.version }}) is made with
+					This website ({{ pkg.version }}) is made with
 					<a
 						href="https://jekyllrb.com/"
 						target="_blank"
@@ -142,8 +142,7 @@
 						>open source</a
 					>.
 					<br />
-					© <span class="footer-year">{{ site.time | date: "%Y" }}</span> Moritz
-					Kröger
+					© <span class="footer-year">{% currentYear %}</span> Moritz Kröger
 				</p>
 			</div>
 		</div>

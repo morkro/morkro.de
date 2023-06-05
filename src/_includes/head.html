@@ -5,6 +5,7 @@
 	<meta name="revisit-after" content="1 days" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="generator" content="{{ eleventy.generator }}" />
 
 	<!-- Meta data -->
 	<meta name="author" content="{{ site.author }}" />
@@ -60,7 +61,7 @@
 
 	<link rel="shortcut icon" href="/../assets/favicon.ico" />
 	<link rel="author" href="humans.txt" />
-	<link rel="stylesheet" type="text/css" href="/../css/main.css?v={{ site.time |
+	<link rel="stylesheet" type="text/css" href="/../css/main.css?v={{ page.date |
 	date: "%Y%M%d" }}" /> <link rel="stylesheet" type="text/css" href="/../css/{{
 	include.page }}.css?v={{ site.time | date: "%Y%M%d" }}" />
 </head>

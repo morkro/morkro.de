@@ -1,16 +1,19 @@
-@include font-face('Roboto', 'Roboto-Regular', 300);
-@include font-face('Roboto', 'Roboto-Italic', 300, italic);
-@include font-face('Roboto', 'Roboto-Medium', 400);
-@include font-face('Roboto', 'Roboto-MediumItalic', 400, italic);
-@include font-face('Roboto', 'Roboto-Bold', 500);
-@include font-face('Roboto', 'Roboto-BoldItalic', 500, italic);
+@use '../utils/include-media';
+@use '../utils/mixins' as mixin;
 
-@include font-face('Roboto Mono', 'RobotoMono-Regular', 300);
-@include font-face('Roboto Mono', 'RobotoMono-Italic', 300, italic);
-@include font-face('Roboto Mono', 'RobotoMono-Medium', 400);
-@include font-face('Roboto Mono', 'RobotoMono-MediumItalic', 400, italic);
-@include font-face('Roboto Mono', 'RobotoMono-Bold', 500);
-@include font-face('Roboto Mono', 'RobotoMono-BoldItalic', 500, italic);
+@include mixin.font-face('Roboto', 'Roboto-Regular', 300);
+@include mixin.font-face('Roboto', 'Roboto-Italic', 300, italic);
+@include mixin.font-face('Roboto', 'Roboto-Medium', 400);
+@include mixin.font-face('Roboto', 'Roboto-MediumItalic', 400, italic);
+@include mixin.font-face('Roboto', 'Roboto-Bold', 500);
+@include mixin.font-face('Roboto', 'Roboto-BoldItalic', 500, italic);
+
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Regular', 300);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Italic', 300, italic);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Medium', 400);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-MediumItalic', 400, italic);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Bold', 500);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-BoldItalic', 500, italic);
 
 :root {
 	--font-roboto: 'Roboto', sans-serif;
@@ -23,7 +26,7 @@
 	--font-size-large: 167%; // 30px
 	--font-size-super: 555%; // 100px
 
-	@include media('<=tablet') {
+	@include include-media.media('<=tablet') {
 		--font-size-base: 16px;
 	}
 }
@@ -97,7 +100,7 @@ blockquote {
 	padding: 15px 5%;
 	font-style: italic;
 
-	@include media('<=tablet') {
+	@include include-media.media('<=tablet') {
 		width: calc(100% + 40px); // Double of .container padding
 		transform: translateX(-20px);
 		padding: 15px 20px;

@@ -11,7 +11,7 @@ classes: blog
 	</div>
 
 	<ul itemscope itemtype="http://schema.org/Blog" class="blog-list">
-	{% for post in paginator.posts %}
+	{% for post in collections.posts %}
 		<li itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 			<svg class="section-border white" viewBox="0 0 1440 45" aria-hidden="true" focusable="false">
 				<use xlink:href="#border"></use>

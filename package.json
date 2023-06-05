@@ -8,7 +8,6 @@
     "lint:js": "eslint src/scripts/",
     "lint:css": "stylelint \"src/_sass/**/*.scss\"",
     "lint": "npm run lint:js && npm run lint:css",
-    "rollup": "rollup --config",
     "start": "npm run lint && npm run rollup && jekyll serve --watch",
     "dev": "npm run lint && npm run rollup && bundle exec jekyll serve --livereload",
     "prod": "npm run lint && npm run rollup && NODE_ENV=PROD jekyll build",
@@ -17,18 +16,15 @@
   },
   "devDependencies": {
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
-    "@rollup/plugin-node-resolve": "^13.0.6",
     "eslint": "^8.2.0",
     "postcss-scss": "^4.0.2",
-    "rollup": "^2.60.0",
-    "rollup-plugin-babel-minify": "^10.0.0",
-    "rollup-plugin-commonjs": "^10.1.0",
     "snyk": "^1.760.0",
     "stylelint": "^14.0.1",
     "stylelint-scss": "^4.0.0"
   },
   "dependencies": {
-    "fontfaceobserver": "^2.1.0"
+    "fontfaceobserver": "^2.1.0",
+    "sass": "^1.62.1"
   },
   "snyk": true
 }

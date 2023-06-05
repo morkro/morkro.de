@@ -1,11 +1,7 @@
----
----
-
-@charset "UTF-8";
-
-@import 'utils/index';
-@import 'components/syntax';
-@import 'components/headline-highlight';
+@charset 'UTF-8';
+@use 'utils/include-media' as *;
+@use 'components/syntax' as *;
+@use 'components/headline-highlight' as *;
 
 /**
  * Article

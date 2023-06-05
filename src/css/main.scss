@@ -1,12 +1,13 @@
----
----
-
-@charset "UTF-8";
-
-@import 'utils/index';
-@import 'globals/index';
-@import 'components/headline-highlight';
-@import 'components/animated-underline';
-@import 'components/link-highlight';
-@import 'components/section-border';
-@import 'layout/index';
+@charset 'UTF-8';
+@use 'globals/normalize' as *;
+@use 'globals/variables' as *;
+@use 'globals/animations' as *;
+@use 'globals/typography' as *;
+@use 'globals/system' as *;
+@use 'components/headline-highlight' as *;
+@use 'components/animated-underline' as *;
+@use 'components/link-highlight' as *;
+@use 'components/section-border' as *;
+@use 'layout/content' as *;
+@use 'layout/footer' as *;
+@use 'layout/header' as *;
