@@ -1,35 +1,66 @@
 const path = require('node:path')
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
+const htmlmin = require('html-minifier')
 const sass = require('sass')
 
+function minifyHtml(content, outputPath) {
+	if (outputPath.endsWith('.html')) {
+		return htmlmin.minify(content, {
+			removeComments: true,
+			collapseWhitespace: true,
+		})
+	}
+	return content
+}
+
+function compileSass(inputContent, inputPath) {
+	const parsed = path.parse(inputPath)
+	const result = sass.compileString(inputContent, {
+		loadPaths: [parsed.dir || '.', this.config.dir.includes],
+	})
+	return () => result.css
+}
+
 module.exports = function (config) {
+	if (process.env.NODE_ENV === 'production') {
+		config.addTransform('htmlmin', minifyHtml)
+	}
+
 	config.setLiquidOptions({
 		dynamicPartials: false,
 	})
 
+	/** Plugins */
+	config.addPlugin(syntaxHighlight)
+
+	/** Add different template actions */
 	config.addTemplateFormats('scss')
 	config.addExtension('scss', {
 		outputFileExtension: 'css',
-		compile: function (inputContent, inputPath) {
-			const parsed = path.parse(inputPath)
-			const result = sass.compileString(inputContent, {
-				loadPaths: [parsed.dir || '.', this.config.dir.includes],
-			})
-			return () => result.css
-		},
+		compile: compileSass,
 	})
 
-	config.addPlugin(syntaxHighlight)
-
+	/** Watch these files for changes */
 	config.addWatchTarget('src/css/')
 	config.addWatchTarget('src/scripts/')
 
+	/** Copy these files around */
 	config.addPassthroughCopy('src/assets')
+	config.addPassthroughCopy('src/_redirects')
+	config.addPassthroughCopy({
+		'node_modules/fontfaceobserver/fontfaceobserver.standalone.js':
+			'src/scripts/fontfaceobserver.js',
+	})
+	config.addPassthroughCopy({ 'src/scripts': '/assets/scripts' })
 
+	/** Shorthands */
 	config.addShortcode('currentYear', () => new Date().getFullYear())
 
+	/** Creates a list of blog posts */
 	config.addCollection('posts', function (collection) {
-		return collection.getFilteredByGlob('src/_posts/*.md')
+		return collection
+			.getFilteredByGlob('src/_posts/*.md')
+			.sort((a, b) => b.date - a.date)
 	})
 
 	return {

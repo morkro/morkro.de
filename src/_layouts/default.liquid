@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
-	{% include head.html page=page.classes %}
-	<body {% if page.classes %}class="template-{{ page.classes }}" {% endif %}>
+	{% include head.html %}
+	<body {% if pageClass %}class="template-{{ pageClass }}"{% endif %}>
 		<a href="#content" class="a11y-jump sr-only">
 			Jump directly to main content
 		</a>
@@ -12,6 +12,6 @@
 		<main role="main" id="content">{{ content }}</main>
 
 		{% include footer.html %}
-		{% include scripts.html page=page.classes %}
+		{% include scripts.html %}
 	</body>
 </html>

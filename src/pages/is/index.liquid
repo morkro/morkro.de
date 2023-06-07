@@ -1,7 +1,15 @@
 ---
 layout: default
 title: About | Moritz Kröger
-classes: about
+pageClass: about
+keywords:
+  - director of engineering
+  - kisd
+  - mckinsey
+  - razorfish
+  - developer
+  - open source
+  - botany
 permalink: /is/
 ---
 
@@ -280,7 +288,7 @@ permalink: /is/
 		</div>
 
 		<ul role="region" class="instagram-list">
-			{% for post in site.data.instagram limit:20 %}
+			{% for post in instagram limit:20 %}
 			<li>
 				<a
 					href="{{ post.permalink }}"

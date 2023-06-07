@@ -1,4 +1,4 @@
-import { $, requestAnimFrame, easeInOutQuint } from './helper'
+import { $, requestAnimFrame, easeInOutQuint } from './helper.js'
 
 const animationSpeed = 333
 const animationOffset = -10

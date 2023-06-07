@@ -1,19 +1,21 @@
-import FontFaceObserver from 'fontfaceobserver'
-import { $, $$, currentPage, prefersReducedMotion } from './helper'
-import setPreferredTheme from './set-theme'
-import addEmojiTitle from './add-emoji-title'
-import animateScrollTo from './animate-scroll-to'
-import setCurrentYear from './set-current-year'
-import addGitHubStats from './add-github-stats'
+// import FontFaceObserver from './fontfaceobserver.js'
+import { $, $$, currentPage, prefersReducedMotion } from './helper.js'
+import setPreferredTheme from './set-theme.js'
+import addEmojiTitle from './add-emoji-title.js'
+import animateScrollTo from './animate-scroll-to.js'
+import setCurrentYear from './set-current-year.js'
+import addGitHubStats from './add-github-stats.js'
 
 /* 1. Set preferred theme */
 setPreferredTheme()
 
+console.log('executed')
+
 /* 2. Load webfonts */
-Promise.all([
-	new FontFaceObserver('Roboto').load(),
-	new FontFaceObserver('Roboto Mono').load(),
-]).then(() => document.body.classList.add('fonts-loaded'))
+// Promise.all([
+// 	new FontFaceObserver('Roboto').load(),
+// 	new FontFaceObserver('Roboto Mono').load(),
+// ]).then(() => document.body.classList.add('fonts-loaded'))
 
 /* 3. Modify page titles */
 addEmojiTitle()

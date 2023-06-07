@@ -1,4 +1,4 @@
-import { $ } from './helper'
+import { $ } from './helper.js'
 
 const scheme = ([mode]) => `(prefers-color-scheme: ${mode})`
 const darkScheme = window.matchMedia(scheme`dark`)

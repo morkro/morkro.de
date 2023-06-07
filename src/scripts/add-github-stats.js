@@ -1,4 +1,4 @@
-import { $$ } from './helper'
+import { $$ } from './helper.js'
 
 /**
  * @typedef {Object} GitHubRepositoryAPI

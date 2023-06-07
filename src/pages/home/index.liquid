@@ -1,7 +1,12 @@
 ---
 layout: default
 title: Moritz Kröger
-classes: introduction
+pageClass: introduction
+keywords:
+- director of engineering
+- developer
+- open source
+- botany
 permalink: /
 ---
 <section class="intro-welcome container-large">
@@ -59,14 +64,14 @@ permalink: /
 	<section>
 		<header>
 			<h2 class="headline-highlight small"><span>Projects</span></h2>
-			<a href="{{ site.data.socialnetworks.github.url }}" target="_blank" rel="noopener noreferrer" class="link-highlight">See all</a>
+			<a href="{{ socialnetworks.github.url }}" target="_blank" rel="noopener noreferrer" class="link-highlight">See all</a>
 		</header>
 		<p>
 			I really enjoy working on and building open source side projects. I mainly work on web applications and developer tools.
 		</p>
 		<ul class="content-list-projects">
 			{% for project in projects %}
-			{% assign projectName = site.data.projects[forloop.index0].first %}
+			{% assign projectName = projects[forloop.index0].first %}
 			<li class="project-{{ projectName }}" data-project="{{ projectName }}">
 				<div>
 					<h3>
@@ -96,16 +101,17 @@ permalink: /
 			On top of building things, I also enjoy writing. But it's been a while since I published anything, as you can see. 2016? I need to get back to it.
 		</p>
 		<ul class="content-list-articles">
-			{% for post in site.posts limit:5 %}
+			{% for post in collections.posts limit:5 %}
+			{% assign data = post.data %}
 			<li>
 				<span>{{ post.date | date: "%Y" }}</span>
-				{% if post.external %}
-				<a href="{{ post.external.url }}" target="_blank" rel="noopener noreferrer">
+				{% if data.external %}
+				<a href="{{ data.external.url }}" target="_blank" rel="noopener noreferrer">
 				{% else %}
 				<a href="{{ post.url }}">
 				{% endif %}
-					{{ post.title }}
-					{% if post.external %}
+					{{ data.title }}
+					{% if data.external %}
 					<svg><use xlink:href="#new-window"></use></svg>
 					{% endif %}
 				</a>

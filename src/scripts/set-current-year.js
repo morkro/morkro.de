@@ -1,4 +1,4 @@
-import { $ } from './helper'
+import { $ } from './helper.js'
 
 /**
  * @description Inserts the current year into an elements

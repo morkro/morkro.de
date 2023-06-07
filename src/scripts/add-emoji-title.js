@@ -1,4 +1,4 @@
-import { isMacOS, currentPage } from './helper'
+import { isMacOS, currentPage } from './helper.js'
 
 const config = {
 	about: '🙋',
