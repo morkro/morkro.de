@@ -41,8 +41,8 @@ module.exports = function (config) {
 	})
 
 	/** Watch these files for changes */
-	config.addWatchTarget('src/css/')
-	config.addWatchTarget('src/scripts/')
+	config.addWatchTarget('src/css/**/*.scss')
+	config.addWatchTarget('src/scripts/**/*.js')
 
 	/** Copy these files around */
 	config.addPassthroughCopy('src/assets')

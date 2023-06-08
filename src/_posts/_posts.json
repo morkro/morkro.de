@@ -1,0 +1,4 @@
+{
+	"layout": "post",
+	"permalink": "/writes/{{ page.date | date: '%Y/' }}/{{ page.fileSlug }}/"
+}

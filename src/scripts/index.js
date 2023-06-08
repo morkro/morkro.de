@@ -1,4 +1,4 @@
-// import FontFaceObserver from './fontfaceobserver.js'
+import FontFaceObserver from './fontfaceobserver.js'
 import { $, $$, currentPage, prefersReducedMotion } from './helper.js'
 import setPreferredTheme from './set-theme.js'
 import addEmojiTitle from './add-emoji-title.js'
@@ -12,10 +12,10 @@ setPreferredTheme()
 console.log('executed')
 
 /* 2. Load webfonts */
-// Promise.all([
-// 	new FontFaceObserver('Roboto').load(),
-// 	new FontFaceObserver('Roboto Mono').load(),
-// ]).then(() => document.body.classList.add('fonts-loaded'))
+Promise.all([
+	new FontFaceObserver('Roboto').load(),
+	new FontFaceObserver('Roboto Mono').load(),
+]).then(() => document.body.classList.add('fonts-loaded'))
 
 /* 3. Modify page titles */
 addEmojiTitle()

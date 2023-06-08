@@ -9,9 +9,10 @@ permalink: /feed.xml
 		<description>{% if site.description %}{{ site.description  }}{% endif %}</description>
 		<link>{{ site.url }}</link>
 		<atom:link href="{{ site.url }}/feed.xml" rel="self" type="application/rss+xml" />
-		{% for post in site.posts limit:10 %}
+		{% for post in collections.posts limit:10 %}
+			{% assign data = post.data %}
 			<item>
-				<title>{{ post.title }}</title>
+				<title>{{ data.title }}</title>
 				{% if post.author.name %}
 					<dc:creator>{{ post.author.name }}</dc:creator>
 				{% endif %}
@@ -21,9 +22,9 @@ permalink: /feed.xml
 					<description>{{ post.content }}</description>
 				{% endif %}
 				<pubDate>{{ post.date }}</pubDate>
-				{% if post.external %}
-				<link>{{ post.external.url }}</link>
-				<guid isPermaLink="true">{{ post.external.url }}</guid>
+				{% if data.external %}
+				<link>{{ data.external.url }}</link>
+				<guid isPermaLink="true">{{ data.external.url }}</guid>
 				{% else %}
 				<link>{{ site.url }}{{ post.url }}</link>
 				<guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
