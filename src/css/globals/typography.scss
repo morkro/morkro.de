@@ -136,9 +136,9 @@ a {
 /**
  * Code
  */
-code:not([data-lang]),
+code:not([data-language]):not([class^='language-']),
 kbd,
-pre:not([data-lang]),
+pre:not([data-language]):not([class^='language-']),
 samp {
 	color: var(--special-text-color);
 	background: var(--background-highlight);

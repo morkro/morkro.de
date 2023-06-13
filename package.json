@@ -1,21 +1,19 @@
 {
   "name": "morkro.de",
-  "version": "1.6.5",
-  "description": "Portfolio of Moritz Kröger",
+  "version": "1.7.0",
+  "description": "Website of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
   "scripts": {
     "lint:js": "eslint src/scripts/",
-    "lint:css": "stylelint \"src/_sass/**/*.scss\"",
+    "lint:css": "stylelint \"src/css/**/*.scss\"",
     "lint": "npm run lint:js && npm run lint:css",
-    "start": "npm run lint && npm run rollup && jekyll serve --watch",
-    "dev": "npm run lint && npm run rollup && bundle exec jekyll serve --livereload",
-    "prod": "npm run lint && npm run rollup && NODE_ENV=PROD jekyll build",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "start": "cross-env NODE_ENV=development npm run lint && npx @11ty/eleventy --serve --quiet",
+    "build": "cross-env NODE_ENV=production npm run lint && npx @11ty/eleventy"
   },
   "devDependencies": {
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.2.0",
     "postcss-scss": "^4.0.2",
     "snyk": "^1.760.0",
@@ -23,6 +21,7 @@
     "stylelint-scss": "^4.0.0"
   },
   "dependencies": {
+    "@11ty/eleventy-plugin-bundle": "^1.0.4",
     "html-minifier": "^4.0.0",
     "sass": "^1.62.1"
   },

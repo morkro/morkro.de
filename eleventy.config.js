@@ -1,5 +1,6 @@
 const path = require('node:path')
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
+const bundlerPlugin = require('@11ty/eleventy-plugin-bundle')
 const htmlmin = require('html-minifier')
 const sass = require('sass')
 
@@ -31,7 +32,15 @@ module.exports = function (config) {
 	})
 
 	/** Plugins */
-	config.addPlugin(syntaxHighlight)
+	config.addPlugin(syntaxHighlight, {
+		preAttributes: {
+			tabindex: 0,
+			'data-language': function ({ language, content, options }) {
+				return language
+			},
+		},
+	})
+	config.addPlugin(bundlerPlugin)
 
 	/** Add different template actions */
 	config.addTemplateFormats('scss')

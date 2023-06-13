@@ -39,7 +39,7 @@ For the rest of this article I will use **Grunt** as an example, but everything 
 
 ### The project's structure
 
-{% highlight plaintext %}
+```plaintext
 cool-es6-project/
 ├── dist/
 │ ├── assets/...
@@ -56,7 +56,7 @@ cool-es6-project/
 ├── Gruntfile.js
 ├── package.json
 └── .eslintrc
-{% endhighlight %}
+```
 
 This is very simplified for this article and would be more advanced in a bigger project. Feel free to have a look at my example boilerplate [FrontBook](https://github.com/morkro/FrontBook), where I also showcase `views/`, `assets/` and `styles/`.
 
@@ -64,18 +64,18 @@ This is very simplified for this article and would be more advanced in a bigger 
 
 A `package.json` usually contains relevant meta data for the project. Here are the ES6 `devDependencies`:
 
-{% highlight json %}
+```json
 {
-"name": "cool-es6-project",
-"devDependencies": {
-"grunt": "0.4.x",
-"babelify": "^6.1.2",
-"grunt-browserify": "^3.8.0",
-"grunt-eslint": "^16.0.0",
-"grunt-contrib-watch": "0.6.x"
+	"name": "cool-es6-project",
+	"devDependencies": {
+		"grunt": "0.4.x",
+		"babelify": "^6.1.2",
+		"grunt-browserify": "^3.8.0",
+		"grunt-eslint": "^16.0.0",
+		"grunt-contrib-watch": "0.6.x"
+	}
 }
-}
-{% endhighlight %}
+```
 
 The modules used for this are:
 
@@ -89,7 +89,7 @@ Run `npm install` from the projects directory to make sure all dependencies are 
 
 ### Define tasks in `Gruntfile.js`
 
-{% highlight javascript %}
+```js
 module.exports = function (grunt) {
 'use strict';
 
@@ -138,7 +138,7 @@ tasks: ['browserify', 'eslint']
 }
 });
 };
-{% endhighlight %}
+```
 
 We defined two tasks at the beginning:
 
