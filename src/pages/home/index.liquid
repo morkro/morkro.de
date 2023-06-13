@@ -71,8 +71,7 @@ permalink: /
 		</p>
 		<ul class="content-list-projects">
 			{% for project in projects %}
-			{% assign projectName = projects[forloop.index0].first %}
-			<li class="project-{{ projectName }}" data-project="{{ projectName }}">
+			<li class="project-{{ project.name }}" data-project="{{ project.name }}">
 				<div>
 					<h3>
 						<img src="{{ project.img }}" width="30px" alt="Logo of {{ project.title }}">
