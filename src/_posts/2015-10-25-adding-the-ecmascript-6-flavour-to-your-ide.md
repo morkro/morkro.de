@@ -2,7 +2,7 @@
 layout: post
 title: 'Adding the ECMAScript 6 flavour to your IDE'
 excerpt: 'Using ECMAScript 6 features is all cool and feels good, but all that makes little sense without syntax support in an IDE.'
-classes: article
+pageClass: article
 tags:
   - javascript
 ---

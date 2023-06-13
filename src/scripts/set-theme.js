@@ -1,5 +1,3 @@
-import { $ } from './helper.js'
-
 const scheme = ([mode]) => `(prefers-color-scheme: ${mode})`
 const darkScheme = window.matchMedia(scheme`dark`)
 const lightScheme = window.matchMedia(scheme`light`)
@@ -18,7 +16,7 @@ export default function setPreferredTheme() {
 	const isDarkScheme = darkScheme.matches
 	const isLightScheme = lightScheme.matches
 	const isUserPreferredScheme = localStorage.getItem(namespace)
-	const $toggleThemeBtn = $('.js-theme-toggle')
+	const $toggleThemeBtn = document.querySelector('.js-theme-toggle')
 
 	if (isUserPreferredScheme) {
 		setTheme(isUserPreferredScheme)

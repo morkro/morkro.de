@@ -31,7 +31,7 @@ html[data-theme='dark'] {
 
 body {
 	background-color: var(--background-base);
-	font-family: var(--font-myriad);
+	font-family: var(--font-roboto), var(--font-myriad);
 	font-weight: 300;
 	font-size: var(--font-size-base);
 	text-rendering: geometricPrecision;
@@ -40,10 +40,6 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	overflow-x: hidden;
 	color: var(--normal-text);
-
-	&.fonts-loaded {
-		font-family: var(--font-roboto);
-	}
 
 	@include include-media.media('<=tablet') {
 		border-width: calc(0.5 * var(--page-gap));
@@ -89,13 +85,9 @@ body {
  */
 input {
 	border: 2px solid rgba(0, 0, 0, 0.2);
-	font-family: var(--font-courier);
+	font-family: var(--font-roboto-mono), var(--font-courier);
 	padding: 5px 15px;
 	transition: border 150ms ease-in-out;
-
-	.fonts-loaded & {
-		font-family: var(--font-roboto-mono);
-	}
 
 	&:hover {
 		border: 2px solid rgba(0, 0, 0, 0.3);

@@ -13,13 +13,13 @@
 	{% if keywords %}
 	<meta name="keywords" content="{{ keywords | join: ',' }}" />
 	{% endif %}
-	<meta name="description" content="{{ meta.description }}" />
+	<meta name="description" content="{{ site.description }}" />
 	<link rel="shortcut icon" href="/../assets/favicon.ico" />
 	<link rel="author" href="/humans.txt" />
 	<link
 		rel="alternate"
 		type="application/rss+xml"
-		title="{{ title }}"
+		title="{{ title }} RSS"
 		href="/feed.xml"
 	/>
 
@@ -28,7 +28,7 @@
 		property="og:title"
 		content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}"
 	/>
-	<meta property="og:description" content="{{ meta.description }}" />
+	<meta property="og:description" content="{{ site.description }}" />
 	<meta property="og:image" content="{{ site.url }}/assets/img/moritz.jpg" />
 	<meta property="og:type" content="website" />
 	<meta
@@ -47,7 +47,7 @@
 		property="twitter:title"
 		content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}"
 	/>
-	<meta name="twitter:description" content="{{ meta.description }}" />
+	<meta name="twitter:description" content="{{ site.description }}" />
 	<meta
 		property="twitter:image"
 		content="{{ site.url }}/assets/img/moritz.jpg"
@@ -57,11 +57,11 @@
 	<link
 		rel="stylesheet"
 		type="text/css"
-		href="/../css/main.css?v={{ pkg.version }}"
+		href="/../css/main.css?v={{ pkg.version }}-{{ site.timestamp }}"
 	/>
 	<link
 		rel="stylesheet"
 		type="text/css"
-		href="/../css/{{ pageClass }}.css?v={{ pkg.version }}"
+		href="/../css/{{ pageClass }}.css?v={{ pkg.version }}-{{ site.timestamp }}"
 	/>
 </head>

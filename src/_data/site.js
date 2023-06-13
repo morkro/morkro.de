@@ -1,8 +1,10 @@
 module.exports = {
-	title:
-		'Moritz Kröger 🙋 — Software Engineering Director and Open Source contributor',
+	author: 'Moritz Kröger',
 	email: 'write@morkro.de',
+	title: 'Hey there!',
 	description:
 		'I am Moritz Kröger, Software Engineering Director and Open Source contributor who lives in Berlin.',
 	url: 'https://morkro.de',
+	environment: process.env.NODE_ENV,
+	timestamp: Date.now(),
 }

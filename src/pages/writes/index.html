@@ -13,31 +13,32 @@ permalink: /writes/
 
 	<ul itemscope itemtype="http://schema.org/Blog" class="blog-list">
 	{% for post in collections.posts %}
+	{% assign data = post.data %}
 		<li itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
 			<svg class="section-border white" viewBox="0 0 1440 45" aria-hidden="true" focusable="false">
 				<use xlink:href="#border"></use>
 			</svg>
-			{% if post.external %}
-			<a href="{{ post.external.url }}" target="_blank" rel="noopener" class="blog-post-external">
+			{% if data.external %}
+			<a href="{{ data.external.url }}" target="_blank" rel="noopener" class="blog-post-external">
 				<span></span>
 				<h2 itemprop="title">
-					{{ post.title }}
+					{{ data.title }}
 					<svg><use xlink:href="#new-window"></use></svg>
 				</h2>
 			{% else %}
 			<a href="{{ post.url }}">
 				<span></span>
-				<h2 itemprop="title">{{ post.title }}</h2>
+				<h2 itemprop="title">{{ data.title }}</h2>
 			{% endif %}
 				<div class="blog-post-meta">
 					<time itemprop="datePublished" datetime='{{ post.date | date: "%d %B %Y" }}'>{{ post.date | date: "%d %B %Y" }}</time>,
-					{% if post.external %}
-					Published on <span itemprop="publisher">{{ post.external.host }}</span>
+					{% if data.external %}
+					Published on <span itemprop="publisher">{{ data.external.host }}</span>
 					{% else %}
-					Published in <span>{% for tag in post.tags %}#{{ tag }} {% endfor %}</span>
+					Published in <span>{% for tag in data.tags %}#{{ tag }} {% endfor %}</span>
 					{% endif %}
 				</div>
-				<p>{{ post.excerpt }}</p>
+				<p>{{ data.excerpt }}</p>
 			</a>
 		</li>
 	{% endfor %}

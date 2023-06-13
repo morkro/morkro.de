@@ -47,10 +47,6 @@ module.exports = function (config) {
 	/** Copy these files around */
 	config.addPassthroughCopy('src/assets')
 	config.addPassthroughCopy('src/_redirects')
-	config.addPassthroughCopy({
-		'node_modules/fontfaceobserver/fontfaceobserver.standalone.js':
-			'src/scripts/fontfaceobserver.js',
-	})
 	config.addPassthroughCopy({ 'src/scripts': '/assets/scripts' })
 
 	/** Shorthands */
