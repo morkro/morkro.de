@@ -16,7 +16,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.2.0",
     "postcss-scss": "^4.0.2",
-    "snyk": "^1.760.0",
+    "snyk": "^1.996.0",
     "stylelint": "^14.0.1",
     "stylelint-scss": "^4.0.0"
   },
