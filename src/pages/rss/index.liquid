@@ -3,33 +3,31 @@ eleventyExcludeFromCollections: true
 permalink: /feed.xml
 ---
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
-	<channel>
-		<title>{{ site.title }}</title>
-		<description>{% if site.description %}{{ site.description  }}{% endif %}</description>
-		<link>{{ site.url }}</link>
-		<atom:link href="{{ site.url }}/feed.xml" rel="self" type="application/rss+xml" />
-		{% for post in collections.posts limit:10 %}
-			{% assign data = post.data %}
-			<item>
-				<title>{{ data.title }}</title>
-				{% if post.author.name %}
-					<dc:creator>{{ post.author.name }}</dc:creator>
-				{% endif %}
-				{% if post.excerpt %}
-					<description>{{ post.excerpt }}</description>
-				{% else %}
-					<description>{{ post.content }}</description>
-				{% endif %}
-				<pubDate>{{ post.date }}</pubDate>
-				{% if data.external %}
-				<link>{{ data.external.url }}</link>
-				<guid isPermaLink="true">{{ data.external.url }}</guid>
-				{% else %}
-				<link>{{ site.url }}{{ post.url }}</link>
-				<guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
-				{% endif %}
-			</item>
-		{% endfor %}
-	</channel>
+<rss xmlns="http://www.w3.org/2005/Atom">
+	<title>{{ site.author }}</title>
+	<subtitle>{{ site.description | encodeXML }}</subtitle>
+	<link>{{ site.url }}</link>
+	<author>
+		<name>
+			{{ site.author }}
+		</name>
+	</author>
+	<link href="{{ site.url }}/feed.xml" rel="self" type="application/atom+xml" />
+	<link href="{{ site.url }}" rel="alternate" type="text/html" />
+	<generator>11ty</generator>
+	<updated>{{ site.timestamp | dateToRFC3339 }}</updated>
+	{% for post in collections.posts limit:10 %}
+	{% assign data = post.data %}
+	<entry>
+		<title>{{ data.title | encodeXML }}</title>
+		<published>{{ post.date | dateToRFC3339 }}</published>
+		{% if data.external %}
+		<link href="{{ data.external.url }}" />
+		<guid isPermaLink="true">{{ data.external.url }}</guid>
+		{% else %}
+		<link href="{{ site.url }}{{ post.url }}" />
+		<guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
+		{% endif %}
+	</entry>
+	{% endfor %}
 </rss>

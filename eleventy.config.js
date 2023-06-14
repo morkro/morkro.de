@@ -22,6 +22,22 @@ function compileSass(inputContent, inputPath) {
 	return () => result.css
 }
 
+function datetoRFC3339(inputDate) {
+	const date = new Date(inputDate).toISOString()
+	const chunks = date.split('.')
+	chunks.pop()
+	return `${chunks.join('')}Z`
+}
+
+function encodeXML(string) {
+	return string
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&apos;')
+}
+
 module.exports = function (config) {
 	if (process.env.NODE_ENV === 'production') {
 		config.addTransform('htmlmin', minifyHtml)
@@ -60,6 +76,10 @@ module.exports = function (config) {
 
 	/** Shorthands */
 	config.addShortcode('currentYear', () => new Date().getFullYear())
+
+	/** Filter */
+	config.addFilter('dateToRFC3339', datetoRFC3339)
+	config.addFilter('encodeXML', encodeXML)
 
 	/** Creates a list of blog posts */
 	config.addCollection('posts', function (collection) {
