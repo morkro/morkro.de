@@ -6,7 +6,7 @@ layout: default
 	<article itemscope itemtype="http://schema.org/Article" class="content-article container">
 		<header>
 			<h1 class="headline-highlight">
-				<span>{{ page.title }}</h1>
+				<span>{{ title }}</h1>
 			</h1>
 
 			<ul class="article-info">
@@ -16,7 +16,7 @@ layout: default
 				</li>
 				<li>
 					<span>Categories</span>
-					<span>{% for tag in page.tags %}#{{ tag }} {% endfor %}</span>
+					<span>{% for tag in tags %}#{{ tag }} {% endfor %}</span>
 				</li>
 			</ul>
 		</header>
