@@ -1,5 +1,3 @@
-import { $$ } from './helper'
-
 /**
  * @typedef {Object} GitHubRepositoryAPI
  * @property {string} GitHubRepositoryAPI.name
@@ -14,7 +12,7 @@ import { $$ } from './helper'
  * @property {number} RepositoryData.stars
  */
 
-const projects = Array.from($$('[data-project]'))
+const projects = Array.from(document.querySelectorAll('[data-project]'))
 
 /**
  * @param {GitHubRepositoryAPI[]} repositories

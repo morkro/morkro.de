@@ -1,0 +1,162 @@
+@use '../utils/include-media';
+@use '../utils/mixins' as mixin;
+
+@include mixin.font-face('Roboto', 'Roboto-Regular', 300);
+@include mixin.font-face('Roboto', 'Roboto-Italic', 300, italic);
+@include mixin.font-face('Roboto', 'Roboto-Medium', 400);
+@include mixin.font-face('Roboto', 'Roboto-MediumItalic', 400, italic);
+@include mixin.font-face('Roboto', 'Roboto-Bold', 500);
+@include mixin.font-face('Roboto', 'Roboto-BoldItalic', 500, italic);
+
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Regular', 300);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Italic', 300, italic);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Medium', 400);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-MediumItalic', 400, italic);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Bold', 500);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-BoldItalic', 500, italic);
+
+:root {
+	--font-roboto: 'Roboto', sans-serif;
+	--font-roboto-mono: 'Roboto Mono', monospace;
+	--font-myriad: 'Myriad Pro', Myriad, Arial, sans-serif;
+	--font-courier: 'Courier', Andale Mono, monospace;
+	--font-size-small: 90%; // 16px
+	--font-size-base: 18px;
+	--font-size-medium: 115%; // 20px
+	--font-size-large: 167%; // 30px
+	--font-size-super: 555%; // 100px
+
+	@include include-media.media('<=tablet') {
+		--font-size-base: 16px;
+	}
+}
+
+/**
+ * Headlines
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 500;
+}
+
+h1 {
+	font-family: var(--font-roboto), var(--font-courier);
+	font-size: var(--font-size-super);
+	font-weight: 400;
+	line-height: 120%;
+}
+
+h2 {
+	font-size: var(--font-size-large);
+	line-height: 38px;
+	font-weight: 500;
+}
+
+h3 {
+	font-size: var(--font-size-medium);
+	font-weight: 400;
+}
+
+/**
+ * Copy
+ */
+p,
+span,
+a,
+address,
+button,
+li {
+	font-weight: 300;
+	line-height: 32px;
+}
+
+p {
+	color: var(--normal-text);
+}
+
+b,
+strong {
+	font-weight: 400;
+}
+
+em {
+	font-weight: 300;
+}
+
+blockquote {
+	margin-bottom: calc(2 * var(--page-gap));
+	width: 110%;
+	transform: translateX(-5%);
+	background: var(--background-highlight);
+	border-left: 10px solid var(--shade-of-grey-medium);
+	padding: 15px 5%;
+	font-style: italic;
+
+	@include include-media.media('<=tablet') {
+		width: calc(100% + 40px); // Double of .container padding
+		transform: translateX(-20px);
+		padding: 15px 20px;
+	}
+}
+
+/**
+ * Links
+ */
+a {
+	cursor: pointer;
+	position: relative;
+	text-decoration: none;
+	color: var(--link-color);
+	z-index: 1;
+	transition: color 100ms ease-in-out;
+
+	&:hover {
+		color: var(--link-hover);
+	}
+
+	&:active {
+		background: var(--background-highlight);
+		outline: none;
+	}
+
+	&:focus {
+		outline: 2px dashed var(--blue);
+	}
+
+	svg {
+		display: inline-block;
+		vertical-align: baseline;
+	}
+}
+
+/**
+ * Code
+ */
+code:not([data-language]):not([class^='language-']),
+kbd,
+pre:not([data-language]):not([class^='language-']),
+samp {
+	color: var(--special-text-color);
+	background: var(--background-highlight);
+	padding: 2px 4px;
+	font-family: var(--font-roboto-mono), var(--font-courier);
+	font-size: var(--font-size-small);
+	font-weight: 400;
+	vertical-align: baseline;
+	white-space: nowrap;
+	border-radius: 2px;
+	box-shadow: 2px 2px 0 var(--meta-text);
+}
+
+a {
+	code,
+	kbd,
+	pre,
+	samp {
+		color: inherit;
+	}
+}

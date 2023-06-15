@@ -1,0 +1,15 @@
+@use '../utils/include-media';
+
+/**
+ * CONTENT
+ */
+#content {
+	width: 100%;
+	padding: var(--base-gap) 0 0;
+	background: var(--background-content);
+
+	@include include-media.media('<=tablet') {
+		padding-top: 40px;
+		overflow: hidden;
+	}
+}

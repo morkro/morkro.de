@@ -1,4 +1,4 @@
-import { isMacOS, currentPage } from './helper'
+import { currentPage } from './helper.js'
 
 const config = {
 	about: '🙋',
@@ -7,6 +7,11 @@ const config = {
 	imprint: '📄',
 	404: '🔮',
 }
+
+/**
+ * @returns {boolean}
+ */
+const isMacOS = () => navigator.userAgent.indexOf('Mac OS X') != -1
 
 /**
  * @description Adds an emoji to the page title.

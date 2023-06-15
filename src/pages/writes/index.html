@@ -1,0 +1,62 @@
+---
+layout: default
+title: Articles | Moritz Kröger
+pageClass: blog
+permalink: /writes/
+---
+<div class="content-inner">
+	<div class="container container-heading">
+		<h1 class="headline-highlight" title="What I'm writing here and there" itemprop="title">
+			<span>What I write</span>
+		</h1>
+	</div>
+
+	<ul itemscope itemtype="http://schema.org/Blog" class="blog-list">
+	{% for post in collections.posts %}
+	{% assign data = post.data %}
+		<li itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+			<svg class="section-border white" viewBox="0 0 1440 45" aria-hidden="true" focusable="false">
+				<use xlink:href="#border"></use>
+			</svg>
+			{% if data.external %}
+			<a href="{{ data.external.url }}" target="_blank" rel="noopener" class="blog-post-external">
+				<span></span>
+				<h2 itemprop="title">
+					{{ data.title }}
+					<svg><use xlink:href="#new-window"></use></svg>
+				</h2>
+			{% else %}
+			<a href="{{ post.url }}">
+				<span></span>
+				<h2 itemprop="title">{{ data.title }}</h2>
+			{% endif %}
+				<div class="blog-post-meta">
+					<time itemprop="datePublished" datetime='{{ post.date | date: "%d %B %Y" }}'>{{ post.date | date: "%d %B %Y" }}</time>,
+					{% if data.external %}
+					Published on <span itemprop="publisher">{{ data.external.host }}</span>
+					{% else %}
+					Published in <span>{% for tag in data.tags %}#{{ tag }} {% endfor %}</span>
+					{% endif %}
+				</div>
+				<p>{{ data.excerpt }}</p>
+			</a>
+		</li>
+	{% endfor %}
+	</ul>
+
+	{% if paginator.total_pages > 1 %}
+	<div class="blog-paginator">
+		{% if paginator.previous_page %}
+		<a href="{{ paginator.previous_page_path | replace: 'index.html', '' }}" rel="prev">Previous</a>
+		{% else %}
+		<button disabled type="button" aria-disabled="true">Previous</button>
+		{% endif %}
+
+		{% if paginator.next_page %}
+		<a ref="{{ paginator.next_page_path }}" rel="next">Next</a>
+		{% else %}
+		<button formnovalidate=""disabled type="button" aria-disabled="true">Next</button>
+		{% endif %}
+	</div>
+	{% endif %}
+</div>

@@ -1,0 +1,30 @@
+[
+	{
+		"name": "happy-plants",
+		"img": "../assets/projects/happyplants.svg",
+		"title": "HappyPlants",
+		"description": "HappyPlants is a mobile-first, progressive web application which helps organising and keeping track of your plants. See the list of",
+		"url": "https://github.com/morkro/happy-plants"
+	},
+	{
+		"name": "vue-a11y-dialog",
+		"img": "../assets/projects/vuea11ydialog.svg",
+		"title": "Vue A11yDialog",
+		"description": "Vue.js wrapper component for <code>a11y-dialog</code> supporting both Vue 3 and Vue 2.",
+		"url": "https://github.com/morkro/vue-a11y-dialog"
+	},
+	{
+		"name": "atom-emoji-syntax",
+		"img": "../assets/projects/emojisyntax.svg",
+		"title": "Emoji Syntax",
+		"description": "An <i>Atom</i> editor package which adds customisable emoji to your syntax keywords. This started out as a joke and proof-of-concept but eventually grew into a small extension with over 11k downloads.",
+		"url": "https://github.com/morkro/atom-emoji-syntax"
+	},
+	{
+		"name": "papyrus",
+		"img": "../assets/projects/papyrus.svg",
+		"title": "Papyrus",
+		"description": "Unofficial Dropbox Paper desktop application using Electron",
+		"url": "https://github.com/morkro/papyrus"
+	}
+]

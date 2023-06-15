@@ -1,0 +1,135 @@
+@use '../utils/include-media';
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	::before,
+	::after {
+		transition-duration: 0ms !important;
+		animation-duration: 0ms !important;
+	}
+}
+
+html {
+	width: 100vw;
+	overflow-x: hidden;
+}
+
+html[data-theme='dark'] {
+	--blue: #5b8bfb; // Better contrast ratio (a11y)
+	--background-content: var(--deep-grey);
+	--background-highlight: var(--dark-grey2);
+	--normal-text: var(--white);
+	--meta-text: var(--grey);
+	--special-text-color: var(--white);
+}
+
+body {
+	background-color: var(--background-base);
+	font-family: var(--font-roboto), var(--font-myriad);
+	font-weight: 300;
+	font-size: var(--font-size-base);
+	text-rendering: geometricPrecision;
+	// Enable best font rendering
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow-x: hidden;
+	color: var(--normal-text);
+
+	@include include-media.media('<=tablet') {
+		border-width: calc(0.5 * var(--page-gap));
+	}
+}
+
+::selection {
+	background-color: var(--blue);
+	color: var(--normal-text-inverse);
+}
+
+/**
+ * A11y
+ */
+.sr-only {
+	clip: rect(1px, 1px, 1px, 1px);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+
+	&:focus {
+		clip: auto;
+		height: auto;
+		overflow: auto;
+		position: absolute;
+		width: auto;
+	}
+}
+
+.a11y-jump {
+	padding: calc(0.5 * var(--page-gap)) var(--page-gap);
+	font-weight: 400;
+	z-index: 2;
+	background: var(--background-highlight);
+	top: var(--page-gap);
+	left: var(--page-gap);
+}
+
+/**
+ * Forms
+ */
+input {
+	border: 2px solid rgba(0, 0, 0, 0.2);
+	font-family: var(--font-roboto-mono), var(--font-courier);
+	padding: 5px 15px;
+	transition: border 150ms ease-in-out;
+
+	&:hover {
+		border: 2px solid rgba(0, 0, 0, 0.3);
+	}
+
+	&:active,
+	&:focus {
+		border: 2px solid rgba(0, 0, 0, 0.5);
+		outline: none;
+	}
+}
+
+/**
+ * Images
+ * This is experimental and not fully supported in most browsers.
+ * Anyway, I want to test this feature.
+ */
+img[src$='.jpg'],
+img[src$='.png'] {
+	image-rendering: crisp-edges;
+	-ms-interpolation-mode: nearest-neighbor;
+}
+
+img {
+	width: 100%;
+	height: auto;
+}
+
+/**
+ * Page grid
+ */
+.container,
+.container-large {
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 var(--page-gap);
+}
+
+.container {
+	max-width: var(--page-width);
+}
+
+.container-large {
+	max-width: var(--page-width-large);
+}
