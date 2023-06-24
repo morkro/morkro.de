@@ -258,7 +258,20 @@ permalink: /is/
 			role="presentation"
 			tabindex="-1"
 		>
-			{% include world2.html %}
+			<div class="travel-select-menu" style="display:flex;justify-content:center">
+				<span>1989</span>
+				<input type="range" min="1989" max="2023" value="2023" step="1" name="travel-timeframe" />
+				<span>2023</span>
+			</div>
+			{% include world.html %}
+			<script>
+				const timestamps = [...document.querySelectorAll('#map [data-visited-year]')].map($el => parseInt($el.dataset.visitedYear))
+				console.log(timestamps)
+				document.querySelector('.travel-select-menu').addEventListener('click', (event) => {
+					if (event?.target?.nodeName !== 'INPUT') return
+					console.log(event.target.value)
+				})
+			</script>
 		</div>
 	</section>
 
