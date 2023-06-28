@@ -1,15 +1,15 @@
 /**
  * @typedef {Object} GitHubRepositoryAPI
- * @property {string} GitHubRepositoryAPI.name
- * @property {string} GitHubRepositoryAPI.html_url
- * @property {number} GitHubRepositoryAPI.stargazers_count
- * @property {sring} GitHubRepositoryAPI.created_at
+ * @property {string} name
+ * @property {string} html_url
+ * @property {number} stargazers_count
+ * @property {string} created_at
  */
 
 /**
  * @typedef {Object} RepositoryData
- * @property {string} RepositoryData.name
- * @property {number} RepositoryData.stars
+ * @property {string} name
+ * @property {number} stars
  */
 
 const projects = Array.from(document.querySelectorAll('[data-project]'))
