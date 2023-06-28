@@ -4,6 +4,7 @@ import addEmojiTitle from './add-emoji-title.js'
 import animateScrollTo from './animate-scroll-to.js'
 import setCurrentYear from './set-current-year.js'
 import addGitHubStats from './add-github-stats.js'
+import interactiveMap from './world-map.js'
 
 /* 1. Set preferred theme */
 setPreferredTheme()
@@ -25,4 +26,6 @@ if (prefersReducedMotion === false) {
 const page = currentPage()
 if (page === 'introduction') {
 	addGitHubStats()
+} else if (page === 'about') {
+	interactiveMap()
 }

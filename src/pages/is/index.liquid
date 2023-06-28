@@ -219,9 +219,9 @@ permalink: /is/
 			</p>
 			<ul class="sr-only world-map-list">
 				<li data-visited="1989"><p>Germany</p></li>
-				<li data-visited=""><p>Switzerland</p></li>
-				<li data-visited=""><p>Netherlands</p></li>
-				<li data-visited=""><p>Denmark</p></li>
+				<li data-visited="1992"><p>Denmark</p></li>
+				<li data-visited="1995"><p>Switzerland</p></li>
+				<li data-visited="2008"><p>Netherlands</p></li>
 				<li data-visited="2012"><p>France</p></li>
 				<li data-visited="2012"><p>Luxembourg</p></li>
 				<li data-visited="2013"><p>Colombia</p></li>
@@ -258,20 +258,13 @@ permalink: /is/
 			role="presentation"
 			tabindex="-1"
 		>
-			<div class="travel-select-menu" style="display:flex;justify-content:center">
+			{% include world.html %}
+
+			<div class="travel-select-menu">
 				<span>1989</span>
 				<input type="range" min="1989" max="2023" value="2023" step="1" name="travel-timeframe" />
 				<span>2023</span>
 			</div>
-			{% include world.html %}
-			<script>
-				const timestamps = [...document.querySelectorAll('#map [data-visited-year]')].map($el => parseInt($el.dataset.visitedYear))
-				console.log(timestamps)
-				document.querySelector('.travel-select-menu').addEventListener('click', (event) => {
-					if (event?.target?.nodeName !== 'INPUT') return
-					console.log(event.target.value)
-				})
-			</script>
 		</div>
 	</section>
 
