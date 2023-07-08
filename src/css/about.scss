@@ -239,6 +239,10 @@
 				}
 			}
 
+			&:focus::-webkit-slider-thumb {
+				background: var(--orange);
+			}
+
 			&::-moz-range-thumb {
 				appearance: none;
 				cursor: grab;
@@ -254,6 +258,10 @@
 				}
 			}
 
+			&:focus::-moz-range-thumb {
+				background: var(--orange);
+			}
+
 			&::-ms-thumb {
 				appearance: none;
 				cursor: grab;
@@ -267,6 +275,10 @@
 				&:hover {
 					background: var(--orange);
 				}
+			}
+
+			&:focus::-ms-thumb {
+				background: var(--orange);
 			}
 		}
 	}

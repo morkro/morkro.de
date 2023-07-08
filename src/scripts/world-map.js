@@ -54,6 +54,8 @@ function sortTimestamps(timestamps, year) {
 
 export default function interactiveMap() {
 	const timestamps = getTimestamps('#map [data-visited-year]')
+	const output = document.querySelector('output[for="timeframe"]')
+	const getName = new Intl.DisplayNames(['en'], { type: 'region' })
 
 	document
 		.querySelector('.travel-select-menu')
@@ -62,6 +64,11 @@ export default function interactiveMap() {
 
 			const year = event.target.value
 			const markers = sortTimestamps(timestamps, year)
+			const countries = markers.visited.map((code) => getName.of(code))
+
+			output.innerHTML = countries.length
+				? `Countries visited as of ${year}: ${countries.join(', ')}`
+				: `No countries were visited yet in ${year}.`
 
 			for (const code of markers.visited) {
 				document.querySelector(`#${code}`).classList.add('visited')

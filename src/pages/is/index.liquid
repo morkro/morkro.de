@@ -252,21 +252,18 @@ permalink: /is/
 			</ul>
 		</div>
 
-		<div
-			class="travels-map"
-			aria-hidden="true"
-			role="presentation"
-			tabindex="-1"
-		>
+		<div class="travels-map">
 			{% include world.html %}
 
 			<div class="travel-select-menu">
-				<span>1989</span>
-				<input type="range" min="1989" max="2023" value="2023" step="1" name="travel-timeframe" />
-				<span>2023</span>
+				<span aria-hidden="true">1989</span>
+				<label class="sr-only" for="timeframe">Year</label>
+				<input type="range" min="1989" max="2023" value="2023" step="1" name="travel-timeframe" id="timeframe" />
+				<span aria-hidden="true">2023</span>
 			</div>
-		</div>
-	</section>
+
+			<output for="timeframe" class="sr-only"></output>
+	</div>
 
 	<!--
 	<section class="about-plants">
