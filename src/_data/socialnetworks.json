@@ -1,7 +1,6 @@
 {
-	"twitter": {
-		"name": "@morkro",
-		"url": "https://twitter.com/morkro"
+	"linkedin": {
+		"url": "https://linkedin.com/in/moritz-kroeger"
 	},
 	"github": {
 		"name": "morkro",
@@ -10,13 +9,6 @@
 	"stackoverflow": {
 		"name": "morkro",
 		"url": "https://stackoverflow.com/users/1724106/morkro"
-	},
-	"codepen": {
-		"name": "morkro",
-		"url": "https://codepen.io/morkro/"
-	},
-	"linkedin": {
-		"url": "https://linkedin.com/in/moritz-kroeger"
 	},
 	"instagram": {
 		"name": "morkro",
