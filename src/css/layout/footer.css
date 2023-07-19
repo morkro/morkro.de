@@ -1,6 +1,3 @@
-@use '../utils/include-media' as *;
-@use '../components/animated-underline' as *;
-
 /**
  * FOOTER
  */
@@ -11,7 +8,7 @@
 	background-color: var(--background-base);
 	position: relative;
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		padding: 70px 0 20px;
 	}
 
@@ -33,7 +30,7 @@
 	display: flex;
 	justify-content: space-between;
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		display: block;
 	}
 }
@@ -42,7 +39,7 @@
 	text-align: left;
 	width: 70%;
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		text-align: center;
 		width: 100%;
 	}
@@ -52,7 +49,7 @@
 	}
 
 	iframe {
-		@include media('<=422px') {
+		@media (max-width: 422px) {
 			margin-bottom: 20px;
 		}
 	}
@@ -64,7 +61,7 @@
 		line-height: 24px;
 		margin-bottom: var(--page-gap);
 
-		@include media('<=tablet') {
+		@media (--media-smaller-tablet) {
 			width: 100%;
 		}
 	}
@@ -79,7 +76,7 @@
 .footer-menu {
 	text-align: right;
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		text-align: center;
 		margin-top: 50px;
 		width: 100%;
@@ -96,23 +93,16 @@
 	}
 
 	a {
+		--border-color: var(--normal-text-inverse);
 		color: var(--normal-text-inverse);
 		position: relative;
-		transition: color 150ms ease-in-out;
 
 		&:hover {
+			--border-color: var(--link-color);
 			color: var(--link-color);
-
-			&::before {
-				transform: scaleX(1);
-			}
 		}
 
-		&::before {
-			@include animated-border(var(--link-color));
-		}
-
-		@include media('<=500px') {
+		@media (--media-smaller-500) {
 			&::before,
 			&::after {
 				display: none;
@@ -171,7 +161,7 @@
 		font-size: var(--font-size-small);
 		color: rgba(255, 255, 255, 0.5);
 
-		@include media('<=tablet') {
+		@media (--media-smaller-tablet) {
 			text-align: center;
 		}
 	}

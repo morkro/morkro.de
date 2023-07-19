@@ -42,14 +42,14 @@
 	display: inline-block;
 	vertical-align: middle;
 	transform: perspective(1px) translateZ(0);
-}
 
-.hvr-wobble-vertical:hover,
-.hvr-wobble-vertical:active {
-	animation-name: hvr-wobble-vertical;
-	animation-duration: 333ms;
-	animation-timing-function: ease-in-out;
-	animation-iteration-count: 1;
+	&:hover,
+	&:active {
+		animation-name: hvr-wobble-vertical;
+		animation-duration: 333ms;
+		animation-timing-function: ease-in-out;
+		animation-iteration-count: 1;
+	}
 }
 
 @keyframes hvr-pop {
@@ -57,15 +57,17 @@
 		transform: scale(1.2);
 	}
 }
+
 .hvr-pop {
 	display: inline-block;
 	vertical-align: middle;
 	transform: perspective(1px) translateZ(0);
 	box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-}
-.hvr-pop:hover {
-	animation-name: hvr-pop;
-	animation-duration: 0.15s;
-	animation-timing-function: linear;
-	animation-iteration-count: 1;
+
+	&:hover {
+		animation-name: hvr-pop;
+		animation-duration: 0.15s;
+		animation-timing-function: linear;
+		animation-iteration-count: 1;
+	}
 }

@@ -1,5 +1,5 @@
 :root {
-	// COLOR
+	/* COLOR */
 	--light-grey: #ebebeb;
 	--medium-grey: #f1f1f1;
 	--grey: #a1a1a1;
@@ -24,7 +24,18 @@
 	--normal-text-inverse: var(--white);
 	--special-text-color: var(--black);
 
-	// DIMENSIONS
+	/* TYPOGRAPHY */
+	--font-roboto: 'Roboto', sans-serif;
+	--font-roboto-mono: 'Roboto Mono', monospace;
+	--font-myriad: 'Myriad Pro', Myriad, Arial, sans-serif;
+	--font-courier: 'Courier', Andale Mono, monospace;
+	--font-size-small: 90%; /* 16px */
+	--font-size-base: 18px;
+	--font-size-medium: 115%; /* 20px */
+	--font-size-large: 167%; /* 30px */
+	--font-size-super: 555%; /* 100px */
+
+	/* DIMENSIONS */
 	--base-gap: 75px;
 	--base-radius: 4px;
 	--base-width: 920px;
@@ -37,6 +48,14 @@
 	--icon-size: 30px;
 	--icon-size-small: calc(0.75 * var(--icon-size));
 
-	// EASINGS
+	/* EASINGS */
 	--ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+	/* QUERIES */
+	@custom-media --media-smaller-tablet (max-width: 768px);
+	@custom-media --media-smaller-500 (max-width: 500px);
+
+	@media (--media-smaller-tablet) {
+		--font-size-base: 16px;
+	}
 }

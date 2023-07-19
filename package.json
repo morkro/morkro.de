@@ -5,17 +5,28 @@
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
   "scripts": {
+    "clean:site": "rimraf _site",
     "lint:js": "eslint src/scripts/",
-    "lint:css": "stylelint \"src/css/**/*.scss\"",
+    "lint:css": "stylelint \"src/css/**/*.css\"",
     "lint": "npm run lint:js && npm run lint:css",
-    "start": "cross-env NODE_ENV=development npm run lint && npx @11ty/eleventy --serve --quiet",
-    "build": "cross-env NODE_ENV=production npm run lint && npx @11ty/eleventy"
+    "setup": "npm run clean:site && npm run lint && npm run build:css",
+    "build:css": "postcss src/css/main.css --no-map --dir _site/css",
+    "build": "cross-env NODE_ENV=production npm run setup && npx @11ty/eleventy",
+    "start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet"
   },
   "devDependencies": {
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0",
+    "autoprefixer": "^10.4.14",
     "cross-env": "^7.0.3",
+    "cssnano": "^6.0.1",
     "eslint": "^8.2.0",
+    "postcss": "^8.4.26",
+    "postcss-cli": "^10.1.0",
+    "postcss-custom-media": "^10.0.0",
+    "postcss-import": "^15.1.0",
+    "postcss-nesting": "^12.0.0",
     "postcss-scss": "^4.0.2",
+    "rimraf": "^5.0.1",
     "snyk": "^1.996.0",
     "stylelint": "^14.0.1",
     "stylelint-scss": "^4.0.0"
@@ -23,6 +34,7 @@
   "dependencies": {
     "@11ty/eleventy-plugin-bundle": "^1.0.4",
     "html-minifier": "^4.0.0",
+    "normalize.css": "^8.0.1",
     "sass": "^1.62.1"
   },
   "snyk": true

@@ -1,35 +1,4 @@
-@use '../utils/include-media';
-@use '../utils/mixins' as mixin;
-
-@include mixin.font-face('Roboto', 'Roboto-Regular', 300);
-@include mixin.font-face('Roboto', 'Roboto-Italic', 300, italic);
-@include mixin.font-face('Roboto', 'Roboto-Medium', 400);
-@include mixin.font-face('Roboto', 'Roboto-MediumItalic', 400, italic);
-@include mixin.font-face('Roboto', 'Roboto-Bold', 500);
-@include mixin.font-face('Roboto', 'Roboto-BoldItalic', 500, italic);
-
-@include mixin.font-face('Roboto Mono', 'RobotoMono-Regular', 300);
-@include mixin.font-face('Roboto Mono', 'RobotoMono-Italic', 300, italic);
-@include mixin.font-face('Roboto Mono', 'RobotoMono-Medium', 400);
-@include mixin.font-face('Roboto Mono', 'RobotoMono-MediumItalic', 400, italic);
-@include mixin.font-face('Roboto Mono', 'RobotoMono-Bold', 500);
-@include mixin.font-face('Roboto Mono', 'RobotoMono-BoldItalic', 500, italic);
-
-:root {
-	--font-roboto: 'Roboto', sans-serif;
-	--font-roboto-mono: 'Roboto Mono', monospace;
-	--font-myriad: 'Myriad Pro', Myriad, Arial, sans-serif;
-	--font-courier: 'Courier', Andale Mono, monospace;
-	--font-size-small: 90%; // 16px
-	--font-size-base: 18px;
-	--font-size-medium: 115%; // 20px
-	--font-size-large: 167%; // 30px
-	--font-size-super: 555%; // 100px
-
-	@include include-media.media('<=tablet') {
-		--font-size-base: 16px;
-	}
-}
+@import 'fonts.css';
 
 /**
  * Headlines
@@ -96,8 +65,8 @@ blockquote {
 	padding: 15px 5%;
 	font-style: italic;
 
-	@include include-media.media('<=tablet') {
-		width: calc(100% + 40px); // Double of .container padding
+	@media (--media-smaller-tablet) {
+		width: calc(100% + 40px); /* Double of .container padding */
 		transform: translateX(-20px);
 		padding: 15px 20px;
 	}

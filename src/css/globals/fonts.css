@@ -1,0 +1,16 @@
+/* @use '../utils/include-media';
+@use '../utils/mixins' as mixin;
+
+@include mixin.font-face('Roboto', 'Roboto-Regular', 300);
+@include mixin.font-face('Roboto', 'Roboto-Italic', 300, italic);
+@include mixin.font-face('Roboto', 'Roboto-Medium', 400);
+@include mixin.font-face('Roboto', 'Roboto-MediumItalic', 400, italic);
+@include mixin.font-face('Roboto', 'Roboto-Bold', 500);
+@include mixin.font-face('Roboto', 'Roboto-BoldItalic', 500, italic);
+
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Regular', 300);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Italic', 300, italic);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Medium', 400);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-MediumItalic', 400, italic);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-Bold', 500);
+@include mixin.font-face('Roboto Mono', 'RobotoMono-BoldItalic', 500, italic); */

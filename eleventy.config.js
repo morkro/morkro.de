@@ -2,7 +2,6 @@ const path = require('node:path')
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const bundlerPlugin = require('@11ty/eleventy-plugin-bundle')
 const htmlmin = require('html-minifier')
-const sass = require('sass')
 
 function minifyHtml(content, outputPath) {
 	if (outputPath.endsWith('.html')) {
@@ -12,14 +11,6 @@ function minifyHtml(content, outputPath) {
 		})
 	}
 	return content
-}
-
-function compileSass(inputContent, inputPath) {
-	const parsed = path.parse(inputPath)
-	const result = sass.compileString(inputContent, {
-		loadPaths: [parsed.dir || '.', this.config.dir.includes],
-	})
-	return () => result.css
 }
 
 function datetoRFC3339(inputDate) {
@@ -58,15 +49,8 @@ module.exports = function (config) {
 	})
 	config.addPlugin(bundlerPlugin)
 
-	/** Add different template actions */
-	config.addTemplateFormats('scss')
-	config.addExtension('scss', {
-		outputFileExtension: 'css',
-		compile: compileSass,
-	})
-
 	/** Watch these files for changes */
-	config.addWatchTarget('src/css/**/*.scss')
+	config.addWatchTarget('src/css/**/*.css')
 	config.addWatchTarget('src/scripts/**/*.js')
 
 	/** Copy these files around */
