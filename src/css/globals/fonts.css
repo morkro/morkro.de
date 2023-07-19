@@ -1,16 +1,79 @@
-/* @use '../utils/include-media';
-@use '../utils/mixins' as mixin;
+@font-face {
+	font-family: 'Roboto';
+	font-display: swap;
+	font-weight: 300;
+	src: url('../assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Roboto';
+	font-display: swap;
+	font-weight: 300;
+	font-style: italic;
+	src: url('../assets/fonts/Roboto-Italic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Roboto';
+	font-display: swap;
+	font-weight: 400;
+	src: url('../assets/fonts/Roboto-Medium.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Roboto';
+	font-display: swap;
+	font-weight: 400;
+	font-style: italic;
+	src: url('../assets/fonts/Roboto-MediumItalic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Roboto';
+	font-display: swap;
+	font-weight: 500;
+	src: url('../assets/fonts/Roboto-Bold.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Roboto';
+	font-display: swap;
+	font-weight: 500;
+	font-style: italic;
+	src: url('../assets/fonts/Roboto-BoldItalic.ttf') format('truetype');
+}
 
-@include mixin.font-face('Roboto', 'Roboto-Regular', 300);
-@include mixin.font-face('Roboto', 'Roboto-Italic', 300, italic);
-@include mixin.font-face('Roboto', 'Roboto-Medium', 400);
-@include mixin.font-face('Roboto', 'Roboto-MediumItalic', 400, italic);
-@include mixin.font-face('Roboto', 'Roboto-Bold', 500);
-@include mixin.font-face('Roboto', 'Roboto-BoldItalic', 500, italic);
-
-@include mixin.font-face('Roboto Mono', 'RobotoMono-Regular', 300);
-@include mixin.font-face('Roboto Mono', 'RobotoMono-Italic', 300, italic);
-@include mixin.font-face('Roboto Mono', 'RobotoMono-Medium', 400);
-@include mixin.font-face('Roboto Mono', 'RobotoMono-MediumItalic', 400, italic);
-@include mixin.font-face('Roboto Mono', 'RobotoMono-Bold', 500);
-@include mixin.font-face('Roboto Mono', 'RobotoMono-BoldItalic', 500, italic); */
+@font-face {
+	font-family: 'Roboto Mono';
+	font-display: swap;
+	font-weight: 300;
+	src: url('../assets/fonts/RobotoMono-Regular.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Roboto Mono';
+	font-display: swap;
+	font-weight: 300;
+	font-style: italic;
+	src: url('../assets/fonts/RobotoMono-Italic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Roboto Mono';
+	font-display: swap;
+	font-weight: 400;
+	src: url('../assets/fonts/RobotoMono-Medium.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Roboto Mono';
+	font-display: swap;
+	font-weight: 400;
+	font-style: italic;
+	src: url('../assets/fonts/RobotoMono-MediumItalic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Roboto Mono';
+	font-display: swap;
+	font-weight: 500;
+	src: url('../assets/fonts/RobotoMono-Bold.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Roboto Mono';
+	font-display: swap;
+	font-weight: 500;
+	font-style: italic;
+	src: url('../assets/fonts/RobotoMono-BoldItalic.ttf') format('truetype');
+}
