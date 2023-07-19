@@ -28,17 +28,6 @@
 		transition: background 100ms ease-in-out;
 	}
 
-	@at-root html[data-theme='dark'] &:not(.blue) {
-		&::after {
-			background: var(--black);
-			mask-image: url('../assets/img/text-bg-dark.svg');
-		}
-
-		&:hover::after {
-			background: var(--blue);
-		}
-	}
-
 	&:hover {
 		color: var(--normal-text-inverse);
 
@@ -66,5 +55,16 @@
 	svg {
 		width: var(--icon-size-small);
 		height: var(--icon-size-small);
+	}
+}
+
+html[data-theme='dark'] .link-highlight:not(.blue) {
+	&::after {
+		background: var(--black);
+		mask-image: url('../assets/img/text-bg-dark.svg');
+	}
+
+	&:hover::after {
+		background: var(--blue);
 	}
 }

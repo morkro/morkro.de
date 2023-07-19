@@ -1,5 +1,3 @@
-@use '../components/animated-underline' as *;
-
 /**
  * HEADER
  */
@@ -186,14 +184,6 @@
 		color: var(--normal-text);
 	}
 
-	@at-root html[data-theme='light'] .theme-toggle-moon {
-		display: none;
-	}
-
-	@at-root html[data-theme='dark'] .theme-toggle-sun {
-		display: none;
-	}
-
 	svg {
 		width: var(--icon-size-small);
 		height: var(--icon-size-small);
@@ -202,9 +192,21 @@
 		&:hover {
 			fill: var(--special-text-color);
 		}
+	}
+}
 
-		@at-root html[data-theme='dark'] &:not(:hover) {
-			fill: var(--grey);
-		}
+html[data-theme='light'] .header-inner .js-theme-toggle {
+	.theme-toggle-moon {
+		display: none;
+	}
+}
+
+html[data-theme='dark'] .header-inner .js-theme-toggle {
+	.theme-toggle-sun {
+		display: none;
+	}
+
+	svg:not(:hover) {
+		fill: var(--grey);
 	}
 }

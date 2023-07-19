@@ -217,9 +217,9 @@
 		height: 70px;
 		fill: var(--dark-grey);
 		transition: fill 150ms var(--ease-out-back);
-
-		@at-root html[data-theme='dark'] & {
-			fill: var(--background-content);
-		}
 	}
+}
+
+html[data-theme='dark'] .footer-gotop .footer-gotop-blob {
+	fill: var(--background-content);
 }

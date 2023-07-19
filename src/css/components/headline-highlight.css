@@ -6,10 +6,6 @@
 	display: block;
 	text-align: center;
 
-	@at-root html[data-theme='dark'] & {
-		--background-svg: var(--background-svg-dark);
-	}
-
 	> span {
 		color: var(--normal-text);
 		background: var(--background-svg);
@@ -30,4 +26,8 @@
 		padding-left: var(--page-gap);
 		padding-right: var(--page-gap);
 	}
+}
+
+html[data-theme='dark'] .headline-highlight {
+	--background-svg: var(--background-svg-dark);
 }
