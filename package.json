@@ -10,7 +10,7 @@
     "lint:css": "stylelint \"src/css/**/*.css\"",
     "lint": "npm run lint:js && npm run lint:css",
     "setup": "npm run clean:site && npm run lint && npm run build:css",
-    "build:css": "postcss src/css/main.css --no-map --dir _site/css",
+    "build:css": "postcss src/css/*.css --no-map --dir _site/css",
     "build": "cross-env NODE_ENV=production npm run setup && npx @11ty/eleventy",
     "start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet"
   },
