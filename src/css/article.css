@@ -66,8 +66,18 @@
 	h2 {
 		display: inline-block !important;
 		margin-top: var(--base-gap);
+		color: var(--normal-text);
+		background: var(--background-svg);
+		background-repeat: no-repeat;
+		background-position: left center;
+		background-size: cover;
 		padding-left: var(--page-gap);
 		padding-right: var(--page-gap);
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+		-moz-background-inline-policy: each-box;
+		position: relative;
+		z-index: 1;
 	}
 
 	h3 {
