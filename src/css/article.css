@@ -1,15 +1,10 @@
-@charset 'UTF-8';
-@use 'utils/include-media' as *;
-@use 'components/syntax' as *;
-@use 'components/headline-highlight' as *;
-
 /**
  * Article
  */
 .content-article header {
 	margin-bottom: var(--base-gap);
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		margin-bottom: 50px;
 	}
 }
@@ -41,7 +36,7 @@
 	justify-content: space-around;
 	text-align: center;
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		margin-top: 50px;
 		display: block;
 	}
@@ -69,13 +64,20 @@
 	}
 
 	h2 {
-		@include headline-highlight-base();
-		@include headline-highlight-fx();
-		position: relative;
-		display: inline-block;
+		display: inline-block !important;
 		margin-top: var(--base-gap);
+		color: var(--normal-text);
+		background: var(--background-svg);
+		background-repeat: no-repeat;
+		background-position: left center;
+		background-size: cover;
 		padding-left: var(--page-gap);
 		padding-right: var(--page-gap);
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+		-moz-background-inline-policy: each-box;
+		position: relative;
+		z-index: 1;
 	}
 
 	h3 {
@@ -91,7 +93,7 @@
 	> p:first-of-type {
 		line-height: 150%;
 
-		@include media('<=tablet') {
+		@media (--media-smaller-tablet) {
 			line-height: calc(2 * var(--page-gap));
 		}
 	}

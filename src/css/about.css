@@ -1,6 +1,3 @@
-@charset 'UTF-8';
-@use 'utils/include-media' as *;
-
 /**
  * ABOUT
  */
@@ -34,7 +31,7 @@
 			transform: translateY(25%);
 		}
 
-		@include media('<=tablet') {
+		@media (--media-smaller-tablet) {
 			display: none;
 		}
 	}
@@ -51,11 +48,11 @@
 .about-photo {
 	margin-top: -90px;
 	margin-bottom: 50px;
-	// height: 669px; /* Height of image */
+	/* height: 669px; /* Height of image */
 	position: relative;
 	z-index: 0;
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		margin-top: 50px;
 	}
 
@@ -63,7 +60,7 @@
 		position: absolute;
 		z-index: 1;
 
-		@include media('<=1080px') {
+		@media (width <= 1080px) {
 			display: none;
 		}
 
@@ -112,7 +109,7 @@
 		display: flex;
 		flex-direction: row;
 
-		@include media('<=tablet') {
+		@media (--media-smaller-tablet) {
 			display: block;
 		}
 
@@ -138,7 +135,7 @@
 	margin-right: 50px;
 	padding-top: 5px;
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		margin: 0 auto calc(var(--page-gap) * 2);
 		padding-top: 0;
 		text-align: center;
@@ -149,11 +146,11 @@
 		height: calc(var(--icon-size) * 1.175);
 		fill: var(--shade-of-grey-dark);
 		transition: fill 150ms ease-in-out;
-
-		@at-root html[data-theme='dark'] & {
-			fill: var(--grey);
-		}
 	}
+}
+
+html[data-theme='dark'] .about-mark {
+	fill: var(--grey);
 }
 
 .about-travels {
@@ -162,14 +159,6 @@
 	padding: 45px 0 calc(1.5 * var(--base-gap));
 	overflow-x: hidden;
 	position: relative;
-
-	@at-root html[data-theme='dark'] & {
-		background: var(--background-highlight);
-
-		.section-border {
-			--background-base: var(--background-highlight);
-		}
-	}
 
 	.section-border {
 		--background-base: var(--blue);
@@ -187,7 +176,7 @@
 		max-width: 90%;
 		margin: var(--base-gap) auto 0;
 
-		@include media('<=tablet') {
+		@media (--media-smaller-tablet) {
 			margin-bottom: calc(var(--page-gap) * 2);
 		}
 	}
@@ -211,7 +200,7 @@
 		height: 20px;
 		margin-top: calc(0.5 * var(--base-gap));
 
-		@include media('<=tablet') {
+		@media (--media-smaller-tablet) {
 			width: 100%;
 		}
 
@@ -288,6 +277,14 @@
 	}
 }
 
+html[data-theme='dark'] .about-travels {
+	background: var(--background-highlight);
+
+	.section-border {
+		--background-base: var(--background-highlight);
+	}
+}
+
 .about-plants {
 	padding-top: var(--base-gap);
 	text-align: center;
@@ -317,7 +314,7 @@
 	list-style: none;
 	margin-top: var(--base-gap);
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		grid-template-columns: repeat(auto-fill, minmax(45vw, 1fr));
 		grid-auto-rows: 50vw;
 	}

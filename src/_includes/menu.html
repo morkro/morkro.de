@@ -1,6 +1,6 @@
 <ul>
 	<li>
-		<a href="/is" {% if page.title contains "About" %} class="active" {% endif %}>
+		<a href="/is" class="anim-underline {% if title contains "About" %}active{% endif %}">
 			<span>About</span>
 			<svg aria-hidden="true" style="display: none">
 				<use xlink:href="#fingerprint"></use>
@@ -8,7 +8,7 @@
 		</a>
 	</li>
 	<li>
-		<a href="/writes" {% if page.title contains "Articles" %} class="active" {% endif %}>
+		<a href="/writes" class="anim-underline {% if title contains "Articles" %}active{% endif %}">
 			<span>Articles</span>
 			<svg aria-hidden="true" style="display: none">
 				<use xlink:href="#articles"></use>

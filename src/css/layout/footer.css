@@ -1,6 +1,3 @@
-@use '../utils/include-media' as *;
-@use '../components/animated-underline' as *;
-
 /**
  * FOOTER
  */
@@ -11,7 +8,7 @@
 	background-color: var(--background-base);
 	position: relative;
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		padding: 70px 0 20px;
 	}
 
@@ -33,7 +30,7 @@
 	display: flex;
 	justify-content: space-between;
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		display: block;
 	}
 }
@@ -42,17 +39,13 @@
 	text-align: left;
 	width: 70%;
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		text-align: center;
 		width: 100%;
 	}
 
-	p:not(:last-of-type) {
-		margin-bottom: 20px;
-	}
-
 	iframe {
-		@include media('<=422px') {
+		@media (width <= 422px) {
 			margin-bottom: 20px;
 		}
 	}
@@ -64,7 +57,7 @@
 		line-height: 24px;
 		margin-bottom: var(--page-gap);
 
-		@include media('<=tablet') {
+		@media (--media-smaller-tablet) {
 			width: 100%;
 		}
 	}
@@ -74,12 +67,16 @@
 		cursor: text;
 		font-weight: 400;
 	}
+
+	p:not(:last-of-type) {
+		margin-bottom: 20px;
+	}
 }
 
-.footer-menu {
+#page-footer .footer-inner .footer-menu {
 	text-align: right;
 
-	@include media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		text-align: center;
 		margin-top: 50px;
 		width: 100%;
@@ -95,37 +92,32 @@
 		list-style: none;
 	}
 
+	> a {
+		font-size: var(--font-size-small);
+	}
+
 	a {
+		--border-color: var(--normal-text-inverse);
+
 		color: var(--normal-text-inverse);
 		position: relative;
-		transition: color 150ms ease-in-out;
 
 		&:hover {
+			--border-color: var(--link-color);
+
 			color: var(--link-color);
-
-			&::before {
-				transform: scaleX(1);
-			}
 		}
 
-		&::before {
-			@include animated-border(var(--link-color));
-		}
-
-		@include media('<=500px') {
+		@media (--media-smaller-500) {
 			&::before,
 			&::after {
 				display: none;
 			}
 		}
 	}
-
-	> a {
-		font-size: var(--font-size-small);
-	}
 }
 
-.footer-socialmedia {
+#page-footer .footer-inner .footer-info .footer-socialmedia {
 	margin-bottom: calc(2 * var(--page-gap));
 	display: inline-block;
 	list-style: none;
@@ -165,28 +157,35 @@
 	}
 }
 
-.footer-content {
+#page-footer .footer-info .footer-content {
 	p {
 		text-align: left;
 		font-size: var(--font-size-small);
-		color: rgba(255, 255, 255, 0.5);
+		color: rgb(255 255 255 / 50%);
 
-		@include media('<=tablet') {
+		@media (--media-smaller-tablet) {
 			text-align: center;
 		}
 	}
 
+	/** Disabling linter here as the selectors don't match in the DOM */
+	/* stylelint-disable no-descending-specificity */
 	a {
 		color: var(--normal-text-inverse);
 		transition: color 150ms ease-in-out;
 	}
+	/* stylelint-enable no-descending-specificity */
 
 	.anim-underline {
 		--border-color: var(--normal-text-inverse);
 	}
 }
 
-.footer-gotop {
+html[data-theme='dark'] .footer-gotop .footer-gotop-blob {
+	fill: var(--background-content);
+}
+
+#page-footer .footer-inner .footer-gotop {
 	display: inline-flex;
 	padding: 0;
 	margin-top: var(--page-gap);
@@ -207,10 +206,19 @@
 		display: none;
 	}
 
+	.footer-gotop-blob {
+		width: 65px;
+		height: 70px;
+		fill: var(--dark-grey);
+		transition: fill 150ms var(--ease-out-back);
+	}
+
 	&:hover .footer-gotop-blob {
 		fill: var(--blue) !important;
 	}
 
+	/** Disabling linter here as the selectors don't match in the DOM */
+	/* stylelint-disable no-descending-specificity */
 	svg:not(.footer-gotop-blob) {
 		width: var(--icon-size);
 		height: var(--icon-size);
@@ -221,15 +229,5 @@
 		top: 50%;
 		left: 50%;
 	}
-
-	.footer-gotop-blob {
-		width: 65px;
-		height: 70px;
-		fill: var(--dark-grey);
-		transition: fill 150ms var(--ease-out-back);
-
-		@at-root html[data-theme='dark'] & {
-			fill: var(--background-content);
-		}
-	}
+	/* stylelint-enable no-descending-specificity */
 }

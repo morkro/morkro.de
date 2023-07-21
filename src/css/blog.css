@@ -1,6 +1,3 @@
-@charset 'UTF-8';
-@use 'utils/include-media' as *;
-
 /**
  * Blog
  */
@@ -61,7 +58,7 @@
 		margin: 0;
 		line-height: 145%;
 
-		@include media('<=tablet') {
+		@media (--media-smaller-tablet) {
 			line-height: 38px;
 		}
 	}

@@ -1,5 +1,3 @@
-@use '../utils/include-media';
-
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -21,7 +19,7 @@ html {
 }
 
 html[data-theme='dark'] {
-	--blue: #5b8bfb; // Better contrast ratio (a11y)
+	--blue: #5b8bfb; /* Better contrast ratio (a11y) */
 	--background-content: var(--deep-grey);
 	--background-highlight: var(--dark-grey2);
 	--normal-text: var(--white);
@@ -34,14 +32,15 @@ body {
 	font-family: var(--font-roboto), var(--font-myriad);
 	font-weight: 300;
 	font-size: var(--font-size-base);
-	text-rendering: geometricPrecision;
-	// Enable best font rendering
+	text-rendering: geometricprecision;
+
+	/* Enable best font rendering */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	overflow-x: hidden;
 	color: var(--normal-text);
 
-	@include include-media.media('<=tablet') {
+	@media (--media-smaller-tablet) {
 		border-width: calc(0.5 * var(--page-gap));
 	}
 }
@@ -84,18 +83,18 @@ body {
  * Forms
  */
 input {
-	border: 2px solid rgba(0, 0, 0, 0.2);
+	border: 2px solid rgb(0 0 0 / 20%);
 	font-family: var(--font-roboto-mono), var(--font-courier);
 	padding: 5px 15px;
 	transition: border 150ms ease-in-out;
 
 	&:hover {
-		border: 2px solid rgba(0, 0, 0, 0.3);
+		border: 2px solid rgb(0 0 0 / 30%);
 	}
 
 	&:active,
 	&:focus {
-		border: 2px solid rgba(0, 0, 0, 0.5);
+		border: 2px solid rgb(0 0 0 / 50%);
 		outline: none;
 	}
 }
@@ -108,7 +107,6 @@ input {
 img[src$='.jpg'],
 img[src$='.png'] {
 	image-rendering: crisp-edges;
-	-ms-interpolation-mode: nearest-neighbor;
 }
 
 img {
