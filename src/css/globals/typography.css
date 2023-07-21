@@ -1,4 +1,4 @@
-@import 'fonts.css';
+@import url('fonts.css');
 
 /**
  * Headlines
@@ -105,9 +105,9 @@ a {
 /**
  * Code
  */
-code:not([data-language]):not([class^='language-']),
+pre:not([data-language], [class^='language-']),
+code:not([data-language], [class^='language-']),
 kbd,
-pre:not([data-language]):not([class^='language-']),
 samp {
 	color: var(--special-text-color);
 	background: var(--background-highlight);
@@ -119,13 +119,4 @@ samp {
 	white-space: nowrap;
 	border-radius: 2px;
 	box-shadow: 2px 2px 0 var(--meta-text);
-}
-
-a {
-	code,
-	kbd,
-	pre,
-	samp {
-		color: inherit;
-	}
 }

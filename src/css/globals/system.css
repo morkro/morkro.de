@@ -32,7 +32,8 @@ body {
 	font-family: var(--font-roboto), var(--font-myriad);
 	font-weight: 300;
 	font-size: var(--font-size-base);
-	text-rendering: geometricPrecision;
+	text-rendering: geometricprecision;
+
 	/* Enable best font rendering */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -82,18 +83,18 @@ body {
  * Forms
  */
 input {
-	border: 2px solid rgba(0, 0, 0, 0.2);
+	border: 2px solid rgb(0 0 0 / 20%);
 	font-family: var(--font-roboto-mono), var(--font-courier);
 	padding: 5px 15px;
 	transition: border 150ms ease-in-out;
 
 	&:hover {
-		border: 2px solid rgba(0, 0, 0, 0.3);
+		border: 2px solid rgb(0 0 0 / 30%);
 	}
 
 	&:active,
 	&:focus {
-		border: 2px solid rgba(0, 0, 0, 0.5);
+		border: 2px solid rgb(0 0 0 / 50%);
 		outline: none;
 	}
 }
@@ -106,7 +107,6 @@ input {
 img[src$='.jpg'],
 img[src$='.png'] {
 	image-rendering: crisp-edges;
-	-ms-interpolation-mode: nearest-neighbor;
 }
 
 img {

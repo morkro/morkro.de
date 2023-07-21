@@ -17,13 +17,9 @@
 		width: 100%;
 		height: 100%;
 		background: var(--grey);
-		-webkit-mask-image: url('../assets/img/text-bg-light.svg');
 		mask-image: url('../assets/img/text-bg-light.svg');
-		-webkit-mask-size: 100% 30px;
 		mask-size: 100% 30px;
-		-webkit-mask-repeat: no-repeat;
 		mask-repeat: no-repeat;
-		-webkit-mask-origin: border-box;
 		mask-origin: border-box;
 		transition: background 100ms ease-in-out;
 	}
@@ -34,6 +30,11 @@
 		&::after {
 			background: var(--link-color);
 		}
+	}
+
+	svg {
+		width: var(--icon-size-small);
+		height: var(--icon-size-small);
 	}
 
 	&.blue {
@@ -50,11 +51,6 @@
 			margin-left: 2px;
 			transform: translateY(-1px);
 		}
-	}
-
-	svg {
-		width: var(--icon-size-small);
-		height: var(--icon-size-small);
 	}
 }
 

@@ -31,10 +31,6 @@
 	align-items: center;
 	position: relative;
 
-	&:hover::after {
-		transform: scale(1);
-	}
-
 	&::after {
 		content: url('/../assets/icons/home.svg');
 		padding-top: 4px;
@@ -52,11 +48,15 @@
 		transition: transform 175ms var(--ease-out-back);
 	}
 
+	&:hover::after {
+		transform: scale(1);
+	}
+
 	img {
 		width: var(--icon-size);
 		height: var(--icon-size);
 		border-radius: calc(var(--base-radius) / 2);
-		box-shadow: 0 2px 9px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 2px 9px rgb(0 0 0 / 15%);
 		margin-right: var(--page-gap);
 	}
 
@@ -91,6 +91,18 @@
 	}
 }
 
+.header-nav > svg {
+	position: absolute;
+	top: calc(-2 * var(--page-gap));
+	right: calc(-1 * var(--page-gap));
+	width: 426px;
+	transform: translateX(10%);
+
+	@media (--media-smaller-tablet) {
+		display: none;
+	}
+}
+
 .header-nav ul {
 	list-style: none;
 	display: flex;
@@ -106,6 +118,7 @@
 			width: var(--icon-size);
 			height: var(--icon-size);
 		}
+
 		span {
 			display: none;
 		}
@@ -151,18 +164,6 @@
 	}
 }
 
-.header-nav > svg {
-	position: absolute;
-	top: calc(-2 * var(--page-gap));
-	right: calc(-1 * var(--page-gap));
-	width: 426px;
-	transform: translateX(10%);
-
-	@media (--media-smaller-tablet) {
-		display: none;
-	}
-}
-
 .header-inner .js-theme-toggle {
 	background: none;
 	display: flex;
@@ -180,10 +181,8 @@
 		fill: none;
 	}
 
-	&:hover svg {
-		color: var(--normal-text);
-	}
-
+	/** Disabling linter here as the selectors don't match in the DOM */
+	/* stylelint-disable no-descending-specificity */
 	svg {
 		width: var(--icon-size-small);
 		height: var(--icon-size-small);
@@ -192,6 +191,11 @@
 		&:hover {
 			fill: var(--special-text-color);
 		}
+	}
+	/* stylelint-enable no-descending-specificity */
+
+	&:hover svg {
+		color: var(--normal-text);
 	}
 }
 

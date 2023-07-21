@@ -6,14 +6,13 @@
 	--dark-grey2: #383838;
 	--dark-grey: #292822;
 	--deep-grey: #242424;
-	--shade-of-grey-light: rgba(0, 0, 0, 0.05);
-	--shade-of-grey-medium: rgba(0, 0, 0, 0.1);
-	--shade-of-grey-dark: rgba(0, 0, 0, 0.5);
+	--shade-of-grey-light: rgb(0 0 0 / 5%);
+	--shade-of-grey-medium: rgb(0 0 0 / 10%);
+	--shade-of-grey-dark: rgb(0 0 0 / 50%);
 	--blue: #3652cf;
 	--orange: #ff7c00;
 	--black: black;
 	--white: white;
-
 	--background-base: var(--black);
 	--background-content: var(--medium-grey);
 	--background-highlight: var(--white);
@@ -27,8 +26,8 @@
 	/* TYPOGRAPHY */
 	--font-roboto: 'Roboto', sans-serif;
 	--font-roboto-mono: 'Roboto Mono', monospace;
-	--font-myriad: 'Myriad Pro', Myriad, Arial, sans-serif;
-	--font-courier: 'Courier', Andale Mono, monospace;
+	--font-myriad: 'Myriad Pro', myriad, arial, sans-serif;
+	--font-courier: 'Courier', andale mono, monospace;
 	--font-size-small: 90%; /* 16px */
 	--font-size-base: 18px;
 	--font-size-medium: 115%; /* 20px */
@@ -40,11 +39,9 @@
 	--base-radius: 4px;
 	--base-width: 920px;
 	--base-width-large: 1040px;
-
 	--page-gap: 15px;
 	--page-width: calc(var(--base-width) + (2.5 * var(--page-gap)));
 	--page-width-large: calc(var(--base-width-large) + (2.5 * var(--page-gap)));
-
 	--icon-size: 30px;
 	--icon-size-small: calc(0.75 * var(--icon-size));
 
@@ -52,8 +49,8 @@
 	--ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
 	/* QUERIES */
-	@custom-media --media-smaller-tablet (max-width: 768px);
-	@custom-media --media-smaller-500 (max-width: 500px);
+	@custom-media --media-smaller-tablet (width <= 768px);
+	@custom-media --media-smaller-500 (width <= 500px);
 
 	@media (--media-smaller-tablet) {
 		--font-size-base: 16px;

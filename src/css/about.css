@@ -60,7 +60,7 @@
 		position: absolute;
 		z-index: 1;
 
-		@media (max-width: 1080px) {
+		@media (width <= 1080px) {
 			display: none;
 		}
 

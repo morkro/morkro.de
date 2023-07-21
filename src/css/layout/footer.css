@@ -44,12 +44,8 @@
 		width: 100%;
 	}
 
-	p:not(:last-of-type) {
-		margin-bottom: 20px;
-	}
-
 	iframe {
-		@media (max-width: 422px) {
+		@media (width <= 422px) {
 			margin-bottom: 20px;
 		}
 	}
@@ -71,9 +67,13 @@
 		cursor: text;
 		font-weight: 400;
 	}
+
+	p:not(:last-of-type) {
+		margin-bottom: 20px;
+	}
 }
 
-.footer-menu {
+#page-footer .footer-inner .footer-menu {
 	text-align: right;
 
 	@media (--media-smaller-tablet) {
@@ -92,13 +92,19 @@
 		list-style: none;
 	}
 
+	> a {
+		font-size: var(--font-size-small);
+	}
+
 	a {
 		--border-color: var(--normal-text-inverse);
+
 		color: var(--normal-text-inverse);
 		position: relative;
 
 		&:hover {
 			--border-color: var(--link-color);
+
 			color: var(--link-color);
 		}
 
@@ -109,13 +115,9 @@
 			}
 		}
 	}
-
-	> a {
-		font-size: var(--font-size-small);
-	}
 }
 
-.footer-socialmedia {
+#page-footer .footer-inner .footer-info .footer-socialmedia {
 	margin-bottom: calc(2 * var(--page-gap));
 	display: inline-block;
 	list-style: none;
@@ -155,28 +157,35 @@
 	}
 }
 
-.footer-content {
+#page-footer .footer-info .footer-content {
 	p {
 		text-align: left;
 		font-size: var(--font-size-small);
-		color: rgba(255, 255, 255, 0.5);
+		color: rgb(255 255 255 / 50%);
 
 		@media (--media-smaller-tablet) {
 			text-align: center;
 		}
 	}
 
+	/** Disabling linter here as the selectors don't match in the DOM */
+	/* stylelint-disable no-descending-specificity */
 	a {
 		color: var(--normal-text-inverse);
 		transition: color 150ms ease-in-out;
 	}
+	/* stylelint-enable no-descending-specificity */
 
 	.anim-underline {
 		--border-color: var(--normal-text-inverse);
 	}
 }
 
-.footer-gotop {
+html[data-theme='dark'] .footer-gotop .footer-gotop-blob {
+	fill: var(--background-content);
+}
+
+#page-footer .footer-inner .footer-gotop {
 	display: inline-flex;
 	padding: 0;
 	margin-top: var(--page-gap);
@@ -197,10 +206,19 @@
 		display: none;
 	}
 
+	.footer-gotop-blob {
+		width: 65px;
+		height: 70px;
+		fill: var(--dark-grey);
+		transition: fill 150ms var(--ease-out-back);
+	}
+
 	&:hover .footer-gotop-blob {
 		fill: var(--blue) !important;
 	}
 
+	/** Disabling linter here as the selectors don't match in the DOM */
+	/* stylelint-disable no-descending-specificity */
 	svg:not(.footer-gotop-blob) {
 		width: var(--icon-size);
 		height: var(--icon-size);
@@ -211,15 +229,5 @@
 		top: 50%;
 		left: 50%;
 	}
-
-	.footer-gotop-blob {
-		width: 65px;
-		height: 70px;
-		fill: var(--dark-grey);
-		transition: fill 150ms var(--ease-out-back);
-	}
-}
-
-html[data-theme='dark'] .footer-gotop .footer-gotop-blob {
-	fill: var(--background-content);
+	/* stylelint-enable no-descending-specificity */
 }

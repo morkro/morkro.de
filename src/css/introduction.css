@@ -13,7 +13,7 @@
 	position: relative;
 	margin-right: 95px;
 
-	@media (max-width: 1070px) {
+	@media (width <= 1070px) {
 		display: none;
 	}
 
@@ -84,7 +84,7 @@
 	display: flex;
 	grid-gap: calc(2 * var(--page-gap));
 
-	@media (max-width: 825px) {
+	@media (width <= 825px) {
 		display: block;
 	}
 
@@ -92,7 +92,7 @@
 		width: 50%;
 		text-align: left;
 
-		@media (max-width: 825px) {
+		@media (width <= 825px) {
 			width: 100%;
 			margin-bottom: calc(2 * var(--page-gap));
 		}

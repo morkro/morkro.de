@@ -1,7 +1,7 @@
 .anim-underline {
 	--border-color: var(--normal-text);
 
-	&:after {
+	&::after {
 		width: 100%;
 		height: 2px;
 		position: absolute;

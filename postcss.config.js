@@ -5,6 +5,8 @@ module.exports = {
 		require('postcss-import'),
 		require('postcss-nesting'),
 		require('postcss-custom-media'),
+		require('postcss-color-functional-notation'),
+		require('postcss-selector-not'),
 		require('autoprefixer'),
 		isProduction ? require('cssnano') : false,
 	],
