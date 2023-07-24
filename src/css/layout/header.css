@@ -110,17 +110,21 @@
 	@media (--media-smaller-tablet) {
 		display: flex;
 		justify-content: space-around;
-	}
 
-	@media (--media-smaller-500) {
+		a {
+			display: flex;
+			flex-direction: column-reverse;
+			align-items: center;
+		}
+
+		span {
+			font-size: var(--font-size-small);
+		}
+
 		svg {
 			display: block !important;
 			width: var(--icon-size);
 			height: var(--icon-size);
-		}
-
-		span {
-			display: none;
 		}
 	}
 
