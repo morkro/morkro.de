@@ -10,4 +10,9 @@
 		padding-top: 40px;
 		overflow: hidden;
 	}
+
+	> *:not(#background-blob) {
+		z-index: 1;
+		position: relative;
+	}
 }

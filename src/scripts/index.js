@@ -5,6 +5,7 @@ import animateScrollTo from './animate-scroll-to.js'
 import setCurrentYear from './set-current-year.js'
 import addGitHubStats from './add-github-stats.js'
 import interactiveMap from './world-map.js'
+import interactiveBackground from './interactive-background.js'
 
 /* 1. Set preferred theme */
 setPreferredTheme()
@@ -21,6 +22,7 @@ if (prefersReducedMotion === false) {
 	for (const $el of document.querySelectorAll('[data-scrollto]')) {
 		animateScrollTo($el)
 	}
+	interactiveBackground()
 }
 /* 5. Run page-specific code */
 const page = currentPage()

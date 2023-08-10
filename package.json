@@ -35,8 +35,10 @@
   },
   "dependencies": {
     "@11ty/eleventy-plugin-bundle": "^1.0.4",
+    "@georgedoescode/spline": "^1.0.1",
     "html-minifier": "^4.0.0",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "simplex-noise": "^4.0.1"
   },
   "snyk": true
 }
