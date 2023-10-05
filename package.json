@@ -21,7 +21,7 @@
     "cross-env": "^7.0.3",
     "cssnano": "^6.0.1",
     "eslint": "^8.45.0",
-    "postcss": "^8.4.27",
+    "postcss": "^8.4.31",
     "postcss-cli": "^10.1.0",
     "postcss-color-functional-notation": "^6.0.0",
     "postcss-custom-media": "^10.0.0",
