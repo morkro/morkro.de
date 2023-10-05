@@ -344,7 +344,7 @@ There is also a [`babel-plugin-object-assign`](https://github.com/babel-plugins/
 
 So, that's it. We could now move on and extend this setup with a good view handling or add a CSS preprocessor such as Sass. Whatever fits your project. Thanks to **Babel** and **Browserify** it's already possible to _write_ ES6 code, but still _use_ ES5 code on the production environment. By that we can have a lot of fun **and** keep support for browser without complete feature support.
 
-I have made own ES6 boilerplate called [**<img src="/../assets/logos/frontbook.svg" width="18" height="18" style="width:18px;vertical-align:baseline;"> FrontBook**](https://github.com/morkro/FrontBook) open source and like to share it here. It also covers some more topics such as views, styles and assets. Feel free to check it out for your own projects and customise to your needs.
+I have made own ES6 boilerplate called [**<img src="/../assets/projects/frontbook-mark.svg" width="18" height="18" style="width:18px;vertical-align:baseline;"> FrontBook**](https://github.com/morkro/FrontBook) open source and like to share it here. It also covers some more topics such as views, styles and assets. Feel free to check it out for your own projects and customise to your needs.
 
 ---
 
