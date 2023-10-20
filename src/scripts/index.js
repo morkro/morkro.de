@@ -5,6 +5,7 @@ import animateScrollTo from './animate-scroll-to.js'
 import setCurrentYear from './set-current-year.js'
 import addGitHubStats from './add-github-stats.js'
 import interactiveMap from './world-map.js'
+import './console.js'
 
 /* 1. Set preferred theme */
 setPreferredTheme()
