@@ -1,6 +1,6 @@
 {
   "name": "morkro.de",
-  "version": "1.8.6",
+  "version": "1.8.7",
   "description": "Website of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
@@ -26,7 +26,6 @@
     "postcss-color-functional-notation": "^6.0.0",
     "postcss-custom-media": "^10.0.0",
     "postcss-import": "^15.1.0",
-    "postcss-nesting": "^12.0.0",
     "postcss-selector-not": "^7.0.1",
     "rimraf": "^5.0.1",
     "snyk": "^1.996.0",
