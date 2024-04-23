@@ -219,7 +219,7 @@ html[data-theme='dark'] .about-mark {
 
 			&::-webkit-slider-thumb {
 				appearance: none;
-				cursor: grab;
+				cursor: var(--cursor-grab);
 				border-radius: 50%;
 				background: var(--white);
 				width: var(--icon-size);
@@ -238,7 +238,7 @@ html[data-theme='dark'] .about-mark {
 
 			&::-moz-range-thumb {
 				appearance: none;
-				cursor: grab;
+				cursor: var(--cursor-grab);
 				border-radius: 50%;
 				background: var(--white);
 				width: var(--icon-size);
@@ -257,7 +257,7 @@ html[data-theme='dark'] .about-mark {
 
 			&::-ms-thumb {
 				appearance: none;
-				cursor: grab;
+				cursor: var(--cursor-grab);
 				border-radius: 50%;
 				background: var(--white);
 				width: var(--icon-size);

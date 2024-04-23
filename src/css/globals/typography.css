@@ -10,6 +10,7 @@ h4,
 h5,
 h6 {
 	font-weight: 500;
+	text-wrap: balance;
 }
 
 h1 {
@@ -45,6 +46,7 @@ li {
 
 p {
 	color: var(--normal-text);
+	text-wrap: balance;
 }
 
 b,
@@ -76,7 +78,6 @@ blockquote {
  * Links
  */
 a {
-	cursor: pointer;
 	position: relative;
 	text-decoration: none;
 	color: var(--link-color);

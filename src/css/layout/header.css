@@ -24,8 +24,6 @@
  * Name
  */
 .header-name {
-	margin: 0;
-	font-size: var(--font-size-medium);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -48,7 +46,7 @@
 		transition: transform 175ms var(--ease-out-back);
 	}
 
-	&:hover::after {
+	&:has(a:hover)::after {
 		transform: scale(1);
 	}
 
@@ -58,12 +56,18 @@
 		border-radius: calc(var(--base-radius) / 2);
 		box-shadow: 0 2px 9px rgb(0 0 0 / 15%);
 		margin-right: var(--page-gap);
+		cursor: var(--cursor-default);
 	}
 
 	a {
 		color: var(--special-text-color);
 		font-weight: 400;
 		letter-spacing: 0;
+	}
+
+	h1 {
+		font-size: var(--font-size-medium);
+		margin: 0;
 	}
 
 	@media (--media-smaller-tablet) {
@@ -172,7 +176,6 @@
 	background: none;
 	display: flex;
 	border: none;
-	cursor: pointer;
 	transition: opacity 150ms ease-in-out;
 	color: var(--shade-of-grey-dark);
 

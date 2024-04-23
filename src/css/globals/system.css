@@ -45,6 +45,34 @@ body {
 	}
 }
 
+/**
+ * Use custom cursor
+ */
+@media (hover: hover) and (pointer: fine) {
+	body {
+		cursor: var(--cursor-default);
+	}
+
+	p,
+	span,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	input,
+	textarea {
+		cursor: var(--cursor-text);
+	}
+
+	a,
+	a *,
+	button:not([aria-disabled='true']) {
+		cursor: var(--cursor-pointer);
+	}
+}
+
 ::selection {
 	background-color: var(--blue);
 	color: var(--normal-text-inverse);
