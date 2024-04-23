@@ -52,32 +52,27 @@ function sortTimestamps(timestamps, year) {
 	return markers
 }
 
-/**
- * @description Adds event listeners to the <input type=range> element which highlights different elements in the corresponding <svg> world map. It also announced changes to screen readers.
- */
-export default function interactiveMap() {
-	const timestamps = getTimestamps('#map [data-visited-year]')
-	const $output = document.querySelector('output[for="timeframe"]')
-	const getName = new Intl.DisplayNames(['en'], { type: 'region' })
+const timestamps = getTimestamps('#map [data-visited-year]')
+const $output = document.querySelector('output[for="timeframe"]')
+const getName = new Intl.DisplayNames(['en'], { type: 'region' })
 
-	document
-		.querySelector('.travel-select-menu')
-		.addEventListener('change', (event) => {
-			if (event.target?.nodeName !== 'INPUT') return
+document
+	.querySelector('.travel-select-menu')
+	.addEventListener('change', (event) => {
+		if (event.target?.nodeName !== 'INPUT') return
 
-			const year = event.target.value
-			const { visited, clean } = sortTimestamps(timestamps, year)
-			const countries = visited.map((code) => getName.of(code))
+		const year = event.target.value
+		const { visited, clean } = sortTimestamps(timestamps, year)
+		const countries = visited.map((code) => getName.of(code))
 
-			$output.innerHTML = countries.length
-				? `Countries visited as of ${year}: ${countries.join(', ')}`
-				: `No countries were visited yet in ${year}.`
+		$output.innerHTML = countries.length
+			? `Countries visited as of ${year}: ${countries.join(', ')}`
+			: `No countries were visited yet in ${year}.`
 
-			for (const code of visited) {
-				document.querySelector('#' + code).classList.add('visited')
-			}
-			for (const code of clean) {
-				document.querySelector('#' + code).classList.remove('visited')
-			}
-		})
-}
+		for (const code of visited) {
+			document.querySelector('#' + code).classList.add('visited')
+		}
+		for (const code of clean) {
+			document.querySelector('#' + code).classList.remove('visited')
+		}
+	})

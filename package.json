@@ -20,7 +20,7 @@
     "autoprefixer": "^10.4.14",
     "cross-env": "^7.0.3",
     "cssnano": "^6.0.1",
-    "eslint": "^8.45.0",
+    "eslint": "^9.1.1",
     "postcss": "^8.4.27",
     "postcss-cli": "^10.1.0",
     "postcss-color-functional-notation": "^6.0.0",

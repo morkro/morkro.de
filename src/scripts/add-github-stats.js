@@ -47,11 +47,9 @@ function updateDOM(repositories) {
 	}
 }
 
-export default function addGitHubStats() {
-	fetch('https://api.github.com/users/morkro/repos?per_page=100')
-		.then((data) => data.json())
-		.then(filter)
-		.then(prepare)
-		.then(updateDOM)
-		.catch(console.error)
-}
+fetch('https://api.github.com/users/morkro/repos?per_page=100')
+	.then((data) => data.json())
+	.then(filter)
+	.then(prepare)
+	.then(updateDOM)
+	.catch(console.error)

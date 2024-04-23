@@ -1,32 +1,50 @@
-import { currentPage } from './helper.js'
-import setPreferredTheme from './set-theme.js'
-import addEmojiTitle from './add-emoji-title.js'
-import animateScrollTo from './animate-scroll-to.js'
-import setCurrentYear from './set-current-year.js'
-import addGitHubStats from './add-github-stats.js'
-import interactiveMap from './world-map.js'
 import './console.js'
+import './add-emoji-title.js'
 
-/* 1. Set preferred theme */
-setPreferredTheme()
-/* 2. Modify page titles */
-addEmojiTitle()
-/* 3. Update footer year */
-setCurrentYear()
-/* 4. Add animated scrolling effects */
-const prefersReducedMotion = window.matchMedia(
-	'(prefers-reduced-motion: reduce)'
-).matches
-if (prefersReducedMotion === false) {
-	// Only use animated scrolling if the user has it enabled
-	for (const $el of document.querySelectorAll('[data-scrollto]')) {
-		animateScrollTo($el)
+/**
+ *
+ * @param {string} selector - The query selector to check if the widget is part of the DOM
+ * @param {string} widgetName
+ * @param {string} widgetFile - File name of the widget to load
+ * @returns {Promise<void>}
+ */
+async function loadWidget(selector, widgetName = '', widgetFile) {
+	if (!selector && !widgetFile) {
+		console.error('No selector or widget file provided')
+		return
+	}
+
+	const domList = [...document.querySelectorAll(selector)]
+	const isConnected = (el) => el?.isConnected
+
+	if (domList.some(isConnected)) {
+		console.group(
+			`📦 %c${widgetName}%c widget found, initialising`,
+			'background:#ebebeb;padding:2px 4px;',
+			'background:unset;'
+		)
+		try {
+			await import(`./${widgetFile}`)
+			console.info(`✅ Loaded ./${widgetFile}`)
+		} catch (error) {
+			console.error(`Failed loading ./${widgetFile} with message:`, error)
+		} finally {
+			console.groupEnd()
+		}
 	}
 }
-/* 5. Run page-specific code */
-const page = currentPage()
-if (page === 'introduction') {
-	addGitHubStats()
-} else if (page === 'about') {
-	interactiveMap()
+
+const widgets = [
+	/* Set preferred theme */
+	['.js-theme-toggle', 'Theme', 'set-theme.js'],
+	/* Update footer year */
+	['.footer-year', 'Current year', 'set-current-year.js'],
+	/* Add GitHub stats */
+	['[data-project]', 'GitHub stats', 'add-github-stats.js'],
+	/* Interactive world map */
+	['#map', 'World map', 'world-map.js'],
+]
+
+for (const widget of widgets) {
+	await loadWidget(...widget)
 }
