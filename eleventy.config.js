@@ -1,4 +1,3 @@
-const path = require('node:path')
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const bundlerPlugin = require('@11ty/eleventy-plugin-bundle')
 const htmlmin = require('html-minifier')
