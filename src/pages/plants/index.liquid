@@ -1,0 +1,27 @@
+---
+layout: projects
+pageClass: plants
+permalink: /plants/
+---
+
+<h1>My plant collection</h1>
+
+<p>Every cactus is a succulent, but not every succulent is a cactus</p>
+<ul class="plant-collection">
+	{% for plant in plants %}
+		<li>
+			{% if plant.pictures %}
+				{% for photo in plant.pictures %}
+					<img
+					src="/{{ photo.url }}"
+					width="150"
+					height="150"
+					alt="{{ photo.alt }}"
+					title="{{ photo.title }}"
+					>
+				{% endfor %}
+			{% endif %}
+			<p>{{ plant.name }}</p>
+		</li>
+	{% endfor %}
+</ul>

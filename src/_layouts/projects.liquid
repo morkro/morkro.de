@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+	{% include head.html %}
+  <body {% if pageClass %}class="template-{{ pageClass }}"{% endif %}>
+		<a href="#content" class="a11y-jump sr-only">
+      Jump directly to main content
+    </a>
+
+		<main id="content">{{ content }}</main>
+  </body>
+</html>

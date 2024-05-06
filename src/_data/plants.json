@@ -1,0 +1,688 @@
+[
+	{
+		"name": "Ariocarpus retusus v. elongatus",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Astrophytum myriostigma cv. Zipfelmütze",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Echinocereus longisetus subs. delaetii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Echinocereus octacanthus",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Echinocereus reichenbachii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Echinocereus fendleri",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Echinofossulocactus longispinus",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Echinopsis mamillosa",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Escobaria leei",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Ferocactus setispinus",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Gymnocalycium bruchii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Gymnocalycium gibbosum",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Gymnocalycium mihavonichii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Leuchtenbergia principis",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Lophophora williamsii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Mammillaria elongata",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Mammillaria hernandezii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Opuntia fragilis",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Pediocactus simpsonii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Thelocactus hexaedrophorus",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Ariocarpus kotschoubeyanus",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Cintia knizei",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Echinocactus horizonthalonius",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Echinocereus dasyacanthus",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Echinocereus inermis",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Echinocereus knippelianus",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" },
+		"pictures": [
+			{
+				"url": "assets/plants/echinocereus-knippelianus.png",
+				"alt": "Echinocereus knippelianus held in a small black square plastic pot",
+				"title": "Echinocereus knippelianus",
+				"year": 2023
+			}
+		]
+	},
+	{
+		"name": "Echinopsis subdenudata",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Epithelantha micromeris",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Eriosyce curvispina var. mutabilis",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Eriosyce occulta",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Escobaria sneedi",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Escobaria vivipara",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Espostoa melanostele",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Glandulicactus mathssonii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Gymnocalycium gibbosum var. chubutense",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Gymnocalycium horridispinum",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Gymnocalycium neuhuberi",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Gymnocalycium ferox v. ferocior",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Gymnocalycium piltziorum",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Maihuenia poeppigii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Maihueniopsis darwinii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Mammillaria decipiens subs. camptotricha",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Matucana madisoniorum",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Opuntia microdasys",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Parodia magnifica",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Pediocactus despainii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Pediocactus knowltonii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Pediocactus peeblesianus f. maius",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Pterocactus kuntzei",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Puna clavarioides",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Pygmaeocereus bieblii",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Sclerocactus glaucus",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Turbinicarpus lophophoroides",
+		"type": "cactus",
+		"taxonomy": { "family": "Cactaceae" }
+	},
+	{
+		"name": "Adenia glauca",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Vitaceae"
+		}
+	},
+	{
+		"name": "Ledebouria socialis",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Asparagaceae"
+		}
+	},
+	{
+		"name": "Adenium obesum",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Apocynaceae"
+		}
+	},
+	{
+		"name": "Aloe aculeata",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Asphodelaceae"
+		}
+	},
+	{
+		"name": "Aloe vera",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Asphodelaceae"
+		}
+	},
+	{
+		"name": "Conophytum calculus",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Aizoaceae"
+		}
+	},
+	{
+		"name": "Crassula deceptor var. arta",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Crassula barklyi",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Crassula marnieriana",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Crassula muscosa",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Crassula ovata",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Crassula rupestris",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Delosperma congestum",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Aizoaceae"
+		}
+	},
+	{
+		"name": "Dorstenia crispa",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Moraceae"
+		}
+	},
+	{
+		"name": "Echeveria \"Perle von Nürnberg\"",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Euphorbia abdelkuri cv. Damask",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Euphorbiaceae"
+		}
+	},
+	{
+		"name": "Euphorbia decaryi",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Euphorbiaceae"
+		}
+	},
+	{
+		"name": "Euphorbia gorgonis",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Euphorbiaceae"
+		}
+	},
+	{
+		"name": "Euphorbia gymnocalycioides",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Euphorbiaceae"
+		}
+	},
+	{
+		"name": "Euphorbia mammillaris variegata",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Euphorbiaceae"
+		}
+	},
+	{
+		"name": "Euphorbia milii",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Euphorbiaceae"
+		}
+	},
+	{
+		"name": "Faucaria tigrina",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Aizoaceae"
+		}
+	},
+	{
+		"name": "Graptopetalum paraguayense",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Haworthia coarctata f. chalwinii",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Asphodelaceae"
+		}
+	},
+	{
+		"name": "Haworthia cooperi var. truncata",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Asphodelaceae"
+		}
+	},
+	{
+		"name": "Haworthia cooperi var. venusta",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Asphodelaceae"
+		}
+	},
+	{
+		"name": "Haworthia decipiens",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Asphodelaceae"
+		}
+	},
+	{
+		"name": "Haworthia fasciata",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Asphodelaceae"
+		}
+	},
+	{
+		"name": "Haworthia truncata",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Asphodelaceae"
+		}
+	},
+	{
+		"name": "Kalanchoe rhombopilosa",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Lithops marmorata",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Aizoaceae"
+		}
+	},
+	{
+		"name": "Pseudolithos migiurtinus",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Apocynaceae"
+		}
+	},
+	{
+		"name": "Sedum album",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Sedum alpestre",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Sedum hintonii",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Sedum hispanicum",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Sempervivum arachnoideum",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Senecio rowleyanus",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Asteraceae"
+		}
+	},
+	{
+		"name": "Titanopsis calcarea",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Aizoaceae"
+		}
+	},
+	{
+		"name": "Trichodiadema densum",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Aizoaceae"
+		}
+	},
+	{
+		"name": "Whitesloanea crassa",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Euphorbiaceae"
+		}
+	},
+	{
+		"name": "Crassula arborescens",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Crassulaceae"
+		}
+	},
+	{
+		"name": "Euphorbia obesa",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Euphorbiaceae"
+		}
+	},
+	{
+		"name": "Haworthia parksiana",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Asphodelaceae"
+		}
+	},
+	{
+		"name": "Pseudolithos cubiformis",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Apocynaceae"
+		}
+	},
+	{
+		"name": "Whitesloanea crassa",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Apocynaceae"
+		}
+	},
+	{
+		"name": "Calluna vulgaris",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Ericaceae"
+		}
+	},
+	{
+		"name": "Drosera capensis",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Droseraceae"
+		}
+	},
+	{
+		"name": "Drosera filliformis ssp. filliformis",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Droseraceae"
+		}
+	},
+	{
+		"name": "Drosera rotundifolia",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Droseraceae"
+		}
+	},
+	{
+		"name": "Eriophorum angustifolium",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Cyperaceae"
+		}
+	},
+	{
+		"name": "Eriophorum vaginatum",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Cyperaceae"
+		}
+	},
+	{
+		"name": "Sarracenia cv. 'Eva'",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Sarraceniaceae"
+		}
+	},
+	{
+		"name": "Sarracenia flava 'Lightning Rose'",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Sarraceniaceae"
+		}
+	},
+	{
+		"name": "Sarracenia flava var. rugelii - MK F07",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Sarraceniaceae"
+		}
+	},
+	{
+		"name": "Sarracenia minor var. okefenokeensis",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Sarraceniaceae"
+		}
+	},
+	{
+		"name": "Sphagnum flexuosum",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Sphagnaceae"
+		}
+	},
+	{
+		"name": "Vaccinium macrocarpon",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Ericaceae"
+		}
+	},
+	{
+		"name": "Vaccinium oxycoccos",
+		"type": "succulent",
+		"taxonomy": {
+			"family": "Ericaceae"
+		}
+	}
+]

@@ -1,0 +1,18 @@
+.template-plants #content {
+	background: #c6d7c7;
+}
+
+.template-plants .plant-collection {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	list-style: none;
+
+	li {
+		width: 30vw;
+		border: 1px solid black;
+	}
+
+	li img {
+		width: 150px;
+	}
+}
