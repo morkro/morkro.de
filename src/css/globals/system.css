@@ -31,6 +31,7 @@ html {
 		--normal-text: var(--white);
 		--meta-text: var(--grey);
 		--special-text-color: var(--white);
+
 		scrollbar-color: var(--white) var(--black);
 	}
 }
