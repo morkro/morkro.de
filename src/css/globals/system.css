@@ -22,6 +22,7 @@
 html {
 	width: 100vw;
 	overflow-x: hidden;
+	scrollbar-color: var(--black) var(--white);
 
 	&[data-theme='dark'] {
 		--blue: #5b8bfb; /* Better contrast ratio (a11y) */
@@ -30,6 +31,7 @@ html {
 		--normal-text: var(--white);
 		--meta-text: var(--grey);
 		--special-text-color: var(--white);
+		scrollbar-color: var(--white) var(--black);
 	}
 }
 
@@ -111,26 +113,6 @@ body {
 	background: var(--background-highlight);
 	top: var(--page-gap);
 	left: var(--page-gap);
-}
-
-/**
- * Forms
- */
-input {
-	border: 2px solid rgb(0 0 0 / 20%);
-	font-family: var(--font-roboto-mono), var(--font-courier);
-	padding: 5px 15px;
-	transition: border 150ms ease-in-out;
-
-	&:hover {
-		border: 2px solid rgb(0 0 0 / 30%);
-	}
-
-	&:active,
-	&:focus {
-		border: 2px solid rgb(0 0 0 / 50%);
-		outline: none;
-	}
 }
 
 /**
