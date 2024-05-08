@@ -1,6 +1,7 @@
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const bundlerPlugin = require('@11ty/eleventy-plugin-bundle')
 const htmlmin = require('html-minifier')
+const postcss = require('postcss')
 
 function minifyHtml(content, outputPath) {
 	if (outputPath.endsWith('.html')) {
@@ -29,12 +30,32 @@ function encodeXML(string) {
 }
 
 module.exports = function (config) {
-	if (process.env.NODE_ENV === 'production') {
+	const isProduction = process.env.NODE_ENV === 'production'
+	if (isProduction) {
 		config.addTransform('htmlmin', minifyHtml)
 	}
 
 	config.setLiquidOptions({
 		dynamicPartials: false,
+	})
+
+	/** Add PostCSS */
+	config.addTemplateFormats('css')
+	config.addExtension('css', {
+		outputFileExtension: 'css',
+		compile: async (content, path) => {
+			return async () => {
+				let output = await postcss([
+					require('postcss-import'),
+					require('postcss-custom-media'),
+					require('postcss-color-functional-notation'),
+					require('postcss-selector-not'),
+					require('autoprefixer'),
+					require('cssnano'),
+				]).process(content, { from: path })
+				return output.css
+			}
+		},
 	})
 
 	/** Plugins */

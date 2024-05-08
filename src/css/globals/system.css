@@ -130,21 +130,3 @@ img {
 	width: 100%;
 	height: auto;
 }
-
-/**
- * Page grid
- */
-.container,
-.container-large {
-	width: 100%;
-	margin: 0 auto;
-	padding: 0 var(--page-gap);
-}
-
-.container {
-	max-width: var(--page-width);
-}
-
-.container-large {
-	max-width: var(--page-width-large);
-}

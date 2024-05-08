@@ -247,8 +247,4 @@ html[data-theme='dark'] .header-inner .js-theme-toggle {
 	.theme-toggle-sun {
 		display: none;
 	}
-
-	svg:not(:hover) {
-		fill: var(--grey);
-	}
 }

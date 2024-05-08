@@ -1,0 +1,23 @@
+/**
+ * Page grid
+ */
+.container,
+.container-large {
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 var(--page-gap);
+}
+
+.container {
+	max-width: var(--page-width);
+}
+
+.container-large {
+	max-width: var(--page-width-large);
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-column-gap: var(--page-gap);
+}

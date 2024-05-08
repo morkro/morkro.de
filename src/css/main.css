@@ -1,6 +1,7 @@
-@import 'normalize.css';
 @import 'globals/variables.css';
+@import 'normalize.css';
 @import 'globals/system.css';
+@import 'globals/grid.css';
 @import 'globals/typography.css';
 @import 'globals/forms.css';
 @import 'globals/animations.css';
