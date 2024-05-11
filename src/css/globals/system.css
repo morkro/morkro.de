@@ -28,9 +28,8 @@ html {
 		--blue: #5b8bfb; /* Better contrast ratio (a11y) */
 		--background-content: var(--deep-grey);
 		--background-highlight: var(--dark-grey2);
-		--normal-text: var(--white);
-		--meta-text: var(--grey);
-		--special-text-color: var(--white);
+		--text-color-base: var(--white);
+		--text-color-meta: var(--grey);
 
 		scrollbar-color: var(--white) var(--black);
 	}
@@ -47,11 +46,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	overflow-x: hidden;
-	color: var(--normal-text);
-
-	@media (--media-smaller-tablet) {
-		border-width: calc(0.5 * var(--page-gap));
-	}
+	color: var(--text-color-base);
 }
 
 /**
@@ -84,7 +79,7 @@ body {
 
 ::selection {
 	background-color: var(--blue);
-	color: var(--normal-text-inverse);
+	color: var(--text-color-base-inverse);
 }
 
 /**

@@ -3,7 +3,7 @@
  */
 #page-footer {
 	width: 100%;
-	padding: calc(0.5 * var(--base-gap)) 0 35px;
+	padding: calc(0.5 * var(--gap-base)) 0 35px;
 	text-align: center;
 	background-color: var(--background-base);
 	position: relative;
@@ -26,32 +26,15 @@
 	}
 }
 
-.footer-inner {
-	display: flex;
-	justify-content: space-between;
-
-	@media (--media-smaller-tablet) {
-		display: block;
-	}
-}
-
 .footer-info {
 	text-align: left;
-	width: 70%;
 
 	@media (--media-smaller-tablet) {
 		text-align: center;
 		width: 100%;
 	}
 
-	iframe {
-		@media (width <= 422px) {
-			margin-bottom: 20px;
-		}
-	}
-
 	> p {
-		width: 90%;
 		color: var(--light-grey);
 		font-size: var(--font-size-base);
 		line-height: 24px;
@@ -63,9 +46,9 @@
 	}
 
 	> p > a {
-		color: var(--normal-text-inverse);
-		cursor: text;
+		color: var(--text-color-base-inverse);
 		font-weight: 400;
+		text-decoration: none !important;
 	}
 
 	p:not(:last-of-type) {
@@ -97,9 +80,9 @@
 	}
 
 	a {
-		--border-color: var(--normal-text-inverse);
+		--border-color: var(--text-color-base-inverse);
 
-		color: var(--normal-text-inverse);
+		color: var(--text-color-base-inverse);
 		position: relative;
 
 		&:hover {
@@ -118,15 +101,15 @@
 }
 
 #page-footer .footer-inner .footer-info .footer-socialmedia {
-	margin-bottom: calc(2 * var(--page-gap));
+	margin-bottom: var(--page-gap);
 	display: inline-block;
 	list-style: none;
 
 	svg {
 		width: var(--icon-size-small);
 		height: var(--icon-size-small);
-		fill: var(--normal-text-inverse);
-		color: var(--normal-text-inverse);
+		fill: var(--text-color-base-inverse);
+		color: var(--text-color-base-inverse);
 		transition: fill 150ms ease-in-out;
 	}
 
@@ -171,13 +154,13 @@
 	/** Disabling linter here as the selectors don't match in the DOM */
 	/* stylelint-disable no-descending-specificity */
 	a {
-		color: var(--normal-text-inverse);
+		color: var(--text-color-base-inverse);
 		transition: color 150ms ease-in-out;
 	}
 	/* stylelint-enable no-descending-specificity */
 
 	.anim-underline {
-		--border-color: var(--normal-text-inverse);
+		--border-color: var(--text-color-base-inverse);
 	}
 }
 
@@ -214,7 +197,7 @@ html[data-theme='dark'] .footer-gotop .footer-gotop-blob {
 	}
 
 	&:hover .footer-gotop-blob {
-		fill: var(--blue) !important;
+		fill: var(--link-color) !important;
 	}
 
 	/** Disabling linter here as the selectors don't match in the DOM */

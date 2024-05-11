@@ -41,7 +41,7 @@ function updateDOM(repositories) {
 	for (const repo of repositories) {
 		const $span = projects
 			.find((el) => el.dataset.project === repo.name)
-			.querySelector('h3 span')
+			.querySelector('.project-title span')
 		$span.insertBefore(document.createTextNode(repo.stars), $span.children[0])
 		$span.style.display = 'inline-flex'
 	}

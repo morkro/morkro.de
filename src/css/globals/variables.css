@@ -16,12 +16,12 @@
 	--background-base: var(--black);
 	--background-content: var(--medium-grey);
 	--background-highlight: var(--white);
+	--text-color-base: var(--black);
+	--text-color-base-inverse: var(--white);
+	--text-color-highlight: var(--blue);
+	--text-color-meta: var(--shade-of-grey-dark);
 	--link-color: var(--blue);
 	--link-hover: var(--orange);
-	--normal-text: var(--black);
-	--meta-text: var(--shade-of-grey-dark);
-	--normal-text-inverse: var(--white);
-	--special-text-color: var(--black);
 
 	/* TYPOGRAPHY */
 	--font-roboto: 'Roboto', sans-serif;
@@ -35,13 +35,17 @@
 	--font-size-super: 555%; /* 100px */
 
 	/* DIMENSIONS */
-	--base-gap: 75px;
-	--base-radius: 4px;
-	--base-width: 920px;
-	--base-width-large: 1040px;
-	--page-gap: 15px;
-	--page-width: calc(var(--base-width) + (2.5 * var(--page-gap)));
-	--page-width-large: calc(var(--base-width-large) + (2.5 * var(--page-gap)));
+	--gap-base: 75px;
+	--radius-base: 4px;
+	--container-width-base: 920px;
+	--container-width-large: 1040px;
+	--border-width-base: 2px;
+	--border-width-large: calc(2 * var(--border-width-base));
+	--page-gap: 20px;
+	--page-width: calc(var(--container-width-base) + (2 * var(--page-gap)));
+	--page-width-large: calc(
+		var(--container-width-large) + (2 * var(--page-gap))
+	);
 	--icon-size: 30px;
 	--icon-size-small: calc(0.75 * var(--icon-size));
 

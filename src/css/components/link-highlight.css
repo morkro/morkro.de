@@ -2,7 +2,7 @@
 	padding: 0 10px;
 	font-size: var(--font-size-small);
 	font-weight: 400;
-	color: var(--normal-text-inverse);
+	color: var(--text-color-base-inverse);
 	display: inline-flex;
 	align-items: center;
 	background: transparent;
@@ -25,7 +25,7 @@
 	}
 
 	&:hover {
-		color: var(--normal-text-inverse);
+		color: var(--text-color-base-inverse);
 
 		&::after {
 			background: var(--link-color);
@@ -47,7 +47,7 @@
 		}
 
 		svg {
-			fill: var(--normal-text-inverse);
+			fill: var(--text-color-base-inverse);
 			margin-left: 2px;
 			transform: translateY(-1px);
 		}

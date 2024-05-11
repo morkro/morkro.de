@@ -7,12 +7,12 @@
 
 	h1 {
 		margin: 0;
-		margin-top: var(--base-gap);
+		margin-top: var(--gap-base);
 	}
 }
 
 .about-intro {
-	margin-top: var(--base-gap);
+	margin-top: var(--gap-base);
 	position: relative;
 	z-index: 1;
 
@@ -20,7 +20,6 @@
 		font-size: var(--font-size-large);
 		font-weight: 400;
 		line-height: 150%;
-		color: var(--special-text-color);
 	}
 
 	a {
@@ -37,7 +36,7 @@
 	}
 
 	svg {
-		fill: var(--normal-text);
+		fill: var(--text-color-base);
 		width: var(--icon-size);
 		height: var(--icon-size);
 		transform: translateY(0);
@@ -99,20 +98,13 @@
 }
 
 .about-text {
-	margin-bottom: var(--base-gap);
+	margin-bottom: var(--gap-base);
 
 	p:not(:last-of-type) {
 		margin-bottom: calc(var(--page-gap) * 2);
 	}
 
 	> div {
-		display: flex;
-		flex-direction: row;
-
-		@media (--media-smaller-tablet) {
-			display: block;
-		}
-
 		&:not(:last-of-type) {
 			margin-bottom: calc(var(--page-gap) * 2);
 		}
@@ -132,10 +124,12 @@
 }
 
 .about-mark {
-	margin-right: 50px;
 	padding-top: 5px;
+	display: flex;
+	justify-content: center;
 
 	@media (--media-smaller-tablet) {
+		display: block;
 		margin: 0 auto calc(var(--page-gap) * 2);
 		padding-top: 0;
 		text-align: center;
@@ -156,9 +150,14 @@ html[data-theme='dark'] .about-mark {
 .about-travels {
 	width: 100%;
 	background: var(--blue);
-	padding: 45px 0 calc(1.5 * var(--base-gap));
+	padding: 45px 0 calc(1.5 * var(--gap-base));
 	overflow-x: hidden;
 	position: relative;
+	text-align: center;
+
+	h1 {
+		color: var(--white);
+	}
 
 	.section-border {
 		--background-base: var(--blue);
@@ -174,7 +173,7 @@ html[data-theme='dark'] .about-mark {
 		display: flex;
 		flex-direction: column;
 		max-width: 90%;
-		margin: var(--base-gap) auto 0;
+		margin: var(--gap-base) auto 0;
 
 		@media (--media-smaller-tablet) {
 			margin-bottom: calc(var(--page-gap) * 2);
@@ -192,13 +191,13 @@ html[data-theme='dark'] .about-mark {
 		align-items: center;
 		color: var(--white);
 		padding: 0;
-		border-radius: var(--base-radius);
+		border-radius: var(--radius-base);
 		background: var(--shade-of-grey-dark);
 		padding: 0 calc(0.5 * var(--page-gap));
 		width: 40%;
 		max-width: 275px;
 		height: 20px;
-		margin-top: calc(0.5 * var(--base-gap));
+		margin-top: calc(0.5 * var(--gap-base));
 
 		@media (--media-smaller-tablet) {
 			width: 100%;
@@ -286,7 +285,7 @@ html[data-theme='dark'] .about-travels {
 }
 
 .about-plants {
-	padding-top: var(--base-gap);
+	padding-top: var(--gap-base);
 	text-align: center;
 	position: relative;
 
@@ -300,9 +299,9 @@ html[data-theme='dark'] .about-travels {
 		transform: translateY(-98%);
 	}
 
-	.headline-highlight {
+	h1 {
 		margin-top: 0;
-		margin-bottom: var(--base-gap);
+		margin-bottom: var(--gap-base);
 	}
 }
 
@@ -312,7 +311,7 @@ html[data-theme='dark'] .about-travels {
 	grid-template-columns: repeat(auto-fill, minmax(20vw, 1fr));
 	grid-auto-rows: 25vw;
 	list-style: none;
-	margin-top: var(--base-gap);
+	margin-top: var(--gap-base);
 
 	@media (--media-smaller-tablet) {
 		grid-template-columns: repeat(auto-fill, minmax(45vw, 1fr));

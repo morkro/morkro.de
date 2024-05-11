@@ -11,7 +11,7 @@
 }
 
 .blog-list {
-	margin-top: var(--base-gap);
+	margin-top: var(--gap-base);
 	width: 100%;
 	list-style: none;
 
@@ -22,7 +22,7 @@
 
 		&:last-child {
 			margin-bottom: 0;
-			padding-bottom: var(--base-gap);
+			padding-bottom: var(--gap-base);
 		}
 
 		&:first-child > svg {
@@ -70,13 +70,13 @@
 
 .blog-post-meta {
 	font-size: var(--font-size-small);
-	color: var(--meta-text);
+	color: var(--text-color-meta);
 }
 
 .blog-post-external svg {
 	width: var(--icon-size);
 	height: var(--icon-size);
-	fill: var(--meta-text);
+	fill: var(--text-color-meta);
 	vertical-align: middle;
 	transform: translateY(-2px);
 }

@@ -11,8 +11,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding-top: calc(2 * var(--page-gap));
-	padding-bottom: calc(2 * var(--page-gap));
+	padding-block: var(--page-gap);
 
 	@media (--media-smaller-tablet) {
 		flex-direction: column;
@@ -31,7 +30,7 @@
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	gap: var(--page-gap);
+	gap: calc(var(--page-gap) / 2);
 
 	&::after {
 		content: url('/../assets/icons/home.svg');
@@ -41,9 +40,9 @@
 		height: var(--icon-size);
 		position: absolute;
 		left: 0;
-		top: 0;
+		top: 1px;
 		z-index: 1;
-		background: var(--blue);
+		background: var(--link-color);
 		transform: scale(0);
 		transform-origin: center;
 		transition: transform 175ms var(--ease-out-back);
@@ -67,14 +66,9 @@
 	}
 
 	a {
-		color: var(--special-text-color);
-		font-weight: 400;
-		letter-spacing: 0;
-	}
-
-	h1 {
+		color: var(--text-color-base);
 		font-size: var(--font-size-medium);
-		margin: 0;
+		text-decoration: none !important;
 	}
 
 	@media (--media-smaller-tablet) {
@@ -169,7 +163,7 @@
 	}
 
 	a {
-		color: var(--special-text-color);
+		color: var(--text-color-base);
 		font-size: var(--font-size-medium);
 		font-weight: 400;
 
@@ -192,7 +186,6 @@
 	justify-content: center;
 	align-items: center;
 	border: none;
-	color: var(--special-text-color);
 	width: 34px;
 	height: 34px;
 	background: none;
@@ -211,29 +204,28 @@
 
 	&:active,
 	&:focus {
-		outline: 2px dashed var(--blue);
+		outline: var(--border-width-base) dashed var(--blue);
 	}
 
 	.theme-toggle-sun {
 		fill: none;
 	}
 
-	/** Disabling linter here as the selectors don't match in the DOM */
 	/* stylelint-disable no-descending-specificity */
 	svg {
 		width: var(--icon-size-small);
 		height: var(--icon-size-small);
-		fill: var(--special-text-color);
 		position: relative;
+		fill: var(--text-color-base);
 
 		&:hover {
-			fill: var(--special-text-color);
+			fill: currentcolor;
 		}
 	}
 	/* stylelint-enable no-descending-specificity */
 
 	&:hover svg {
-		color: var(--normal-text);
+		color: var(--text-color-base);
 	}
 }
 

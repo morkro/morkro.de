@@ -1,8 +1,8 @@
 /**
  * 404
  */
-.template-404 .headline-highlight {
-	margin-bottom: var(--base-gap);
+.template-404 h1 {
+	margin-bottom: var(--gap-base);
 }
 
 .template-404 {
@@ -32,7 +32,7 @@
 }
 
 .content-404 {
-	padding-bottom: var(--base-gap);
+	padding-bottom: var(--gap-base);
 	text-align: center;
 
 	a:hover svg {
@@ -40,7 +40,7 @@
 	}
 
 	svg {
-		fill: var(--normal-text);
+		fill: var(--text-color-base);
 		width: var(--icon-size);
 		height: var(--icon-size);
 		vertical-align: middle;
