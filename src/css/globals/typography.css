@@ -85,7 +85,7 @@ a {
 
 	&:not(.anim-underline, .link-highlight) {
 		text-decoration: underline;
-		text-decoration-color: var(--text-color-base-inverse);
+		text-decoration-color: var(--background-highlight);
 		text-decoration-thickness: var(--border-width-large);
 	}
 
