@@ -12,11 +12,11 @@
 		padding: 70px 0 20px;
 	}
 
-	span {
+	& span {
 		font-size: inherit;
 	}
 
-	> svg {
+	& > svg {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -34,7 +34,7 @@
 		width: 100%;
 	}
 
-	> p {
+	& > p {
 		color: var(--light-grey);
 		font-size: var(--font-size-base);
 		line-height: 24px;
@@ -45,13 +45,13 @@
 		}
 	}
 
-	> p > a {
+	& > p > a {
 		color: var(--text-color-base-inverse);
 		font-weight: 400;
 		text-decoration: none !important;
 	}
 
-	p:not(:last-of-type) {
+	& p:not(:last-of-type) {
 		margin-bottom: 20px;
 	}
 }
@@ -65,21 +65,21 @@
 		width: 100%;
 	}
 
-	a,
-	span {
+	& a,
+	& span {
 		font-size: var(--font-size-base);
 		font-weight: 400;
 	}
 
-	ul {
+	& ul {
 		list-style: none;
 	}
 
-	> a {
+	& > a {
 		font-size: var(--font-size-small);
 	}
 
-	a {
+	& a {
 		--border-color: var(--text-color-base-inverse);
 
 		color: var(--text-color-base-inverse);
@@ -105,7 +105,7 @@
 	display: inline-block;
 	list-style: none;
 
-	svg {
+	& svg {
 		width: var(--icon-size-small);
 		height: var(--icon-size-small);
 		fill: var(--text-color-base-inverse);
@@ -113,12 +113,12 @@
 		transition: fill 150ms ease-in-out;
 	}
 
-	li {
+	& li {
 		display: inline-block;
 		margin-right: 15px;
 	}
 
-	a {
+	& a {
 		display: block;
 		line-height: 0;
 		transform: scale(1);
@@ -132,7 +132,7 @@
 		&:active {
 			background: none;
 
-			svg {
+			& svg {
 				fill: var(--link-hover);
 				color: var(--link-hover);
 			}
@@ -141,7 +141,7 @@
 }
 
 #page-footer .footer-info .footer-content {
-	p {
+	& p {
 		text-align: left;
 		font-size: var(--font-size-small);
 		color: rgb(255 255 255 / 50%);
@@ -153,13 +153,13 @@
 
 	/** Disabling linter here as the selectors don't match in the DOM */
 	/* stylelint-disable no-descending-specificity */
-	a {
+	& a {
 		color: var(--text-color-base-inverse);
 		transition: color 150ms ease-in-out;
 	}
 	/* stylelint-enable no-descending-specificity */
 
-	.anim-underline {
+	& .anim-underline {
 		--border-color: var(--text-color-base-inverse);
 	}
 }
@@ -189,7 +189,7 @@ html[data-theme='dark'] .footer-gotop .footer-gotop-blob {
 		display: none;
 	}
 
-	.footer-gotop-blob {
+	& .footer-gotop-blob {
 		width: 65px;
 		height: 70px;
 		fill: var(--dark-grey);
@@ -202,7 +202,7 @@ html[data-theme='dark'] .footer-gotop .footer-gotop-blob {
 
 	/** Disabling linter here as the selectors don't match in the DOM */
 	/* stylelint-disable no-descending-specificity */
-	svg:not(.footer-gotop-blob) {
+	& svg:not(.footer-gotop-blob) {
 		width: var(--icon-size);
 		height: var(--icon-size);
 		fill: var(--white);

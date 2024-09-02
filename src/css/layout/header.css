@@ -53,19 +53,19 @@
 		transform: scale(1);
 	}
 
-	.header-name-img {
+	& .header-name-img {
 		filter: drop-shadow(2px 3px 0 var(--black));
 		display: flex;
 	}
 
-	img {
+	& img {
 		width: var(--icon-size);
 		height: var(--icon-size);
 		cursor: var(--cursor-default);
 		clip-path: var(--img-shape);
 	}
 
-	a {
+	& a {
 		color: var(--text-color-base);
 		font-size: var(--font-size-medium);
 		text-decoration: none !important;
@@ -87,7 +87,7 @@
 		width: 100%;
 	}
 
-	> div {
+	& > div {
 		display: grid;
 		grid-template-columns: repeat(2, auto);
 		grid-column-gap: var(--page-gap);
@@ -123,24 +123,24 @@
 		display: flex;
 		justify-content: space-around;
 
-		a {
+		& a {
 			display: flex;
 			flex-direction: column-reverse;
 			align-items: center;
 		}
 
-		span {
+		& span {
 			font-size: var(--font-size-small);
 		}
 
-		svg {
+		& svg {
 			display: block !important;
 			width: var(--icon-size);
 			height: var(--icon-size);
 		}
 	}
 
-	li:not(:last-child) {
+	& li:not(:last-child) {
 		margin-right: calc(3 * var(--page-gap));
 
 		@media (--media-smaller-tablet) {
@@ -148,7 +148,7 @@
 		}
 	}
 
-	.active {
+	& .active {
 		color: var(--link-color);
 		cursor: text;
 
@@ -157,12 +157,12 @@
 			transform: scaleX(1);
 		}
 
-		svg {
+		& svg {
 			fill: var(--link-color);
 		}
 	}
 
-	a {
+	& a {
 		color: var(--text-color-base);
 		font-size: var(--font-size-medium);
 		font-weight: 400;
@@ -174,7 +174,7 @@
 			}
 		}
 
-		span {
+		& span {
 			font-weight: 400;
 		}
 	}
@@ -212,7 +212,7 @@
 	}
 
 	/* stylelint-disable no-descending-specificity */
-	svg {
+	& svg {
 		width: var(--icon-size-small);
 		height: var(--icon-size-small);
 		position: relative;
@@ -229,14 +229,10 @@
 	}
 }
 
-html[data-theme='light'] .header-inner .js-theme-toggle {
-	.theme-toggle-moon {
-		display: none;
-	}
+html[data-theme='light'] .header-inner .js-theme-toggle .theme-toggle-moon {
+	display: none;
 }
 
-html[data-theme='dark'] .header-inner .js-theme-toggle {
-	.theme-toggle-sun {
-		display: none;
-	}
+html[data-theme='dark'] .header-inner .js-theme-toggle .theme-toggle-sun {
+	display: none;
 }

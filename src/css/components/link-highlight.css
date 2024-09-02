@@ -32,7 +32,7 @@
 		}
 	}
 
-	svg {
+	& svg {
 		width: var(--icon-size-small);
 		height: var(--icon-size-small);
 	}
@@ -46,7 +46,7 @@
 			background: var(--link-hover);
 		}
 
-		svg {
+		& svg {
 			fill: var(--text-color-base-inverse);
 			margin-left: 2px;
 			transform: translateY(-1px);
