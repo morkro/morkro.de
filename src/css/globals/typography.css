@@ -99,6 +99,7 @@ a {
 	}
 
 	&:focus {
+		border-radius: var(--radius-base);
 		outline: var(--border-width-base) dashed var(--blue);
 	}
 

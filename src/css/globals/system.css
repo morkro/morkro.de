@@ -106,9 +106,11 @@ body {
 	padding: calc(0.5 * var(--page-gap)) var(--page-gap);
 	font-weight: 400;
 	z-index: 2;
-	background: var(--background-highlight);
+	background: var(--text-color-highlight);
+	color: var(--text-color-base-inverse);
 	top: var(--page-gap);
 	left: var(--page-gap);
+	border-radius: var(--radius-base);
 }
 
 /**

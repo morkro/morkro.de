@@ -123,10 +123,16 @@
 		line-height: 0;
 		transform: scale(1);
 		transform-origin: center;
+		border-radius: 50%;
 
 		&:hover svg {
 			fill: var(--link-color);
 			color: var(--link-color);
+		}
+
+		&:focus,
+		&:active {
+			outline-offset: 2px;
 		}
 
 		&:active {
@@ -152,12 +158,10 @@
 	}
 
 	/** Disabling linter here as the selectors don't match in the DOM */
-	/* stylelint-disable no-descending-specificity */
 	& a {
 		color: var(--text-color-base-inverse);
 		transition: color 150ms ease-in-out;
 	}
-	/* stylelint-enable no-descending-specificity */
 
 	& .anim-underline {
 		--border-color: var(--text-color-base-inverse);
@@ -172,6 +176,7 @@ html[data-theme="dark"] .footer-gotop .footer-gotop-blob {
 	display: inline-flex;
 	padding: 0;
 	margin-top: var(--page-gap);
+	border-radius: 50%;
 	transform: perspective(1px) translateZ(0);
 
 	&:hover,
