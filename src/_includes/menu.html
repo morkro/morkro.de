@@ -7,4 +7,14 @@
 			</svg>
 		</a>
 	</li>
+	{% if location == 'footer' %}
+	<li>
+		<a href="/resume" class="anim-underline {% if title contains "Resume" %}active{% endif %}">
+			<span>Resume</span>
+			<svg aria-hidden="true" style="display: none">
+				<use xlink:href="#file-text"></use>
+			</svg>
+		</a>
+	</li>
+	{% endif %}
 </ul>

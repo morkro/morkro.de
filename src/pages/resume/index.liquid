@@ -1,0 +1,234 @@
+---
+layout: default
+title: Resume
+pageClass: resume
+keywords:
+- mckinsey & company
+- director of engineering
+- principal engineer
+- staff engineer
+- softwar architect
+- razorfish
+- developer
+- web developer
+- self-employed
+- demodern
+- open source
+- kisd
+permalink: /resume/
+---
+
+<section id="intro" class="container-large grid">
+  <div class="col-2">
+    <img
+      src="/../assets/img/moritz-work.webp"
+      alt="Professional portrait photo of {{ author.name }}"
+      width="50px"
+      height="50px"
+      title="Moritz Kröger">
+  </div>
+  <div class="col-4">
+    <p>
+      As an engineering leader, my focus is on engineering excellence, pragmatic solutions, accessible software, and product delivery. Committed to staying hands-on, I actively contribute to various open-source projects that benefit the developer community. My journey in software development began as a self-taught web developer during my early years (in the era of XHTML 1.1, ActionScript, and PHP 5), and my passion for technology, the internet, and software engineering has never stopped.
+    </p>
+	</div>
+</section>
+
+<nav class="container-large resume-quicknav">
+	<a href="#skills" class="anim-underline">
+		<svg aria-hidden="true">
+			<use xlink:href="#terminal"></use>
+		</svg>
+		Skills
+	</a>
+	<a href="#experience">
+		<svg aria-hidden="true">
+			<use xlink:href="#briefcase"></use>
+		</svg>
+		Experience
+	</a>
+	<a href="#education">
+		<svg aria-hidden="true">
+			<use xlink:href="#book"></use>
+		</svg>
+		Education
+	</a>
+	<a href="#certifications">
+		<svg aria-hidden="true">
+			<use xlink:href="#award"></use>
+		</svg>
+		Certifications
+	</a>
+	<a href="#other">
+		<svg aria-hidden="true">
+			<use xlink:href="#layers"></use>
+		</svg>
+		Other
+	</a>
+</nav>
+
+<section id="skills" class="container-large grid">
+  <div class="col-2 resume-category">
+		<h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#terminal"></use>
+			</svg>
+			Skills
+		</h2>
+  </div>
+  <div class="col-4 grid resume-content">
+		<div class="col-2">
+			<h3>Technical</h3>
+			<ul>
+				{% for skill in resume.skills.technical %}
+					<li>{{ skill }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-2">
+			<h3>Leadership</h3>
+			<ul>
+				{% for skill in resume.skills.leadership %}
+					<li>{{ skill }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-2">
+			<h3>Ecosystem</h3>
+			<ul>
+				<li>
+					<strong>Languages</strong>
+					<ul>
+						{% for skill in resume.skills.tools.languages %}
+							<li>{{ skill }}</li>
+						{% endfor %}
+					</ul>
+				</li>
+				<li>
+					<strong>Frameworks</strong>
+					<ul>
+						{% for skill in resume.skills.tools.frameworks %}
+							<li>{{ skill }}</li>
+						{% endfor %}
+					</ul>
+				</li>
+				<li>
+					<strong>Ecosystem</strong>
+					<ul>
+						{% for skill in resume.skills.tools.ecosystem %}
+							<li>{{ skill }}</li>
+						{% endfor %}
+					</ul>
+				</li>
+			</ul>
+  	</div>
+  </div>
+</section>
+
+<section id="experience" class="container-large grid">
+  <div class="col-2 resume-category">
+    <h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#briefcase"></use>
+			</svg>
+			Experience
+		</h2>
+  </div>
+  <div class="col-4 resume-content">
+    <ul>
+      {% for xp in resume.experience %}
+        <li>
+          <strong>{{ xp.title }}</strong>
+          <span>{{ xp.company }}</span>
+          <time>{{ xp.timeline }}</time>
+          <span>{{ xp.location }}</span>
+          <ul>
+            {% for resp in xp.responsibilities %}
+              <li>{{ resp }}</li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section id="education" class="container-large grid">
+  <div class="col-2 resume-category">
+    <h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#book"></use>
+			</svg>
+			Education
+		</h2>
+  </div>
+  <div class="col-4 resume-content">
+    <ul>
+      {% for edu in resume.education %}
+        <li>
+          <strong>{{ edu.field }}</strong>
+          <a href="{{ edu.url }}" target="_blank">
+            <span>{{ edu.school }}</span>
+          </a>
+          <time>{{ edu.timeline }}</time>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section id="certifications" class="container-large grid">
+  <div class="col-2 resume-category">
+    <h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#award"></use>
+			</svg>
+			Certifications
+		</h2>
+  </div>
+  <div class="col-4 resume-content">
+    <ul>
+      {% for cert in resume.certifications %}
+        <li>
+          <strong>{{ cert.title }}</strong>
+          <span>{{ cert.authority }}</span>
+          <time>{{ cert.timeline }}</time>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section id="other" class="container-large grid">
+  <div class="col-2 resume-category">
+    <h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#layers"></use>
+			</svg>
+			Other
+		</h2>
+  </div>
+  <div class="col-4 grid resume-content">
+		<div class="col-3">
+			<h3>Languages</h3>
+			<ul>
+				{% for lang in resume.languages %}
+					<li>
+						<strong>{{ lang.language }}</strong>
+						<span>{{ lang.proficiency }}</span>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-3">
+			<h3>Interests</h3>
+			<ul>
+				{% for interest in resume.interests %}
+					<li>
+						{{ interest }}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+  </div>
+</section>

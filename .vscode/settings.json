@@ -13,6 +13,9 @@
 	"[css]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
+	"[html]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
 	"[postcss]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},

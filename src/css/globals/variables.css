@@ -19,7 +19,7 @@
 	--text-color-base: var(--black);
 	--text-color-base-inverse: var(--white);
 	--text-color-highlight: var(--blue);
-	--text-color-meta: var(--shade-of-grey-dark);
+	--text-color-meta: var(--grey);
 	--link-color: var(--blue);
 	--link-hover: var(--orange);
 

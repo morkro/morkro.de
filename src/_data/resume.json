@@ -1,0 +1,109 @@
+{
+	"experience": [
+		{
+			"company": "McKinsey & Company",
+			"title": "Director of Software & Cloud Engineering",
+			"timeline": "2016 - Present",
+			"location": "Berlin",
+			"responsibilities": []
+		},
+		{
+			"company": "Razorfish",
+			"title": "User Interface Developer",
+			"timeline": "2014 - 2016",
+			"location": "Berlin",
+			"responsibilities": []
+		},
+		{
+			"company": "Self-employed",
+			"title": "Full-stack Web Developer",
+			"timeline": "2007 - 2014",
+			"location": "Münster, Cologne, Berlin",
+			"responsibilities": []
+		}
+	],
+	"skills": {
+		"technical": [
+			"Architecture",
+			"Frontend & Backend",
+			"DevOps",
+			"APIs",
+			"Open source",
+			"Security",
+			"Web accessibility",
+			"Design systems",
+			"Documentation"
+		],
+		"leadership": [
+			"Engineering leadership",
+			"Agile product mgmt.",
+			"Product delivery",
+			"Hiring",
+			"Career progression frameworks",
+			"Mentoring & coaching"
+		],
+		"tools": {
+			"languages": [
+				"JavaScript",
+				"TypeScript",
+				"HTML",
+				"CSS",
+				"Node.js",
+				"Deno",
+				"Python",
+				"PHP",
+				"NoSQL",
+				"GraphQL"
+			],
+			"frameworks": [
+				"Next.js",
+				"React (Native)",
+				"Vue",
+				"Angular",
+				"Web Components",
+				"PostgreSQL",
+				"MongoDB"
+			],
+			"ecosystems": ["PostgreSQL", "AWS", "GCP"]
+		}
+	},
+	"education": [
+		{
+			"degree": "Bachelor of Arts",
+			"field": "Integrated Design",
+			"timeline": "2002 - 2015",
+			"school": "Köln International School of Design",
+			"url": "https://kisd.de/en",
+			"location": "Cologne",
+			"status": "Discontinued"
+		}
+	],
+	"projects": [],
+	"certifications": [
+		{
+			"title": "Kanban Management Professional (KMP I)",
+			"timeline": "2019",
+			"authority": "Kanban University"
+		},
+		{
+			"title": "Certified Scrum Master",
+			"timeline": "2017",
+			"authority": "Scrum Alliance"
+		}
+	],
+	"languages": [
+		{
+			"language": "German",
+			"proficiency": "Native"
+		},
+		{
+			"language": "English",
+			"proficiency": "Fluent"
+		}
+	],
+	"interests": [
+		"Engineering & technology",
+		"Botany & rewilding",
+		"Mountaineering"
+	]
+}
