@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	author: 'Moritz Kröger',
 	email: 'write@morkro.de',
 	title: 'Hey there!',
