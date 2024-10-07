@@ -1,42 +1,40 @@
 {
-  "name": "morkro.de",
-  "version": "1.9.1",
-  "description": "Website of Moritz Kröger",
-  "homepage": "https://moritz.berlin",
-  "author": "Moritz Kröger <write@morkro.de>",
-  "scripts": {
-    "clean:site": "rimraf _site",
-    "lint:js": "eslint src/scripts/",
-    "lint:css": "stylelint src/css/**/*.css",
-    "lint": "npm run lint:js && npm run lint:css",
-    "setup": "npm run clean:site && npm run lint",
-    "build:css": "postcss src/css/*.css --no-map --dir _site/css",
-    "watch:css": "postcss src/css/*.css --no-map --dir _site/css --watch",
-    "build": "cross-env NODE_ENV=production npm run setup && npx @11ty/eleventy",
-    "start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet"
-  },
-  "devDependencies": {
-    "@11ty/eleventy": "^2.0.1",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
-    "autoprefixer": "^10.4.19",
-    "cross-env": "^7.0.3",
-    "cssnano": "^7.0.1",
-    "eslint": "^9.2.0",
-    "postcss": "^8.4.27",
-    "postcss-cli": "^11.0.0",
-    "postcss-color-functional-notation": "^6.0.11",
-    "postcss-custom-media": "^10.0.6",
-    "postcss-import": "^16.1.0",
-    "postcss-selector-not": "^7.0.2",
-    "rimraf": "^5.0.5",
-    "snyk": "^1.1291.0",
-    "stylelint": "^16.5.0",
-    "stylelint-config-standard": "^36.0.0"
-  },
-  "dependencies": {
-    "@11ty/eleventy-plugin-bundle": "^1.0.5",
-    "html-minifier": "^4.0.0",
-    "normalize.css": "^8.0.1"
-  },
-  "snyk": true
+	"name": "morkro.de",
+	"version": "1.9.2",
+	"description": "Website of Moritz Kröger",
+	"homepage": "https://moritz.berlin",
+	"author": "Moritz Kröger <write@morkro.de>",
+	"scripts": {
+		"clean:site": "rimraf _site",
+		"lint:js": "biome lint --error-on-warnings ./src/scripts/",
+		"lint:css": "biome lint --error-on-warnings src/css/**/*.css",
+		"lint": "npm run lint:js && npm run lint:css",
+		"setup": "npm run clean:site && npm run lint",
+		"build:css": "postcss src/css/*.css --no-map --dir _site/css",
+		"watch:css": "postcss src/css/*.css --no-map --dir _site/css --watch",
+		"build": "cross-env NODE_ENV=production npm run setup && npx @11ty/eleventy",
+		"start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet"
+	},
+	"devDependencies": {
+		"@11ty/eleventy": "^2.0.1",
+		"@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+		"@biomejs/biome": "1.9.3",
+		"autoprefixer": "^10.4.19",
+		"cross-env": "^7.0.3",
+		"cssnano": "^7.0.1",
+		"postcss": "^8.4.27",
+		"postcss-cli": "^11.0.0",
+		"postcss-color-functional-notation": "^6.0.11",
+		"postcss-custom-media": "^10.0.6",
+		"postcss-import": "^16.1.0",
+		"postcss-selector-not": "^7.0.2",
+		"rimraf": "^5.0.5",
+		"snyk": "^1.1291.0"
+	},
+	"dependencies": {
+		"@11ty/eleventy-plugin-bundle": "^1.0.5",
+		"html-minifier": "^4.0.0",
+		"normalize.css": "^8.0.1"
+	},
+	"snyk": true
 }

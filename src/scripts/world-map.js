@@ -18,7 +18,7 @@ function getTimestamps(selector) {
 	return (
 		[...document.querySelectorAll(selector)]
 			// e.g., [[2012, 'DE'], [2023, 'LU']]
-			.map(($el) => [parseInt($el.dataset.visitedYear), $el.id])
+			.map(($el) => [Number.parseInt($el.dataset.visitedYear), $el.id])
 			// e.g., [{ year: 2012, countries: ['DE'] }, { year: 2023, countries: ['LU', 'AL'] }]
 			.reduce((acc, [year, country]) => {
 				const index = acc.findIndex((structure) => structure.year === year)
@@ -70,9 +70,9 @@ document
 			: `No countries were visited yet in ${year}.`
 
 		for (const code of visited) {
-			document.querySelector('#' + code).classList.add('visited')
+			document.querySelector(`#${code}`).classList.add('visited')
 		}
 		for (const code of clean) {
-			document.querySelector('#' + code).classList.remove('visited')
+			document.querySelector(`#${code}`).classList.remove('visited')
 		}
 	})

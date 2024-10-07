@@ -5,7 +5,7 @@
 		width: 100%;
 		height: var(--border-width-base);
 		position: absolute;
-		content: '';
+		content: "";
 		bottom: 0;
 		left: 0;
 		background-color: var(--border-color);

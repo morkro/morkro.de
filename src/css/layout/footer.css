@@ -8,7 +8,7 @@
 	background-color: var(--background-base);
 	position: relative;
 
-	@media (--media-smaller-tablet) {
+	@media (width <= 768px) {
 		padding: 70px 0 20px;
 	}
 
@@ -29,7 +29,7 @@
 .footer-info {
 	text-align: left;
 
-	@media (--media-smaller-tablet) {
+	@media (width <= 768px) {
 		text-align: center;
 		width: 100%;
 	}
@@ -40,7 +40,7 @@
 		line-height: 24px;
 		margin-bottom: var(--page-gap);
 
-		@media (--media-smaller-tablet) {
+		@media (width <= 768px) {
 			width: 100%;
 		}
 	}
@@ -59,7 +59,7 @@
 #page-footer .footer-inner .footer-menu {
 	text-align: right;
 
-	@media (--media-smaller-tablet) {
+	@media (width <= 768px) {
 		text-align: center;
 		margin-top: 50px;
 		width: 100%;
@@ -91,7 +91,7 @@
 			color: var(--link-color);
 		}
 
-		@media (--media-smaller-500) {
+		@media (width <= 500px) {
 			&::before,
 			&::after {
 				display: none;
@@ -146,7 +146,7 @@
 		font-size: var(--font-size-small);
 		color: rgb(255 255 255 / 50%);
 
-		@media (--media-smaller-tablet) {
+		@media (width <= 768px) {
 			text-align: center;
 		}
 	}
@@ -164,7 +164,7 @@
 	}
 }
 
-html[data-theme='dark'] .footer-gotop .footer-gotop-blob {
+html[data-theme="dark"] .footer-gotop .footer-gotop-blob {
 	fill: var(--background-content);
 }
 

@@ -24,10 +24,10 @@
 	--link-hover: var(--orange);
 
 	/* TYPOGRAPHY */
-	--font-roboto: 'Roboto', sans-serif;
-	--font-roboto-mono: 'Roboto Mono', monospace;
-	--font-myriad: 'Myriad Pro', myriad, arial, sans-serif;
-	--font-courier: 'Courier', andale mono, monospace;
+	--font-roboto: "Roboto", sans-serif;
+	--font-roboto-mono: "Roboto Mono", monospace;
+	--font-myriad: "Myriad Pro", myriad, arial, sans-serif;
+	--font-courier: "Courier", andale mono, monospace;
 	--font-size-small: 90%; /* 16px */
 	--font-size-base: 18px;
 	--font-size-medium: 115%; /* 20px */
@@ -43,9 +43,7 @@
 	--border-width-large: calc(2 * var(--border-width-base));
 	--page-gap: 20px;
 	--page-width: calc(var(--container-width-base) + (2 * var(--page-gap)));
-	--page-width-large: calc(
-		var(--container-width-large) + (2 * var(--page-gap))
-	);
+	--page-width-large: calc(var(--container-width-large) + (2 * var(--page-gap)));
 	--icon-size: 30px;
 	--icon-size-small: calc(0.75 * var(--icon-size));
 
@@ -62,11 +60,7 @@
 	--cursor-grab: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='27' fill='none'%3E%3Cpath fill='%23fff' d='M1.78 12.919c1.658-1.805 4.145.752 5.18 2.255l-2-9.854c0-.774.454-2.32 2.267-2.32 1.728 0 2.7 1.404 2.77 2.205C9.955 4.442 9.63 2.39 12 2c3.454-.567 3.488 3.356 3.574 4C15.66 5.356 15 1.41 19 2.41c2.358.59 1.668 2.91 1.5 4.09l-.6 3.841c.338-1.752 1.021-3.28 2.956-2.997 1.845.269 2.201 1.675 2.137 2.513 0 1.546-1 6.361-1 9.248 0 3.608-4.08 6.895-8.42 6.895-3.47 0-5.806-1.718-6.54-2.578L3.4 17.816c-1.101-1.095-3.691-2.642-1.62-4.897Z'/%3E%3Cpath stroke='%23000' stroke-linejoin='round' stroke-width='2' d='M10 5.32C10.022 4.546 9.04 3 7.227 3 5.414 3 4.961 4.546 4.961 5.32l2 9.854c-1.036-1.503-3.523-4.06-5.181-2.255-2.072 2.255.518 3.802 1.619 4.897l5.634 5.606c.734.86 3.07 2.578 6.54 2.578 4.34 0 8.42-3.287 8.42-6.895 0-2.887 1-7.702 1-9.248.064-.838-.292-2.244-2.137-2.513C20.5 7 20 9.339 19.718 11.5L20.5 6.5c.168-1.18.858-3.5-1.5-4.09-4-1-3.34 2.946-3.426 3.59M10 5.32l1.43 6.181M10 5.32c0-.645-.5-2.91 2-3.32 3.454-.567 3.488 3.356 3.574 4m0 0V11.5'/%3E%3Cpath stroke='%23000' stroke-linecap='round' stroke-width='2' d='m11.658 14.589.546 4.917M15.366 15.1l.546 4.917M19.074 15.739l.547 4.918'/%3E%3C/svg%3E"),
 		auto;
 
-	/* QUERIES */
-	@custom-media --media-smaller-tablet (width <= 768px);
-	@custom-media --media-smaller-500 (width <= 500px);
-
-	@media (--media-smaller-tablet) {
+	@media (width <= 768px) {
 		--font-size-base: 16px;
 	}
 }

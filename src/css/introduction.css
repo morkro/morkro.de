@@ -1,6 +1,6 @@
 /**
-	* Welcome
-	*/
+ * Welcome
+ */
 .intro-welcome {
 	margin-bottom: var(--gap-base);
 }
@@ -51,8 +51,8 @@
 }
 
 /**
-	* Sections
-	*/
+ * Sections
+ */
 .intro-content {
 	padding-bottom: calc(1.5 * var(--gap-base));
 

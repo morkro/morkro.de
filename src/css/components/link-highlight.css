@@ -8,7 +8,7 @@
 	background: transparent;
 
 	&::after {
-		content: '';
+		content: "";
 		position: absolute;
 		z-index: -1;
 		top: 0;
@@ -17,7 +17,7 @@
 		width: 100%;
 		height: 100%;
 		background: var(--grey);
-		mask-image: url('../assets/img/text-bg-light.svg');
+		mask-image: url("../assets/img/text-bg-light.svg");
 		mask-size: 100% 30px;
 		mask-repeat: no-repeat;
 		mask-origin: border-box;
@@ -54,10 +54,10 @@
 	}
 }
 
-html[data-theme='dark'] .link-highlight:not(.blue) {
+html[data-theme="dark"] .link-highlight:not(.blue) {
 	&::after {
 		background: var(--black);
-		mask-image: url('../assets/img/text-bg-dark.svg');
+		mask-image: url("../assets/img/text-bg-dark.svg");
 	}
 
 	&:hover::after {

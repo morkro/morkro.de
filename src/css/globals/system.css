@@ -24,7 +24,7 @@ html {
 	overflow-x: hidden;
 	scrollbar-color: var(--black) var(--white);
 
-	&[data-theme='dark'] {
+	&[data-theme="dark"] {
 		--blue: #5b8bfb; /* Better contrast ratio (a11y) */
 		--background-content: var(--deep-grey);
 		--background-highlight: var(--dark-grey2);
@@ -72,7 +72,7 @@ body {
 
 	a,
 	a *,
-	button:not([aria-disabled='true']) {
+	button:not([aria-disabled="true"]) {
 		cursor: var(--cursor-pointer);
 	}
 }
@@ -116,8 +116,8 @@ body {
  * This is experimental and not fully supported in most browsers.
  * Anyway, I want to test this feature.
  */
-img[src$='.jpg'],
-img[src$='.png'] {
+img[src$=".jpg"],
+img[src$=".png"] {
 	image-rendering: crisp-edges;
 }
 

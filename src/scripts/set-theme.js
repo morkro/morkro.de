@@ -26,11 +26,11 @@ if (isUserPreferredScheme) {
 
 darkScheme.addEventListener(
 	'change',
-	({ matches }) => matches && setTheme('dark')
+	({ matches }) => matches && setTheme('dark'),
 )
 lightScheme.addEventListener(
 	'change',
-	({ matches }) => matches && setTheme('light')
+	({ matches }) => matches && setTheme('light'),
 )
 
 $toggleThemeBtn.addEventListener('click', () => {

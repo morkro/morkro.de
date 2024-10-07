@@ -8,7 +8,7 @@ import './add-emoji-title.js'
  * @param {string} widgetFile - File name of the widget to load
  * @returns {Promise<void>}
  */
-async function loadWidget(selector, widgetName = '', widgetFile) {
+async function loadWidget(selector, widgetName, widgetFile) {
 	if (!selector && !widgetFile) {
 		console.error('No selector or widget file provided')
 		return
@@ -21,7 +21,7 @@ async function loadWidget(selector, widgetName = '', widgetFile) {
 		console.group(
 			`📦 %c${widgetName}%c widget found, initialising`,
 			'background:#ebebeb;padding:2px 4px;',
-			'background:unset;'
+			'background:unset;',
 		)
 		try {
 			await import(`./${widgetFile}`)

@@ -29,7 +29,7 @@ function encodeXML(string) {
 		.replace(/'/g, '&apos;')
 }
 
-module.exports = function (config) {
+module.exports = (config) => {
 	const isProduction = process.env.NODE_ENV === 'production'
 	if (isProduction) {
 		config.addTransform('htmlmin', minifyHtml)
@@ -45,7 +45,7 @@ module.exports = function (config) {
 		outputFileExtension: 'css',
 		compile: async (content, path) => {
 			return async () => {
-				let output = await postcss([
+				const output = await postcss([
 					require('postcss-import'),
 					require('postcss-custom-media'),
 					require('postcss-color-functional-notation'),
@@ -62,9 +62,7 @@ module.exports = function (config) {
 	config.addPlugin(syntaxHighlight, {
 		preAttributes: {
 			tabindex: 0,
-			'data-language': function ({ language, content, options }) {
-				return language
-			},
+			'data-language': ({ language, content, options }) => language,
 		},
 	})
 	config.addPlugin(bundlerPlugin)
@@ -86,11 +84,11 @@ module.exports = function (config) {
 	config.addFilter('encodeXML', encodeXML)
 
 	/** Creates a list of blog posts */
-	config.addCollection('posts', function (collection) {
-		return collection
+	config.addCollection('posts', (collection) =>
+		collection
 			.getFilteredByGlob('src/_posts/*.md')
-			.sort((a, b) => b.date - a.date)
-	})
+			.sort((a, b) => b.date - a.date),
+	)
 
 	return {
 		dir: {

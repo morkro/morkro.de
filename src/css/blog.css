@@ -58,13 +58,13 @@
 		margin: 0;
 		line-height: 145%;
 
-		@media (--media-smaller-tablet) {
+		@media (width <= 768px) {
 			line-height: 38px;
 		}
 	}
 
 	p:after {
-		content: '...';
+		content: "...";
 	}
 }
 

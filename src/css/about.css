@@ -30,7 +30,7 @@
 			transform: translateY(25%);
 		}
 
-		@media (--media-smaller-tablet) {
+		@media (width <= 768px) {
 			display: none;
 		}
 	}
@@ -51,7 +51,7 @@
 	position: relative;
 	z-index: 0;
 
-	@media (--media-smaller-tablet) {
+	@media (width <= 768px) {
 		margin-top: 50px;
 	}
 
@@ -128,7 +128,7 @@
 	display: flex;
 	justify-content: center;
 
-	@media (--media-smaller-tablet) {
+	@media (width <= 768px) {
 		display: block;
 		margin: 0 auto calc(var(--page-gap) * 2);
 		padding-top: 0;
@@ -143,7 +143,7 @@
 	}
 }
 
-html[data-theme='dark'] .about-mark {
+html[data-theme="dark"] .about-mark {
 	fill: var(--grey);
 }
 
@@ -175,7 +175,7 @@ html[data-theme='dark'] .about-mark {
 		max-width: 90%;
 		margin: var(--gap-base) auto 0;
 
-		@media (--media-smaller-tablet) {
+		@media (width <= 768px) {
 			margin-bottom: calc(var(--page-gap) * 2);
 		}
 	}
@@ -199,7 +199,7 @@ html[data-theme='dark'] .about-mark {
 		height: 20px;
 		margin-top: calc(0.5 * var(--gap-base));
 
-		@media (--media-smaller-tablet) {
+		@media (width <= 768px) {
 			width: 100%;
 		}
 
@@ -208,7 +208,7 @@ html[data-theme='dark'] .about-mark {
 		}
 
 		input {
-			--range-position: '100%';
+			--range-position: "100%";
 			appearance: none;
 			width: 100%;
 			outline: none;
@@ -276,7 +276,7 @@ html[data-theme='dark'] .about-mark {
 	}
 }
 
-html[data-theme='dark'] .about-travels {
+html[data-theme="dark"] .about-travels {
 	background: var(--background-highlight);
 
 	.section-border {
@@ -313,7 +313,7 @@ html[data-theme='dark'] .about-travels {
 	list-style: none;
 	margin-top: var(--gap-base);
 
-	@media (--media-smaller-tablet) {
+	@media (width <= 768px) {
 		grid-template-columns: repeat(auto-fill, minmax(45vw, 1fr));
 		grid-auto-rows: 50vw;
 	}

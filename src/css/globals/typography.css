@@ -66,7 +66,7 @@ blockquote {
 	padding: 15px 5%;
 	font-style: italic;
 
-	@media (--media-smaller-tablet) {
+	@media (width <= 768px) {
 		width: calc(100% + 40px); /* Double of .container padding */
 		transform: translateX(-20px);
 		padding: 15px 20px;
@@ -111,8 +111,8 @@ a {
 /**
  * Code
  */
-pre:not([data-language], [class^='language-']),
-code:not([data-language], [class^='language-']),
+pre:not([data-language], [class^="language-"]),
+code:not([data-language], [class^="language-"]),
 kbd,
 samp {
 	background: var(--background-highlight);
