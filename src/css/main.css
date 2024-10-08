@@ -4,6 +4,7 @@
 @import "globals/system.css" layer(globals);
 @import "globals/typography.css" layer(globals);
 @import "globals/animations.css" layer(globals);
+@import "components/page-top-left-bg.css" layer(components);
 @import "components/btn-link.css" layer(components);
 @import "components/animated-underline.css" layer(components);
 @import "components/syntax.css" layer(components);

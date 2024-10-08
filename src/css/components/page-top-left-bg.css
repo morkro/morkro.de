@@ -1,0 +1,19 @@
+.page-top-bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	transition: transform 150ms var(--ease-out-back);
+
+	@media (width <= 1380px) {
+		transform: translateX(-50%);
+	}
+
+	@media (width <= 1280px) {
+		transform: translateX(-75%);
+	}
+
+	@media (width <= 1130px) {
+		display: none;
+	}
+}
