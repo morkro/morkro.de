@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" id="top">
+<html
+  lang="en"
+  data-theme="light"
+  id="top">
   {% include head.html %}
-  <body {% if pageClass %}class="template-{{ pageClass }}"{% endif %}>
+  <body
+    {% if pageClass %}
+    class="template-{{ pageClass }}"
+    {% endif %}>
     <a href="#content" class="a11y-jump sr-only">
       Jump directly to main content
     </a>
 
     {% include iconset.html %}
     {% include header.html %}
+    {% include page-top-left-bg.html %}
 
     <main id="content">{{ content }}</main>
 
