@@ -3,11 +3,19 @@
  */
 #content {
 	width: 100%;
-	padding: var(--gap-base) 0 0;
+	padding: var(--gap-large) 0 0;
 	background: var(--background-content);
 
 	@media (width <= 768px) {
 		padding-top: 40px;
 		overflow: hidden;
+	}
+}
+
+.section-border {
+	filter: drop-shadow(0 -8px 0 var(--background-content));
+
+	&.white {
+		--background-base: var(--background-highlight);
 	}
 }

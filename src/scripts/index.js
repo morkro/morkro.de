@@ -39,8 +39,6 @@ const widgets = [
 	['.js-theme-toggle', 'Theme', 'set-theme.js'],
 	/* Update footer year */
 	['.footer-year', 'Current year', 'set-current-year.js'],
-	/* Add GitHub stats */
-	['[data-project]', 'GitHub stats', 'add-github-stats.js'],
 	/* Interactive world map */
 	['#map', 'World map', 'world-map.js'],
 ]

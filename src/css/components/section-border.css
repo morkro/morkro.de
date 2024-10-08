@@ -1,7 +1,0 @@
-.section-border {
-	filter: drop-shadow(0 -8px 0 var(--background-content));
-
-	&.white {
-		--background-base: var(--background-highlight);
-	}
-}

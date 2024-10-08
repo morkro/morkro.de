@@ -1,370 +1,372 @@
-/**
- * ABOUT
- */
-.about-title {
-	display: flex;
-	justify-content: center;
-
-	h1 {
-		margin: 0;
-		margin-top: var(--gap-base);
-	}
-}
-
-.about-intro {
-	margin-top: var(--gap-base);
-	position: relative;
-	z-index: 1;
-
-	p {
-		font-size: var(--font-size-large);
-		font-weight: 400;
-		line-height: 150%;
-	}
-
-	a {
-		display: inline-block;
-		margin-top: 12px;
-
-		&:hover svg {
-			transform: translateY(25%);
-		}
-
-		@media (width <= 768px) {
-			display: none;
-		}
-	}
-
-	svg {
-		fill: var(--text-color-base);
-		width: var(--icon-size);
-		height: var(--icon-size);
-		transform: translateY(0);
-		transition: transform 150ms var(--ease-out-back);
-	}
-}
-
-.about-photo {
-	margin-top: -90px;
-	margin-bottom: 50px;
-	/* height: 669px; /* Height of image */
-	position: relative;
-	z-index: 0;
-
-	@media (width <= 768px) {
-		margin-top: 50px;
-	}
-
-	svg:not(.about-photo-shape) {
-		position: absolute;
-		z-index: 1;
-
-		@media (width <= 1080px) {
-			display: none;
-		}
-
-		&.photo-top-left {
-			top: 0;
-			left: 0;
-		}
-
-		&.photo-bottom-right {
-			bottom: -1%;
-			right: 8%;
-		}
-
-		&:first-of-type {
-			transform: translatey(30%);
-		}
-	}
-
-	> div {
-		filter: drop-shadow(8px 12px 0px var(--blue));
-
-		img {
-			clip-path: url(#about-photo-mask);
-			display: block;
-			height: 100%;
-			width: 100%;
-			object-fit: cover;
-		}
-	}
-
-	.about-photo-shape {
-		position: absolute;
-		height: 0;
-		width: 0;
-	}
-}
-
-.about-text {
-	margin-bottom: var(--gap-base);
-
-	p:not(:last-of-type) {
-		margin-bottom: calc(var(--page-gap) * 2);
-	}
-
-	> div {
-		&:not(:last-of-type) {
-			margin-bottom: calc(var(--page-gap) * 2);
-		}
-
-		&:hover .about-mark svg {
-			fill: var(--blue);
-		}
-	}
-
-	.logo-link img {
-		display: inline-block;
-		width: 18px;
-		height: 18px;
-		border-radius: 2px;
-		transform: translateY(2px);
-	}
-}
-
-.about-mark {
-	padding-top: 5px;
-	display: flex;
-	justify-content: center;
-
-	@media (width <= 768px) {
-		display: block;
-		margin: 0 auto calc(var(--page-gap) * 2);
-		padding-top: 0;
-		text-align: center;
-	}
-
-	svg {
-		width: calc(var(--icon-size) * 1.175);
-		height: calc(var(--icon-size) * 1.175);
-		fill: var(--shade-of-grey-dark);
-		transition: fill 150ms ease-in-out;
-	}
-}
-
-html[data-theme="dark"] .about-mark {
-	fill: var(--grey);
-}
-
-.about-travels {
-	width: 100%;
-	background: var(--blue);
-	padding: 45px 0 calc(1.5 * var(--gap-base));
-	overflow-x: hidden;
-	position: relative;
-	text-align: center;
-
-	h1 {
-		color: var(--white);
-	}
-
-	.section-border {
-		--background-base: var(--blue);
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		width: 100%;
-		background: var(--background-content);
-	}
-
-	.travels-map {
-		display: flex;
-		flex-direction: column;
-		max-width: 90%;
-		margin: var(--gap-base) auto 0;
-
-		@media (width <= 768px) {
-			margin-bottom: calc(var(--page-gap) * 2);
-		}
-	}
-
-	p {
-		color: var(--white);
-	}
-
-	.travel-select-menu {
-		align-self: center;
-		display: inline-flex;
-		justify-content: flex-end;
-		align-items: center;
-		color: var(--white);
-		padding: 0;
-		border-radius: var(--radius-base);
-		background: var(--shade-of-grey-dark);
-		padding: 0 calc(0.5 * var(--page-gap));
-		width: 40%;
-		max-width: 275px;
-		height: 20px;
-		margin-top: calc(0.5 * var(--gap-base));
-
-		@media (width <= 768px) {
-			width: 100%;
-		}
-
-		span {
-			font-size: var(--font-size-small);
-		}
-
-		input {
-			--range-position: "100%";
-			appearance: none;
-			width: 100%;
-			outline: none;
-			border: none;
-			position: relative;
-			background: transparent;
-
-			&::-webkit-slider-thumb {
-				appearance: none;
-				cursor: var(--cursor-grab);
-				border-radius: 50%;
-				background: var(--white);
-				width: var(--icon-size);
-				height: var(--icon-size);
-				border: 4px solid var(--blue);
-				margin: 0;
-
-				&:hover {
-					background: var(--orange);
-				}
-			}
-
-			&:focus::-webkit-slider-thumb {
-				background: var(--orange);
-			}
-
-			&::-moz-range-thumb {
-				appearance: none;
-				cursor: var(--cursor-grab);
-				border-radius: 50%;
-				background: var(--white);
-				width: var(--icon-size);
-				height: var(--icon-size);
-				border: 4px solid var(--blue);
-				margin: 0;
-
-				&:hover {
-					background: var(--orange);
-				}
-			}
-
-			&:focus::-moz-range-thumb {
-				background: var(--orange);
-			}
-
-			&::-ms-thumb {
-				appearance: none;
-				cursor: var(--cursor-grab);
-				border-radius: 50%;
-				background: var(--white);
-				width: var(--icon-size);
-				height: var(--icon-size);
-				border: 4px solid var(--blue);
-				margin: 0;
-
-				&:hover {
-					background: var(--orange);
-				}
-			}
-
-			&:focus::-ms-thumb {
-				background: var(--orange);
-			}
-		}
-	}
-}
-
-html[data-theme="dark"] .about-travels {
-	background: var(--background-highlight);
-
-	.section-border {
-		--background-base: var(--background-highlight);
-	}
-}
-
-.about-plants {
-	padding-top: var(--gap-base);
-	text-align: center;
-	position: relative;
-
-	.section-border {
-		--background-base: var(--background-content);
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		width: 100%;
-		transform: translateY(-98%);
-	}
-
-	h1 {
-		margin-top: 0;
-		margin-bottom: var(--gap-base);
-	}
-}
-
-.instagram-list {
-	display: grid;
-	grid-gap: var(--page-gap);
-	grid-template-columns: repeat(auto-fill, minmax(20vw, 1fr));
-	grid-auto-rows: 25vw;
-	list-style: none;
-	margin-top: var(--gap-base);
-
-	@media (width <= 768px) {
-		grid-template-columns: repeat(auto-fill, minmax(45vw, 1fr));
-		grid-auto-rows: 50vw;
-	}
-
-	li {
-		position: relative;
+@layer pages {
+	/**
+	 * ABOUT
+	 */
+	.about-title {
 		display: flex;
 		justify-content: center;
-		align-items: center;
-		z-index: 0;
+
+		h1 {
+			margin: 0;
+			margin-top: var(--gap-large);
+		}
 	}
 
-	a {
-		display: block;
-		width: 100%;
-		height: 100%;
+	.about-intro {
+		margin-top: var(--gap-large);
 		position: relative;
+		z-index: 1;
 
-		> div {
+		p {
+			font-size: var(--font-size-large);
+			font-weight: 400;
+			line-height: 150%;
+		}
+
+		a {
+			display: inline-block;
+			margin-top: 12px;
+
+			&:hover svg {
+				transform: translateY(25%);
+			}
+
+			@media (width <= 768px) {
+				display: none;
+			}
+		}
+
+		svg {
+			fill: var(--text-color-base);
+			width: var(--icon-size);
+			height: var(--icon-size);
+			transform: translateY(0);
+			transition: transform 150ms var(--ease-out-back);
+		}
+	}
+
+	.about-photo {
+		margin-top: -90px;
+		margin-bottom: 50px;
+		/* height: 669px; /* Height of image */
+		position: relative;
+		z-index: 0;
+
+		@media (width <= 768px) {
+			margin-top: 50px;
+		}
+
+		svg:not(.about-photo-shape) {
 			position: absolute;
 			z-index: 1;
-			opacity: 0;
-			width: 100%;
-			height: 100%;
-			justify-content: center;
-			align-content: center;
-			display: flex;
-			transition: opacity 150ms var(--ease-out-back);
 
-			svg:not(.blob) {
-				fill: var(--white);
-				position: absolute;
-				top: 50%;
-				transform: translateY(-50%);
-				width: 15%;
+			@media (width <= 1080px) {
+				display: none;
 			}
 
-			svg.blob {
-				fill: var(--blue);
-				width: 30%;
+			&.photo-top-left {
+				top: 0;
+				left: 0;
+			}
+
+			&.photo-bottom-right {
+				bottom: -1%;
+				right: 8%;
+			}
+
+			&:first-of-type {
+				transform: translatey(30%);
 			}
 		}
 
-		&:hover > div {
-			opacity: 1;
+		> div {
+			filter: drop-shadow(8px 12px 0px var(--blue));
+
+			img {
+				clip-path: url(#about-photo-mask);
+				display: block;
+				height: 100%;
+				width: 100%;
+				object-fit: cover;
+			}
+		}
+
+		.about-photo-shape {
+			position: absolute;
+			height: 0;
+			width: 0;
 		}
 	}
 
-	img {
-		object-fit: cover;
+	.about-text {
+		margin-bottom: var(--gap-large);
+
+		p:not(:last-of-type) {
+			margin-bottom: calc(var(--gap-base) * 2);
+		}
+
+		> div {
+			&:not(:last-of-type) {
+				margin-bottom: calc(var(--gap-base) * 2);
+			}
+
+			&:hover .about-mark svg {
+				fill: var(--blue);
+			}
+		}
+
+		.logo-link img {
+			display: inline-block;
+			width: 18px;
+			height: 18px;
+			border-radius: 2px;
+			transform: translateY(2px);
+		}
+	}
+
+	.about-mark {
+		padding-top: 5px;
+		display: flex;
+		justify-content: center;
+
+		@media (width <= 768px) {
+			display: block;
+			margin: 0 auto calc(var(--gap-base) * 2);
+			padding-top: 0;
+			text-align: center;
+		}
+
+		svg {
+			width: calc(var(--icon-size) * 1.175);
+			height: calc(var(--icon-size) * 1.175);
+			fill: var(--shade-of-grey-dark);
+			transition: fill 150ms ease-in-out;
+		}
+	}
+
+	html[data-theme="dark"] .about-mark {
+		fill: var(--grey);
+	}
+
+	.about-travels {
 		width: 100%;
-		height: 100%;
+		background: var(--blue);
+		padding: var(--gap-medium) 0 calc(1.5 * var(--gap-large));
+		overflow-x: hidden;
+		position: relative;
+		text-align: center;
+
+		h1 {
+			color: var(--white);
+		}
+
+		.section-border {
+			--background-base: var(--blue);
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			width: 100%;
+			background: var(--background-content);
+		}
+
+		.travels-map {
+			display: flex;
+			flex-direction: column;
+			max-width: 90%;
+			margin: var(--gap-large) auto 0;
+
+			@media (width <= 768px) {
+				margin-bottom: calc(var(--gap-base) * 2);
+			}
+		}
+
+		p {
+			color: var(--white);
+		}
+
+		.travel-select-menu {
+			align-self: center;
+			display: inline-flex;
+			justify-content: flex-end;
+			align-items: center;
+			color: var(--white);
+			padding: 0;
+			border-radius: var(--radius-base);
+			background: var(--shade-of-grey-dark);
+			padding: 0 calc(0.5 * var(--gap-base));
+			width: 40%;
+			max-width: 275px;
+			height: 20px;
+			margin-top: calc(0.5 * var(--gap-large));
+
+			@media (width <= 768px) {
+				width: 100%;
+			}
+
+			span {
+				font-size: var(--font-size-small);
+			}
+
+			input {
+				--range-position: "100%";
+				appearance: none;
+				width: 100%;
+				outline: none;
+				border: none;
+				position: relative;
+				background: transparent;
+
+				&::-webkit-slider-thumb {
+					appearance: none;
+					cursor: var(--cursor-grab);
+					border-radius: 50%;
+					background: var(--white);
+					width: var(--icon-size);
+					height: var(--icon-size);
+					border: 4px solid var(--blue);
+					margin: 0;
+
+					&:hover {
+						background: var(--orange);
+					}
+				}
+
+				&:focus::-webkit-slider-thumb {
+					background: var(--orange);
+				}
+
+				&::-moz-range-thumb {
+					appearance: none;
+					cursor: var(--cursor-grab);
+					border-radius: 50%;
+					background: var(--white);
+					width: var(--icon-size);
+					height: var(--icon-size);
+					border: 4px solid var(--blue);
+					margin: 0;
+
+					&:hover {
+						background: var(--orange);
+					}
+				}
+
+				&:focus::-moz-range-thumb {
+					background: var(--orange);
+				}
+
+				&::-ms-thumb {
+					appearance: none;
+					cursor: var(--cursor-grab);
+					border-radius: 50%;
+					background: var(--white);
+					width: var(--icon-size);
+					height: var(--icon-size);
+					border: 4px solid var(--blue);
+					margin: 0;
+
+					&:hover {
+						background: var(--orange);
+					}
+				}
+
+				&:focus::-ms-thumb {
+					background: var(--orange);
+				}
+			}
+		}
+	}
+
+	html[data-theme="dark"] .about-travels {
+		background: var(--background-highlight);
+
+		.section-border {
+			--background-base: var(--background-highlight);
+		}
+	}
+
+	.about-plants {
+		padding-top: var(--gap-large);
+		text-align: center;
+		position: relative;
+
+		.section-border {
+			--background-base: var(--background-content);
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			width: 100%;
+			transform: translateY(-98%);
+		}
+
+		h1 {
+			margin-top: 0;
+			margin-bottom: var(--gap-large);
+		}
+	}
+
+	.instagram-list {
+		display: grid;
+		grid-gap: var(--gap-base);
+		grid-template-columns: repeat(auto-fill, minmax(20vw, 1fr));
+		grid-auto-rows: 25vw;
+		list-style: none;
+		margin-top: var(--gap-large);
+
+		@media (width <= 768px) {
+			grid-template-columns: repeat(auto-fill, minmax(45vw, 1fr));
+			grid-auto-rows: 50vw;
+		}
+
+		li {
+			position: relative;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 0;
+		}
+
+		a {
+			display: block;
+			width: 100%;
+			height: 100%;
+			position: relative;
+
+			> div {
+				position: absolute;
+				z-index: 1;
+				opacity: 0;
+				width: 100%;
+				height: 100%;
+				justify-content: center;
+				align-content: center;
+				display: flex;
+				transition: opacity 150ms var(--ease-out-back);
+
+				svg:not(.blob) {
+					fill: var(--white);
+					position: absolute;
+					top: 50%;
+					transform: translateY(-50%);
+					width: 15%;
+				}
+
+				svg.blob {
+					fill: var(--blue);
+					width: 30%;
+				}
+			}
+
+			&:hover > div {
+				opacity: 1;
+			}
+		}
+
+		img {
+			object-fit: cover;
+			width: 100%;
+			height: 100%;
+		}
 	}
 }

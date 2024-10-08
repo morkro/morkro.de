@@ -1,0 +1,126 @@
+/* Ensure intuitive box sizing model */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/* Reset all margins, everywhere */
+* {
+	margin: 0;
+}
+
+/*
+    Prevent font size inflation:
+    Explainer: https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/
+  */
+html {
+	-moz-text-size-adjust: none;
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
+}
+
+/* Set more sensible and a11y-friendly line height */
+body {
+	line-height: 1.5;
+	min-height: 100vh;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* I don't want them to be inline per default */
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+}
+
+img,
+picture,
+canvas,
+video {
+	max-width: 100%;
+}
+
+/*
+    Remove default margin in favour of better control in authored CSS
+    See: https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/
+  */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+	margin-block-end: 0;
+}
+
+/* Don't use the weird monoface */
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+/* Better word break, see https://www.joshwcomeau.com/css/custom-css-reset/ */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+
+/* Smaller line heights for headings */
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
+	line-height: 1.1;
+}
+
+/* Balance text wrapping on headings */
+h1,
+h2,
+h3,
+h4 {
+	text-wrap: balance;
+}
+
+/* <a> elements that don't have a class get default styles */
+a:not([class]) {
+	text-decoration-skip-ink: auto;
+	color: currentColor;
+}
+
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+	scroll-margin-block: 5ex;
+}
+
+/* Make sure textareas without a rows attribute are not tiny */
+textarea:not([rows]) {
+	min-height: 10em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

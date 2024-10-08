@@ -1,6 +1,6 @@
 {
 	"name": "morkro.de",
-	"version": "1.9.4",
+	"version": "1.10.0",
 	"description": "Website of Moritz Kröger",
 	"homepage": "https://moritz.berlin",
 	"author": "Moritz Kröger <write@morkro.de>",
@@ -33,8 +33,7 @@
 		"snyk": "^1.1293.1"
 	},
 	"dependencies": {
-		"html-minifier": "^4.0.0",
-		"normalize.css": "^8.0.1"
+		"html-minifier": "^4.0.0"
 	},
 	"snyk": true
 }

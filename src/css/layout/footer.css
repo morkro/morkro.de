@@ -3,13 +3,13 @@
  */
 #page-footer {
 	width: 100%;
-	padding: calc(0.5 * var(--gap-base)) 0 35px;
+	padding: calc(0.5 * var(--gap-large)) 0 35px;
 	text-align: center;
 	background-color: var(--background-base);
 	position: relative;
 
 	@media (width <= 768px) {
-		padding: 70px 0 20px;
+		padding: var(--gap-large) 0 var(--gap-base);
 	}
 
 	& span {
@@ -38,7 +38,7 @@
 		color: var(--light-grey);
 		font-size: var(--font-size-base);
 		line-height: 24px;
-		margin-bottom: var(--page-gap);
+		margin-bottom: var(--gap-base);
 
 		@media (width <= 768px) {
 			width: 100%;
@@ -101,9 +101,10 @@
 }
 
 #page-footer .footer-inner .footer-info .footer-socialmedia {
-	margin-bottom: var(--page-gap);
+	margin-bottom: var(--gap-base);
 	display: inline-block;
 	list-style: none;
+	padding: 0;
 
 	& svg {
 		width: var(--icon-size-small);
@@ -175,7 +176,7 @@ html[data-theme="dark"] .footer-gotop .footer-gotop-blob {
 #page-footer .footer-inner .footer-gotop {
 	display: inline-flex;
 	padding: 0;
-	margin-top: var(--page-gap);
+	margin-top: var(--gap-base);
 	border-radius: 50%;
 	transform: perspective(1px) translateZ(0);
 

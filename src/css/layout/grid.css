@@ -5,7 +5,7 @@
 .container-large {
 	width: 100%;
 	margin: 0 auto;
-	padding: 0 var(--page-gap);
+	padding: 0 var(--gap-base);
 }
 
 .container {
@@ -19,7 +19,7 @@
 .grid {
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
-	grid-column-gap: var(--page-gap);
+	grid-column-gap: var(--gap-base);
 	align-items: start;
 
 	.col-1 {
