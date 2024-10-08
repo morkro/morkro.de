@@ -46,7 +46,7 @@ permalink: /
 	<section class="col-3">
 		<header>
 			<h2>Projects</h2>
-			<a href="{{ socialnetworks.github.url }}" target="_blank" rel="noopener noreferrer" class="link-highlight">See all</a>
+			<a href="{{ socialnetworks.github.url }}" target="_blank" rel="noopener noreferrer" class="btn">See all</a>
 		</header>
 		<p>
 			I really enjoy working on and building open source side projects. I mainly work on web applications and developer tools.
@@ -54,20 +54,18 @@ permalink: /
 		<ul class="content-list-projects">
 			{% for project in projects %}
 			<li class="project-{{ project.name }}" data-project="{{ project.name }}">
-				<div>
+				<a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="btn">
 					<span class="project-title">
-						<img src="{{ project.img }}" width="30" height="30" alt="Logo of {{ project.title }}">
+						{% if project.img %}
+							<img src="{{ project.img }}" width="30" height="30" alt="Logo of {{ project.title }}">
+						{% endif %}
+						{% if project.icon %}
+							<svg><use xlink:href="{{ project.icon }}"></use></svg>
+						{% endif %}
 						{{ project.title }}
-						<span style="display:none" aria-hidden="true">
-							<svg><use xlink:href="#star"></use></svg>
-						</span>
 					</span>
-					<a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="link-highlight blue">
-						Link
-						<svg><use xlink:href="#new-window"></use></svg>
-					</a>
-				</div>
-				<p>{{ project.description }}</p>
+					<p>{{ project.description }}</p>
+				</a>
 			</li>
 			{% endfor %}
 		</ul>

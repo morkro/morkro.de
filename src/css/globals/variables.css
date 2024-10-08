@@ -35,15 +35,17 @@
 	--font-size-super: 555%; /* 100px */
 
 	/* DIMENSIONS */
-	--gap-base: 75px;
+	--gap-base: 20px;
+	--gap-small: calc(var(--gap-base) / 4); /* 5px */
+	--gap-medium: calc(2.25 * var(--gap-base)); /* 45px */
+	--gap-large: calc(3.75 * var(--gap-base)); /* 75px */
 	--radius-base: 4px;
 	--container-width-base: 920px;
 	--container-width-large: 1040px;
 	--border-width-base: 2px;
 	--border-width-large: calc(2 * var(--border-width-base));
-	--page-gap: 20px;
-	--page-width: calc(var(--container-width-base) + (2 * var(--page-gap)));
-	--page-width-large: calc(var(--container-width-large) + (2 * var(--page-gap)));
+	--page-width: calc(var(--container-width-base) + (2 * var(--gap-base)));
+	--page-width-large: calc(var(--container-width-large) + (2 * var(--gap-base)));
 	--icon-size: 30px;
 	--icon-size-small: calc(0.75 * var(--icon-size));
 

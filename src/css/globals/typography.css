@@ -58,7 +58,7 @@ em {
 }
 
 blockquote {
-	margin-bottom: calc(2 * var(--page-gap));
+	margin-bottom: calc(2 * var(--gap-base));
 	width: 110%;
 	transform: translateX(-5%);
 	background: var(--background-highlight);
@@ -83,7 +83,7 @@ a {
 	z-index: 1;
 	transition: color 100ms ease-in-out;
 
-	&:not(.anim-underline, .link-highlight) {
+	&:not(.anim-underline, .btn) {
 		text-decoration: underline;
 		text-decoration-color: var(--background-highlight);
 		text-decoration-thickness: var(--border-width-large);
@@ -99,6 +99,7 @@ a {
 	}
 
 	&:focus {
+		border-radius: var(--radius-base);
 		outline: var(--border-width-base) dashed var(--blue);
 	}
 

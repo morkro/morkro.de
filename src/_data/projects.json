@@ -1,5 +1,11 @@
 [
 	{
+		"name": "stealth-platform",
+		"icon": "#help-circle",
+		"title": "Stealth Platform",
+		"description": "Currently working on a stealth web platform as a side project, to be released in 2025."
+	},
+	{
 		"name": "happy-plants",
 		"img": "../assets/projects/happyplants.svg",
 		"title": "HappyPlants",
@@ -19,12 +25,5 @@
 		"title": "Emoji Syntax",
 		"description": "An <i>Atom</i> editor package which adds customisable emoji to your syntax keywords. This started out as a joke and proof-of-concept but eventually grew into a small extension with over 11k downloads.",
 		"url": "https://github.com/morkro/atom-emoji-syntax"
-	},
-	{
-		"name": "papyrus",
-		"img": "../assets/projects/papyrus.svg",
-		"title": "Papyrus",
-		"description": "Unofficial Dropbox Paper desktop application using Electron",
-		"url": "https://github.com/morkro/papyrus"
 	}
 ]

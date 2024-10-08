@@ -78,3 +78,13 @@
 		animation-iteration-count: 1;
 	}
 }
+
+.rotate {
+	animation: spinner 2s linear infinite;
+}
+
+@keyframes spinner {
+	to {
+		transform: rotate(360deg);
+	}
+}

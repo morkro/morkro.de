@@ -3,13 +3,13 @@
  */
 #page-footer {
 	width: 100%;
-	padding: calc(0.5 * var(--gap-base)) 0 35px;
+	padding: calc(0.5 * var(--gap-large)) 0 35px;
 	text-align: center;
 	background-color: var(--background-base);
 	position: relative;
 
 	@media (width <= 768px) {
-		padding: 70px 0 20px;
+		padding: var(--gap-large) 0 var(--gap-base);
 	}
 
 	& span {
@@ -38,7 +38,7 @@
 		color: var(--light-grey);
 		font-size: var(--font-size-base);
 		line-height: 24px;
-		margin-bottom: var(--page-gap);
+		margin-bottom: var(--gap-base);
 
 		@media (width <= 768px) {
 			width: 100%;
@@ -73,6 +73,7 @@
 
 	& ul {
 		list-style: none;
+		padding: 0;
 	}
 
 	& > a {
@@ -101,9 +102,10 @@
 }
 
 #page-footer .footer-inner .footer-info .footer-socialmedia {
-	margin-bottom: var(--page-gap);
+	margin-bottom: var(--gap-base);
 	display: inline-block;
 	list-style: none;
+	padding: 0;
 
 	& svg {
 		width: var(--icon-size-small);
@@ -123,10 +125,16 @@
 		line-height: 0;
 		transform: scale(1);
 		transform-origin: center;
+		border-radius: 50%;
 
 		&:hover svg {
 			fill: var(--link-color);
 			color: var(--link-color);
+		}
+
+		&:focus,
+		&:active {
+			outline-offset: 2px;
 		}
 
 		&:active {
@@ -152,12 +160,10 @@
 	}
 
 	/** Disabling linter here as the selectors don't match in the DOM */
-	/* stylelint-disable no-descending-specificity */
 	& a {
 		color: var(--text-color-base-inverse);
 		transition: color 150ms ease-in-out;
 	}
-	/* stylelint-enable no-descending-specificity */
 
 	& .anim-underline {
 		--border-color: var(--text-color-base-inverse);
@@ -171,7 +177,8 @@ html[data-theme="dark"] .footer-gotop .footer-gotop-blob {
 #page-footer .footer-inner .footer-gotop {
 	display: inline-flex;
 	padding: 0;
-	margin-top: var(--page-gap);
+	margin-top: var(--gap-base);
+	border-radius: 50%;
 	transform: perspective(1px) translateZ(0);
 
 	&:hover,
