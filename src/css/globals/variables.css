@@ -28,6 +28,7 @@
 	--font-roboto-mono: "Roboto Mono", monospace;
 	--font-myriad: "Myriad Pro", myriad, arial, sans-serif;
 	--font-courier: "Courier", andale mono, monospace;
+	--font-size-tiny: 70%; /* 14px */
 	--font-size-small: 90%; /* 16px */
 	--font-size-base: 18px;
 	--font-size-medium: 115%; /* 20px */

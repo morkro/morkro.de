@@ -6,6 +6,7 @@
 @import "globals/animations.css" layer(globals);
 @import "components/page-top-left-bg.css" layer(components);
 @import "components/btn-link.css" layer(components);
+@import "components/logo.css" layer(components);
 @import "components/animated-underline.css" layer(components);
 @import "components/syntax.css" layer(components);
 @import "layout/grid.css" layer(layout);
