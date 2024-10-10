@@ -42,7 +42,7 @@
 	--gap-large: calc(3.75 * var(--gap-base)); /* 75px */
 	--radius-base: 4px;
 	--container-width-base: 920px;
-	--container-width-large: 1040px;
+	--container-width-large: 1100px;
 	--border-width-base: 2px;
 	--border-width-large: calc(2 * var(--border-width-base));
 	--page-width: calc(var(--container-width-base) + (2 * var(--gap-base)));

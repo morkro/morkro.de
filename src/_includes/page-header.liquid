@@ -3,8 +3,7 @@
 		{% include logo.html %}
 		<nav class="header-nav">
 			<div>
-				{% assign location = 'header' %}
-				{% include menu.html %}
+				{% include menu, location: 'header' %}
 				<button class="js-theme-toggle" hidden>
 					<span class="sr-only">Toggle theme</span>
 					<svg class="theme-toggle-sun hvr-wobble-vertical">

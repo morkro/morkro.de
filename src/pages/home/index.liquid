@@ -27,17 +27,13 @@ permalink: /
 
 	<div class="intro-welcome-photo col-2">
 		<div class="intro-welcome-photo-mask">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 359 454"  focusable="false">
-				<clipPath id="intro-welcome-photo-mask">
-					<path fill-rule="evenodd" d="M358.868131,361.904298 C358.7837,376.639239 352.957948,411.26126 328.726198,419.3502 C256.368675,443.549116 238.21597,445.815378 98.6343389,461.314228 C91.3479279,462.129063 84.0361874,462.816581 76.86798,459.667581 C49.1661089,447.529927 53.0077277,431.734002 22.2410047,247.530253 C8.09878157,162.855265 3.37907845,145.22596 0.322669633,116.053151 C-4.06775188,74.0042448 36.8053837,70.6600241 94.8687082,58.6921278 C259.492628,24.7406489 331.259134,-49.3839173 344.936986,87.669715 C347.807646,116.587887 349.749563,145.616402 352.704654,174.526086 C359.712443,241.979186 359.121424,286.498063 358.868131,361.904298" transform="translate(0 -8)"/>
-				</clipPath>
-				<image
-					href="/../assets/img/moritz-mountains.webp"
-					clip-path="url(#intro-welcome-photo-mask)"
-					title="Selfie of Moritz standing in the Slovenian Alps"
-					alt="Selfie of Moritz standing in the Slovenian Alps"
-				/>
-			</svg>
+			{%
+				include blob-photo,
+				photoUrl: "moritz-mountains.webp",
+				photoTitle: "Selfie of Moritz standing in the Slovenian Alps",
+				photoAlt: "Selfie of Moritz standing in the Slovenian Alps",
+				offsetY: "-60"
+			%}
 		</div>
 	</div>
 </section>

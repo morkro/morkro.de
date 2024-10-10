@@ -20,12 +20,12 @@ permalink: /resume/
 
 <section id="intro" class="container-large grid">
   <div class="col-2">
-    <img
-      src="/../assets/img/moritz-work.webp"
-      alt="Professional portrait photo of {{ author.name }}"
-      width="50px"
-      height="50px"
-      title="Moritz Kröger">
+		{%
+			include blob-photo,
+			photoUrl: "moritz-work.webp",
+			photoTitle: "Professional portrait photo of Moritz Kröger",
+			photoAlt: "Professional portrait photo of Moritz Kröger"
+		%}
   </div>
   <div class="col-4">
     <p>
@@ -104,7 +104,7 @@ permalink: /resume/
 						{% endfor %}
 					</ul>
 				</li>
-				<li>
+				{% comment %} <li>
 					<strong>Frameworks</strong>
 					<ul>
 						{% for skill in resume.skills.tools.frameworks %}
@@ -119,7 +119,7 @@ permalink: /resume/
 							<li>{{ skill }}</li>
 						{% endfor %}
 					</ul>
-				</li>
+				</li> {% endcomment %}
 			</ul>
   	</div>
   </div>
@@ -138,13 +138,39 @@ permalink: /resume/
     <ul>
       {% for xp in resume.experience %}
         <li>
-          <strong>{{ xp.title }}</strong>
-          <span>{{ xp.company }}</span>
-          <time>{{ xp.timeline }}</time>
-          <span>{{ xp.location }}</span>
-          <ul>
+					<div class="resume-content-title">
+						<strong>{{ xp.title }}</strong>
+						<span class="resume-content-time">
+							{{ xp.location }},
+							<time datetime="{{ xp.timeline.duration }}">
+								{{ xp.timeline.label }}
+							</time>
+						</span>
+					</div>
+					<div class="resume-content-subtitle">
+						<img
+							src="{{ xp.icon }}"
+							class="resume-content-logo"
+							loading="lazy"
+							width="30px"
+							height="30px"
+							alt="Picture of the company logo from {{ xp.company }}"
+							title="{{ xp.company }}"
+						>
+						{% if xp.url %}
+							<a href="{{ xp.url }}" target="_blank">
+						{% endif %}
+						<strong>{{ xp.company }}</strong>
+						{% if xp.url %}
+							</a>
+						{% endif %}
+						{% if xp.note %}
+							<span>({{ xp.note }})</span>
+						{% endif %}
+					</div>
+          <ul class="resume-content-description">
             {% for resp in xp.responsibilities %}
-              <li>{{ resp }}</li>
+              <li><span>{{ resp }}</span></li>
             {% endfor %}
           </ul>
         </li>
@@ -166,11 +192,36 @@ permalink: /resume/
     <ul>
       {% for edu in resume.education %}
         <li>
-          <strong>{{ edu.field }}</strong>
-          <a href="{{ edu.url }}" target="_blank">
-            <span>{{ edu.school }}</span>
-          </a>
-          <time>{{ edu.timeline }}</time>
+					<div class="resume-content-title">
+						<strong>{{ edu.field }}</strong>
+						<span class="resume-content-time">
+							{{ edu.location }},
+							<time datetime="{{ edu.timeline.duration }}">
+								{{ edu.timeline.label }}
+							</time>
+						</span>
+					</div>
+					<div class="resume-content-subtitle">
+						<img
+							src="{{ edu.icon }}"
+							class="resume-content-logo"
+							loading="lazy"
+							width="30px"
+							height="30px"
+							alt="Picture of the institution logo from {{ xp.company }}"
+							title="{{ xp.company }}"
+						>
+						<a href="{{ edu.url }}" target="_blank">
+							<strong>{{ edu.school }}</strong>
+						</a>
+					</div>
+					<ul class="resume-content-description">
+						<li>
+							<span>
+								{{ edu.status }}
+							</span>
+						</li>
+					</ul>
         </li>
       {% endfor %}
     </ul>
@@ -187,12 +238,29 @@ permalink: /resume/
 		</h2>
   </div>
   <div class="col-4 resume-content">
-    <ul>
+    <ul class="grid">
       {% for cert in resume.certifications %}
-        <li>
-          <strong>{{ cert.title }}</strong>
-          <span>{{ cert.authority }}</span>
-          <time>{{ cert.timeline }}</time>
+        <li class="col-3 resume-content-box">
+					{% if cert.badge %}
+						<img
+							src="{{ cert.badge }}"
+							class="resume-content-box-badge"
+							loading="lazy"
+							title="Badge for the {{ cert.title }} certification"
+							alt="Badge for the {{ cert.title }} certification"
+						>
+					{% endif %}
+					<div class="resume-content-title">
+						<strong>{{ cert.title }}</strong>
+					</div>
+					<div class="resume-content-subtitle">
+						<a href="{{ cert.url }}" target="_blank">
+							<strong>{{ cert.authority }}</strong>
+						</a>,
+						<span class="resume-content-time">
+							<time datetime="{{ cert.timeline }}">{{ cert.timeline }}</time>
+						</span>
+					</div>
         </li>
       {% endfor %}
     </ul>

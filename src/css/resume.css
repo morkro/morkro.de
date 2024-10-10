@@ -1,20 +1,38 @@
+#intro {
+	align-items: center;
+
+	.blob-photo image {
+		height: 100%;
+		width: auto;
+	}
+}
+
+.template-resume section:not(#intro) {
+	align-items: stretch;
+
+	> div > ul {
+		list-style: none;
+		padding-inline-start: 0;
+	}
+}
+
 .resume-quicknav {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: calc(var(--page-gap) / 2);
-	margin-block: calc(var(--page-gap) * 2);
+	gap: calc(var(--gap-base) / 2);
+	margin-block: calc(var(--gap-base) * 2);
 
 	a {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: calc(var(--page-gap) / 2);
+		gap: calc(var(--gap-base) / 2);
 		text-align: center;
 		color: var(--text-color-base);
 		background: var(--background-highlight);
-		padding-block: calc(var(--page-gap) / 2);
-		padding-inline: calc(var(--page-gap) * 0.75);
+		padding-block: calc(var(--gap-base) / 2);
+		padding-inline: calc(var(--gap-base) * 0.75);
 		font-weight: 400;
 		border-radius: calc(var(--radius-base) * 2);
 
@@ -28,34 +46,96 @@
 	}
 }
 
-.template-resume section:not(#intro) {
-	> div > ul {
-		list-style: none;
-		padding-inline-start: 0;
-	}
+.resume-category {
+	text-align: right;
+	padding-bottom: var(--gap-base);
+	padding-right: calc(1.5 * var(--gap-base));
+	border-right: var(--border-width-large) solid var(--background-highlight);
 
-	.resume-category {
-		text-align: right;
-		padding-bottom: var(--gap-base);
-	}
-
-	.resume-content {
-		padding-left: var(--page-gap);
-		padding-bottom: var(--gap-base);
-		border-left: var(--border-width-large) solid var(--background-highlight);
-
-		h3 {
-			margin-bottom: calc(var(--page-gap) / 2);
-		}
+	h2 {
+		display: flex;
 	}
 }
 
-.template-resume section:last-of-type {
-	padding-bottom: calc(1.5 * var(--gap-base));
+.resume-content {
+	padding-bottom: var(--gap-large);
+
+	h3 {
+		margin-bottom: calc(var(--gap-base) / 2);
+	}
+
+	> ul > li {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&:not(.grid) > ul > li:not(:last-child) {
+		margin-bottom: var(--gap-base);
+	}
 }
 
-.template-resume :is(h2, a) svg {
-	width: 1em;
-	height: 1em;
-	vertical-align: sub;
+.resume-content-box {
+	border-radius: var(--radius-base);
+	background: var(--background-highlight);
+	padding-block: calc(var(--gap-base) / 2);
+	padding-inline: calc(var(--gap-base) / 2);
+	position: relative;
+
+	.resume-content-box-badge {
+		position: absolute;
+		top: 4px;
+		right: 4px;
+		width: 50px;
+		height: auto;
+		object-fit: contain;
+	}
+}
+
+.resume-content-title {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+
+	.resume-content-time {
+		border-radius: var(--radius-base);
+		background: var(--background-highlight);
+		padding-inline: calc(var(--gap-base) / 6);
+		line-height: 22px;
+	}
+}
+
+.resume-content-subtitle {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--gap-base) / 2);
+
+	a {
+		display: inline-block;
+	}
+	span {
+		color: var(--text-color-meta);
+		font-style: italic;
+		font-size: var(--font-size-small);
+	}
+}
+
+.resume-content-description {
+	padding-left: var(--gap-base);
+	list-style: disc;
+
+	li::marker {
+		color: var(--text-color-highlight);
+	}
+}
+
+.resume-content-time {
+	font-size: var(--font-size-small);
+	color: var(--text-color-meta);
+}
+
+.resume-content-logo {
+	width: var(--icon-size-small);
+	height: 100%;
+	object-fit: cover;
+	border-radius: var(--radius-base);
 }

@@ -11,7 +11,7 @@
 	}
 
 	ul {
-		padding-left: var(--page-gap);
+		padding-left: var(--gap-base);
 		list-style-type: circle;
 	}
 
@@ -89,7 +89,7 @@
 			list-style-type: circle;
 		}
 		ul {
-			padding-left: var(--page-gap);
+			padding-left: var(--gap-base);
 			list-style-type: circle;
 		}
 

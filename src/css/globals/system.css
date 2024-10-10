@@ -51,6 +51,8 @@ body {
 	h5,
 	h6,
 	input,
+	b,
+	strong,
 	textarea {
 		cursor: var(--cursor-text);
 	}

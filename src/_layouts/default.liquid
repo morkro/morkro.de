@@ -3,7 +3,7 @@
   lang="en"
   data-theme="light"
   id="top">
-  {% include head.html %}
+  {% include meta-head %}
   <body
     {% if pageClass %}
     class="template-{{ pageClass }}"
@@ -13,12 +13,12 @@
     </a>
 
     {% include iconset.html %}
-    {% include header.html %}
     {% include page-top-left-bg.html %}
+    {% include page-header %}
 
     <main id="content">{{ content }}</main>
 
-    {% include footer.html %}
-    {% include scripts.html %}
+    {% include page-footer %}
+    {% include page-scripts %}
   </body>
 </html>

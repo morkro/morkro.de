@@ -3,23 +3,39 @@
 		{
 			"company": "McKinsey & Company",
 			"title": "Director of Software & Cloud Engineering",
-			"timeline": "2016 - Present",
+			"timeline": {
+				"label": "2016—Present",
+				"duration": "P8Y"
+			},
 			"location": "Berlin",
-			"responsibilities": []
+			"url": "https://www.mckinsey.com/",
+			"icon": "/../assets/img/mck.png",
+			"responsibilities": ["foo", "foo"]
 		},
 		{
 			"company": "Razorfish",
 			"title": "User Interface Developer",
-			"timeline": "2014 - 2016",
+			"timeline": {
+				"label": "2014—2016",
+				"duration": "P2Y"
+			},
 			"location": "Berlin",
-			"responsibilities": []
+			"note": "now part of Publicis Sapient",
+			"icon": "/../assets/img/razorfish.webp",
+			"url": "https://www.publicissapient.com/",
+			"responsibilities": ["foo", "foo"]
 		},
 		{
 			"company": "Self-employed",
 			"title": "Full-stack Web Developer",
-			"timeline": "2007 - 2014",
-			"location": "Münster, Cologne, Berlin",
-			"responsibilities": []
+			"timeline": {
+				"label": "2007—2014",
+				"duration": "P7Y"
+			},
+			"location": "Münster/Cologne/Berlin",
+			"icon": "/../assets/img/moritz-work.webp",
+			"note": "this website!",
+			"responsibilities": ["foo", "foo"]
 		}
 	],
 	"skills": {
@@ -71,24 +87,32 @@
 		{
 			"degree": "Bachelor of Arts",
 			"field": "Integrated Design",
-			"timeline": "2002 - 2015",
+			"timeline": {
+				"label": "2002—2015",
+				"duration": "P2Y"
+			},
 			"school": "Köln International School of Design",
 			"url": "https://kisd.de/en",
 			"location": "Cologne",
-			"status": "Discontinued"
+			"icon": "/../assets/img/kisd.webp",
+			"status": "Discontinued after four semester due to work opportunities."
 		}
 	],
 	"projects": [],
 	"certifications": [
 		{
-			"title": "Kanban Management Professional (KMP I)",
+			"title": "Kanban Management Professional (KMP)",
 			"timeline": "2019",
-			"authority": "Kanban University"
+			"authority": "Kanban University",
+			"url": "https://kanban.university/resources/kanban-development-path/kmp-credential/",
+			"badge": "/../assets/certifications/kmp.webp"
 		},
 		{
-			"title": "Certified Scrum Master",
+			"title": "Certified ScrumMaster® (CSM®)",
 			"timeline": "2017",
-			"authority": "Scrum Alliance"
+			"authority": "Scrum Alliance",
+			"url": "https://www.scrumalliance.org/get-certified/scrum-master-track/certified-scrummaster",
+			"badge": "/../assets/certifications/sa-csm-300.webp"
 		}
 	],
 	"languages": [
