@@ -42,7 +42,7 @@ permalink: /
 	<section class="col-3">
 		<header>
 			<h2>Projects</h2>
-			<a href="{{ socialnetworks.github.url }}" target="_blank" rel="noopener noreferrer" class="btn">See all</a>
+			<a href="{{ socialnetworks.github.url }}" target="_blank" rel="noopener noreferrer" class="chip">See all</a>
 		</header>
 		<p>
 			I really enjoy working on and building open source side projects. I mainly work on web applications and developer tools.
@@ -50,7 +50,7 @@ permalink: /
 		<ul class="content-list-projects">
 			{% for project in projects %}
 			<li class="project-{{ project.name }}" data-project="{{ project.name }}">
-				<a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="btn">
+				<a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="box">
 					<span class="project-title">
 						{% if project.img %}
 							<img src="{{ project.img }}" width="30" height="30" alt="Logo of {{ project.title }}">

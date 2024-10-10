@@ -1,5 +1,6 @@
-#intro {
+.template-resume #intro {
 	align-items: center;
+	margin-bottom: var(--gap-large);
 
 	.blob-photo image {
 		height: 100%;
@@ -17,33 +18,12 @@
 }
 
 .resume-quicknav {
+	width: 100%;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	gap: calc(var(--gap-base) / 2);
-	margin-block: calc(var(--gap-base) * 2);
-
-	a {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: calc(var(--gap-base) / 2);
-		text-align: center;
-		color: var(--text-color-base);
-		background: var(--background-highlight);
-		padding-block: calc(var(--gap-base) / 2);
-		padding-inline: calc(var(--gap-base) * 0.75);
-		font-weight: 400;
-		border-radius: calc(var(--radius-base) * 2);
-
-		&:hover {
-			color: var(--link-color);
-		}
-
-		svg {
-			color: var(--text-color-meta);
-		}
-	}
+	margin-top: var(--gap-base);
 }
 
 .resume-category {
@@ -54,6 +34,15 @@
 
 	h2 {
 		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: calc(var(--gap-base) * 0.5);
+	}
+
+	svg {
+		color: var(--text-color-meta);
+		width: var(--icon-size);
+		height: var(--icon-size);
 	}
 }
 
@@ -72,22 +61,19 @@
 	&:not(.grid) > ul > li:not(:last-child) {
 		margin-bottom: var(--gap-base);
 	}
-}
 
-.resume-content-box {
-	border-radius: var(--radius-base);
-	background: var(--background-highlight);
-	padding-block: calc(var(--gap-base) / 2);
-	padding-inline: calc(var(--gap-base) / 2);
-	position: relative;
+	.box {
+		position: relative;
+		flex-direction: column;
 
-	.resume-content-box-badge {
-		position: absolute;
-		top: 4px;
-		right: 4px;
-		width: 50px;
-		height: auto;
-		object-fit: contain;
+		.resume-content-box-badge {
+			position: absolute;
+			top: 4px;
+			right: 4px;
+			width: 50px;
+			height: auto;
+			object-fit: contain;
+		}
 	}
 }
 
@@ -138,4 +124,13 @@
 	height: 100%;
 	object-fit: cover;
 	border-radius: var(--radius-base);
+	border: var(--border-width-base) solid var(--white);
+}
+
+.resume-content-list {
+	padding-left: var(--gap-base);
+
+	li::marker {
+		color: var(--text-color-highlight);
+	}
 }

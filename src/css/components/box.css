@@ -1,0 +1,33 @@
+.box {
+	display: flex;
+	color: var(--text-color-base);
+	background: var(--background-highlight);
+	padding-block: calc(var(--gap-base) / 4);
+	padding-inline: calc(var(--gap-base) * 0.75);
+	border: var(--border-width-base) solid var(--background-highlight);
+	border-radius: calc(var(--radius-base) * 2);
+	text-decoration: none;
+	transition: background-color 175ms var(--ease-out-back), border-color 175ms
+		var(--ease-out-back), outline 175ms var(--ease-out-back);
+
+	p,
+	span {
+		text-wrap: pretty;
+	}
+
+	a {
+		color: var(--text-color-base);
+		text-decoration: none;
+	}
+
+	&:is(:hover, :active) {
+		border-color: var(--background-content);
+		outline: var(--border-width-base) solid var(--link-color);
+		text-decoration: none;
+		background-color: color-mix(
+			in oklab,
+			var(--link-color) 10%,
+			var(--background-highlight)
+		);
+	}
+}

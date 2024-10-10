@@ -112,6 +112,7 @@
 		img,
 		svg {
 			width: var(--icon-size);
+			height: var(--icon-size);
 		}
 
 		> span {

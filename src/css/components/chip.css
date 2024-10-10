@@ -1,0 +1,36 @@
+.chip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: calc(var(--gap-base) / 2);
+	text-align: center;
+	color: var(--text-color-base);
+	background: var(--background-highlight);
+	padding-block: calc(var(--gap-base) / 4);
+	padding-inline: calc(var(--gap-base) * 0.75);
+	font-weight: 400;
+	border-radius: calc(var(--radius-base) * 2);
+	text-decoration: none;
+	transition: background-color 175ms var(--ease-out-back);
+
+	&:is(a):is(:hover, :active) {
+		background: var(--link-color);
+		color: var(--text-color-base-inverse);
+		text-decoration: none;
+
+		svg {
+			animation: hvr-wobble-vertical 333ms ease-in-out 1;
+			color: color-mix(
+				in oklab,
+				var(--text-color-base-inverse) 40%,
+				var(--link-color)
+			);
+		}
+	}
+
+	svg {
+		color: var(--text-color-meta);
+		width: var(--icon-size-small);
+		height: var(--icon-size-small);
+	}
+}

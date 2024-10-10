@@ -58,30 +58,28 @@
 			"Career progression frameworks",
 			"Mentoring & coaching"
 		],
-		"tools": {
-			"languages": [
-				"JavaScript",
-				"TypeScript",
-				"HTML",
-				"CSS",
-				"Node.js",
-				"Deno",
-				"Python",
-				"PHP",
-				"NoSQL",
-				"GraphQL"
-			],
-			"frameworks": [
-				"Next.js",
-				"React (Native)",
-				"Vue",
-				"Angular",
-				"Web Components",
-				"PostgreSQL",
-				"MongoDB"
-			],
-			"ecosystems": ["PostgreSQL", "AWS", "GCP"]
-		}
+		"languages": [
+			"JavaScript",
+			"TypeScript",
+			"HTML",
+			"CSS",
+			"Node.js",
+			"Deno",
+			"Python",
+			"PHP",
+			"NoSQL",
+			"GraphQL"
+		],
+		"frameworks": [
+			"Next.js",
+			"React (Native)",
+			"Vue",
+			"Angular",
+			"Web Components",
+			"PostgreSQL",
+			"MongoDB"
+		],
+		"ecosystems": ["PostgreSQL", "AWS", "GCP"]
 	},
 	"education": [
 		{
@@ -101,7 +99,7 @@
 	"projects": [],
 	"certifications": [
 		{
-			"title": "Kanban Management Professional (KMP)",
+			"title": "Kanban Management Professional",
 			"timeline": "2019",
 			"authority": "Kanban University",
 			"url": "https://kanban.university/resources/kanban-development-path/kmp-credential/",
