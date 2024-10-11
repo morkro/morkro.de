@@ -32,6 +32,7 @@ permalink: /resume/
       As an engineering leader, my focus is on engineering excellence, pragmatic solutions, accessible software, and product delivery. Committed to staying hands-on, I actively contribute to various open-source projects that benefit the developer community. My journey in software development began as a self-taught web developer during my early years (in the era of XHTML 1.1, ActionScript, and PHP 5), and my passion for technology, the internet, and software engineering has never stopped.
     </p>
 
+		<strong class="resume-quicknav-note">Jump to:</strong>
 		<nav class="resume-quicknav">
 			<a href="#skills" class="chip">
 				<svg aria-hidden="true">
@@ -50,6 +51,12 @@ permalink: /resume/
 					<use xlink:href="#book"></use>
 				</svg>
 				Education
+			</a>
+			<a href="#organisations" class="chip">
+				<svg aria-hidden="true">
+					<use xlink:href="#users"></use>
+				</svg>
+				Organisations
 			</a>
 			<a href="#certifications" class="chip">
 				<svg aria-hidden="true">
@@ -77,58 +84,42 @@ permalink: /resume/
 		</h2>
   </div>
   <div class="col-4 grid resume-content">
-		<div class="col-2">
+		<div class="col-1">
 			<h3>Technical</h3>
-			<ul class="resume-content-list">
-				{% for skill in resume.skills.technical %}
-					<li>
-						<span class="chip">
-							{{ skill }}
-						</span>
-					</li>
-				{% endfor %}
-			</ul>
 		</div>
-		<div class="col-2">
-			<h3>Leadership</h3>
-			<ul class="resume-content-list">
-				{% for skill in resume.skills.leadership %}
-					<li>
-						<span class="chip">
-							{{ skill }}
-						</span>
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
-		<div class="col-2">
-			<h3>Languages</h3>
-			<ul class="resume-content-list">
-				{% for skill in resume.skills.languages %}
-					<li>
-						<span class="chip">
-							{{ skill }}
-						</span>
-					</li>
-				{% endfor %}
-			</ul>
-				{% comment %} <li>
-					<strong>Frameworks</strong>
-					<ul>
-						{% for skill in resume.skills.tools.frameworks %}
-							<li>{{ skill }}</li>
-						{% endfor %}
-					</ul>
-				</li>
+		<ul class="col-5 resume-content-list">
+			{% for skill in resume.skills.technical %}
 				<li>
-					<strong>Ecosystem</strong>
-					<ul>
-						{% for skill in resume.skills.tools.ecosystem %}
-							<li>{{ skill }}</li>
-						{% endfor %}
-					</ul>
-				</li> {% endcomment %}
-  	</div>
+					<span class="chip">
+						{{ skill }}
+					</span>
+				</li>
+			{% endfor %}
+		</ul>
+		<div class="col-1">
+			<h3>Leadership</h3>
+		</div>
+		<ul class="col-5 resume-content-list">
+			{% for skill in resume.skills.leadership %}
+				<li>
+					<span class="chip">
+						{{ skill }}
+					</span>
+				</li>
+			{% endfor %}
+		</ul>
+		<div class="col-1">
+			<h3>Ecosystem</h3>
+		</div>
+		<ul class="col-5 resume-content-list">
+			{% for skill in resume.skills.ecosystem %}
+				<li>
+					<span class="chip">
+						{{ skill }}
+					</span>
+				</li>
+			{% endfor %}
+		</ul>
   </div>
 </section>
 
@@ -235,6 +226,54 @@ permalink: /resume/
   </div>
 </section>
 
+<section id="organisations" class="container-large grid">
+  <div class="col-2 resume-category">
+    <h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#users"></use>
+			</svg>
+			Organisations
+		</h2>
+  </div>
+  <div class="col-4 resume-content">
+    <ul>
+      {% for org in resume.organisations %}
+        <li>
+					<div class="resume-content-title">
+						<strong>{{ org.role }}</strong>
+						<span class="resume-content-time">
+							Since
+							<time datetime="{{ org.timeline.duration }}">
+								{{ org.timeline.label }}
+							</time>
+						</span>
+						</span>
+					</div>
+					<div class="resume-content-subtitle">
+						<img
+							src="{{ org.icon }}"
+							class="resume-content-logo"
+							loading="lazy"
+							width="30px"
+							height="30px"
+							alt="Picture of the organisation logo from {{ xp.org }}"
+							title="{{ org.org }}"
+						>
+						<a href="{{ org.url }}" target="_blank" rel="noopener noreferrer">
+							<strong>{{ org.org }}</strong>
+						</a>
+					</div>
+					<ul class="resume-content-description">
+            {% for resp in org.responsibilities %}
+              <li><span>{{ resp }}</span></li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
 <section id="certifications" class="container-large grid">
   <div class="col-2 resume-category">
     <h2>
@@ -284,26 +323,30 @@ permalink: /resume/
 		</h2>
   </div>
   <div class="col-4 grid resume-content">
-		<div class="col-3">
+		<div class="col-1">
 			<h3>Languages</h3>
-			<ul class="resume-content-list">
-				{% for lang in resume.languages %}
-					<li>
+		</div>
+		<ul class="col-5 resume-content-list">
+			{% for lang in resume.languages %}
+				<li>
+					<span class="chip chip-group">
 						<strong>{{ lang.language }}</strong>
 						<span>{{ lang.proficiency }}</span>
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
-		<div class="col-3">
+					</span>
+				</li>
+			{% endfor %}
+		</ul>
+		<div class="col-1">
 			<h3>Interests</h3>
-			<ul class="resume-content-list">
-				{% for interest in resume.interests %}
-					<li>
-						{{ interest }}
-					</li>
-				{% endfor %}
-			</ul>
 		</div>
+		<ul class="col-5 resume-content-list">
+			{% for interest in resume.interests %}
+				<li>
+					<span class="chip">
+						{{ interest }}
+					</span>
+				</li>
+			{% endfor %}
+		</ul>
   </div>
 </section>

@@ -1,10 +1,25 @@
+.template-resume #content {
+	padding-bottom: var(--gap-large);
+}
+
 .template-resume #intro {
 	align-items: center;
 	margin-bottom: var(--gap-large);
+	position: relative;
 
 	.blob-photo image {
 		height: 100%;
 		width: auto;
+	}
+
+	p {
+		margin-bottom: var(--gap-base);
+	}
+
+	@media screen and (width <= 768px) {
+		> .col-4 {
+			padding-top: var(--gap-base);
+		}
 	}
 }
 
@@ -17,13 +32,19 @@
 	}
 }
 
+.resume-quicknav-note {
+	display: block;
+	color: var(--text-color-meta);
+	margin-bottom: var(--gap-small);
+}
+
 .resume-quicknav {
 	width: 100%;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: flex-start;
+	flex-wrap: wrap;
 	gap: calc(var(--gap-base) / 2);
-	margin-top: var(--gap-base);
 }
 
 .resume-category {
@@ -32,11 +53,22 @@
 	padding-right: calc(1.5 * var(--gap-base));
 	border-right: var(--border-width-large) solid var(--background-highlight);
 
+	@media screen and (width <= 768px) {
+		padding-right: 0;
+		padding-bottom: var(--gap-small);
+		border-right: none;
+		border-bottom: var(--border-width-large) solid var(--background-highlight);
+	}
+
 	h2 {
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
 		gap: calc(var(--gap-base) * 0.5);
+
+		@media screen and (width <= 768px) {
+			justify-content: flex-start;
+		}
 	}
 
 	svg {
@@ -48,6 +80,10 @@
 
 .resume-content {
 	padding-bottom: var(--gap-large);
+
+	@media screen and (width <= 768px) {
+		padding-top: var(--gap-base);
+	}
 
 	h3 {
 		margin-bottom: calc(var(--gap-base) / 2);
@@ -86,7 +122,6 @@
 		border-radius: var(--radius-base);
 		background: var(--background-highlight);
 		padding-inline: calc(var(--gap-base) / 6);
-		line-height: 22px;
 	}
 }
 
@@ -117,6 +152,12 @@
 .resume-content-time {
 	font-size: var(--font-size-small);
 	color: var(--text-color-meta);
+	line-height: 22px;
+
+	@media screen and (width <= 485px) {
+		font-size: var(--font-size-tiny);
+		line-height: 16px;
+	}
 }
 
 .resume-content-logo {
@@ -129,8 +170,15 @@
 
 .resume-content-list {
 	padding-left: var(--gap-base);
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--gap-small);
 
-	li::marker {
-		color: var(--text-color-highlight);
+	&:not(:last-of-type) {
+		margin-bottom: var(--gap-small);
+
+		@media screen and (width <= 768px) {
+			margin-bottom: var(--gap-base);
+		}
 	}
 }

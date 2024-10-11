@@ -40,12 +40,11 @@
 	],
 	"skills": {
 		"technical": [
-			"Architecture",
-			"Frontend & Backend",
-			"DevOps",
-			"APIs",
+			"Solution architecture",
+			"Frontend & backend",
+			"API development",
+			"Infrastructure",
 			"Open source",
-			"Security",
 			"Web accessibility",
 			"Design systems",
 			"Documentation"
@@ -54,11 +53,10 @@
 			"Engineering leadership",
 			"Agile product mgmt.",
 			"Product delivery",
-			"Hiring",
 			"Career progression frameworks",
 			"Mentoring & coaching"
 		],
-		"languages": [
+		"ecosystem": [
 			"JavaScript",
 			"TypeScript",
 			"HTML",
@@ -68,18 +66,10 @@
 			"Python",
 			"PHP",
 			"NoSQL",
-			"GraphQL"
-		],
-		"frameworks": [
-			"Next.js",
-			"React (Native)",
-			"Vue",
-			"Angular",
-			"Web Components",
-			"PostgreSQL",
-			"MongoDB"
-		],
-		"ecosystems": ["PostgreSQL", "AWS", "GCP"]
+			"GraphQL",
+			"AWS",
+			"GCP"
+		]
 	},
 	"education": [
 		{
@@ -96,7 +86,6 @@
 			"status": "Discontinued after four semester due to work opportunities."
 		}
 	],
-	"projects": [],
 	"certifications": [
 		{
 			"title": "Kanban Management Professional",
@@ -116,16 +105,44 @@
 	"languages": [
 		{
 			"language": "German",
-			"proficiency": "Native"
+			"proficiency": "Native "
 		},
 		{
 			"language": "English",
 			"proficiency": "Fluent"
+		},
+		{
+			"language": "Croatian",
+			"proficiency": "Learning"
 		}
 	],
 	"interests": [
-		"Engineering & technology",
-		"Botany & rewilding",
-		"Mountaineering"
+		"👩🏻‍💻 Engineering",
+		"💾 Technology",
+		"🌵 Cacti & succulents",
+		"🌳 Bonsai",
+		"⛰️ Rewilding",
+		"🧗🏻 Mountaineering",
+		"⚔️ Azeroth",
+		"🏋🏻‍♀️ Sports",
+		"📚 Manga"
+	],
+	"organisations": [
+		{
+			"org": "Berliner Kakteenfreunde e.V.",
+			"icon": "/../assets/img/kfb.svg",
+			"role": "Member & associate board member for Web",
+			"timeline": { "label": "2022", "duration": "P2Y" },
+			"url": "https://kakteenfreunde-berlin.de/",
+			"responsibilities": ["tbd"]
+		},
+		{
+			"org": "Deutsche Kakteen-Gesellschaft e.V.",
+			"icon": "/../assets/img/dkg.webp",
+			"role": "Member",
+			"timeline": { "label": "2020", "duration": "P4Y" },
+			"url": "https://www.dkg.eu/",
+			"responsibilities": ["tbd"]
+		}
 	]
 }

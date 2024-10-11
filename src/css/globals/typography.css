@@ -40,7 +40,7 @@ address,
 button,
 li {
 	font-weight: 300;
-	line-height: 32px;
+	line-height: var(--line-height-base);
 }
 
 p {
