@@ -74,6 +74,16 @@ blockquote {
 	}
 }
 
+.with-icon > :is(svg, img) {
+	display: inline-block;
+	width: var(--icon-size);
+	height: var(--icon-size);
+	border-radius: var(--radius-base);
+	transform: translateY(-2px);
+	vertical-align: middle;
+	color: currentcolor;
+}
+
 /**
  * Links
  */

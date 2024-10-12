@@ -42,16 +42,6 @@
 		}
 	}
 
-	.intro-welcome-content .content-ref-job img,
-	.intro-welcome-content p > svg {
-		display: inline-block;
-		width: var(--icon-size);
-		height: var(--icon-size);
-		border-radius: var(--radius-base);
-		transform: translateY(-2px);
-		vertical-align: middle;
-	}
-
 	/**
 	 * Sections
 	 */
