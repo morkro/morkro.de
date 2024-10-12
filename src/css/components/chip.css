@@ -34,6 +34,12 @@
 		height: var(--icon-size-small);
 	}
 
+	&.chip-small {
+		font-size: var(--font-size-tiny);
+		padding-block: 0;
+		padding-inline: calc(var(--gap-base) * 0.55);
+	}
+
 	&.chip-group {
 		--chip-group-highlight-color: var(--blue);
 		--chip-group-highlight-bg: var(--background-highlight);

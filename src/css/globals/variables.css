@@ -33,7 +33,7 @@
 	--font-size-base: 18px;
 	--font-size-medium: 115%; /* 20px */
 	--font-size-large: 167%; /* 30px */
-	--font-size-super: 555%; /* 100px */
+	--font-size-super: 500%; /* 100px */
 	--line-height-base: calc(var(--font-size-base) * 1.78);
 	--line-height-small: calc(var(--font-size-base) * 1.25);
 

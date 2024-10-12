@@ -10,7 +10,14 @@
 			"location": "Berlin",
 			"url": "https://www.mckinsey.com/",
 			"icon": "/../assets/img/mck.png",
-			"responsibilities": ["foo", "foo"]
+			"responsibilities": [
+				"Initially joined as a Senior Engineer and got promoted three times (→ Staff Engineer → Principial Engineer → Director of Engineering) with increasing responsibility of scope, delivery, and people.",
+				"Have the privilige to work in various different countries and (work) cultures for clients from different industries (<i>e.g., Banking in London/Bucharest/Amsterdam, Telco in Madrid/Copenhagen, Consumer in Munich/Copenhagen/Berlin, etc.</i>)",
+				"I am responsible for end-to-end technology (and product) delivery throughout a product's lifecycle where I work closely with (non-technical) stakeholders and our diverse cross-functional delivery teams.",
+				"My functional role ususally starts as the initial architect including technology vision, engineering principles, project scoping (technology & people) and changes throughout the lifecycle as needed; e.g., being the very first engineer on the team creating the boilerplate or first features, working on infrastructure related tasks, further defining the technology vision and roadmap, etc.",
+				"As part of larger digital transformations, I work with our clients on their architecture principles, technology vision, and modernisation strategies.",
+				"For a list of (sanitised) project examples, please reach out to me on LinkedIn."
+			]
 		},
 		{
 			"company": "Razorfish",
@@ -20,10 +27,23 @@
 				"duration": "P2Y"
 			},
 			"location": "Berlin",
-			"note": "now part of Publicis Sapient",
+			"note": "now Publicis Sapient",
 			"icon": "/../assets/img/razorfish.webp",
 			"url": "https://www.publicissapient.com/",
-			"responsibilities": ["foo", "foo"]
+			"responsibilities": [
+				"Worked on a variety of microsites for international clients using a custom jQuery application framework focused on web animations and single page application design.",
+				"Started a series of \"brown bag\" sessions around new ECMAScript language features and its practical application in our development practices.",
+				"Paired with product owner and designers on a regular basis to quickly ideate on UX/UI experiences and ensure timely delivery."
+			],
+			"technologies": [
+				"React",
+				"Node.js",
+				"WebGL",
+				"jQuery",
+				"AWS",
+				"Jenkins",
+				"ColdFusion"
+			]
 		},
 		{
 			"company": "Self-employed",
@@ -35,7 +55,19 @@
 			"location": "Münster/Cologne/Berlin",
 			"icon": "/../assets/img/moritz-work.webp",
 			"note": "this website!",
-			"responsibilities": ["foo", "foo"]
+			"responsibilities": [
+				"Built interactive web- and microsites, blogs, and CMS for digital agencies and own clients across Europe and Latin america.",
+				"Implemented the new frontend experience for a Berlin-based bank and a global insurance company.",
+				"Developed various PHP-based CMS and static websites.",
+				"Fun fact: I have this website since 2007 and updated it throughout my career."
+			],
+			"technologies": [
+				"jQuery",
+				"React",
+				"Node.js",
+				"PHP",
+				"ActionScript (RIP 🪦)"
+			]
 		}
 	],
 	"skills": {
@@ -44,10 +76,12 @@
 			"Frontend & backend",
 			"API development",
 			"Infrastructure",
+			"Data modeling",
 			"Open source",
 			"Web accessibility",
 			"Design systems",
-			"Documentation"
+			"Documentation",
+			"Rapid prototyping"
 		],
 		"leadership": [
 			"Engineering leadership",
@@ -134,7 +168,10 @@
 			"role": "Member & associate board member for Web",
 			"timeline": { "label": "2022", "duration": "P2Y" },
 			"url": "https://kakteenfreunde-berlin.de/",
-			"responsibilities": ["tbd"]
+			"responsibilities": [
+				"Responsible for development of the club website.",
+				"Regular member activities."
+			]
 		},
 		{
 			"org": "Deutsche Kakteen-Gesellschaft e.V.",
@@ -142,7 +179,9 @@
 			"role": "Member",
 			"timeline": { "label": "2020", "duration": "P4Y" },
 			"url": "https://www.dkg.eu/",
-			"responsibilities": ["tbd"]
+			"responsibilities": [
+				"Regular member, contributing to the yearly seed distribution with my own seeds."
+			]
 		}
 	]
 }

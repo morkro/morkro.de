@@ -19,58 +19,71 @@ permalink: /resume/
 ---
 
 <section id="intro" class="container-large grid">
-  <div class="col-2">
+  {% comment %} <div class="col-2">
 		{%
 			include blob-photo,
 			photoUrl: "moritz-work.webp",
 			photoTitle: "Professional portrait photo of Moritz Kröger",
 			photoAlt: "Professional portrait photo of Moritz Kröger"
 		%}
-  </div>
-  <div class="col-4">
+  </div> {% endcomment %}
+  <div class="col-6">
+		{%
+			include blob-photo,
+			photoUrl: "moritz-work.webp",
+			photoTitle: "Professional portrait photo of Moritz Kröger",
+			photoAlt: "Professional portrait photo of Moritz Kröger"
+		%}
+		<h1>Resume</h1>
     <p>
-      As an engineering leader, my focus is on engineering excellence, pragmatic solutions, accessible software, and product delivery. Committed to staying hands-on, I actively contribute to various open-source projects that benefit the developer community. My journey in software development began as a self-taught web developer during my early years (in the era of XHTML 1.1, ActionScript, and PHP 5), and my passion for technology, the internet, and software engineering has never stopped.
-    </p>
-
-		<strong class="resume-quicknav-note">Jump to:</strong>
-		<nav class="resume-quicknav">
-			<a href="#skills" class="chip">
-				<svg aria-hidden="true">
-					<use xlink:href="#terminal"></use>
-				</svg>
-				Skills
-			</a>
-			<a href="#experience" class="chip">
-				<svg aria-hidden="true">
-					<use xlink:href="#briefcase"></use>
-				</svg>
-				Experience
-			</a>
-			<a href="#education" class="chip">
-				<svg aria-hidden="true">
-					<use xlink:href="#book"></use>
-				</svg>
-				Education
-			</a>
-			<a href="#organisations" class="chip">
-				<svg aria-hidden="true">
-					<use xlink:href="#users"></use>
-				</svg>
-				Organisations
-			</a>
-			<a href="#certifications" class="chip">
-				<svg aria-hidden="true">
-					<use xlink:href="#award"></use>
-				</svg>
-				Certifications
-			</a>
-			<a href="#other" class="chip">
-				<svg aria-hidden="true">
-					<use xlink:href="#layers"></use>
-				</svg>
-				Other
-			</a>
-		</nav>
+			I'm an engineering leader with 15+ years of experience and a strong focus on consumer-facing software and web accessibility. The past 8 years, I have lead diverse teams and build various successful digital business in different industries.
+			<br><br>
+			I am entirely self-taught and started my professional journey as a developer with just 18yrs old. From that point on, my interest for great web experiences and technologies has lead me all over the world to work with amazing teams in different industries from startups to Fortune 500 companies.
+			<br><br>
+			Please reach out to me on <a href="" target="_blank">LinkedIn</a> for any inquiry.
+		</p>
+		</div>
+		<div class="col-6 resume-quicknav-wrapper">
+			<strong class="resume-quicknav-note">Jump to:</strong>
+			<nav class="resume-quicknav">
+				<a href="#skills" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#terminal"></use>
+					</svg>
+					Skills
+				</a>
+				<a href="#experience" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#briefcase"></use>
+					</svg>
+					Experience
+				</a>
+				<a href="#education" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#book"></use>
+					</svg>
+					Education
+				</a>
+				<a href="#organisations" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#users"></use>
+					</svg>
+					Organisations
+				</a>
+				<a href="#certifications" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#award"></use>
+					</svg>
+					Certifications
+				</a>
+				<a href="#other" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#layers"></use>
+					</svg>
+					Other
+				</a>
+			</nav>
+		</div>
 	</div>
 </section>
 
@@ -170,6 +183,22 @@ permalink: /resume/
             {% for resp in xp.responsibilities %}
               <li><span>{{ resp }}</span></li>
             {% endfor %}
+						{% if xp.technologies %}
+						<li>
+							<span>
+								Notable technologies used (at that time):
+							</span>
+							<ul class="resume-content-list">
+								{% for tech in xp.technologies %}
+									<li>
+										<span class="chip chip-small">
+											{{ tech }}
+										</span>
+									</li>
+								{% endfor %}
+							</ul>
+						</li>
+						{% endif %}
           </ul>
         </li>
       {% endfor %}
