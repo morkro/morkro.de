@@ -19,7 +19,7 @@
 	--text-color-base: var(--black);
 	--text-color-base-inverse: var(--white);
 	--text-color-highlight: var(--blue);
-	--text-color-meta: var(--shade-of-grey-dark);
+	--text-color-meta: var(--grey);
 	--link-color: var(--blue);
 	--link-hover: var(--orange);
 
@@ -33,7 +33,9 @@
 	--font-size-base: 18px;
 	--font-size-medium: 115%; /* 20px */
 	--font-size-large: 167%; /* 30px */
-	--font-size-super: 555%; /* 100px */
+	--font-size-super: 500%; /* 100px */
+	--line-height-base: calc(var(--font-size-base) * 1.78);
+	--line-height-small: calc(var(--font-size-base) * 1.25);
 
 	/* DIMENSIONS */
 	--gap-base: 20px;
@@ -42,7 +44,7 @@
 	--gap-large: calc(3.75 * var(--gap-base)); /* 75px */
 	--radius-base: 4px;
 	--container-width-base: 920px;
-	--container-width-large: 1040px;
+	--container-width-large: 1100px;
 	--border-width-base: 2px;
 	--border-width-large: calc(2 * var(--border-width-base));
 	--page-width: calc(var(--container-width-base) + (2 * var(--gap-base)));

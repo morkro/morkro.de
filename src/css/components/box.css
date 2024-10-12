@@ -1,0 +1,52 @@
+.box {
+	display: flex;
+	color: var(--text-color-base);
+	padding-block: calc(var(--gap-base) / 4);
+	padding-inline: calc(var(--gap-base) * 0.75);
+	border-radius: calc(var(--radius-base) * 2);
+	text-decoration: none;
+	position: relative;
+
+	&::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		content: "";
+		width: 100%;
+		height: 100%;
+		background: var(--background-highlight);
+		border-radius: calc(var(--radius-base) * 2);
+		z-index: -1;
+		transform: perspective(1px) translateZ(0);
+		transition: border-radius 175ms var(--ease-out-back), outline 175ms
+			var(--ease-out-back);
+	}
+
+	p,
+	span {
+		text-wrap: pretty;
+	}
+
+	a {
+		color: var(--text-color-base);
+		text-decoration: none;
+	}
+
+	&:is(a):is(:hover, :active) {
+		text-decoration: none;
+
+		&::before {
+			animation: box-pop 0.15s linear 1;
+			transform: scale(1.025, 1.1);
+			outline: var(--border-width-base) solid var(--link-color);
+		}
+	}
+}
+
+@keyframes box-pop {
+	50% {
+		transform: scale(1.05, 1.2);
+		border-radius: calc(var(--radius-base) * 4);
+	}
+}

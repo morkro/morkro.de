@@ -1,0 +1,187 @@
+{
+	"experience": [
+		{
+			"company": "McKinsey & Company",
+			"title": "Director of Software & Cloud Engineering",
+			"timeline": {
+				"label": "2016—Present",
+				"duration": "P8Y"
+			},
+			"location": "Berlin",
+			"url": "https://www.mckinsey.com/",
+			"icon": "/../assets/img/mck.png",
+			"responsibilities": [
+				"Initially joined as a Senior Engineer and got promoted three times (→ Staff Engineer → Principial Engineer → Director of Engineering) with increasing responsibility of scope, delivery, and people.",
+				"Have the privilige to work in various different countries and (work) cultures for clients from different industries (<i>e.g., Banking in London/Bucharest/Amsterdam, Telco in Madrid/Copenhagen, Consumer in Munich/Copenhagen/Berlin, etc.</i>)",
+				"I am responsible for end-to-end technology (and product) delivery throughout a product's lifecycle where I work closely with (non-technical) stakeholders and our diverse cross-functional delivery teams.",
+				"My functional role ususally starts as the initial architect including technology vision, engineering principles, project scoping (technology & people) and changes throughout the lifecycle as needed; e.g., being the very first engineer on the team creating the boilerplate or first features, working on infrastructure related tasks, further defining the technology vision and roadmap, etc.",
+				"As part of larger digital transformations, I work with our clients on their architecture principles, technology vision, and modernisation strategies.",
+				"For a list of (sanitised) project examples, please reach out to me on LinkedIn."
+			]
+		},
+		{
+			"company": "Razorfish",
+			"title": "User Interface Developer",
+			"timeline": {
+				"label": "2014—2016",
+				"duration": "P2Y"
+			},
+			"location": "Berlin",
+			"note": "now Publicis Sapient",
+			"icon": "/../assets/img/razorfish.webp",
+			"url": "https://www.publicissapient.com/",
+			"responsibilities": [
+				"Worked on a variety of microsites for international clients using a custom jQuery application framework focused on web animations and single page application design.",
+				"Started a series of \"brown bag\" sessions around new ECMAScript language features and its practical application in our development practices.",
+				"Paired with product owner and designers on a regular basis to quickly ideate on UX/UI experiences and ensure timely delivery."
+			],
+			"technologies": [
+				"React",
+				"Node.js",
+				"WebGL",
+				"jQuery",
+				"AWS",
+				"Jenkins",
+				"ColdFusion"
+			]
+		},
+		{
+			"company": "Self-employed",
+			"title": "Full-stack Web Developer",
+			"timeline": {
+				"label": "2007—2014",
+				"duration": "P7Y"
+			},
+			"location": "Münster/Cologne/Berlin",
+			"icon": "/../assets/img/moritz-work.webp",
+			"note": "this website!",
+			"responsibilities": [
+				"Built interactive web- and microsites, blogs, and CMS for digital agencies and own clients across Europe and Latin america.",
+				"Implemented the new frontend experience for a Berlin-based bank and a global insurance company.",
+				"Developed various PHP-based CMS and static websites.",
+				"Fun fact: I have this website since 2007 and updated it throughout my career."
+			],
+			"technologies": [
+				"jQuery",
+				"React",
+				"Node.js",
+				"PHP",
+				"ActionScript (RIP 🪦)"
+			]
+		}
+	],
+	"skills": {
+		"technical": [
+			"Solution architecture",
+			"Frontend & backend",
+			"API development",
+			"Infrastructure",
+			"Data modeling",
+			"Open source",
+			"Web accessibility",
+			"Design systems",
+			"Documentation",
+			"Rapid prototyping"
+		],
+		"leadership": [
+			"Engineering leadership",
+			"Agile product mgmt.",
+			"Product delivery",
+			"Career progression frameworks",
+			"Mentoring & coaching"
+		],
+		"ecosystem": [
+			"JavaScript",
+			"TypeScript",
+			"HTML",
+			"CSS",
+			"Node.js",
+			"Deno",
+			"Python",
+			"PHP",
+			"NoSQL",
+			"GraphQL",
+			"AWS",
+			"GCP"
+		]
+	},
+	"education": [
+		{
+			"degree": "Bachelor of Arts",
+			"field": "Integrated Design",
+			"timeline": {
+				"label": "2002—2015",
+				"duration": "P2Y"
+			},
+			"school": "Köln International School of Design",
+			"url": "https://kisd.de/en",
+			"location": "Cologne",
+			"icon": "/../assets/img/kisd.webp",
+			"status": "Discontinued after four semester due to work opportunities."
+		}
+	],
+	"certifications": [
+		{
+			"title": "Kanban Management Professional",
+			"timeline": "2019",
+			"authority": "Kanban University",
+			"url": "https://kanban.university/resources/kanban-development-path/kmp-credential/",
+			"badge": "/../assets/certifications/kmp.webp"
+		},
+		{
+			"title": "Certified ScrumMaster® (CSM®)",
+			"timeline": "2017",
+			"authority": "Scrum Alliance",
+			"url": "https://www.scrumalliance.org/get-certified/scrum-master-track/certified-scrummaster",
+			"badge": "/../assets/certifications/sa-csm-300.webp"
+		}
+	],
+	"languages": [
+		{
+			"language": "German",
+			"proficiency": "Native "
+		},
+		{
+			"language": "English",
+			"proficiency": "Fluent"
+		},
+		{
+			"language": "Croatian",
+			"proficiency": "Learning"
+		}
+	],
+	"interests": [
+		"👩🏻‍💻 Engineering",
+		"💾 Technology",
+		"🌵 Cacti & succulents",
+		"🌳 Bonsai",
+		"⛰️ Rewilding",
+		"🧗🏻 Mountaineering",
+		"⚔️ Azeroth",
+		"🏋🏻‍♀️ Sports",
+		"📚 Manga"
+	],
+	"organisations": [
+		{
+			"org": "Berliner Kakteenfreunde e.V.",
+			"icon": "/../assets/img/kfb.svg",
+			"role": "Associate board member",
+			"timeline": { "label": "2022", "duration": "P2Y" },
+			"url": "https://kakteenfreunde-berlin.de/",
+			"responsibilities": [
+				"Responsible for development of the club website.",
+				"Regular member activities."
+			]
+		},
+		{
+			"org": "Deutsche Kakteen-Gesellschaft e.V.",
+			"icon": "/../assets/img/dkg.webp",
+			"role": "Member",
+			"timeline": { "label": "2020", "duration": "P4Y" },
+			"url": "https://www.dkg.eu/",
+			"responsibilities": [
+				"Regular member, contributing to the yearly seed distribution with my own seeds."
+			]
+		}
+	]
+}

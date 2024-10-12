@@ -1,7 +1,4 @@
 @layer pages {
-	/**
-	 * Welcome
-	 */
 	.intro-welcome {
 		margin-bottom: var(--gap-large);
 	}
@@ -14,7 +11,7 @@
 		}
 
 		.intro-welcome-photo-mask {
-			filter: drop-shadow(-8px 12px 0px var(--blue));
+			filter: drop-shadow(-3px 9px 0px var(--blue));
 
 			svg image {
 				display: block;
@@ -39,16 +36,10 @@
 				font-size: var(--font-size-medium);
 			}
 		}
-	}
 
-	.intro-welcome-content .content-ref-job img,
-	.intro-welcome-content p > svg {
-		display: inline-block;
-		width: var(--icon-size);
-		height: var(--icon-size);
-		border-radius: var(--radius-base);
-		transform: translateY(-2px);
-		vertical-align: middle;
+		@media (width <= 900px) {
+			grid-column: span 6;
+		}
 	}
 
 	/**
@@ -111,6 +102,7 @@
 		img,
 		svg {
 			width: var(--icon-size);
+			height: var(--icon-size);
 		}
 
 		> span {

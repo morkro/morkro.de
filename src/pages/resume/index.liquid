@@ -1,0 +1,377 @@
+---
+layout: default
+title: Resume
+pageClass: resume
+keywords:
+- mckinsey & company
+- director of engineering
+- principal engineer
+- staff engineer
+- softwar architect
+- razorfish
+- developer
+- web developer
+- self-employed
+- demodern
+- open source
+- kisd
+permalink: /resume/
+---
+
+<section id="intro" class="container-large grid">
+  <div class="col-2">
+		{%
+			include blob-photo,
+			photoUrl: "moritz-work.webp",
+			photoTitle: "Professional portrait photo of Moritz Kröger",
+			photoAlt: "Professional portrait photo of Moritz Kröger"
+		%}
+		<div class="resume-quicknav-wrapper">
+			<strong class="resume-quicknav-note">Jump to:</strong>
+			<nav class="resume-quicknav">
+				<a href="#skills" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#terminal"></use>
+					</svg>
+					Skills
+				</a>
+				<a href="#experience" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#briefcase"></use>
+					</svg>
+					Experience
+				</a>
+				<a href="#education" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#book"></use>
+					</svg>
+					Education
+				</a>
+				<a href="#organisations" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#users"></use>
+					</svg>
+					Organisations
+				</a>
+				<a href="#certifications" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#award"></use>
+					</svg>
+					Certifications
+				</a>
+				<a href="#other" class="chip">
+					<svg aria-hidden="true">
+						<use xlink:href="#layers"></use>
+					</svg>
+					Other
+				</a>
+			</nav>
+		</div>
+	</div>
+	<div class="col-4">
+		<h1>Resume</h1>
+    <p>
+			I'm an engineering leader with over 15 years of experience, specializing in consumer-facing software and web accessibility. For the past 8 years, I have led diverse teams and built successful digital businesses across various industries.
+			<br><br>
+			Being entirely self-taught, I started my professional journey as a developer at the age of 18. My interest for creating great web experiences has taken me all over the world, where I've had the opportunity to work with exceptional teams, from startups to Fortune 500 companies.
+			<br><br>
+			Open source has always been both a passion and an integral part of my work. Most of my personal projects are open source, and my contributions to the community focus on accessibility, bug fixes, and documentation.
+			<br><br>
+			Please reach out to me on <a href="" target="_blank" class="with-icon"><svg aria-hidden="true"><use xlink:href="#linkedin"></use></svg> LinkedIn</a> for any inquiry.
+		</p>
+		</div>
+	</div>
+</section>
+
+<section id="skills" class="container-large grid">
+  <div class="col-2 resume-category">
+		<h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#terminal"></use>
+			</svg>
+			Skills
+		</h2>
+  </div>
+  <div class="col-4 grid resume-content">
+		<div class="col-1">
+			<h3>Technical</h3>
+		</div>
+		<ul class="col-5 resume-content-list">
+			{% for skill in resume.skills.technical %}
+				<li>
+					<span class="chip">
+						{{ skill }}
+					</span>
+				</li>
+			{% endfor %}
+		</ul>
+		<div class="col-1">
+			<h3>Leadership</h3>
+		</div>
+		<ul class="col-5 resume-content-list">
+			{% for skill in resume.skills.leadership %}
+				<li>
+					<span class="chip">
+						{{ skill }}
+					</span>
+				</li>
+			{% endfor %}
+		</ul>
+		<div class="col-1">
+			<h3>Ecosystem</h3>
+		</div>
+		<ul class="col-5 resume-content-list">
+			{% for skill in resume.skills.ecosystem %}
+				<li>
+					<span class="chip">
+						{{ skill }}
+					</span>
+				</li>
+			{% endfor %}
+		</ul>
+  </div>
+</section>
+
+<section id="experience" class="container-large grid">
+  <div class="col-2 resume-category">
+    <h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#briefcase"></use>
+			</svg>
+			Experience
+		</h2>
+  </div>
+  <div class="col-4 resume-content">
+    <ul>
+      {% for xp in resume.experience %}
+        <li>
+					<div class="resume-content-title">
+						<strong>{{ xp.title }}</strong>
+						<span class="resume-content-time">
+							{{ xp.location }},
+							<time datetime="{{ xp.timeline.duration }}">
+								{{ xp.timeline.label }}
+							</time>
+						</span>
+					</div>
+					<div class="resume-content-subtitle">
+						<img
+							src="{{ xp.icon }}"
+							class="resume-content-logo"
+							loading="lazy"
+							width="30px"
+							height="30px"
+							alt="Picture of the company logo from {{ xp.company }}"
+							title="{{ xp.company }}"
+						>
+						{% if xp.url %}
+							<a href="{{ xp.url }}" target="_blank" rel="noopener noreferrer">
+						{% endif %}
+						<strong>{{ xp.company }}</strong>
+						{% if xp.url %}
+							</a>
+						{% endif %}
+						{% if xp.note %}
+							<span>({{ xp.note }})</span>
+						{% endif %}
+					</div>
+          <ul class="resume-content-description">
+            {% for resp in xp.responsibilities %}
+              <li><span>{{ resp }}</span></li>
+            {% endfor %}
+						{% if xp.technologies %}
+						<li>
+							<span>
+								Notable technologies used (at that time):
+							</span>
+							<ul class="resume-content-list">
+								{% for tech in xp.technologies %}
+									<li>
+										<span class="chip chip-small">
+											{{ tech }}
+										</span>
+									</li>
+								{% endfor %}
+							</ul>
+						</li>
+						{% endif %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section id="education" class="container-large grid">
+  <div class="col-2 resume-category">
+    <h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#book"></use>
+			</svg>
+			Education
+		</h2>
+  </div>
+  <div class="col-4 resume-content">
+    <ul>
+      {% for edu in resume.education %}
+        <li>
+					<div class="resume-content-title">
+						<strong>{{ edu.field }}</strong>
+						<span class="resume-content-time">
+							{{ edu.location }},
+							<time datetime="{{ edu.timeline.duration }}">
+								{{ edu.timeline.label }}
+							</time>
+						</span>
+					</div>
+					<div class="resume-content-subtitle">
+						<img
+							src="{{ edu.icon }}"
+							class="resume-content-logo"
+							loading="lazy"
+							width="30px"
+							height="30px"
+							alt="Picture of the institution logo from {{ xp.company }}"
+							title="{{ xp.company }}"
+						>
+						<a href="{{ edu.url }}" target="_blank" rel="noopener noreferrer">
+							<strong>{{ edu.school }}</strong>
+						</a>
+					</div>
+					<ul class="resume-content-description">
+						<li>
+							<span>
+								{{ edu.status }}
+							</span>
+						</li>
+					</ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section id="organisations" class="container-large grid">
+  <div class="col-2 resume-category">
+    <h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#users"></use>
+			</svg>
+			Organisations
+		</h2>
+  </div>
+  <div class="col-4 resume-content">
+    <ul>
+      {% for org in resume.organisations %}
+        <li>
+					<div class="resume-content-title">
+						<strong>{{ org.role }}</strong>
+						<span class="resume-content-time">
+							Since
+							<time datetime="{{ org.timeline.duration }}">
+								{{ org.timeline.label }}
+							</time>
+						</span>
+						</span>
+					</div>
+					<div class="resume-content-subtitle">
+						<img
+							src="{{ org.icon }}"
+							class="resume-content-logo"
+							loading="lazy"
+							width="30px"
+							height="30px"
+							alt="Picture of the organisation logo from {{ xp.org }}"
+							title="{{ org.org }}"
+						>
+						<a href="{{ org.url }}" target="_blank" rel="noopener noreferrer">
+							<strong>{{ org.org }}</strong>
+						</a>
+					</div>
+					<ul class="resume-content-description">
+            {% for resp in org.responsibilities %}
+              <li><span>{{ resp }}</span></li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section id="certifications" class="container-large grid">
+  <div class="col-2 resume-category">
+    <h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#award"></use>
+			</svg>
+			Certifications
+		</h2>
+  </div>
+  <div class="col-4 resume-content">
+    <ul class="grid">
+      {% for cert in resume.certifications %}
+        <li class="col-3">
+					<a href="{{ cert.url }}" target="_blank" rel="noopener noreferrer" class="resume-content-box box">
+						{% if cert.badge %}
+							<img
+								src="{{ cert.badge }}"
+								class="resume-content-box-badge"
+								loading="lazy"
+								title="Badge for the {{ cert.title }} certification"
+								alt="Badge for the {{ cert.title }} certification"
+							>
+						{% endif %}
+						<div class="resume-content-title">
+							<strong>{{ cert.title }}</strong>
+						</div>
+						<div class="resume-content-subtitle">
+							<strong>{{ cert.authority }}</strong>
+							<span class="resume-content-time">
+								<time datetime="{{ cert.timeline }}">{{ cert.timeline }}</time>
+							</span>
+						</div>
+					</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section id="other" class="container-large grid">
+  <div class="col-2 resume-category">
+    <h2>
+			<svg aria-hidden="true">
+				<use xlink:href="#layers"></use>
+			</svg>
+			Other
+		</h2>
+  </div>
+  <div class="col-4 grid resume-content">
+		<div class="col-1">
+			<h3>Languages</h3>
+		</div>
+		<ul class="col-5 resume-content-list">
+			{% for lang in resume.languages %}
+				<li>
+					<span class="chip chip-group">
+						<strong>{{ lang.language }}</strong>
+						<span>{{ lang.proficiency }}</span>
+					</span>
+				</li>
+			{% endfor %}
+		</ul>
+		<div class="col-1">
+			<h3>Interests</h3>
+		</div>
+		<ul class="col-5 resume-content-list">
+			{% for interest in resume.interests %}
+				<li>
+					<span class="chip">
+						{{ interest }}
+					</span>
+				</li>
+			{% endfor %}
+		</ul>
+  </div>
+</section>

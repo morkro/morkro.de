@@ -1,6 +1,5 @@
 ---
 layout: default
-title: Moritz Kröger
 pageClass: introduction
 keywords:
 - director of engineering
@@ -15,30 +14,26 @@ permalink: /
 		<h1>Hey there!</h1>
 		<p>
 			I am Moritz Kröger, Expert Associate Partner in the Software & Cloud Engineering Guild at<br>
-			<a class="content-ref-job" href="https://mckinsey.com" target="_blank" rel="noopener">
+			<a class="with-icon" href="https://mckinsey.com" target="_blank" rel="noopener">
 				<img src="/assets/img/mck.png" width="30" height="30" alt="McKinsey & Company Logo" aria-hidden="true">
 				<strong>McKinsey & Company</strong>
 			</a>, where I work with our clients to launch successful digital products and accelerate their engineering excellence.
 		</p>
 		<p>
-			I lead software engineering teams and specialise in <strong>Web & Mobile Application Development</strong>, primarily — but not limited to — in the JavaScript <svg aria-hidden="true"><use xlink:href="#javascript"></use></svg> ecosystem.
+			I lead software engineering teams and specialise in <strong>Web & Mobile Application Development</strong>, primarily — but not limited to — in the <span class="with-icon">JavaScript <svg aria-hidden="true"><use xlink:href="#javascript"></use></svg></span> ecosystem.
 			With over 15 years of professional experience, I advise my clients on architecture, strategy, and building successful digital organisations and high-quality products.
 		</p>
 	</div>
 
 	<div class="intro-welcome-photo col-2">
 		<div class="intro-welcome-photo-mask">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 359 454"  focusable="false">
-				<clipPath id="intro-welcome-photo-mask">
-					<path fill-rule="evenodd" d="M358.868131,361.904298 C358.7837,376.639239 352.957948,411.26126 328.726198,419.3502 C256.368675,443.549116 238.21597,445.815378 98.6343389,461.314228 C91.3479279,462.129063 84.0361874,462.816581 76.86798,459.667581 C49.1661089,447.529927 53.0077277,431.734002 22.2410047,247.530253 C8.09878157,162.855265 3.37907845,145.22596 0.322669633,116.053151 C-4.06775188,74.0042448 36.8053837,70.6600241 94.8687082,58.6921278 C259.492628,24.7406489 331.259134,-49.3839173 344.936986,87.669715 C347.807646,116.587887 349.749563,145.616402 352.704654,174.526086 C359.712443,241.979186 359.121424,286.498063 358.868131,361.904298" transform="translate(0 -8)"/>
-				</clipPath>
-				<image
-					href="/../assets/img/moritz-mountains.webp"
-					clip-path="url(#intro-welcome-photo-mask)"
-					title="Selfie of Moritz standing in the Slovenian Alps"
-					alt="Selfie of Moritz standing in the Slovenian Alps"
-				/>
-			</svg>
+			{%
+				include blob-photo,
+				photoUrl: "moritz-mountains.webp",
+				photoTitle: "Selfie of Moritz standing in the Slovenian Alps",
+				photoAlt: "Selfie of Moritz standing in the Slovenian Alps",
+				offsetY: "-60"
+			%}
 		</div>
 	</div>
 </section>
@@ -47,7 +42,7 @@ permalink: /
 	<section class="col-3">
 		<header>
 			<h2>Projects</h2>
-			<a href="{{ socialnetworks.github.url }}" target="_blank" rel="noopener noreferrer" class="btn">See all</a>
+			<a href="{{ socialnetworks.github.url }}" target="_blank" rel="noopener noreferrer" class="chip">See all</a>
 		</header>
 		<p>
 			I really enjoy working on and building open source side projects. I mainly work on web applications and developer tools.
@@ -55,7 +50,7 @@ permalink: /
 		<ul class="content-list-projects">
 			{% for project in projects %}
 			<li class="project-{{ project.name }}" data-project="{{ project.name }}">
-				<a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="btn">
+				<a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="box">
 					<span class="project-title">
 						{% if project.img %}
 							<img src="{{ project.img }}" width="30" height="30" alt="Logo of {{ project.title }}">

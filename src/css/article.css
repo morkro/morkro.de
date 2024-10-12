@@ -10,23 +10,9 @@
 		}
 	}
 
-	.article-warning {
-		background: var(--orange);
-		width: 100%;
-		margin-bottom: var(--gap-large);
-		padding: var(--gap-base);
-		display: flex;
-		gap: var(--gap-base);
-		box-shadow: 4px 4px 0 var(--blue);
-
-		p {
-			color: inherit;
-		}
-
-		svg {
-			width: calc(2 * var(--icon-size));
-			height: calc(2 * var(--icon-size));
-		}
+	ul {
+		padding-left: var(--gap-base);
+		list-style-type: circle;
 	}
 
 	.article-info {
@@ -100,6 +86,10 @@
 
 		ul {
 			padding-left: 20px;
+			list-style-type: circle;
+		}
+		ul {
+			padding-left: var(--gap-base);
 			list-style-type: circle;
 		}
 

@@ -10,6 +10,7 @@ h6 {
 	font-weight: 500;
 	text-wrap: balance;
 	color: var(--text-color-highlight);
+	line-height: var(--line-height-base);
 }
 
 h1 {
@@ -40,7 +41,7 @@ address,
 button,
 li {
 	font-weight: 300;
-	line-height: 32px;
+	line-height: var(--line-height-base);
 }
 
 p {
@@ -71,6 +72,16 @@ blockquote {
 		transform: translateX(-20px);
 		padding: 15px 20px;
 	}
+}
+
+.with-icon > :is(svg, img) {
+	display: inline-block;
+	width: var(--icon-size);
+	height: var(--icon-size);
+	border-radius: var(--radius-base);
+	transform: translateY(-2px);
+	vertical-align: middle;
+	color: currentcolor;
 }
 
 /**

@@ -12,10 +12,6 @@
 	justify-content: space-between;
 	align-items: center;
 	padding-block: var(--gap-base);
-
-	/* @media (width <= 768px) {
-		flex-direction: column;
-	} */
 }
 
 /**
@@ -65,13 +61,14 @@
 		}
 
 		& span {
-			font-size: var(--font-size-small);
+			font-size: var(--font-size-tiny);
+			line-height: var(--line-height-small);
 		}
 
 		& svg {
 			display: block !important;
-			width: var(--icon-size);
-			height: var(--icon-size);
+			width: var(--icon-size-small);
+			height: var(--icon-size-small);
 		}
 	}
 
