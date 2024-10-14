@@ -1,52 +1,26 @@
 @layer pages {
-	/**
-	 * 404
-	 */
-	.template-404 h1 {
-		margin-bottom: var(--gap-large);
-	}
-
 	.template-404 {
-		#page-header {
-			background: linear-gradient(
-				to left,
-				var(--background-content) 55%,
-				var(--background-highlight) 55%
-			);
-		}
+		display: flex;
+	}
 
-		#content {
-			background: linear-gradient(
-				to right,
-				var(--background-content) 55%,
-				var(--background-highlight) 55%
-			);
-		}
+	.template-404 #content {
+		background-color: transparent;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0;
+		color: var(--white);
 
-		#page-footer {
-			background: linear-gradient(
-				to left,
-				var(--background-base) 55%,
-				var(--dark-grey) 55%
-			);
+		p {
+			color: var(--white);
 		}
 	}
 
-	.content-404 {
-		padding-bottom: var(--gap-large);
+	.template-404 .content-inner {
 		text-align: center;
-
-		a:hover svg {
-			transform: translateX(25%);
-		}
-
-		svg {
-			fill: var(--text-color-base);
-			width: var(--icon-size);
-			height: var(--icon-size);
-			vertical-align: middle;
-			transform: translateX(0);
-			transition: transform 150ms var(--ease-out-back);
-		}
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--gap-base);
 	}
 }

@@ -1,24 +1,10 @@
-<!DOCTYPE html>
-<html
-  lang="en"
-  data-theme="light"
-  id="top">
-  {% include meta-head %}
-  <body
-    {% if pageClass %}
-    class="template-{{ pageClass }}"
-    {% endif %}>
-    <a href="#content" class="a11y-jump sr-only">
-      Jump directly to main content
-    </a>
+---
+layout: meta
+---
 
-    {% include iconset.html %}
-    {% include page-top-left-bg.html %}
-    {% include page-header %}
+{% render page-top-left-bg.html %}
+{% render page-header %}
 
-    <main id="content">{{ content }}</main>
+<main id="content">{{ content }}</main>
 
-    {% include page-footer %}
-    {% include page-scripts %}
-  </body>
-</html>
+{% render page-footer %}

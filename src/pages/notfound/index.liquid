@@ -1,23 +1,17 @@
 ---
-layout: default
+layout: empty
 title: 404
 pageClass: 404
 permalink: 404.html
 ---
 
 <div class="content-inner container">
-	<h1>
-		You broke it!
-	</h1>
-
-	<div class="content-404">
-		<p>
-			Don't worry, looks like the page you requested just doesn't exist.
-			<br />
-			<a href="/">
-				I'll guide you out of here
-				<svg><use xlink:href="#arrow-right"></use></svg>
-			</a>
-		</p>
+	{% render logo.html, asLink: false %}
+	<h1>Nothing found here</h1>
+	<p>Sorry, there isn't anything at this URL.</p>
+	<a href="/" class="chip">
+		<svg><use xlink:href="#arrow-left"></use></svg>
+		Go back home
+	</a>
 	</div>
 </div>

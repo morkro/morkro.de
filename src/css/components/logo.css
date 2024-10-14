@@ -8,6 +8,17 @@
 	align-items: center;
 	position: relative;
 	gap: calc(var(--gap-base) / 2);
+	text-align: left;
+
+	&:has(a:hover) .logo-img::after {
+		transform: scale(1);
+	}
+}
+
+.logo-img {
+	filter: drop-shadow(2px 3px 0 var(--black));
+	display: flex;
+	transform: translateY(-1px);
 
 	&::after {
 		content: url("/../assets/icons/home.svg");
@@ -17,7 +28,7 @@
 		height: var(--icon-size);
 		position: absolute;
 		left: 0;
-		top: 4px;
+		top: 0;
 		z-index: 1;
 		background: var(--link-color);
 		transform: scale(0);
@@ -25,16 +36,6 @@
 		transition: transform 175ms var(--ease-out-back);
 		clip-path: var(--img-shape);
 	}
-
-	&:has(a:hover)::after {
-		transform: scale(1);
-	}
-}
-
-.logo-img {
-	filter: drop-shadow(2px 3px 0 var(--black));
-	display: flex;
-	transform: translateY(-1px);
 
 	img {
 		width: var(--icon-size);
@@ -45,7 +46,7 @@
 }
 
 .logo-txt {
-	color: var(--text-color-base);
+	color: currentColor;
 	font-size: var(--font-size-medium);
 	text-decoration: none !important;
 	display: flex;

@@ -3,47 +3,54 @@ layout: default
 ---
 
 <div class="content-inner">
-	<article itemscope itemtype="http://schema.org/Article" class="content-article container">
-		<header>
-			<h1>{{ title }}</h1>
+  <article
+    itemscope
+    itemtype="http://schema.org/Article"
+    class="content-article container">
+    <header>
+      <h1>{{ title }}</h1>
 
-			<ul class="article-info">
-				<li>
-					<span>Published</span>
-					<span itemprop="datePublished">{{ page.date | date: "%d %B %Y" }}</span>
-				</li>
-				<li>
-					<span>Categories</span>
-					<span>{% for tag in tags %}#{{ tag }} {% endfor %}</span>
-				</li>
-			</ul>
-		</header>
+      <ul class="article-info">
+        <li>
+          <span>Published</span>
+          <span itemprop="datePublished">{{ page.date | date: "%d %B %Y" }}</span>
+        </li>
+        <li>
+          <span>Categories</span>
+          <span>
+            {% for tag in tags %}#{{ tag }}
+            {% endfor %}
+          </span>
+        </li>
+      </ul>
+    </header>
 
-		{% assign pubYear = page.date | date: "%Y" %}
-		{% if pubYear == "2015" %}
-			{% include article-outdated-warning.html %}
-		{% endif %}
+    {% assign pubYear = page.date | date: "%Y" %}
+    {% if pubYear == "2015" %}
+      {% render article-outdated-warning.html %}
+    {% endif %}
 
-		<section itemtype="articleBody" class="article-body">
-			{{ content }}
-		</section>
+    <section itemtype="articleBody" class="article-body">
+      {{ content }}
+    </section>
 
-		<section class="article-comments">
-			<div itemprop="comment" id="disqus_thread"></div>
-			<script type="text/javascript">
-				var disqus_config = function () {
-					this.page.url = '{{ site.url }}{{ page.url }}';
-				};
-				(function() {
-					var d = document, s = d.createElement('script');
-					s.src = '//morkro.disqus.com/embed.js';
-					s.setAttribute('data-timestamp', +new Date());
-					(d.head || d.body).appendChild(s);
-				})();
-			</script>
-			<noscript>
-				Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
-			</noscript>
-		</section>
-	</article>
+    <section class="article-comments">
+      <div itemprop="comment" id="disqus_thread"></div>
+      <script type="text/javascript">
+        				var disqus_config = function () {
+        					this.page.url = '{{ site.url }}{{ page.url }}';
+        				};
+        				(function() {
+        					var d = document, s = d.createElement('script');
+        					s.src = '//morkro.disqus.com/embed.js';
+        					s.setAttribute('data-timestamp', +new Date());
+        					(d.head || d.body).appendChild(s);
+        				})();
+      </script>
+      <noscript>
+        Please enable JavaScript to view the
+        <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+      </noscript>
+    </section>
+  </article>
 </div>
