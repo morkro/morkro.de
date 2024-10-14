@@ -10,13 +10,9 @@
 			display: none;
 		}
 
-		.intro-welcome-photo-mask {
-			filter: drop-shadow(-3px 9px 0px var(--blue));
-
-			svg image {
-				display: block;
-				width: 100%;
-			}
+		.intro-welcome-photo-mask svg image {
+			display: block;
+			width: 100%;
 		}
 	}
 
