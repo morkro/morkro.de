@@ -1,39 +1,39 @@
 {
-	"name": "morkro.de",
-	"version": "24.12.271.M2",
-	"description": "Website of Moritz Kröger",
-	"homepage": "https://moritz.berlin",
-	"author": "Moritz Kröger <write@morkro.de>",
-	"type": "module",
-	"scripts": {
-		"clean:site": "rimraf _site",
-		"lint:js": "biome lint --error-on-warnings ./src/scripts/",
-		"lint:css": "biome lint --error-on-warnings src/css/**/*.css",
-		"lint": "npm run lint:js && npm run lint:css",
-		"setup": "npm run clean:site && npm run lint",
-		"build:css": "postcss src/css/*.css --no-map --dir _site/css",
-		"watch:css": "postcss src/css/*.css --no-map --dir _site/css --watch",
-		"build": "cross-env NODE_ENV=production npm run setup && npx @11ty/eleventy",
-		"start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet"
-	},
-	"devDependencies": {
-		"@11ty/eleventy": "^3.0.0",
-		"@11ty/eleventy-plugin-bundle": "^3.0.0",
-		"@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
-		"@biomejs/biome": "1.9.3",
-		"@types/html-minifier": "^4.0.5",
-		"@types/postcss-import": "^14.0.3",
-		"autoprefixer": "^10.4.20",
-		"cross-env": "^7.0.3",
-		"cssnano": "^7.0.6",
-		"postcss": "^8.4.47",
-		"postcss-cli": "^11.0.0",
-		"postcss-import": "^16.1.0",
-		"rimraf": "^6.0.1",
-		"snyk": "^1.1293.1"
-	},
-	"dependencies": {
-		"html-minifier": "^4.0.0"
-	},
-	"snyk": true
+  "name": "morkro.de",
+  "version": "24.12.30.M2",
+  "description": "Website of Moritz Kröger",
+  "homepage": "https://moritz.berlin",
+  "author": "Moritz Kröger <write@morkro.de>",
+  "type": "module",
+  "scripts": {
+    "clean:site": "rimraf _site",
+    "lint:js": "biome lint --error-on-warnings ./src/scripts/",
+    "lint:css": "biome lint --error-on-warnings src/css/**/*.css",
+    "lint": "npm run lint:js && npm run lint:css",
+    "setup": "npm run clean:site && npm run lint",
+    "build:css": "postcss src/css/*.css --no-map --dir _site/css",
+    "watch:css": "postcss src/css/*.css --no-map --dir _site/css --watch",
+    "build": "cross-env NODE_ENV=production npm run setup && npx @11ty/eleventy",
+    "start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy-plugin-bundle": "^3.0.0",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+    "@biomejs/biome": "1.9.3",
+    "@types/html-minifier": "^4.0.5",
+    "@types/postcss-import": "^14.0.3",
+    "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
+    "cssnano": "^7.0.6",
+    "postcss": "^8.4.47",
+    "postcss-cli": "^11.0.0",
+    "postcss-import": "^16.1.0",
+    "rimraf": "^6.0.1",
+    "snyk": "^1.1293.1"
+  },
+  "dependencies": {
+    "html-minifier": "^4.0.0"
+  },
+  "snyk": true
 }

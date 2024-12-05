@@ -159,6 +159,14 @@
 		}
 	}
 
+	svg {
+		display: inline-block;
+		height: calc(0.75 * var(--icon-size-small));
+		width: calc(0.75 * var(--icon-size-small));
+		vertical-align: middle;
+		margin-inline-start: var(--gap-small);
+	}
+
 	/** Disabling linter here as the selectors don't match in the DOM */
 	& a {
 		color: var(--text-color-base-inverse);

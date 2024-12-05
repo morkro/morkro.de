@@ -1,0 +1,29 @@
+[data-tooltip] {
+	position: relative;
+	cursor: help;
+
+	&::before {
+		content: attr(data-tooltip-message);
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translate(-50%, -100%);
+		width: min-content;
+		z-index: 1;
+		background: var(--blue);
+		color: var(--text-color-base-inverse);
+		font-size: var(--font-size-small);
+		border-radius: var(--radius-base);
+		padding-block: var(--gap-small);
+		padding-inline: calc(2 * var(--gap-small));
+		line-height: 1.1;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 150ms ease-in-out, visibility 150ms ease-in-out;
+	}
+
+	&:is(:hover, :focus, :active)::before {
+		opacity: 1;
+		visibility: visible;
+	}
+}
