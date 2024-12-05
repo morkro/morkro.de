@@ -95,8 +95,13 @@ async function main() {
 		console.log(`New version: ${newVersion}`)
 		await updateVersion(newVersion)
 
+		// Stage the updated package.json
 		execSync(`git add ${pkgPath}`)
 		console.log('Version updated and staged for commit.')
+
+		// Amend the most recent commit to include the updated package.json
+		execSync('git commit --amend --no-edit', { stdio: 'inherit' })
+		console.log('Amended the latest commit with the updated version.')
 
 		process.stdin.destroy()
 		process.exit(0)
