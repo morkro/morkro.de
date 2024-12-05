@@ -42,6 +42,7 @@
 		height: var(--icon-size);
 		cursor: var(--cursor-default);
 		clip-path: var(--img-shape);
+		background: var(--blue);
 	}
 }
 
