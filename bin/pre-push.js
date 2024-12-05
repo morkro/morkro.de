@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 import { execSync } from 'node:child_process'
-import { constants, readFile, writeFile } from 'node:fs/promises'
+import fs from 'node:fs'
+import { readFile, writeFile } from 'node:fs/promises'
 import readline from 'node:readline'
 import tty from 'node:tty'
 
@@ -9,7 +10,7 @@ const pkgPath = './package.json'
 
 // Handle non-interactive environments by assigning /dev/tty to process.stdin
 if (!process.stdin.isTTY) {
-	const { O_RDONLY, O_NOCTTY } = constants
+	const { O_RDONLY, O_NOCTTY } = fs.constants
 	let fd
 	try {
 		fd = fs.openSync('/dev/tty', O_RDONLY | O_NOCTTY)
