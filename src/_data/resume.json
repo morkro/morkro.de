@@ -1,10 +1,25 @@
 {
 	"experience": [
 		{
+			"company": "Parloa",
+			"title": "Head of Engineering, Agent Integration",
+			"timeline": {
+				"label": "2025-Current",
+				"duration": "P1Y"
+			},
+			"location": "Berlin",
+			"url": "https://www.parloa.com/",
+			"icon": "/../assets/img/parloa.webp",
+			"responsibilities": [
+				"Leading the engineering department responsible for integrating our customers and 3rd-party solutions into the Parloa platform.",
+				"Responsible for the technical strategy and roadmap of the Agent Integration department."
+			]
+		},
+		{
 			"company": "McKinsey & Company",
 			"title": "Director of Software & Cloud Engineering",
 			"timeline": {
-				"label": "2016—Present",
+				"label": "2016—2024",
 				"duration": "P8Y"
 			},
 			"location": "Berlin",
