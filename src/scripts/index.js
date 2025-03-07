@@ -34,6 +34,9 @@ async function loadWidget(selector, widgetName, widgetFile) {
 	}
 }
 
+/**
+ * [<widgetClass>, <widgetName>, <widgetFile>]
+ */
 const widgets = [
 	/* Set preferred theme */
 	['.js-theme-toggle', 'Theme', 'set-theme.js'],
