@@ -13,6 +13,10 @@
 			"responsibilities": [
 				"Leading the engineering department responsible for integrating our customers and 3rd-party solutions into the Parloa platform.",
 				"Responsible for the technical strategy and roadmap of the Agent Integration department."
+			],
+			"technologies": [
+				"Azure",
+				"LLM"
 			]
 		},
 		{

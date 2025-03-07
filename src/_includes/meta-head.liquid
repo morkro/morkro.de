@@ -1,66 +1,46 @@
 <head>
-	<title>{% if title %}{{ title }} | {{ site.author }}{% else %}{{ site.author }}{% endif %}</title>
-	<meta charset="utf-8" />
-	<meta name="robots" content="index,follow" />
-	<meta name="revisit-after" content="1 days" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="generator" content="{{ eleventy.generator }}" />
-	<meta name="theme-color" content="#3652CF" />
+  <title>
+    {% if title %}
+      {{ title }} | {{ site.author }}
+    {% else %}
+      {{ site.author }}
+    {% endif %}
+  </title>
+  <meta charset="utf-8" />
+  <meta name="robots" content="index,follow" />
+  <meta name="revisit-after" content="1 days" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="generator" content="{{ eleventy.generator }}" />
+  <meta name="theme-color" content="#3652CF" />
 
-	<!-- Meta data -->
-	<meta name="author" content="{{ site.author }}" />
-	{% if keywords %}
-	<meta name="keywords" content="{{ keywords | join: ',' }}" />
-	{% endif %}
-	<meta name="description" content="{{ site.description }}" />
-	<link rel="shortcut icon" href="/../assets/favicon.ico" />
-	<link rel="author" href="/humans.txt" />
-	<link
-		rel="alternate"
-		type="application/rss+xml"
-		title="{{ title }} RSS"
-		href="/feed.xml"
-	/>
+    <!-- Meta data -->
+  <meta name="author" content="{{ site.author }}" />
+  {% if keywords %}
+    <meta name="keywords" content="{{ keywords | join: ',' }}" />
+  {% endif %}
+  <meta name="description" content="{{ site.description }}" />
+  <link rel="shortcut icon" href="/../assets/favicon.ico" />
+  <link rel="author" href="/humans.txt" />
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="{{ title }} RSS"
+    href="/feed.xml" />
 
-	<!-- Open Graph data -->
-	<meta
-		property="og:title"
-		content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}"
-	/>
-	<meta property="og:description" content="{{ site.description }}" />
-	<meta property="og:image" content="{{ site.url }}/assets/img/moritz.jpg" />
-	<meta property="og:type" content="website" />
-	<meta
-		property="og:url"
-		content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}"
-	/>
+    <!-- Open Graph data -->
+  <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}" />
+  <meta property="og:description" content="{{ site.description }}" />
+  <meta property="og:image" content="{{ site.url }}/assets/img/moritz.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" />
 
-	<!-- Twitter Card data -->
-	<meta property="twitter:card" content="summary" />
-	<meta property="twitter:site" content="{{ socialnetworks.twitter.name }}" />
-	<meta
-		property="twitter:creator"
-		content="{{ socialnetworks.twitter.name }}"
-	/>
-	<meta
-		property="twitter:title"
-		content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}"
-	/>
-	<meta name="twitter:description" content="{{ site.description }}" />
-	<meta
-		property="twitter:image"
-		content="{{ site.url }}/assets/img/moritz.jpg"
-	/>
-
-	<!-- Stylesheets -->
-	<link
-		rel="stylesheet"
-		type="text/css"
-		href="/../css/main.css?v={{ pkg.version }}-{{ site.timestamp }}"
-	/>
-	<link
-		rel="stylesheet"
-		type="text/css"
-		href="/../css/{{ pageClass }}.css?v={{ pkg.version }}-{{ site.timestamp }}"
-	/>
+    <!-- Stylesheets -->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/../css/main.css?v={{ pkg.version }}-{{ site.timestamp }}" />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/../css/{{ pageClass }}.css?v={{ pkg.version }}-{{ site.timestamp }}" />
 </head>

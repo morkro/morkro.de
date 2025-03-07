@@ -16,7 +16,7 @@ function minifyHtml(content, outputPath) {
 	return content
 }
 
-function datetoRFC3339(inputDate) {
+function dateToRFC3339(inputDate) {
 	const date = new Date(inputDate).toISOString()
 	const chunks = date.split('.')
 	chunks.pop()
@@ -80,7 +80,7 @@ export default function (config) {
 	config.addShortcode('currentYear', () => new Date().getFullYear())
 
 	/** Filter */
-	config.addFilter('dateToRFC3339', datetoRFC3339)
+	config.addFilter('dateToRFC3339', dateToRFC3339)
 	config.addFilter('encodeXML', encodeXML)
 
 	/** Creates a list of blog posts */
