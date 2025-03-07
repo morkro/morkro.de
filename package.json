@@ -14,7 +14,8 @@
     "build:css": "postcss src/css/*.css --no-map --dir _site/css",
     "watch:css": "postcss src/css/*.css --no-map --dir _site/css --watch",
     "build": "cross-env NODE_ENV=production npm run setup && npx @11ty/eleventy",
-    "start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet"
+    "start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",
@@ -26,6 +27,7 @@
     "autoprefixer": "^10.4.20",
     "cross-env": "^7.0.3",
     "cssnano": "^7.0.6",
+    "husky": "^9.1.7",
     "postcss": "^8.4.47",
     "postcss-cli": "^11.0.0",
     "postcss-import": "^16.1.0",
