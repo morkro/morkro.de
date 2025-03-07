@@ -1,8 +1,5 @@
-.sass-cache
-.jekyll-cache
 node_modules
 _drafts
-Gemfile.lock
 _public
 _site
 .DS_Store
