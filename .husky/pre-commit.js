@@ -87,7 +87,7 @@ async function main() {
 				versionType = 'P0'
 				break
 			default:
-				console.error('Invalid choice. Aborting push.')
+				console.error('Invalid choice. Aborting commit.')
 				process.exit(1)
 		}
 
@@ -95,14 +95,10 @@ async function main() {
 		console.log(`New version: ${newVersion}`)
 		await updateVersion(newVersion)
 
-		// Stage the updated package.json
+		// Just stage the package.json - it will be included in the commit being created
 		execSync(`git add ${pkgPath}`)
 		console.log('Version updated and staged for commit.')
-
-		// Amend the most recent commit to include the updated package.json
-		execSync('git commit --amend --no-edit', { stdio: 'inherit' })
-		console.log('Amended the latest commit with the updated version.')
-
+		
 		process.stdin.destroy()
 		process.exit(0)
 	} catch (err) {

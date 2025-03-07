@@ -37,5 +37,10 @@
   "dependencies": {
     "html-minifier": "^4.0.0"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "node .husky/pre-commit.js"
+    }
+  },
   "snyk": true
 }
