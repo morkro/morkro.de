@@ -1,0 +1,6 @@
+# Docker image to use for building
+image: node:22.1.0
+# Build command
+command: npm install && npm run build
+# Public directory
+public: _site
