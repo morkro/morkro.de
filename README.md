@@ -1,4 +1,4 @@
-# <img src="src/assets/img/moritz-small.png" align="center" width="30" height="30"> Moritz Kröger Website [![statichost.eu status](https://builder.statichost.eu/sh/status.svg)](https://builder.statichost.eu/sh/)
+# <img src="src/assets/img/moritz-small.png" align="center" width="30" height="30"> Moritz Kröger Website [![statichost.eu status](https://builder.statichost.eu/morkro-de/status.svg)](https://builder.statichost.eu/morkro-de/)
 
 Source code of my personal website [moritz.berlin](https://moritz.berlin). Build with [11ty](https://www.11ty.dev/).
 
