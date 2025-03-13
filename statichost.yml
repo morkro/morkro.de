@@ -6,5 +6,7 @@ command: npm install && npm run build
 public: _site
 # Domains
 domains:
+- www.xn--moritzkrger-yfb.de
+- xn--moritzkrger-yfb.de
 - www.korasu.de
 - korasu.de
