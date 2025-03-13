@@ -4,3 +4,7 @@ image: node:22.1.0
 command: npm install && npm run build
 # Public directory
 public: _site
+# Domains
+domains:
+- www.korasu.de
+- korasu.de
