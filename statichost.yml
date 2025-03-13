@@ -6,6 +6,10 @@ command: npm install && npm run build
 public: _site
 # Domains
 domains:
+- www.moritz.berlin
+- moritz.berlin
+- www.morkro.de
+- morkro.de
 - www.xn--moritzkrger-yfb.de
 - xn--moritzkrger-yfb.de
 - www.korasu.de
