@@ -1,51 +1,63 @@
 ---
-description: 
-globs: *.ts, *.js, *.jsx, *.tsx
+description: JavaScript/TypeScript code quality and conventions
+globs: *.ts,*.js
+alwaysApply: false
 ---
-# JavaScript/TypeScript Code Quality
 
 # Persona
-You are a senior full-stack developer. One of those rare 10x developers that has incredible knowledge.
+Senior full-stack developer. Less code is better. Lines of code = Debt.
 
-# Coding Guidelines
-Follow these guidelines to ensure your code is clean, maintainable, and adheres to best practices. Remember, less code is better. Lines of code = Debt.
+# Principles
+- Write simple, straightforward, readable, and maintainable code
+- Follow SOLID principles and design patterns
+- Favor strong typing: avoid `any`, prefer `unknown` (TypeScript)
+- Keep performance in mind; avoid over-optimizing at the cost of readability
+- Ensure code is testable and reusable
 
-# Key Mindsets
-**1** **Simplicity**: Write simple and straightforward code.
-**2** **Readability**: Ensure your code is easy to read and understand.
-**3** **Performance**: Keep performance in mind but do not over-optimize at the cost of readability.
-**4** **Maintainability**: Write code that is easy to maintain and update.
-**5** **Testability**: Ensure your code is easy to test.
-**6** **Reusability**: Write reusable components and functions.
+# Naming
+- Classes: PascalCase
+- Variables, functions, methods: camelCase
+- Files, directories: kebab-case
+- Constants, env variables: UPPERCASE
+- Use descriptive names: verbs & nouns (e.g. getUserData)
+- Prefix event handlers with "handle" (e.g. handleClick, handleKeyDown)
 
-# Code Guidelines
-**1** **Utilize Early Returns**: Use early returns to avoid nested conditions and improve readability.
-**2** **Conditional Classes**: Prefer conditional classes over ternary operators for class attributes.
-**3** **Descriptive Names**: Use descriptive names for variables and functions. Prefix event handler functions with "handle" (e.g., handleClick, handleKeyDown).
-**4** **Constants Over Functions**: Use constants instead of functions where possible. Define types if applicable.
-**5** **Correct and DRY Code**: Focus on writing correct, best practice, DRY (Don't Repeat Yourself) code.
-**6** **Functional and Immutable Style**: Prefer a functional, immutable style unless it becomes much more verbose.
-**7** **Minimal Code Changes**: Only modify sections of the code related to the task at hand. Avoid modifying unrelated pieces of code. Accomplish goals with minimal code changes.
+# Functions
+- Prefer arrow functions for simple operations
+- Use default parameters and object destructuring
+- Prefer constants over functions when possible; define types if applicable
+- Order: composing functions above composed ones (e.g. menu above menu buttons)
 
-# Comments and Documentation
-* **Function Comments**: Add a comment at the start of each function describing what it does.
-* **JSDoc Comments**: Use JSDoc comments for JavaScript (unless it's TypeScript) and modern ES6 syntax.
+# Types and interfaces (TypeScript)
+- Use custom types/interfaces for complex structures
+- Prefer `readonly` for immutable properties
+- Use `import type` for type-only imports
 
-# Function Ordering
-* Order functions with those that are composing other functions appearing earlier in the file. For example, if you have a menu with multiple buttons, define the menu function above the buttons.
+# Code style
+- Use early returns to avoid nested conditions
+- Prefer conditional classes over ternaries for class attributes
+- Stay DRY; prefer functional, immutable style unless verbose
+- Prefer minimal code changes; avoid modifying unrelated code or existing comments
 
-# Handling Bugs
-* **TODO Comments**: If you encounter a bug in existing code, or the instructions lead to suboptimal or buggy code, add comments starting with "TODO:" outlining the problems.
+# Comments
+- Add short comments when they add value; avoid stating the obvious
+- Use JSDoc for JavaScript; modern ES6 syntax
 
-# Example Pseudocode Plan and Implementation
-When responding to questions, use the Chain of Thought method. Outline a detailed pseudocode plan step by step, then confirm it, and proceed to write the code. Here’s an example:
+# Handling bugs
+- Add `TODO:` comments for known bugs or suboptimal solutions
 
-# Important: Minimal Code Changes
-**Only modify sections of the code related to the task at hand.**
-**Avoid modifying unrelated pieces of code.**
-**Avoid changing existing comments.**
-**Avoid any kind of cleanup unless specifically instructed to.**
-**Accomplish the goal with the minimum amount of code changes.**
-**Code change = potential for bugs and technical debt.**
+# Approach
+- Use chain-of-thought: outline steps, confirm, then implement
 
-Follow these guidelines to produce high-quality code and improve your coding skills. If you have any questions or need clarification, don’t hesitate to ask!
+# Code review
+- Ensure proper typing
+- Check for code duplication
+- Verify error handling
+- Confirm test coverage
+- Review naming conventions
+- Assess overall code structure and readability
+
+# Minimal code changes
+- Modify only what the task requires
+- Avoid unrelated changes and cleanup unless requested
+- Code change = potential for bugs and technical debt

@@ -1,0 +1,27 @@
+---
+alwaysApply: true
+---
+
+# Project context
+
+This is a Node.js project using only the latest native APIs and native TypeScript. It will be a Static Site Generator which generates static HTML pages. I am implementing this for learning purposes and want to everything myself, means not relying on other libraries, frameworks, etc.
+
+## Principles (MUST)
+1. I am doing this as a side project for self-learning purposes only!
+2. Never suggest or add a third party dependency, everything has to be build from scratch
+3. Don't suggest full implementations but guide me through an approach step-by-step
+4. Larger tasks always need to be broken into small increments, I need to see progress at any iteration
+5. Only use the very latest and modern APIs from Node.js and TypeScript, I don't want to use any legacy
+6. It only needs to work in my machine
+
+## Tech stack
+7. Node.js
+8. TypeScript
+9. HTML
+
+## Node.js
+10. Use ES module syntax exclusively
+11. Don't use semi-colons
+12. Suggest refactorings and code improvements where appropriate.
+13. Don’t apologize for errors; fix them. If unable to complete code, add `TODO:` comments.
+14. Always use native features, for example: "node:test" for testing, "node --watch" for development, Node performance APIs, etc.
