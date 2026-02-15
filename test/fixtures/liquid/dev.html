@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+	<title>{{site.title}} - Development Test File</title>
+	<meta name='description' content='{{site.description}}'>
+</head>
+<body>
+	<!-- COMPREHENSIVE LIQUID FEATURE TEST -->
+
+	<!-- 1. VARIABLE SUBSTITUTION -->
+	<section id='variables'>
+		<h2>Variable Tests</h2>
+		<p>Site name: {{site.name}}</p>
+		<p>Package version: {{pkg.version}}</p>
+		<p>Nested path: {{site.footer.text}}</p>
+		<p>Page title: {{page.title}}</p>
+	</section>
+
+	<!-- 2. ASSIGN TAG -->
+	<section id='assign'>
+		<h2>Assign Tests</h2>
+		{% assign greeting = 'Hello from Liquid' %}
+		{% assign number = 100 %}
+		{% assign fromVar = site.author %}
+
+		<p>{{greeting}}</p>
+		<p>Number: {{number}}</p>
+		<p>From variable: {{fromVar}}</p>
+	</section>
+
+	<!-- 3. IF/ELSE CONDITIONALS -->
+	<section id='conditionals'>
+		<h2>Conditional Tests</h2>
+
+		{% if site.showHeader %}
+		<div class='header-enabled'>
+			<h3>Header is enabled</h3>
+			<p>Title: {{site.title}}</p>
+		</div>
+		{% else %}
+		<div class='header-disabled'>
+			<p>No header</p>
+		</div>
+		{% endif %}
+
+		{% if user.isAdmin %}
+		<div class='admin-panel'>
+			<h3>Admin Controls</h3>
+			<button>Manage Users</button>
+		</div>
+		{% endif %}
+
+		<!-- Nested conditionals -->
+		{% if user.isLoggedIn %}
+			<p>Welcome, {{user.name}}</p>
+			{% if user.isAdmin %}
+				<a href='/admin'>Dashboard</a>
+			{% else %}
+				<a href='/profile'>Profile</a>
+			{% endif %}
+		{% else %}
+			<a href='/login'>Please login</a>
+		{% endif %}
+	</section>
+
+	<!-- 4. RENDER INCLUDES -->
+	<section id='renders'>
+		<h2>Render Tests</h2>
+
+		<!-- Simple render with literal values -->
+		{% render 'header', title: 'My Header', navigation: 'Home | About | Contact' %}
+
+		<!-- Render with variables -->
+		{% assign cardTitle = 'Dynamic Card' %}
+		{% render 'card', heading: cardTitle, content: 'This card uses variables', tag: 'test' %}
+
+		<!-- Render with data from site -->
+		{% render 'card', heading: site.title, content: site.description, tag: 'featured' %}
+
+		<!-- Multiple renders -->
+		<div class='button-group'>
+			{% render 'button', label: 'Primary Action', type: 'primary' %}
+			{% render 'button', label: 'Secondary', type: 'secondary' %}
+			{% render 'button', label: 'Danger', type: 'danger' %}
+		</div>
+	</section>
+
+	<!-- 5. COMBINED FEATURES -->
+	<section id='combined'>
+		<h2>Combined Feature Tests</h2>
+
+		{% assign showCards = site.features.showCards %}
+
+		{% if showCards %}
+		<div class='card-grid'>
+			{% render 'card', heading: 'Card 1', content: site.card1Text, tag: 'new' %}
+			{% render 'card', heading: 'Card 2', content: site.card2Text, tag: 'popular' %}
+
+			{% if user.isAdmin %}
+			{% render 'card', heading: 'Admin Card', content: 'Admin only', tag: 'admin' %}
+			{% endif %}
+		</div>
+		{% else %}
+		<p>Cards are disabled</p>
+		{% endif %}
+
+		{% assign ctaLabel = 'Get Started Now' %}
+		{% render 'button', label: ctaLabel, type: 'primary' %}
+	</section>
+
+	<!-- 6. FOOTER -->
+	<footer>
+		{% if site.footer.enabled %}
+		<p>{{site.footer.text}}</p>
+		<p>Version {{pkg.version}}</p>
+		{% else %}
+		<p>Minimal footer</p>
+		{% endif %}
+	</footer>
+</body>
+</html>

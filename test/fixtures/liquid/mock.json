@@ -1,0 +1,38 @@
+{
+	"site": {
+		"title": "My Test Site",
+		"name": "Test Site",
+		"description": "A test site for Liquid parser",
+		"author": "John Doe",
+		"showHeader": true,
+		"navigation": {
+			"enabled": true,
+			"links": "Home | About | Contact"
+		},
+		"footer": {
+			"enabled": true,
+			"text": "Copyright 2024"
+		},
+		"featureName": "Advanced Search",
+		"featureDesc": "Search with filters",
+		"features": {
+			"showCards": true
+		},
+		"card1Text": "First card content",
+		"card2Text": "Second card content"
+	},
+	"pkg": {
+		"version": "1.0.0"
+	},
+	"page": {
+		"title": "Complex Test",
+		"heading": "Test Page",
+		"description": "Testing multiple features together",
+		"featured": true
+	},
+	"user": {
+		"isLoggedIn": true,
+		"isAdmin": true,
+		"name": "Admin User"
+	}
+}

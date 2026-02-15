@@ -1,0 +1,20 @@
+// User configuration
+export const CUSTOM_DATA_MAPPING = {
+  'pkg': './package.json',
+} as const
+
+// System configuration
+export const DIRECTORIES = {
+  SRC: 'src',
+  TEMP: '.tmp',
+  DEST: '.build',
+  PAGES: 'pages',
+  INTERNAL: {
+    DATA: '_data',
+    INCLUDES: '_includes',
+    LAYOUTS: '_layouts',
+    POSTS: '_posts',
+  }
+} as const
+
+export const PARSE_EXTENSIONS = ['html', 'txt', 'xml'] as const

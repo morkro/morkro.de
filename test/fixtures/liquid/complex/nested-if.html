@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+	{% if user.isLoggedIn %}
+		<p>Welcome, {{user.name}}</p>
+
+		{% if user.isAdmin %}
+			<a href='/admin'>Admin Dashboard</a>
+		{% else %}
+			<a href='/profile'>My Profile</a>
+		{% endif %}
+	{% else %}
+		<a href='/login'>Login</a>
+	{% endif %}
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{site.title}} - {{page.title}}</title>
+</head>
+<body>
+	{% assign showNav = site.navigation.enabled %}
+
+	{% if showNav %}
+	{% render 'header', title: site.title, navigation: site.navigation.links %}
+	{% endif %}
+
+	<main>
+		<h1>{{page.title}}</h1>
+
+		{% if page.featured %}
+		<div class='featured-badge'>Featured</div>
+		{% endif %}
+
+		<p>{{page.description}}</p>
+
+		{% assign ctaText = 'Get Started' %}
+		{% render 'button', label: ctaText, type: 'primary' %}
+	</main>
+
+	<footer>
+		<p>{{site.footer.text}}</p>
+	</footer>
+</body>
+</html>

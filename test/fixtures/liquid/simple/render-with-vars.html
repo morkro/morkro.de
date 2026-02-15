@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<body>
+	{% assign buttonLabel = 'Click Me' %}
+
+	{% render 'button', label: buttonLabel, type: 'primary' %}
+	{% render 'button', label: 'Cancel', type: 'secondary' %}
+
+	{% render 'card', heading: site.title, content: 'Card description', tag: 'featured' %}
+</body>
+</html>
