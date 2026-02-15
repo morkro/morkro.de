@@ -15,7 +15,7 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
 ### Migration Phases
 
 1. **Phase 1 - Core SSG Integration** (Foundation)
-   - Copy SSG core code (ssg/ directory) from the learning project
+   - Copy SSG core code (core/ directory) from the learning project
    - Adapt configuration for website needs (_site vs .build, etc.)
    - Ensure basic build pipeline works
    - Test with simple pages first
@@ -87,7 +87,7 @@ src/                      # Source files
   css/                   # Stylesheets (globals/, layout/, components/)
   scripts/               # JavaScript files
 _site/                   # Build output (git-ignored)
-ssg/                     # Build system core
+core/                    # Build system core
   index.ts              # Main build orchestration
   data.ts               # Data file loading
   server.ts             # Dev server
@@ -97,7 +97,7 @@ ssg/                     # Build system core
     frontmatter.ts      # YAML frontmatter parser
     liquid.ts           # Liquid template syntax processing
   utils/                # Utility functions
-test/                    # Tests mirror ssg/ structure
+test/                    # Tests mirror core/ structure
 ```
 
 ### Current Eleventy Features to Replicate
@@ -155,10 +155,10 @@ test/                    # Tests mirror ssg/ structure
 ### Import Aliases
 ```json
 "imports": {
-  "#config": "./ssg/config.ts",
-  "#parser/*": "./ssg/parser/*",
-  "#utils/*": "./ssg/utils/*",
-  "#root/*": "./ssg/*"
+  "#config": "./core/config.ts",
+  "#parser/*": "./core/parser/*",
+  "#utils/*": "./core/utils/*",
+  "#core/*": "./core/*"
 }
 ```
 
@@ -185,7 +185,7 @@ test/                    # Tests mirror ssg/ structure
 
 ### Testing
 - Use `node:test` framework
-- Test files mirror source: `test/parser.test.ts` tests `ssg/parser/parser.ts`
+- Test files mirror source: `test/parser.test.ts` tests `core/parser/parser.ts`
 - Use `describe()` and `it()` for organization
 - Import assertions from `node:assert`
 
