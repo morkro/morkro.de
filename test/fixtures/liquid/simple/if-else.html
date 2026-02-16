@@ -12,5 +12,13 @@
 	{% if user.isAdmin %}
 	<button>Admin Panel</button>
 	{% endif %}
+
+	{% if user.isAdmin %}
+	<button>Admin Panel</button>
+	{% elsif user.isEditor %}
+	<button>Editor Panel</button>
+	{% else %}
+	<button>User Panel</button>
+	{% endif %}
 </body>
 </html>

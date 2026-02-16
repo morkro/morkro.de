@@ -9,7 +9,7 @@ type NodeText = { type: 'Text', value: string }
 type NodeOutput = { type: 'Output', expression: Expression }
 type NodeAssign = { type: 'Assign', name: string, expression: Expression }
 type NodeRender = { type: 'Render', file: string, variables: { name: string, expression: Expression }[] }
-type NodeIf = { type: 'If', condition: Expression , body: Node[], elseBody?: Node[] }
+export type NodeIf = { type: 'If', condition: Expression , body: Node[], elseBody?: Node[] }
 
 export type Node =
  | NodeText
@@ -27,6 +27,7 @@ export const TokenKeywordValues = [
   'assign',
   'if',
   'else',
+  'elsif',
   'endif',
   'render',
   'for',

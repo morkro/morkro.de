@@ -1,4 +1,4 @@
-import type { InnerToken, TokenIdent, Token, Expression, Node, Template, TokenKeyword } from './types.ts'
+import type { InnerToken, TokenIdent, Token, Expression, Node, Template, TokenKeyword, NodeIf } from './types.ts'
 import { tokenize, tokenizeInner } from './tokenizer.ts'
 import { logParser as log } from '#utils/log.ts'
 
@@ -150,6 +150,40 @@ function parseTag (tokens: InnerToken[]): Node | null {
   // throw new Error(`Unsupported tag starting with ${token.type} "${token.value}"`)
 }
 
+function parseIfChain (tokens: Token[], tagIndex: number): { nestedIf: NodeIf, endIndex: number } {
+  const nestedIfTag = tokens[tagIndex]
+  const nestedIfInner = tokenizeInner(nestedIfTag.value)
+  const nestedIfCondition = parseExpression(nestedIfInner.slice(1))
+  const result = parseNodes(tokens, tagIndex + 1, ['else', 'elsif', 'endif'])
+
+  let nestedIf: NodeIf
+  let endIndex: number = result.endIndex
+  
+  if (result.stoppedAt === 'endif') {
+    nestedIf = { type: 'If', condition: nestedIfCondition, body: result.nodes }
+  } else if (result.stoppedAt === 'else') {
+    const elseResult = parseNodes(tokens, result.endIndex, ['endif'])
+    endIndex = elseResult.endIndex
+    nestedIf = {
+      type: 'If',
+      condition: nestedIfCondition,
+      body: result.nodes,
+      elseBody: elseResult.nodes
+    }
+  } else {
+    const other = parseIfChain(tokens, result.endIndex - 1) 
+    endIndex = other.endIndex
+    nestedIf = {
+      type: 'If',
+      condition: nestedIfCondition,
+      body: result.nodes,
+      elseBody: [other.nestedIf]
+    }
+  }
+
+  return { nestedIf, endIndex }
+}
+
 function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKeyword['value'][]): ParseResult {
   const nodes: Node[] = []
   let index = startIndex
@@ -179,13 +213,24 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
 
         if (firstToken.type === 'Keyword' && firstToken.value === 'if') {
           const condition = parseExpression(innerTokens.slice(1))
-          const body = parseNodes(tokens, index + 1, ['else', 'endif'])
+          const body = parseNodes(tokens, index + 1, ['else', 'elsif', 'endif'])
           let elseBody: Node[] = []
 
-          if (body.stoppedAt === 'else') {
-            const result = parseNodes(tokens, body.endIndex, ['endif'])
-            elseBody = result.nodes
-            index = result.endIndex
+          if (body.stoppedAt === 'elsif') {
+            const elsifTagIndex = body.endIndex - 1
+            const elsifResult = parseIfChain(tokens, elsifTagIndex)
+            
+            index = elsifResult.endIndex
+            nodes.push({
+              type: 'If',
+              condition,
+              body: body.nodes,
+              elseBody: [elsifResult.nestedIf]
+            })
+          } else if (body.stoppedAt === 'else') {
+            const elseResult = parseNodes(tokens, body.endIndex, ['endif'])
+            elseBody = elseResult.nodes
+            index = elseResult.endIndex
             nodes.push({ type: 'If', condition, body: body.nodes, elseBody })
           } else {
             index = body.endIndex

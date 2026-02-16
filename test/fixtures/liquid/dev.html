@@ -51,6 +51,24 @@
 		</div>
 		{% endif %}
 
+		<!-- Elseif -->
+		{% if user.isAdmin %}
+		<div class='admin-panel'>
+			<h3>Admin Controls</h3>
+			<button>Manage Users</button>
+		</div>
+		{% elsif user.isEditor %}
+		<div class='editor-panel'>
+			<h3>Editor Controls</h3>
+			<button>Manage Content</button>
+		</div>
+		{% else %}
+		<div class='user-panel'>
+			<h3>User Controls</h3>
+			<button>Manage Profile</button>
+		</div>
+		{% endif %}
+
 		<!-- Nested conditionals -->
 		{% if user.isLoggedIn %}
 			<p>Welcome, {{user.name}}</p>
