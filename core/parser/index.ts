@@ -1,11 +1,12 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { DIRECTORIES } from '#config'
-import { loadFile } from '#utils/fs.ts'
 import { removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
-import { render } from '#parser/liquid/renderer.ts'
+import { render, type RenderContext } from '#parser/liquid/renderer.ts'
 import { templateResolver } from '#parser/liquid/resolver.ts'
+import { loadFile } from '#utils/fs.ts'
+import { parseJSON } from '#utils/json.ts'
 
 /** TEMP */
 async function cleanup () {
@@ -23,12 +24,16 @@ async function cleanup () {
 if (process.argv.includes('--parse=liquid')) {
   await cleanup()
   const file = await loadFile(`test/fixtures/liquid`, 'dev.html')
+  const mockContext: RenderContext = parseJSON(
+    await loadFile(
+      `test/fixtures/liquid`, 'mock.json'),
+      'test/fixtures/liquid/mock.json')
 
   console.time('Parsing Liquid')
   const liquid = parseLiquid(removeFrontmatter(file), 'test/fixtures/liquid/dev.html')
   console.timeEnd('Parsing Liquid')
   console.time('Rendering Liquid')
-  const rendered = await render(liquid, templateResolver)
+  const rendered = await render(liquid, mockContext, templateResolver)
   console.timeEnd('Rendering Liquid')
 
   // write AST
