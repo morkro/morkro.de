@@ -15,3 +15,9 @@ export function vizTokens (tokens: InnerToken[]): string {
     })
     .join(' ')
 }
+
+export class ParserError extends Error {
+  constructor(message: string, public readonly offset: number) {
+    super(`${message} (at offset ${offset})`)
+  }
+}

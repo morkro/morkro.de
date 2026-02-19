@@ -3,10 +3,11 @@ import {
   type TokenText,
   type InnerToken,
   type Token,
-  type TokenKeyword,
   type TokenPunct,
+  type TokenKeyword,
   TokenKeywordValues
 } from './types.ts'
+import { ParserError } from './utils.ts'
 
 export type Cursor = {
   readonly input: string
@@ -165,7 +166,7 @@ export function tokenize(input: string): Token[] {
 
       const end = input.indexOf("}}", cursor.index)
       if (end === -1) {
-        throw new Error(`Unclosed output starting at index ${start}`)
+        throw new ParserError(`Unclosed output`, start)
       }
 
       const inner = input.slice(cursor.index, end)
@@ -181,7 +182,7 @@ export function tokenize(input: string): Token[] {
 
       const end = input.indexOf('%}', cursor.index)
       if (end === -1) {
-        throw new Error(`Unclosed tag starting at index ${start}`)
+        throw new ParserError(`Unclosed tag`, start)
       }
 
       const inner = input.slice(cursor.index, end)

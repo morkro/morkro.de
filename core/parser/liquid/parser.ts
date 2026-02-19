@@ -1,6 +1,7 @@
-import type { InnerToken, TokenIdent, Token, Expression, Node, Template, TokenKeyword, NodeIf } from './types.ts'
+import type { InnerToken, Token, Expression, Node, Template, TokenKeyword, NodeIf } from './types.ts'
 import { tokenize, tokenizeInner } from './tokenizer.ts'
 import { logParser as log } from '#utils/log.ts'
+import { ParserError } from './utils.ts'
 
 type CursorState = {
   readonly tokens: InnerToken[]
@@ -13,23 +14,16 @@ type ParseResult = {
   readonly stoppedAt?: TokenKeyword['value']
 }
 
+type ParseIfResult = {
+  readonly node: NodeIf
+  readonly endIndex: number
+}
+
 const current = (cursor: CursorState) => cursor.tokens[cursor.index]
 const next = (cursor: CursorState): CursorState => ({
   ...cursor,
   index: cursor.index + 1
 })
-const expect = <T extends InnerToken>(
-  cursor: CursorState,
-  fn: (tok: InnerToken) => tok is T,
-  msg: string
-): T => {
-  const token = current(cursor)
-  if (!fn(token)) {
-    throw new Error(msg)
-  }
-  return token
-}
-const isIdent = (token: InnerToken): token is TokenIdent => token.type === 'Ident'
 
 function parseExpression (tokens: InnerToken[]): Expression {
   let cursor: CursorState = { tokens, index: 0 }
@@ -46,7 +40,10 @@ function parseExpression (tokens: InnerToken[]): Expression {
     let currentToken = current(cursor)
     while (currentToken.type === 'Punct' && currentToken.value === '.') {
       cursor = next(cursor)
-      const identToken = expect(cursor, isIdent, 'Expected identifier after \'.\'')
+      const identToken = current(cursor)
+      if (identToken.type !== 'Ident') {
+        throw new ParserError(`Expected identifier after '.', got ${identToken.type}`, cursor.index)
+      }
       path.push(identToken.value)
       cursor = next(cursor)
       currentToken = current(cursor)
@@ -55,7 +52,7 @@ function parseExpression (tokens: InnerToken[]): Expression {
     return { type: 'Var', path }
   }
 
-  throw new Error(`Unsupported expression starting with ${token.type}`)
+  throw new ParserError(`Unsupported expression starting with ${token.type}`, cursor.index)
 }
 
 function parseTag (tokens: InnerToken[]): Node | null {
@@ -63,7 +60,7 @@ function parseTag (tokens: InnerToken[]): Node | null {
   const token = current(cursor)
 
   if (token.type !== 'Keyword') {
-    throw new Error(`Unknown keyword ${token.type}`)
+    throw new ParserError(`Unknown keyword ${token.type}`, cursor.index)
   }
   
   // {% assign key = value %}
@@ -72,13 +69,13 @@ function parseTag (tokens: InnerToken[]): Node | null {
 
     const nameToken = current(cursor)
     if (nameToken.type !== 'Ident') {
-      throw new Error(`Expected "Ident" but got ${nameToken.type}`)
+      throw new ParserError(`Expected "Ident" but got ${nameToken.type}`, cursor.index)
     }
     cursor = next(cursor)
 
     const punctToken = current(cursor)
     if (punctToken.type !== 'Punct' || punctToken.value !== '=') {
-      throw new Error(`Expected "Punct" but got ${punctToken.type}`)
+      throw new ParserError(`Expected "Punct" but got ${punctToken.type}`, cursor.index)
     }
     cursor = next(cursor)
 
@@ -96,7 +93,7 @@ function parseTag (tokens: InnerToken[]): Node | null {
     
     const fileToken = current(cursor)
     if (fileToken.type !== 'Ident' && fileToken.type !== 'String') {
-      throw new Error(`Expected filename (identifier or string) but got ${fileToken.type}`)
+      throw new ParserError(`Expected filename (identifier or string) but got ${fileToken.type}`, cursor.index)
     }
     const fileName = fileToken.value
     cursor = next(cursor)
@@ -114,7 +111,7 @@ function parseTag (tokens: InnerToken[]): Node | null {
       
       const colonToken = current(cursor)
       if (colonToken.type !== 'Punct' || colonToken.value !== ':') {
-        throw new Error(`Expected ":" but got ${colonToken.type}`)
+        throw new ParserError(`Expected ":" but got ${colonToken.type}`, cursor.index)
       }
       cursor = next(cursor)
 
@@ -150,38 +147,28 @@ function parseTag (tokens: InnerToken[]): Node | null {
   // throw new Error(`Unsupported tag starting with ${token.type} "${token.value}"`)
 }
 
-function parseIfChain (tokens: Token[], tagIndex: number): { nestedIf: NodeIf, endIndex: number } {
-  const nestedIfTag = tokens[tagIndex]
-  const nestedIfInner = tokenizeInner(nestedIfTag.value)
-  const nestedIfCondition = parseExpression(nestedIfInner.slice(1))
-  const result = parseNodes(tokens, tagIndex + 1, ['else', 'elsif', 'endif'])
+function parseIfBlock (tokens: Token[], tagIndex: number): ParseIfResult {
+  const inner = tokenizeInner(tokens[tagIndex].value)
+  const condition = parseExpression(inner.slice(1))
+  const { nodes: ifBody, stoppedAt, endIndex } = parseNodes(tokens, tagIndex + 1, ['else', 'elsif', 'endif'])
 
-  let nestedIf: NodeIf
-  let endIndex: number = result.endIndex
-  
-  if (result.stoppedAt === 'endif') {
-    nestedIf = { type: 'If', condition: nestedIfCondition, body: result.nodes }
-  } else if (result.stoppedAt === 'else') {
-    const elseResult = parseNodes(tokens, result.endIndex, ['endif'])
-    endIndex = elseResult.endIndex
-    nestedIf = {
-      type: 'If',
-      condition: nestedIfCondition,
-      body: result.nodes,
-      elseBody: elseResult.nodes
-    }
-  } else {
-    const other = parseIfChain(tokens, result.endIndex - 1) 
-    endIndex = other.endIndex
-    nestedIf = {
-      type: 'If',
-      condition: nestedIfCondition,
-      body: result.nodes,
-      elseBody: [other.nestedIf]
-    }
+  let elseBody: Node[] = []
+  let finalEndIndex: number = endIndex
+
+  if (stoppedAt === 'endif') {
+    const nestedIf = parseIfBlock(tokens, endIndex + 1)
+    elseBody = [nestedIf.node]
+    finalEndIndex = nestedIf.endIndex
+  } else if (stoppedAt === 'else') {
+    const elseResult = parseNodes(tokens, endIndex, ['endif'])
+    elseBody = elseResult.nodes
+    finalEndIndex = elseResult.endIndex
   }
 
-  return { nestedIf, endIndex }
+  return {
+    node: { type: 'If', condition, body: ifBody, elseBody },
+    endIndex: finalEndIndex
+  }
 }
 
 function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKeyword['value'][]): ParseResult {
@@ -218,14 +205,14 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
 
           if (body.stoppedAt === 'elsif') {
             const elsifTagIndex = body.endIndex - 1
-            const elsifResult = parseIfChain(tokens, elsifTagIndex)
+            const elsifResult = parseIfBlock(tokens, elsifTagIndex)
             
             index = elsifResult.endIndex
             nodes.push({
               type: 'If',
               condition,
               body: body.nodes,
-              elseBody: [elsifResult.nestedIf]
+              elseBody: [elsifResult.node]
             })
           } else if (body.stoppedAt === 'else') {
             const elseResult = parseNodes(tokens, body.endIndex, ['endif'])
