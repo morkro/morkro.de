@@ -11,7 +11,7 @@ export const DIRECTORIES = {
   PAGES: 'pages',
   INTERNAL: {
     DATA: '_data',
-    INCLUDES: '_includes',
+    INCLUDES: 'includes',
     LAYOUTS: '_layouts',
     POSTS: '_posts',
   }

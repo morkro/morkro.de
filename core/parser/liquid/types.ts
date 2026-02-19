@@ -18,11 +18,6 @@ export type Node =
  | NodeRender
  | NodeIf
 
-export type Template = {
-  type: 'Template',
-  body: Node[]
-}
-
 export const TokenKeywordValues = [
   'assign',
   'if',
@@ -57,3 +52,11 @@ export type InnerToken =
   | TokenPunct
   | TokenKeyword
   | TokenEOF
+
+export type Template = {
+  type: 'Template',
+  meta: {
+    path: string
+  }
+  body: Node[]
+}

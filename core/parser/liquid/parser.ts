@@ -55,7 +55,7 @@ function parseExpression (tokens: InnerToken[]): Expression {
   throw new ParserError(`Unsupported expression starting with ${token.type}`, cursor.index)
 }
 
-function parseTag (tokens: InnerToken[]): Node | null {
+function parseTag (tokens: InnerToken[]): Node {
   let cursor: CursorState = { tokens, index: 0 }
   const token = current(cursor)
 
@@ -142,9 +142,7 @@ function parseTag (tokens: InnerToken[]): Node | null {
     }
   }
 
-  log(`Unsupported tag starting with ${token.type} "${token.value}"`, { lvl: 'error' })
-  return null
-  // throw new Error(`Unsupported tag starting with ${token.type} "${token.value}"`)
+  throw new ParserError(`Unsupported tag starting with ${token.type} "${token.value}"`, cursor.index)
 }
 
 function parseIfBlock (tokens: Token[], tagIndex: number): ParseIfResult {
@@ -236,16 +234,19 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
         break
       }
       default:
-        log(`Unknown token type: ${(token as Token).type}`, { lvl: 'error' })
+        throw new ParserError(`Unknown token type: ${(token as Token).type}`, index)
     }
   }
 
   return { nodes, endIndex: index }
 }
 
-export function parseLiquid(input: string): Template {
+export function parseLiquid(input: string, sourcePath: string): Template {
   return {
     type: 'Template',
+    meta: {
+      path: sourcePath
+    },
     body: parseNodes(tokenize(input), 0).nodes
   }
 }

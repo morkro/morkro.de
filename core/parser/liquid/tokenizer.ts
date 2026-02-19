@@ -4,7 +4,6 @@ import {
   type InnerToken,
   type Token,
   type TokenPunct,
-  type TokenKeyword,
   TokenKeywordValues
 } from './types.ts'
 import { ParserError } from './utils.ts'
@@ -49,7 +48,7 @@ export function tokenizeInner (input: string): InnerToken[] {
       }
 
       const value = input.slice(start, index)
-      if (keywords.has(value)) {
+      if (keywords.has(value as typeof TokenKeywordValues[number])) {
         tokens.push({ type: 'Keyword', value: value as typeof TokenKeywordValues[number] })
       } else {
         tokens.push({ type: 'Ident', value })
@@ -126,7 +125,7 @@ export function tokenizeInner (input: string): InnerToken[] {
       continue
     }
 
-    log(`Unexpected character "${peek(index)}" in inner tokenization.`, { lvl: 'error' })
+    throw new ParserError(`Unexpected character "${peek(index)}" in inner tokenization.`, index)
   }
 
   tokens.push({ type: 'EOF' })
