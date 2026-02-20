@@ -11,6 +11,7 @@ type ParseResult = {
   readonly nodes: Node[]
   readonly endIndex: number
   readonly stoppedAt?: TokenKeyword['value']
+  readonly stoppedAtTokens?: InnerToken[]
 }
 
 type ParseIfResult = {
@@ -18,9 +19,20 @@ type ParseIfResult = {
   readonly endIndex: number
 }
 
-const current = (cursor: CursorState) => cursor.tokens[cursor.index]
+type ParseExpressionResult = {
+  readonly expression: Expression
+  readonly cursor: CursorState
+}
+
+const current = (cursor: CursorState) => {
+  const token = cursor.tokens[cursor.index]
+  if (!token) {
+    throw new ParserError(`Expected token but got EOF`, cursor.index)
+  }
+  return token
+}
 const next = (cursor: CursorState): CursorState => ({
-  ...cursor,
+  tokens: cursor.tokens,
   index: cursor.index + 1
 })
 
@@ -35,7 +47,7 @@ function trimLeadingWhitespace (nodes: Node[]): Node[] {
   return _nodes
 }
 
-function parseCondition (cursor: CursorState): { expression: Expression, cursor: CursorState } {
+function parseCondition (cursor: CursorState): ParseExpressionResult {
   const { expression: left, cursor: leftCursor } = parseExpression(cursor)
   cursor = leftCursor
   if (current(cursor).type !== 'Operator') {
@@ -52,7 +64,7 @@ function parseCondition (cursor: CursorState): { expression: Expression, cursor:
   }
 }
 
-function parseExpression (cursor: CursorState): { expression: Expression, cursor: CursorState } {
+function parseExpression (cursor: CursorState): ParseExpressionResult {
   const token = current(cursor)
 
   if (token.type === 'String' || token.type === 'Number') {
@@ -170,16 +182,15 @@ function parseTag (tokens: InnerToken[]): Node {
   throw new ParserError(`Unsupported tag starting with ${token.type} "${token.value}"`, cursor.index)
 }
 
-function parseIfBlock (tokens: Token[], tagIndex: number): ParseIfResult {
-  const inner = tokenizeInner(tokens[tagIndex].value)
-  const { expression: condition, cursor } = parseCondition({ tokens: inner, index: 1 })
-  const { nodes: ifBody, stoppedAt, endIndex } = parseNodes(tokens, tagIndex + 1, ['else', 'elsif', 'endif'])
+function parseIfBlock (tokens: Token[], innerTokens: InnerToken[], startIndex: number): ParseIfResult {
+  const { expression: condition } = parseCondition({ tokens: innerTokens, index: 1 })
+  const { nodes: ifBody, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(tokens, startIndex, ['else', 'elsif', 'endif'])
 
   let elseBody: Node[] = []
   let finalEndIndex: number = endIndex
 
   if (stoppedAt === 'elsif') {
-    const nestedIf = parseIfBlock(tokens, endIndex - 1)
+    const nestedIf = parseIfBlock(tokens, stoppedAtTokens!, endIndex)
     elseBody = [nestedIf.node]
     finalEndIndex = nestedIf.endIndex
   } else if (stoppedAt === 'else') {
@@ -222,7 +233,8 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
           return {
             nodes: trimLeadingWhitespace(nodes),
             endIndex: index + 1,
-            stoppedAt: firstToken.value
+            stoppedAt: firstToken.value,
+            stoppedAtTokens: innerTokens
           }
         }
 
@@ -231,38 +243,33 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
             tokens: innerTokens,
             index: 1
           })
-          const body = parseNodes(tokens, index + 1, ['else', 'elsif', 'endif'])
+          const { nodes: body, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(tokens, index + 1, ['else', 'elsif', 'endif'])
           let elseBody: Node[] = []
 
-          if (body.stoppedAt === 'elsif') {
-            const elsifTagIndex = body.endIndex - 1
-            const elsifResult = parseIfBlock(tokens, elsifTagIndex)
+          if (stoppedAt === 'elsif') {
+            const elsifResult = parseIfBlock(tokens, stoppedAtTokens!, endIndex)
             
             index = elsifResult.endIndex
             nodes.push({
               type: 'If',
               condition,
-              body: body.nodes,
+              body,
               elseBody: [elsifResult.node]
             })
-          } else if (body.stoppedAt === 'else') {
-            const elseResult = parseNodes(tokens, body.endIndex, ['endif'])
+          } else if (stoppedAt === 'else') {
+            const elseResult = parseNodes(tokens, endIndex, ['endif'])
             elseBody = elseResult.nodes
             index = elseResult.endIndex
-            nodes.push({ type: 'If', condition, body: body.nodes, elseBody })
+            nodes.push({ type: 'If', condition, body, elseBody })
           } else {
-            index = body.endIndex
-            nodes.push({ type: 'If', condition, body: body.nodes })
+            index = endIndex
+            nodes.push({ type: 'If', condition, body })
           }
 
           continue
         }
 
-        const node = parseTag(innerTokens)
-        if (node) {
-          nodes.push(node)
-        }
-
+        nodes.push(parseTag(innerTokens))
         index++
         break
       }

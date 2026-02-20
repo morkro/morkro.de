@@ -1,6 +1,7 @@
 import type { Expression, ExpressionBinary, Template } from "./types.ts";
 import type { templateResolver } from "./resolver.ts";
 import { getFromObject } from "#utils/object.ts";
+import { ParserError } from "./utils.ts";
 
 export type RenderContext = Record<string, unknown>
 
@@ -9,6 +10,8 @@ function resolveExpression (expression: Expression, localContext: RenderContext)
     return expression.value
   } else if (expression.type === 'Var') {
     return getFromObject(expression.path, localContext)
+  } else if (expression.type === 'Binary') {
+    throw new ParserError(`Unexpected binary expression`, 0)
   }
   return undefined
 }
@@ -71,7 +74,7 @@ export async function render(
         }
         
         // Renders should have isolated scope, so not passing the global context
-        result.push(await render(file, renderContext, resolver))
+        result.push(await render(file, renderContext, resolver, renderCache))
         break
       case 'Assign':
         localContext[node.name] = resolveExpression(node.expression, localContext)

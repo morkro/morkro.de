@@ -1,4 +1,3 @@
-import { logParser as log } from '#utils/log.ts'
 import {
   type TokenText,
   type InnerToken,
@@ -111,7 +110,7 @@ export function tokenizeInner (input: string): InnerToken[] {
       const quote = peek(index)
       index++
       let output = ''
-      let escaped = false
+      let terminated = false
 
       while (index < input.length) {
         const cursor = peek(index)
@@ -133,7 +132,7 @@ export function tokenizeInner (input: string): InnerToken[] {
         if (cursor === quote) {
           index++
           tokens.push({ type: 'String', value: output })
-          escaped = true
+          terminated = true
           break
         }
 
@@ -141,8 +140,8 @@ export function tokenizeInner (input: string): InnerToken[] {
         index++
       }
 
-      if (!escaped) {
-        log('Unclosed string literal', { lvl: 'error' })
+      if (!terminated) {
+        throw new ParserError(`Unclosed string literal`, index)
       }
       continue
     }
@@ -169,11 +168,14 @@ export function tokenize(input: string): Token[] {
     const nextOutput = input.indexOf('{{', cursor.index)
     const nextTag = input.indexOf('{%', cursor.index)
 
-    const next = [nextOutput, nextTag]
-      .filter(x => x !== -1)
-      .sort((a,b) => a - b)[0]
+    // Get the next token index, preferring output over tag
+    const next = nextOutput === -1
+      ? nextTag
+      : nextTag === -1
+        ? nextOutput
+        : Math.min(nextOutput, nextTag)
 
-    if (next === undefined) {
+    if (next === -1) {
       const text = pushText(input.slice(cursor.index), cursor.index, input.length)
       if (text) {
         tokens.push(text)

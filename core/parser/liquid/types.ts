@@ -38,6 +38,28 @@ export const TokenKeywordValues = [
   'in',
 ] as const
 
+export const TokenOperatorValues = [
+  '==',
+  '!=',
+  '>',
+  '<',
+  '>=',
+  '<=',
+  'and',
+  'or',
+  'contains',
+] as const
+
+export const TokenPunctValues = [
+  '.',
+  ':',
+  ',',
+  '=',
+  '|',
+  '(',
+  ')',
+] as const
+
 export type TokenText = { type: 'Text', value: string, start: number, end: number }
 export type TokenTag = { type: 'Tag', value: string, start: number, end: number }
 export type TokenOutput = { type: 'Output', value: string, start: number, end: number }
@@ -50,8 +72,8 @@ export type Token =
 export type TokenIdent = { type: 'Ident', value: string }
 export type TokenNumber = { type: 'Number', value: number }
 export type TokenString = { type: 'String', value: string }
-export type TokenPunct = { type: 'Punct', value: '.' | ':' | ',' | '=' | '|' | '(' | ')' }
-export type TokenOperator = { type: 'Operator', value: '==' | '!=' | '>' | '<' | '>=' | '<=' | 'and' | 'or' | 'contains'}
+export type TokenPunct = { type: 'Punct', value: typeof TokenPunctValues[number] }
+export type TokenOperator = { type: 'Operator', value: typeof TokenOperatorValues[number] }
 export type TokenKeyword = { type: 'Keyword', value: typeof TokenKeywordValues[number] }
 export type TokenEOF = { type: 'EOF' }
   
