@@ -1,16 +1,42 @@
-import type { NodeVariable, Template } from "./types.ts";
+import type { Expression, ExpressionBinary, Template } from "./types.ts";
 import type { templateResolver } from "./resolver.ts";
 import { getFromObject } from "#utils/object.ts";
 
 export type RenderContext = Record<string, unknown>
 
-function getVariableValue (node: NodeVariable, localContext: RenderContext): unknown {
-  if (node.expression.type === 'Literal') {
-    return node.expression.value
-  } else if (node.expression.type === 'Var') {
-    return getFromObject(node.expression.path, localContext)
+function resolveExpression (expression: Expression, localContext: RenderContext): unknown {
+  if (expression.type === 'Literal') {
+    return expression.value
+  } else if (expression.type === 'Var') {
+    return getFromObject(expression.path, localContext)
   }
   return undefined
+}
+
+function evaluateBinary (condition: ExpressionBinary, localContext: RenderContext) {
+  const left = resolveExpression(condition.left, localContext)
+  const right = resolveExpression(condition.right, localContext)
+
+  switch (condition.operator) {
+    case 'or':
+      return left || right
+    case 'and':
+      return left && right
+    case 'contains':
+      return String(left).includes(String(right))
+    case '==':
+      return left === right
+    case '!=':
+      return left !== right
+    case '>':
+      return Number(left) > Number(right)
+    case '<':
+      return Number(left) < Number(right)
+    case '>=':
+      return Number(left) >= Number(right)
+    case '<=':
+      return Number(left) <= Number(right)
+  }
 }
 
 export async function render(
@@ -40,7 +66,7 @@ export async function render(
         const renderContext = {}
         if (node.variables.length > 0) {
           for (const variable of node.variables) {
-            renderContext[variable.name] = getVariableValue(variable, localContext)
+            renderContext[variable.name] = resolveExpression(variable.expression, localContext)
           }
         }
         
@@ -48,21 +74,17 @@ export async function render(
         result.push(await render(file, renderContext, resolver))
         break
       case 'Assign':
-        localContext[node.name] = getVariableValue(node, localContext)
+        localContext[node.name] = resolveExpression(node.expression, localContext)
         break
       case 'Output':
-        if (node.expression.type === 'Var') {
-          result.push(String(getFromObject(node.expression.path, localContext)))
-        } else {
-          result.push(String(node.expression.value))
-        }
+        result.push(String(resolveExpression(node.expression, localContext)))
         break
       case 'If':
         let condition: unknown
-        if (node.condition.type === 'Var') {
-          condition = getFromObject(node.condition.path, localContext)
+        if (node.condition.type === 'Binary') {
+          condition = evaluateBinary(node.condition, localContext)
         } else {
-          condition = node.condition.value
+          condition = resolveExpression(node.condition, localContext)
         }
 
         if (Boolean(condition)) {

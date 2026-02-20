@@ -69,6 +69,45 @@
 		</div>
 		{% endif %}
 
+		<!-- Binary operators -->
+		{% if user.role == 'admin' %}
+		<p>User is admin</p>
+		{% endif %}
+
+		{% if user.role != 'guest' %}
+		<p>User is not a guest</p>
+		{% endif %}
+
+		{% if user.age > 18 %}
+		<p>User is an adult</p>
+		{% endif %}
+
+		{% if user.age < 65 %}
+		<p>User is not a senior</p>
+		{% endif %}
+
+		{% if number >= 100 %}
+		<p>Number is at least 100</p>
+		{% endif %}
+
+		{% if number <= 200 %}
+		<p>Number is at most 200</p>
+		{% endif %}
+
+		<!-- Contains operator -->
+		{% if site.description contains 'test' %}
+		<p>Description contains test</p>
+		{% endif %}
+
+		<!-- Logical operators -->
+		{% if user.isAdmin and user.isLoggedIn %}
+		<p>Logged in admin</p>
+		{% endif %}
+
+		{% if user.isAdmin or user.isEditor %}
+		<p>Has elevated access</p>
+		{% endif %}
+
 		<!-- Nested conditionals -->
 		{% if user.isLoggedIn %}
 			<p>Welcome, {{user.name}}</p>

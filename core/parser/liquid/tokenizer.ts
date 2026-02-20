@@ -4,6 +4,7 @@ import {
   type InnerToken,
   type Token,
   type TokenPunct,
+  type TokenOperator,
   TokenKeywordValues
 } from './types.ts'
 import { ParserError } from './utils.ts'
@@ -14,11 +15,11 @@ export type Cursor = {
 }
 
 export const createCursor = (input: string): Cursor => ({ input, index: 0})
-export const isAlpha = (input: string) => /[A-Za-z_-]/.test(input)
-export const isAlnum = (input: string) => /[A-Za-z0-9_-]/.test(input)
-export const isDigit = (input: string) => /[0-9]/.test(input)
-
+const isAlpha = (input: string) => /[A-Za-z_-]/.test(input)
+const isAlnum = (input: string) => /[A-Za-z0-9_-]/.test(input)
+const isDigit = (input: string) => /[0-9]/.test(input)
 const keywords = new Set(TokenKeywordValues)
+const logicalOperators = new Set(['and', 'or', 'contains'])
 
 function pushText (value: string, start: number, end: number): TokenText | undefined {
   if (value.length > 0) {
@@ -50,6 +51,8 @@ export function tokenizeInner (input: string): InnerToken[] {
       const value = input.slice(start, index)
       if (keywords.has(value as typeof TokenKeywordValues[number])) {
         tokens.push({ type: 'Keyword', value: value as typeof TokenKeywordValues[number] })
+      } else if (logicalOperators.has(value)) {
+        tokens.push({ type: 'Operator', value: value as TokenOperator['value'] })
       } else {
         tokens.push({ type: 'Ident', value })
       }
@@ -76,6 +79,31 @@ export function tokenizeInner (input: string): InnerToken[] {
         type: 'Number',
         value: Number(input.slice(start, index))
       })
+      continue
+    }
+
+    if ('<>'.includes(peek(index)) || ('=!'.includes(peek(index)) && peek(index + 1) === '=')) {
+      let start = index
+      index++
+
+      if (peek(start) === '=' && peek(index) === '=') {
+        index++
+        tokens.push({ type: 'Operator', value: '=='})
+      } else if (peek(start) === '!' && peek(index) === '=') {
+        index++
+        tokens.push({ type: 'Operator', value: '!='})
+      } else if (peek(start) === '>' && peek(index) === '=') {
+        index++
+        tokens.push({ type: 'Operator', value: '>='})
+      } else if (peek(start) === '<' && peek(index) === '=') {
+        index++
+        tokens.push({ type: 'Operator', value: '<='})
+      } else if (peek(start) === '>' && peek(index) !== '=') {
+        tokens.push({ type: 'Operator', value: '>'})
+      } else if (peek(start) === '<' && peek(index) !== '=') {
+        tokens.push({ type: 'Operator', value: '<'})
+      }
+
       continue
     }
 

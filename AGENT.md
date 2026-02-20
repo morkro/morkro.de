@@ -255,6 +255,8 @@ test/
 - `{% render "filename", var: value %}`: Includes with explicitly passed variables
 - `{% assign key = value %}`: Variable assignment (literals, strings, variable references)
 - `{% if %}` / `{% elsif %}` / `{% else %}` / `{% endif %}`: Conditionals (including nested)
+- `{% if a == b %}`: Binary comparison operators (`==`, `!=`, `>`, `<`, `>=`, `<=`, `contains`)
+- `{% if a and b %}` / `{% if a or b %}`: Logical operators (simple form only — nested binary conditions like `{% if a == 1 and b == 2 %}` are not yet supported; requires splitting parseCondition into parseComparison/parseCondition layers)
 - `{{ identifier.path }}`: Variable output with dot-notation access
 - Filters: `{{ date | dateToRFC3339 }}` (not yet implemented in custom SSG)
 - Loops / `{% for %}`: (not yet implemented in custom SSG)

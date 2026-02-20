@@ -1,15 +1,22 @@
 type ExpressionVar = { type: 'Var', path: string[] }
-type ExpressionLiteral = { type: 'Literal', value: string | number }
+export type ExpressionLiteral = { type: 'Literal', value: string | number }
+export type ExpressionBinary = {
+  type: 'Binary',
+  left: Expression,
+  right: Expression,
+  operator: TokenOperator['value']
+}
 
 export type Expression =
   | ExpressionVar
   | ExpressionLiteral
+  | ExpressionBinary
 
 export type NodeVariable = { name: string, expression: Expression }
-type NodeText = { type: 'Text', value: string }
-type NodeOutput = { type: 'Output', expression: Expression }
-type NodeAssign = { type: 'Assign' } & NodeVariable
-type NodeRender = { type: 'Render', file: string, variables: NodeVariable[] }
+export type NodeText = { type: 'Text', value: string }
+export type NodeOutput = { type: 'Output', expression: Expression }
+export type NodeAssign = { type: 'Assign' } & NodeVariable
+export type NodeRender = { type: 'Render', file: string, variables: NodeVariable[] }
 export type NodeIf = { type: 'If', condition: Expression , body: Node[], elseBody?: Node[] }
 
 export type Node =
@@ -32,25 +39,28 @@ export const TokenKeywordValues = [
 ] as const
 
 export type TokenText = { type: 'Text', value: string, start: number, end: number }
-type TokenTag = { type: 'Tag', value: string, start: number, end: number }
-type TokenOutput = { type: 'Output', value: string, start: number, end: number }
-export type TokenIdent = { type: 'Ident', value: string }
-type TokenNumber = { type: 'Number', value: number }
-type TokenString = { type: 'String', value: string }
-export type TokenPunct = { type: 'Punct', value: '.' | ':' | ',' | '=' | '|' | '(' | ')' }
-export type TokenKeyword = { type: 'Keyword', value: typeof TokenKeywordValues[number] }
-type TokenEOF = { type: 'EOF' }
+export type TokenTag = { type: 'Tag', value: string, start: number, end: number }
+export type TokenOutput = { type: 'Output', value: string, start: number, end: number }
 
 export type Token =
   | TokenText
   | TokenTag
   | TokenOutput
+
+export type TokenIdent = { type: 'Ident', value: string }
+export type TokenNumber = { type: 'Number', value: number }
+export type TokenString = { type: 'String', value: string }
+export type TokenPunct = { type: 'Punct', value: '.' | ':' | ',' | '=' | '|' | '(' | ')' }
+export type TokenOperator = { type: 'Operator', value: '==' | '!=' | '>' | '<' | '>=' | '<=' | 'and' | 'or' | 'contains'}
+export type TokenKeyword = { type: 'Keyword', value: typeof TokenKeywordValues[number] }
+export type TokenEOF = { type: 'EOF' }
   
 export type InnerToken =
   | TokenIdent
   | TokenNumber
   | TokenString
   | TokenPunct
+  | TokenOperator
   | TokenKeyword
   | TokenEOF
 

@@ -1,4 +1,4 @@
-import type { InnerToken, Token, Expression, Node, Template, TokenKeyword, NodeIf } from './types.ts'
+import type { InnerToken, Token, Expression, Node, Template, TokenKeyword, NodeIf, TokenOperator } from './types.ts'
 import { tokenize, tokenizeInner } from './tokenizer.ts'
 import { ParserError } from './utils.ts'
 
@@ -33,6 +33,23 @@ function trimLeadingWhitespace (nodes: Node[]): Node[] {
     }
   }
   return _nodes
+}
+
+function parseCondition (cursor: CursorState): { expression: Expression, cursor: CursorState } {
+  const { expression: left, cursor: leftCursor } = parseExpression(cursor)
+  cursor = leftCursor
+  if (current(cursor).type !== 'Operator') {
+    return { expression: left, cursor }
+  }
+  
+  const token = current(cursor) as TokenOperator
+  cursor = next(cursor)
+  const { expression: right, cursor: rightCursor } = parseExpression(cursor)
+
+  return {
+    expression: { type: 'Binary', left, right, operator: token.value },
+    cursor: rightCursor
+  }
 }
 
 function parseExpression (cursor: CursorState): { expression: Expression, cursor: CursorState } {
@@ -155,7 +172,7 @@ function parseTag (tokens: InnerToken[]): Node {
 
 function parseIfBlock (tokens: Token[], tagIndex: number): ParseIfResult {
   const inner = tokenizeInner(tokens[tagIndex].value)
-  const { expression: condition } = parseExpression({ tokens: inner, index: 1 })
+  const { expression: condition, cursor } = parseCondition({ tokens: inner, index: 1 })
   const { nodes: ifBody, stoppedAt, endIndex } = parseNodes(tokens, tagIndex + 1, ['else', 'elsif', 'endif'])
 
   let elseBody: Node[] = []
@@ -202,11 +219,15 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
         const firstToken = innerTokens[0]
 
         if (stopKeywords && firstToken.type === 'Keyword' && stopKeywords.includes(firstToken.value)) {
-          return { nodes, endIndex: index + 1, stoppedAt: firstToken.value }
+          return {
+            nodes: trimLeadingWhitespace(nodes),
+            endIndex: index + 1,
+            stoppedAt: firstToken.value
+          }
         }
 
         if (firstToken.type === 'Keyword' && firstToken.value === 'if') {
-          const { expression: condition } = parseExpression({
+          const { expression: condition } = parseCondition({
             tokens: innerTokens,
             index: 1
           })
