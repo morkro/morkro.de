@@ -8,7 +8,7 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
 
 ## Migration Status
 
-**Current State:** Using Eleventy (11ty) with multiple dependencies
+**Current State:** Using Eleventy (11ty) for production, custom SSG in parallel development
 **Target State:** Custom SSG with zero third-party dependencies (except @types/node)
 **Philosophy:** Everything built from scratch for learning and understanding
 
@@ -20,10 +20,14 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
    - Ensure basic build pipeline works
    - Test with simple pages first
 
-2. **Phase 2 - Template Feature Parity** (Critical Path)
-   - Implement missing Liquid features (if/else, loops, filters)
+2. **Phase 2 - Template Feature Parity** (Critical Path) ← in progress
+   - ~~Implement if/else/elsif conditionals~~ (done)
+   - ~~Implement assign tag~~ (done)
+   - ~~Implement render tag with variable passing~~ (done)
+   - ~~Implement variable output with dot-notation~~ (done)
+   - Implement for loops
+   - Implement filters (dateToRFC3339, encodeXML, etc.)
    - Build collections system for blog posts
-   - Implement custom filters (dateToRFC3339, encodeXML, etc.)
    - Implement shortcodes system (currentYear, etc.)
    - Test with all pages and posts
 
@@ -141,17 +145,18 @@ During migration, these must work identically:
 
 ## Commands
 
-### Current (Eleventy-based)
+### Eleventy (legacy, still wired up)
 ```bash
-npm run build          # Production build
-npm start              # Dev server with watch
-npm run lint           # Lint JS and CSS
+npm run build          # Production build via Eleventy (outputs to _site/)
+npm start              # Eleventy dev server with watch
+npm run lint           # Lint JS and CSS via Biome
 ```
 
-### Target (Custom SSG)
+### Custom SSG
 ```bash
-npm run build          # Build site once (outputs to _site/)
-npm start              # Build and start dev server with watch mode
+npm run build:ssg      # Build site once (node --experimental-transform-types core/index.ts)
+npm run start:ssg      # Dev server with file watching (--watch --env-file=.env)
+npm run parse:liquid   # Dev tool: parse test fixture, output AST + rendered HTML to .tmp/
 npm test               # Run all tests
 node --experimental-transform-types --test test/path/to/file.test.ts  # Run single test
 ```
@@ -169,18 +174,35 @@ src/                      # Source files
   assets/                # Static resources (fonts, images, icons, projects, certifications)
   css/                   # Stylesheets (globals/, layout/, components/)
   scripts/               # JavaScript files
-_site/                   # Build output (git-ignored)
+_site/                   # Eleventy build output (git-ignored)
+.build/                  # Custom SSG build output (git-ignored)
+.tmp/                    # Temporary files for dev/debug (AST dumps, rendered output)
 core/                    # Build system core
   index.ts              # Main build orchestration
   data.ts               # Data file loading
   server.ts             # Dev server
   config.ts             # Directory & extension configuration
-  parser/               # File parsing modules
-    parser.ts           # Main parsing pipeline
-    frontmatter.ts      # YAML frontmatter parser
-    liquid.ts           # Liquid template syntax processing
-  utils/                # Utility functions
-test/                    # Tests mirror core/ structure
+  parser/
+    index.ts            # Parsing pipeline entry point and dev CLI (--parse=liquid)
+    frontmatter/
+      parser.ts         # YAML frontmatter parser
+    liquid/
+      parser.ts         # Liquid AST parser (tokenize → parse → Template)
+      tokenizer.ts      # Liquid tokenizer (raw text → Token[])
+      renderer.ts       # Liquid AST renderer (Template → string)
+      resolver.ts       # Template file resolver for render includes
+      types.ts          # Token, Node, Expression, Template type definitions
+      utils.ts          # Parser utilities (vizTokens, ParserError)
+  utils/
+    fs.ts               # File system helpers (loadFile, ensureExtension)
+    json.ts             # JSON parsing
+    log.ts              # Debug logging
+    mime-types.ts       # MIME type resolution
+    object.ts           # Object access helpers (getFromObject)
+test/
+  parser.test.ts        # Parser tests
+  fixtures/liquid/      # Liquid test fixtures (dev.html, mock.json, simple/, complex/, includes/)
+  utils/                # Utility tests (frontmatter, json, mime-types, object)
 ```
 
 ### Current Eleventy Features to Replicate
@@ -228,12 +250,40 @@ test/                    # Tests mirror core/ structure
 - Supports nesting
 - Content injection via `{{ content }}`
 
-**Liquid Features in Use**
+**Liquid Features Implemented**
 - `{% render "filename" %}`: Includes from `_includes/`
-- `{% render "filename", var: value %}`: Includes with variables
-- Filters: `{{ date | dateToRFC3339 }}`
-- If/else conditions (to be documented)
-- Loops (to be documented)
+- `{% render "filename", var: value %}`: Includes with explicitly passed variables
+- `{% assign key = value %}`: Variable assignment (literals, strings, variable references)
+- `{% if %}` / `{% elsif %}` / `{% else %}` / `{% endif %}`: Conditionals (including nested)
+- `{{ identifier.path }}`: Variable output with dot-notation access
+- Filters: `{{ date | dateToRFC3339 }}` (not yet implemented in custom SSG)
+- Loops / `{% for %}`: (not yet implemented in custom SSG)
+
+**Render Scope: Follows Liquid Spec (Isolated)**
+
+The renderer uses true Liquid `render` semantics: each rendered include gets a fully
+isolated scope containing only the variables explicitly passed at the call site.
+The renderer cache stores parsed ASTs (Template), not rendered output, so the same
+include can be rendered multiple times with different variables.
+
+Several `src/_includes/` files still need updating to work with isolated scope — they
+currently reference variables that are not passed explicitly:
+- `page-footer.liquid`: needs `site.email`, `socialnetworks.*`, `pkg.version`
+- `page-scripts.liquid`: needs `pkg.version`, `site.timestamp`
+- `menu.liquid`: needs `title` (only `location` is passed today)
+- `meta-head.liquid`: needs `site.*`, `page.*`, `pkg.*`, `eleventy.*`, `keywords`, `pageClass`
+
+**TODO:** Update every `{% render %}` call site for these includes to pass all required
+variables explicitly.
+
+**Includes Directory Name Mismatch**
+
+The source files use `src/_includes/` (with underscore), but `core/config.ts` defines
+`DIRECTORIES.INTERNAL.INCLUDES` as `'includes'` (no underscore). The test fixtures
+match the config (`test/fixtures/liquid/includes/`). The resolver resolves the includes
+path relative to the parent file's directory. This mismatch will need reconciliation
+when the SSG starts processing actual source files — either rename `src/_includes/` to
+`src/includes/` or update the config to `'_includes'`.
 
 ### Import Aliases
 ```json
@@ -254,6 +304,8 @@ test/                    # Tests mirror core/ structure
 - **Tabs for indentation**: Already configured in biome.json
 - **Single quotes for strings**: Already configured in biome.json
 - **Latest Node.js APIs**: Use modern native features
+- **Node.js 25.1.0**: Pinned via `.nvmrc`
+- **No tsconfig.json**: Uses `--experimental-transform-types` flag for native TypeScript execution
 
 ### TypeScript
 - Strong typing: Avoid `any`, prefer `unknown`
@@ -349,7 +401,9 @@ Custom format: `Year.Month.Commits.Type`
 - Permalinks control output structure
 
 ### Build Output
-- Uses `_site/` not `.build/`
+- Eleventy outputs to `_site/`
+- Custom SSG outputs to `.build/` (configured in `core/config.ts` as `DEST`)
+- `.tmp/` used for debug output (AST dumps, rendered HTML) during development
 - Must match exact structure for deployment
 - statichost.yml for hosting configuration
 

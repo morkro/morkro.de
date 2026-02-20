@@ -245,7 +245,7 @@ export function parseLiquid(input: string, sourcePath: string): Template {
   return {
     type: 'Template',
     meta: {
-      path: sourcePath
+      source: sourcePath
     },
     body: parseNodes(tokenize(input), 0).nodes
   }

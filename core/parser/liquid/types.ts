@@ -5,10 +5,11 @@ export type Expression =
   | ExpressionVar
   | ExpressionLiteral
 
+export type NodeVariable = { name: string, expression: Expression }
 type NodeText = { type: 'Text', value: string }
 type NodeOutput = { type: 'Output', expression: Expression }
-type NodeAssign = { type: 'Assign', name: string, expression: Expression }
-type NodeRender = { type: 'Render', file: string, variables: { name: string, expression: Expression }[] }
+type NodeAssign = { type: 'Assign' } & NodeVariable
+type NodeRender = { type: 'Render', file: string, variables: NodeVariable[] }
 export type NodeIf = { type: 'If', condition: Expression , body: Node[], elseBody?: Node[] }
 
 export type Node =
@@ -56,7 +57,7 @@ export type InnerToken =
 export type Template = {
   type: 'Template',
   meta: {
-    path: string
+    source: string
   }
   body: Node[]
 }
