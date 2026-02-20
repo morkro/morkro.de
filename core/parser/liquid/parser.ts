@@ -25,12 +25,14 @@ const next = (cursor: CursorState): CursorState => ({
   index: cursor.index + 1
 })
 
-function parseExpression (tokens: InnerToken[]): Expression {
-  let cursor: CursorState = { tokens, index: 0 }
+function parseExpression (cursor: CursorState): { expression: Expression, cursor: CursorState } {
   const token = current(cursor)
 
   if (token.type === 'String' || token.type === 'Number') {
-    return { type: 'Literal', value: token.value }
+    return {
+      expression: { type: 'Literal', value: token.value },
+      cursor: next(cursor)
+    }
   }
 
   if (token.type === 'Ident') {
@@ -49,7 +51,10 @@ function parseExpression (tokens: InnerToken[]): Expression {
       currentToken = current(cursor)
     }
 
-    return { type: 'Var', path }
+    return {
+      expression: { type: 'Var', path },
+      cursor
+    }
   }
 
   throw new ParserError(`Unsupported expression starting with ${token.type}`, cursor.index)
@@ -79,10 +84,12 @@ function parseTag (tokens: InnerToken[]): Node {
     }
     cursor = next(cursor)
 
+    const { expression, cursor: newCursor } = parseExpression(cursor)
+    cursor = newCursor
     return {
       type: 'Assign',
       name: nameToken.value,
-      expression: parseExpression(cursor.tokens.slice(cursor.index)) // until EOF
+      expression, // until EOF
     }
   }
 
@@ -115,18 +122,9 @@ function parseTag (tokens: InnerToken[]): Node {
       }
       cursor = next(cursor)
 
-      const valueToken = current(cursor)
-      let expression: Expression
-      if (valueToken.type === 'String' || valueToken.type === 'Number') {
-        expression = { type: 'Literal', value: valueToken.value }
-      } else if (valueToken.type === 'Ident') {
-        expression = { type: 'Var', path: [valueToken.value] }
-      } else {
-        expression = parseExpression(cursor.tokens.slice(cursor.index))
-      }
-      cursor = next(cursor)
-
-      variables.push({ name: keyName, expression })
+      const result = parseExpression(cursor)
+      cursor = result.cursor
+      variables.push({ name: keyName, expression: result.expression })
 
       currentToken = current(cursor)
       if (currentToken.type === 'Punct' && currentToken.value === ',') {
@@ -147,7 +145,7 @@ function parseTag (tokens: InnerToken[]): Node {
 
 function parseIfBlock (tokens: Token[], tagIndex: number): ParseIfResult {
   const inner = tokenizeInner(tokens[tagIndex].value)
-  const condition = parseExpression(inner.slice(1))
+  const { expression: condition } = parseExpression({ tokens: inner, index: 1 })
   const { nodes: ifBody, stoppedAt, endIndex } = parseNodes(tokens, tagIndex + 1, ['else', 'elsif', 'endif'])
 
   let elseBody: Node[] = []
@@ -182,10 +180,11 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
         index++
         break
       case 'Output':
-        nodes.push({
-          type: 'Output',
-          expression: parseExpression(tokenizeInner(token.value))
+        const { expression } = parseExpression({
+          tokens: tokenizeInner(token.value),
+          index: 0
         })
+        nodes.push({ type: 'Output', expression })
         index++
         break
       case 'Tag': {
@@ -197,7 +196,10 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
         }
 
         if (firstToken.type === 'Keyword' && firstToken.value === 'if') {
-          const condition = parseExpression(innerTokens.slice(1))
+          const { expression: condition } = parseExpression({
+            tokens: innerTokens,
+            index: 1
+          })
           const body = parseNodes(tokens, index + 1, ['else', 'elsif', 'endif'])
           let elseBody: Node[] = []
 
