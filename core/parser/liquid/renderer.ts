@@ -16,16 +16,16 @@ function getVariableValue (node: NodeVariable, localContext: RenderContext): unk
 export async function render(
   template: Template,
   context: RenderContext,
-  resolver: typeof templateResolver
+  resolver: typeof templateResolver,
+  renderCache = new Map<string, Template>()
 ): Promise<string> {
-  let result = ''
-  const localContext: RenderContext = structuredClone(context)
-  const renderCache = new Map<string, Template>()
+  let result: string[] = []
+  const localContext: RenderContext = Object.create(context)
 
   for (const node of template.body) {
     switch (node.type) {
       case 'Text':
-        result += node.value
+        result.push(node.value)
         break
       case 'Render':
         let file: Template
@@ -45,20 +45,46 @@ export async function render(
         }
         
         // Renders should have isolated scope, so not passing the global context
-        result += await render(file, renderContext, resolver)
+        result.push(await render(file, renderContext, resolver))
         break
       case 'Assign':
         localContext[node.name] = getVariableValue(node, localContext)
         break
       case 'Output':
         if (node.expression.type === 'Var') {
-          result += getFromObject(node.expression.path, localContext)
+          result.push(String(getFromObject(node.expression.path, localContext)))
         } else {
-          result += node.expression.value
+          result.push(String(node.expression.value))
+        }
+        break
+      case 'If':
+        let condition: unknown
+        if (node.condition.type === 'Var') {
+          condition = getFromObject(node.condition.path, localContext)
+        } else {
+          condition = node.condition.value
+        }
+
+        if (Boolean(condition)) {
+          result.push(await render(
+            { type: 'Template', body: node.body, meta: template.meta },
+            localContext,
+            resolver,
+            renderCache
+          ))
+        } else {
+          if (node.elseBody && node.elseBody.length > 0) {
+            result.push(await render(
+              { type: 'Template', body: node.elseBody, meta: template.meta },
+              localContext,
+              resolver,
+              renderCache
+            ))
+          }
         }
         break
     }
   }
 
-  return result
+  return result.join('')
 }

@@ -32,19 +32,19 @@ describe('getMimeType function', () => {
 
 describe('isTextFile function', () => {
   it('should return true for a text file', () => {
-    assert.equal(isTextFile('txt'), true)
-    assert.equal(isTextFile('html'), true)
-    assert.equal(isTextFile('css'), true)
-    assert.equal(isTextFile('js'), true)
+    assert.equal(isTextFile('.txt'), true)
+    assert.equal(isTextFile('.html'), true)
+    assert.equal(isTextFile('.css'), true)
+    assert.equal(isTextFile('.js'), true)
   })
 
   it('should return false for a non-text file', () => {
-    assert.equal(isTextFile('png'), false)
-    assert.equal(isTextFile('jpg'), false)
-    assert.equal(isTextFile('jpeg'), false)
-    assert.equal(isTextFile('gif'), false)
-    assert.equal(isTextFile('ico'), false)
-    assert.equal(isTextFile('webp'), false)
+    assert.equal(isTextFile('.png'), false)
+    assert.equal(isTextFile('.jpg'), false)
+    assert.equal(isTextFile('.jpeg'), false)
+    assert.equal(isTextFile('.gif'), false)
+    assert.equal(isTextFile('.ico'), false)
+    assert.equal(isTextFile('.webp'), false)
   })
 
   it('should return true for a text file with an unknown extension', () => {

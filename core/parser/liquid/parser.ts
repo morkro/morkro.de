@@ -1,6 +1,5 @@
 import type { InnerToken, Token, Expression, Node, Template, TokenKeyword, NodeIf } from './types.ts'
 import { tokenize, tokenizeInner } from './tokenizer.ts'
-import { logParser as log } from '#utils/log.ts'
 import { ParserError } from './utils.ts'
 
 type CursorState = {
@@ -24,6 +23,17 @@ const next = (cursor: CursorState): CursorState => ({
   ...cursor,
   index: cursor.index + 1
 })
+
+function trimLeadingWhitespace (nodes: Node[]): Node[] {
+  const _nodes = Array.from(nodes)
+  for (let i = 0; i < _nodes.length; i++) {
+    const node = _nodes[i]
+    if (node.type === 'Text') {
+      _nodes[i] = { ...node, value: node.value.replace(/^\n/, '') }
+    }
+  }
+  return _nodes
+}
 
 function parseExpression (cursor: CursorState): { expression: Expression, cursor: CursorState } {
   const token = current(cursor)
@@ -151,8 +161,8 @@ function parseIfBlock (tokens: Token[], tagIndex: number): ParseIfResult {
   let elseBody: Node[] = []
   let finalEndIndex: number = endIndex
 
-  if (stoppedAt === 'endif') {
-    const nestedIf = parseIfBlock(tokens, endIndex + 1)
+  if (stoppedAt === 'elsif') {
+    const nestedIf = parseIfBlock(tokens, endIndex - 1)
     elseBody = [nestedIf.node]
     finalEndIndex = nestedIf.endIndex
   } else if (stoppedAt === 'else') {
@@ -240,7 +250,7 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
     }
   }
 
-  return { nodes, endIndex: index }
+  return { nodes: trimLeadingWhitespace(nodes), endIndex: index }
 }
 
 export function parseLiquid(input: string, sourcePath: string): Template {
