@@ -7,6 +7,11 @@ type CursorState = {
   readonly index: number
 }
 
+type ParseContext = {
+  readonly source: string
+  readonly filePath: string
+}
+
 type ParseResult = {
   readonly nodes: Node[]
   readonly endIndex: number
@@ -27,7 +32,10 @@ type ParseExpressionResult = {
 const current = (cursor: CursorState) => {
   const token = cursor.tokens[cursor.index]
   if (!token) {
-    throw new ParserError(`Expected token but got EOF`, cursor.index)
+    throw new ParserError(
+      `Expected token but got EOF`,
+      cursor.tokens[cursor.index - 1]?.end ?? 0
+    )
   }
   return token
 }
@@ -47,8 +55,8 @@ function trimLeadingWhitespace (nodes: Node[]): Node[] {
   return _nodes
 }
 
-function parseCondition (cursor: CursorState): ParseExpressionResult {
-  const { expression: left, cursor: leftCursor } = parseExpression(cursor)
+function parseCondition (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+  const { expression: left, cursor: leftCursor } = parseExpression(cursor, ctx)
   cursor = leftCursor
   if (current(cursor).type !== 'Operator') {
     return { expression: left, cursor }
@@ -56,7 +64,7 @@ function parseCondition (cursor: CursorState): ParseExpressionResult {
   
   const token = current(cursor) as TokenOperator
   cursor = next(cursor)
-  const { expression: right, cursor: rightCursor } = parseExpression(cursor)
+  const { expression: right, cursor: rightCursor } = parseExpression(cursor, ctx)
 
   return {
     expression: { type: 'Binary', left, right, operator: token.value },
@@ -64,7 +72,7 @@ function parseCondition (cursor: CursorState): ParseExpressionResult {
   }
 }
 
-function parseExpression (cursor: CursorState): ParseExpressionResult {
+function parseExpression (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
   const token = current(cursor)
 
   if (token.type === 'String' || token.type === 'Number') {
@@ -83,7 +91,12 @@ function parseExpression (cursor: CursorState): ParseExpressionResult {
       cursor = next(cursor)
       const identToken = current(cursor)
       if (identToken.type !== 'Ident') {
-        throw new ParserError(`Expected identifier after '.', got ${identToken.type}`, cursor.index)
+        throw new ParserError(
+          `Expected identifier after '.', got ${identToken.type}`,
+          identToken.start,
+          ctx.source,
+          ctx.filePath
+        )
       }
       path.push(identToken.value)
       cursor = next(cursor)
@@ -96,15 +109,25 @@ function parseExpression (cursor: CursorState): ParseExpressionResult {
     }
   }
 
-  throw new ParserError(`Unsupported expression starting with ${token.type}`, cursor.index)
+  throw new ParserError(
+    `Unsupported expression starting with ${token.type}`,
+    token.start,
+    ctx.source,
+    ctx.filePath
+  )
 }
 
-function parseTag (tokens: InnerToken[]): Node {
+function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
   let cursor: CursorState = { tokens, index: 0 }
   const token = current(cursor)
 
   if (token.type !== 'Keyword') {
-    throw new ParserError(`Unknown keyword ${token.type}`, cursor.index)
+    throw new ParserError(
+      `Unknown keyword ${token.type}`,
+      token.start,
+      ctx.source,
+      ctx.filePath
+    )
   }
   
   // {% assign key = value %}
@@ -113,17 +136,27 @@ function parseTag (tokens: InnerToken[]): Node {
 
     const nameToken = current(cursor)
     if (nameToken.type !== 'Ident') {
-      throw new ParserError(`Expected "Ident" but got ${nameToken.type}`, cursor.index)
+      throw new ParserError(
+        `Expected "Ident" but got ${nameToken.type}`,
+        nameToken.start,
+        ctx.source,
+        ctx.filePath
+      )
     }
     cursor = next(cursor)
 
     const punctToken = current(cursor)
     if (punctToken.type !== 'Punct' || punctToken.value !== '=') {
-      throw new ParserError(`Expected "Punct" but got ${punctToken.type}`, cursor.index)
+      throw new ParserError(
+        `Expected "Punct" but got ${punctToken.type}`,
+        punctToken.start,
+        ctx.source,
+        ctx.filePath
+      )
     }
     cursor = next(cursor)
 
-    const { expression, cursor: newCursor } = parseExpression(cursor)
+    const { expression, cursor: newCursor } = parseExpression(cursor, ctx)
     cursor = newCursor
     return {
       type: 'Assign',
@@ -139,7 +172,12 @@ function parseTag (tokens: InnerToken[]): Node {
     
     const fileToken = current(cursor)
     if (fileToken.type !== 'Ident' && fileToken.type !== 'String') {
-      throw new ParserError(`Expected filename (identifier or string) but got ${fileToken.type}`, cursor.index)
+      throw new ParserError(
+        `Expected filename (identifier or string) but got ${fileToken.type}`, 
+        fileToken.start,
+        ctx.source,
+        ctx.filePath
+      )
     }
     const fileName = fileToken.value
     cursor = next(cursor)
@@ -157,11 +195,16 @@ function parseTag (tokens: InnerToken[]): Node {
       
       const colonToken = current(cursor)
       if (colonToken.type !== 'Punct' || colonToken.value !== ':') {
-        throw new ParserError(`Expected ":" but got ${colonToken.type}`, cursor.index)
+        throw new ParserError(
+          `Expected ":" but got ${colonToken.type}`,
+          colonToken.start,
+          ctx.source,
+          ctx.filePath
+        )
       }
       cursor = next(cursor)
 
-      const result = parseExpression(cursor)
+      const result = parseExpression(cursor, ctx)
       cursor = result.cursor
       variables.push({ name: keyName, expression: result.expression })
 
@@ -179,22 +222,27 @@ function parseTag (tokens: InnerToken[]): Node {
     }
   }
 
-  throw new ParserError(`Unsupported tag starting with ${token.type} "${token.value}"`, cursor.index)
+  throw new ParserError(
+    `Unsupported tag starting with ${token.type} "${token.value}"`,
+    token.start,
+    ctx.source,
+    ctx.filePath
+  )
 }
 
-function parseIfBlock (tokens: Token[], innerTokens: InnerToken[], startIndex: number): ParseIfResult {
-  const { expression: condition } = parseCondition({ tokens: innerTokens, index: 1 })
-  const { nodes: ifBody, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(tokens, startIndex, ['else', 'elsif', 'endif'])
+function parseIfBlock (tokens: Token[], innerTokens: InnerToken[], startIndex: number, ctx: ParseContext): ParseIfResult {
+  const { expression: condition } = parseCondition({ tokens: innerTokens, index: 1 }, ctx)
+  const { nodes: ifBody, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(tokens, startIndex, ctx, ['else', 'elsif', 'endif'])
 
   let elseBody: Node[] = []
   let finalEndIndex: number = endIndex
 
   if (stoppedAt === 'elsif') {
-    const nestedIf = parseIfBlock(tokens, stoppedAtTokens!, endIndex)
+    const nestedIf = parseIfBlock(tokens, stoppedAtTokens!, endIndex, ctx)
     elseBody = [nestedIf.node]
     finalEndIndex = nestedIf.endIndex
   } else if (stoppedAt === 'else') {
-    const elseResult = parseNodes(tokens, endIndex, ['endif'])
+    const elseResult = parseNodes(tokens, endIndex, ctx, ['endif'])
     elseBody = elseResult.nodes
     finalEndIndex = elseResult.endIndex
   }
@@ -205,7 +253,7 @@ function parseIfBlock (tokens: Token[], innerTokens: InnerToken[], startIndex: n
   }
 }
 
-function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKeyword['value'][]): ParseResult {
+function parseNodes(tokens: Token[], startIndex: number, ctx: ParseContext, stopKeywords?: TokenKeyword['value'][]): ParseResult {
   const nodes: Node[] = []
   let index = startIndex
 
@@ -219,14 +267,14 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
         break
       case 'Output':
         const { expression } = parseExpression({
-          tokens: tokenizeInner(token.value),
+          tokens: tokenizeInner(token.value, token.innerStart),
           index: 0
-        })
+        }, ctx)
         nodes.push({ type: 'Output', expression })
         index++
         break
       case 'Tag': {
-        const innerTokens = tokenizeInner(token.value)
+        const innerTokens = tokenizeInner(token.value, token.innerStart)
         const firstToken = innerTokens[0]
 
         if (stopKeywords && firstToken.type === 'Keyword' && stopKeywords.includes(firstToken.value)) {
@@ -242,12 +290,12 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
           const { expression: condition } = parseCondition({
             tokens: innerTokens,
             index: 1
-          })
-          const { nodes: body, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(tokens, index + 1, ['else', 'elsif', 'endif'])
+          }, ctx)
+          const { nodes: body, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(tokens, index + 1, ctx, ['else', 'elsif', 'endif'])
           let elseBody: Node[] = []
 
           if (stoppedAt === 'elsif') {
-            const elsifResult = parseIfBlock(tokens, stoppedAtTokens!, endIndex)
+            const elsifResult = parseIfBlock(tokens, stoppedAtTokens!, endIndex, ctx)
             
             index = elsifResult.endIndex
             nodes.push({
@@ -257,7 +305,7 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
               elseBody: [elsifResult.node]
             })
           } else if (stoppedAt === 'else') {
-            const elseResult = parseNodes(tokens, endIndex, ['endif'])
+            const elseResult = parseNodes(tokens, endIndex, ctx,['endif'])
             elseBody = elseResult.nodes
             index = elseResult.endIndex
             nodes.push({ type: 'If', condition, body, elseBody })
@@ -269,12 +317,17 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
           continue
         }
 
-        nodes.push(parseTag(innerTokens))
+        nodes.push(parseTag(innerTokens, ctx))
         index++
         break
       }
       default:
-        throw new ParserError(`Unknown token type: ${(token as Token).type}`, index)
+        throw new ParserError(
+          `Unknown token type: ${(token as Token).type}`,
+          (token as Token).start,
+          ctx.source,
+          ctx.filePath
+        )
     }
   }
 
@@ -282,11 +335,24 @@ function parseNodes(tokens: Token[], startIndex: number, stopKeywords?: TokenKey
 }
 
 export function parseLiquid(input: string, sourcePath: string): Template {
-  return {
-    type: 'Template',
-    meta: {
-      source: sourcePath
-    },
-    body: parseNodes(tokenize(input), 0).nodes
+  const ctx: ParseContext = { source: input, filePath: sourcePath }
+  try {
+    return {
+      type: 'Template',
+      meta: {
+        source: ctx.filePath
+      },
+      body: parseNodes(tokenize(input), 0, ctx).nodes
+    }
+  } catch (error) {
+    if (error instanceof ParserError && !error.source) {
+      throw new ParserError(
+        error.rawMessage,
+        error.offset,
+        ctx.source,
+        ctx.filePath
+      )
+    }
+    throw error
   }
 }
