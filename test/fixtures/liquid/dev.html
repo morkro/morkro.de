@@ -179,6 +179,17 @@
 			</ul>
 		</nav>
 
+		<!-- Loop over empty array -->
+		<nav>
+			<ul>
+				{% for link in emptyList %}
+				<li><a href='{{link.url}}'>{{link.label}}</a></li>
+				{% else %}
+				<li>No links</li>
+				{% endfor %}
+			</ul>
+		</nav>
+
 		<!-- Loop over simple array -->
 		<div class='tags'>
 			{% for tag in tags %}

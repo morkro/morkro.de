@@ -361,16 +361,25 @@ function parseNodes(
             tokens: innerTokens,
             index: 3
           }, ctx)
-          const { nodes: body, endIndex } = parseNodes(
+          const { nodes: body, stoppedAt, endIndex } = parseNodes(
             tokens,
             index + 1,
             ctx,
-            ['endfor']
+            ['else', 'endfor']
           )
 
-          nodes.push({ type: 'For', variable: variable.value, collection: iterable, body })
+          let elseBody: Node[] = []
 
-          index = endIndex
+          if (stoppedAt === 'else') {
+            const elseResult = parseNodes(tokens, endIndex, ctx, ['endfor'])
+            elseBody = elseResult.nodes
+            index = elseResult.endIndex
+            nodes.push({ type: 'For', variable: variable.value, collection: iterable, body, elseBody })
+          } else {
+            index = endIndex
+            nodes.push({ type: 'For', variable: variable.value, collection: iterable, body })
+          }
+
           continue
         }    
 

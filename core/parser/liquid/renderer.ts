@@ -114,15 +114,26 @@ export async function render(
           throw new ParserError(`Expected array but got ${typeof collection}`, 0)
         }
 
-        for (let i = 0; i < collection.length; i++) {
-          const localCtx = Object.create(localContext) // Isolated scope for the loop
-          localCtx[node.variable] = collection[i]
-          result.push(await render(
-            { type: 'Template', body: node.body, meta: template.meta },
-            localCtx,
-            resolver,
-            renderCache
-          ))
+        if (collection.length === 0) {
+          if (node.elseBody && node.elseBody.length > 0) {
+            result.push(await render(
+              { type: 'Template', body: node.elseBody, meta: template.meta },
+              localContext,
+              resolver,
+              renderCache
+            ))
+          }
+        } else {
+          for (let i = 0; i < collection.length; i++) {
+            const isolatedContext = Object.create(localContext) // Isolated scope for the loop
+            isolatedContext[node.variable] = collection[i]
+            result.push(await render(
+              { type: 'Template', body: node.body, meta: template.meta },
+              isolatedContext,
+              resolver,
+              renderCache
+            ))
+          }
         }
     }
   }

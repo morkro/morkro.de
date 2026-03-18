@@ -24,7 +24,7 @@ export type NodeOutput = { type: 'Output', expression: Expression }
 export type NodeAssign = { type: 'Assign' } & NodeVariable
 export type NodeRender = { type: 'Render', file: string, variables: NodeVariable[] }
 export type NodeIf = { type: 'If', condition: Expression , body: Node[], elseBody?: Node[] }
-export type NodeFor = { type: 'For', variable: string, collection: Expression, body: Node[] }
+export type NodeFor = { type: 'For', variable: string, collection: Expression, body: Node[], elseBody?: Node[] }
 
 export type Node =
   | NodeText
