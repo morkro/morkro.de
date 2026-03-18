@@ -1,4 +1,7 @@
-type ExpressionVar = { type: 'Var', path: string[] }
+/**
+ * Expressions
+ */
+export type ExpressionVar = { type: 'Var', path: string[] }
 export type ExpressionLiteral = { type: 'Literal', value: string | number }
 export type ExpressionBinary = {
   type: 'Binary',
@@ -12,20 +15,28 @@ export type Expression =
   | ExpressionLiteral
   | ExpressionBinary
 
+/**
+ * Nodes
+ */
 export type NodeVariable = { name: string, expression: Expression }
 export type NodeText = { type: 'Text', value: string }
 export type NodeOutput = { type: 'Output', expression: Expression }
 export type NodeAssign = { type: 'Assign' } & NodeVariable
 export type NodeRender = { type: 'Render', file: string, variables: NodeVariable[] }
 export type NodeIf = { type: 'If', condition: Expression , body: Node[], elseBody?: Node[] }
+export type NodeFor = { type: 'For', variable: string, collection: Expression, body: Node[] }
 
 export type Node =
- | NodeText
- | NodeOutput
- | NodeAssign
- | NodeRender
- | NodeIf
+  | NodeText
+  | NodeOutput
+  | NodeAssign
+  | NodeRender
+  | NodeIf
+  | NodeFor
 
+/**
+* Tokens
+*/
 export const TokenKeywordValues = [
   'assign',
   'if',
@@ -86,6 +97,9 @@ export type InnerToken =
   | TokenKeyword
   | TokenEOF
 
+/**
+ * Template
+ */
 export type Template = {
   type: 'Template',
   meta: {

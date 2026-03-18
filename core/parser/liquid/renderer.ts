@@ -108,6 +108,22 @@ export async function render(
           }
         }
         break
+      case 'For':
+        const collection = resolveExpression(node.collection, localContext)
+        if (!Array.isArray(collection)) {
+          throw new ParserError(`Expected array but got ${typeof collection}`, 0)
+        }
+
+        for (let i = 0; i < collection.length; i++) {
+          const localCtx = Object.create(localContext) // Isolated scope for the loop
+          localCtx[node.variable] = collection[i]
+          result.push(await render(
+            { type: 'Template', body: node.body, meta: template.meta },
+            localCtx,
+            resolver,
+            renderCache
+          ))
+        }
     }
   }
 

@@ -1,4 +1,14 @@
-import type { InnerToken, Token, Expression, Node, Template, TokenKeyword, NodeIf, TokenOperator } from './types.ts'
+import type {
+  InnerToken,
+  Token,
+  Expression,
+  Node,
+  Template,
+  TokenKeyword,
+  NodeIf,
+  TokenOperator,
+  TokenIdent
+} from './types.ts'
 import { tokenize, tokenizeInner } from './tokenizer.ts'
 import { ParserError } from './utils.ts'
 
@@ -230,9 +240,19 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
   )
 }
 
-function parseIfBlock (tokens: Token[], innerTokens: InnerToken[], startIndex: number, ctx: ParseContext): ParseIfResult {
+function parseIfBlock (
+  tokens: Token[],
+  innerTokens: InnerToken[],
+  startIndex: number,
+  ctx: ParseContext
+): ParseIfResult {
   const { expression: condition } = parseCondition({ tokens: innerTokens, index: 1 }, ctx)
-  const { nodes: ifBody, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(tokens, startIndex, ctx, ['else', 'elsif', 'endif'])
+  const { nodes: ifBody, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(
+    tokens,
+    startIndex,
+    ctx,
+    ['else', 'elsif', 'endif']
+  )
 
   let elseBody: Node[] = []
   let finalEndIndex: number = endIndex
@@ -253,7 +273,12 @@ function parseIfBlock (tokens: Token[], innerTokens: InnerToken[], startIndex: n
   }
 }
 
-function parseNodes(tokens: Token[], startIndex: number, ctx: ParseContext, stopKeywords?: TokenKeyword['value'][]): ParseResult {
+function parseNodes(
+  tokens: Token[],
+  startIndex: number,
+  ctx: ParseContext,
+  stopKeywords?: TokenKeyword['value'][]
+): ParseResult {
   const nodes: Node[] = []
   let index = startIndex
 
@@ -291,7 +316,12 @@ function parseNodes(tokens: Token[], startIndex: number, ctx: ParseContext, stop
             tokens: innerTokens,
             index: 1
           }, ctx)
-          const { nodes: body, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(tokens, index + 1, ctx, ['else', 'elsif', 'endif'])
+          const { nodes: body, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(
+            tokens,
+            index + 1,
+            ctx,
+            ['else', 'elsif', 'endif']
+          )
           let elseBody: Node[] = []
 
           if (stoppedAt === 'elsif') {
@@ -316,6 +346,33 @@ function parseNodes(tokens: Token[], startIndex: number, ctx: ParseContext, stop
 
           continue
         }
+
+        if (firstToken.type === 'Keyword' && firstToken.value === 'for') {
+          const variable = innerTokens[1] as TokenIdent
+          if (variable.type !== 'Ident') {
+            throw new ParserError(
+              `Expected "Ident" but got ${variable.type}`,
+              variable.start,
+              ctx.source,
+              ctx.filePath
+            )
+          }
+          const { expression: iterable } = parseExpression({
+            tokens: innerTokens,
+            index: 3
+          }, ctx)
+          const { nodes: body, endIndex } = parseNodes(
+            tokens,
+            index + 1,
+            ctx,
+            ['endfor']
+          )
+
+          nodes.push({ type: 'For', variable: variable.value, collection: iterable, body })
+
+          index = endIndex
+          continue
+        }    
 
         nodes.push(parseTag(innerTokens, ctx))
         index++

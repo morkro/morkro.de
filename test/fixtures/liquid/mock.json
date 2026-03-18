@@ -34,5 +34,12 @@
 		"isLoggedIn": true,
 		"isAdmin": true,
 		"name": "Admin User"
-	}
+	},
+	"navLinks": [
+		{ "url": "/", "label": "Home" },
+		{ "url": "/about", "label": "About" },
+		{ "url": "/blog", "label": "Blog" },
+		{ "url": "/contact", "label": "Contact" }
+	],
+	"tags": ["html", "css", "javascript"]
 }

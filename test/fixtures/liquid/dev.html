@@ -166,7 +166,35 @@
 		{% render 'button', label: ctaLabel, type: 'primary' %}
 	</section>
 
-	<!-- 6. FOOTER -->
+	<!-- 6. FOR LOOPS -->
+	<section id='loops'>
+		<h2>For Loop Tests</h2>
+
+		<!-- Simple loop over array of objects -->
+		<nav>
+			<ul>
+				{% for link in navLinks %}
+				<li><a href='{{link.url}}'>{{link.label}}</a></li>
+				{% endfor %}
+			</ul>
+		</nav>
+
+		<!-- Loop over simple array -->
+		<div class='tags'>
+			{% for tag in tags %}
+			<span class='tag'>{{tag}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- Loop with conditional inside -->
+		{% for link in navLinks %}
+		{% if link.url == '/' %}
+		<p>Home link found: {{link.label}}</p>
+		{% endif %}
+		{% endfor %}
+	</section>
+
+	<!-- 7. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>

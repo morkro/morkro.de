@@ -8,6 +8,9 @@ export async function templateResolver(parentPath: string, file: string): Promis
   const base = dirname(parentPath)
   const includesPath = resolve(base, DIRECTORIES.INTERNAL.INCLUDES)
   const fileName = ensureExtension(file, '.html')
-  const content = await loadFile(includesPath, fileName)
-  return parseLiquid(content, resolve(includesPath, fileName))
+
+  return parseLiquid(
+    await loadFile(includesPath, fileName),
+    resolve(includesPath, fileName)
+  )
 }
