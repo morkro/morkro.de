@@ -25,6 +25,7 @@ export type NodeAssign = { type: 'Assign' } & NodeVariable
 export type NodeRender = { type: 'Render', file: string, variables: NodeVariable[] }
 export type NodeIf = { type: 'If', condition: Expression , body: Node[], elseBody?: Node[] }
 export type NodeFor = { type: 'For', variable: string, collection: Expression, body: Node[], elseBody?: Node[] }
+export type NodeForBreak = { type: 'ForBreak' }
 
 export type Node =
   | NodeText
@@ -33,7 +34,7 @@ export type Node =
   | NodeRender
   | NodeIf
   | NodeFor
-
+  | NodeForBreak
 /**
 * Tokens
 */
@@ -47,6 +48,7 @@ export const TokenKeywordValues = [
   'for',
   'endfor',
   'in',
+  'break',
 ] as const
 
 export const TokenOperatorValues = [

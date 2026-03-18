@@ -41,6 +41,6 @@
 		{ "url": "/blog", "label": "Blog" },
 		{ "url": "/contact", "label": "Contact" }
 	],
-	"tags": ["html", "css", "javascript"],
+	"tags": ["html", "css", "test", "javascript"],
 	"emptyList": []
 }

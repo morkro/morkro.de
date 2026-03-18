@@ -22,8 +22,8 @@ Custom Liquid template parser. Reference: [LiquidJS Tags](https://liquidjs.com/t
 | Tag                     | Status                         |
 | ----------------------- | ------------------------------ |
 | `for`                   | Partial (basic `for..in` only) |
-| `else` (empty fallback) | Not implemented                |
-| `break`                 | Not implemented                |
+| `else` (empty fallback) | Done                           |
+| `break`                 | Done                           |
 | `continue`              | Not implemented                |
 | `forloop` object        | Not implemented                |
 | `limit` / `offset`      | Not implemented                |

@@ -232,6 +232,11 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
     }
   }
 
+  // {% break %}
+  if (token.value === 'break') {
+    return { type: 'ForBreak' }
+  }
+
   throw new ParserError(
     `Unsupported tag starting with ${token.type} "${token.value}"`,
     token.start,
@@ -357,6 +362,7 @@ function parseNodes(
               ctx.filePath
             )
           }
+
           const { expression: iterable } = parseExpression({
             tokens: innerTokens,
             index: 3
@@ -367,7 +373,7 @@ function parseNodes(
             ctx,
             ['else', 'endfor']
           )
-
+          
           let elseBody: Node[] = []
 
           if (stoppedAt === 'else') {
@@ -405,9 +411,7 @@ export function parseLiquid(input: string, sourcePath: string): Template {
   try {
     return {
       type: 'Template',
-      meta: {
-        source: ctx.filePath
-      },
+      meta: { source: ctx.filePath },
       body: parseNodes(tokenize(input), 0, ctx).nodes
     }
   } catch (error) {

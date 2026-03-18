@@ -1,7 +1,7 @@
 import type { Expression, ExpressionBinary, Template } from "./types.ts";
 import type { templateResolver } from "./resolver.ts";
 import { getFromObject } from "#utils/object.ts";
-import { ParserError } from "./utils.ts";
+import { ParserError, BreakSignal } from "./utils.ts";
 
 export type RenderContext = Record<string, unknown>
 
@@ -127,14 +127,25 @@ export async function render(
           for (let i = 0; i < collection.length; i++) {
             const isolatedContext = Object.create(localContext) // Isolated scope for the loop
             isolatedContext[node.variable] = collection[i]
-            result.push(await render(
-              { type: 'Template', body: node.body, meta: template.meta },
-              isolatedContext,
-              resolver,
-              renderCache
-            ))
+
+            try {
+              result.push(await render(
+                { type: 'Template', body: node.body, meta: template.meta },
+                isolatedContext,
+                resolver,
+                renderCache
+              ))
+            } catch (error) {
+              if (error instanceof BreakSignal) {
+                break
+              }
+              throw error
+            }
           }
         }
+        break
+      case 'ForBreak':
+        throw new BreakSignal()
     }
   }
 

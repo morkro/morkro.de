@@ -198,11 +198,24 @@
 		</div>
 
 		<!-- Loop with conditional inside -->
-		{% for link in navLinks %}
-		{% if link.url == '/' %}
-		<p>Home link found: {{link.label}}</p>
-		{% endif %}
-		{% endfor %}
+		 <div class='home-links'>
+			{% for link in navLinks %}
+				{% if link.url == '/' %}
+				<p>Home link found: {{link.label}}</p>
+				{% endif %}
+			{% endfor %}
+		</div>
+
+		<!-- Loop with break -->
+		<div class='tags'>
+			{% for tag in tags %}
+				{% if tag == 'test' %}
+					{% break %}
+				{% else %}
+				<p>Tag found: {{tag}}</p>
+				{% endif %}
+			{% endfor %}
+		</div>
 	</section>
 
 	<!-- 7. FOOTER -->

@@ -99,3 +99,5 @@ export class ParserError extends Error {
   get source(): string | undefined { return this.#source }
   get offset(): number { return this.#offset }
 }
+
+export class BreakSignal {}
