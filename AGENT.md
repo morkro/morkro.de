@@ -25,7 +25,7 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
    - ~~Implement assign tag~~ (done)
    - ~~Implement render tag with variable passing~~ (done)
    - ~~Implement variable output with dot-notation~~ (done)
-   - Implement for loops
+   - ~~Implement for loops~~ (done)
    - Implement filters (dateToRFC3339, encodeXML, etc.)
    - Build collections system for blog posts
    - Implement shortcodes system (currentYear, etc.)
@@ -250,16 +250,9 @@ test/
 - Supports nesting
 - Content injection via `{{ content }}`
 
-**Liquid Features Implemented**
-- `{% render "filename" %}`: Includes from `_includes/`
-- `{% render "filename", var: value %}`: Includes with explicitly passed variables
-- `{% assign key = value %}`: Variable assignment (literals, strings, variable references)
-- `{% if %}` / `{% elsif %}` / `{% else %}` / `{% endif %}`: Conditionals (including nested)
-- `{% if a == b %}`: Binary comparison operators (`==`, `!=`, `>`, `<`, `>=`, `<=`, `contains`)
-- `{% if a and b %}` / `{% if a or b %}`: Logical operators (simple form only — nested binary conditions like `{% if a == 1 and b == 2 %}` are not yet supported; requires splitting parseCondition into parseComparison/parseCondition layers)
-- `{{ identifier.path }}`: Variable output with dot-notation access
-- Filters: `{{ date | dateToRFC3339 }}` (not yet implemented in custom SSG)
-- Loops / `{% for %}`: (not yet implemented in custom SSG)
+**Liquid Features**
+
+For a full list of implemented and missing Liquid tags, operators, and filters, see [`core/parser/README.md`](core/parser/README.md).
 
 **Render Scope: Follows Liquid Spec (Isolated)**
 
