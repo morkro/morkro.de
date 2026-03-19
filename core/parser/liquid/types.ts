@@ -26,6 +26,7 @@ export type NodeRender = { type: 'Render', file: string, variables: NodeVariable
 export type NodeIf = { type: 'If', condition: Expression , body: Node[], elseBody?: Node[] }
 export type NodeFor = { type: 'For', variable: string, collection: Expression, body: Node[], elseBody?: Node[] }
 export type NodeForBreak = { type: 'ForBreak' }
+export type NodeForContinue = { type: 'ForContinue' }
 
 export type Node =
   | NodeText
@@ -35,7 +36,19 @@ export type Node =
   | NodeIf
   | NodeFor
   | NodeForBreak
-/**
+  | NodeForContinue
+
+/** For loop context object */
+export type ForLoopContext = {
+  index: number
+  index0: number
+  rindex: number
+  rindex0: number
+  first: boolean
+  last: boolean
+  length: number
+}
+  /**
 * Tokens
 */
 export const TokenKeywordValues = [
@@ -49,6 +62,7 @@ export const TokenKeywordValues = [
   'endfor',
   'in',
   'break',
+  'continue',
 ] as const
 
 export const TokenOperatorValues = [

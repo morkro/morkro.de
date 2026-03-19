@@ -1,7 +1,7 @@
-import type { Expression, ExpressionBinary, Template } from "./types.ts";
+import type { Expression, ExpressionBinary, Template, ForLoopContext } from "./types.ts";
 import type { templateResolver } from "./resolver.ts";
 import { getFromObject } from "#utils/object.ts";
-import { ParserError, BreakSignal } from "./utils.ts";
+import { ParserError, BreakSignal, ContinueSignal } from "./utils.ts";
 
 export type RenderContext = Record<string, unknown>
 
@@ -127,6 +127,15 @@ export async function render(
           for (let i = 0; i < collection.length; i++) {
             const isolatedContext = Object.create(localContext) // Isolated scope for the loop
             isolatedContext[node.variable] = collection[i]
+            isolatedContext['forloop'] = {
+              index: i + 1,
+              index0: i,
+              rindex: collection.length - i,
+              rindex0: collection.length - i - 1,
+              first: i === 0,
+              last: i === collection.length - 1,
+              length: collection.length,
+            } satisfies ForLoopContext
 
             try {
               result.push(await render(
@@ -139,6 +148,9 @@ export async function render(
               if (error instanceof BreakSignal) {
                 break
               }
+              if (error instanceof ContinueSignal) {
+                continue
+              }
               throw error
             }
           }
@@ -146,6 +158,8 @@ export async function render(
         break
       case 'ForBreak':
         throw new BreakSignal()
+      case 'ForContinue':
+        throw new ContinueSignal()
     }
   }
 

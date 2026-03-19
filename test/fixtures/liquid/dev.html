@@ -216,6 +216,32 @@
 				{% endif %}
 			{% endfor %}
 		</div>
+
+		<!-- Loop with continue -->
+		<div class='tags'>
+			{% for tag in tags %}
+				{% if tag == 'test' %}
+					{% continue %}
+				{% endif %}
+				<span class='tag'>{{tag}}</span>
+			{% endfor %}
+		</div>
+		<!-- forloop object -->
+		<table>
+			<tr><th>index</th><th>index0</th><th>rindex</th><th>rindex0</th><th>first</th><th>last</th><th>length</th><th>value</th></tr>
+			{% for link in navLinks %}
+			<tr>
+				<td>{{forloop.index}}</td>
+				<td>{{forloop.index0}}</td>
+				<td>{{forloop.rindex}}</td>
+				<td>{{forloop.rindex0}}</td>
+				<td>{{forloop.first}}</td>
+				<td>{{forloop.last}}</td>
+				<td>{{forloop.length}}</td>
+				<td>{{link.label}}</td>
+			</tr>
+			{% endfor %}
+		</table>
 	</section>
 
 	<!-- 7. FOOTER -->

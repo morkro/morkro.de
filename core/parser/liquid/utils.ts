@@ -101,3 +101,4 @@ export class ParserError extends Error {
 }
 
 export class BreakSignal {}
+export class ContinueSignal {}

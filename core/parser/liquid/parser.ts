@@ -232,9 +232,16 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
     }
   }
 
+  // {% for ... %}
   // {% break %}
   if (token.value === 'break') {
     return { type: 'ForBreak' }
+  }
+
+  // {% for ... %}
+  // {% continue %}
+  if (token.value === 'continue') {
+    return { type: 'ForContinue' }
   }
 
   throw new ParserError(
