@@ -26,9 +26,9 @@ Custom Liquid template parser. Reference: [LiquidJS Tags](https://liquidjs.com/t
 | `break`                 | Done                           |
 | `continue`              | Done                           |
 | `forloop` object        | Done                           |
-| `limit` / `offset`      | Not implemented                |
+| `limit` / `offset`      | Done                           |
 | Range `(1..5)`          | Not implemented                |
-| `reversed`              | Not implemented                |
+| `reversed`              | Done                           |
 | `cycle`                 | Not implemented                |
 | `tablerow`              | Not implemented                |
 

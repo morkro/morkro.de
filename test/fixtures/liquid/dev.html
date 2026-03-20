@@ -170,7 +170,7 @@
 	<section id='loops'>
 		<h2>For Loop Tests</h2>
 
-		<!-- Simple loop over array of objects -->
+		<!-- Simple loop over array of objects: expects Home, About, Blog, Contact -->
 		<nav>
 			<ul>
 				{% for link in navLinks %}
@@ -179,7 +179,7 @@
 			</ul>
 		</nav>
 
-		<!-- Loop over empty array -->
+		<!-- Loop over empty array: expects "No links" -->
 		<nav>
 			<ul>
 				{% for link in emptyList %}
@@ -190,14 +190,14 @@
 			</ul>
 		</nav>
 
-		<!-- Loop over simple array -->
+		<!-- Loop over simple array: expects html, css, test, javascript -->
 		<div class='tags'>
 			{% for tag in tags %}
 			<span class='tag'>{{tag}}</span>
 			{% endfor %}
 		</div>
 
-		<!-- Loop with conditional inside -->
+		<!-- Loop with conditional inside: expects "Home link found: Home" -->
 		 <div class='home-links'>
 			{% for link in navLinks %}
 				{% if link.url == '/' %}
@@ -206,7 +206,7 @@
 			{% endfor %}
 		</div>
 
-		<!-- Loop with break -->
+		<!-- Loop with break: expects html, css (breaks at "test") -->
 		<div class='tags'>
 			{% for tag in tags %}
 				{% if tag == 'test' %}
@@ -217,7 +217,7 @@
 			{% endfor %}
 		</div>
 
-		<!-- Loop with continue -->
+		<!-- Loop with continue: expects html, css, javascript (skips "test") -->
 		<div class='tags'>
 			{% for tag in tags %}
 				{% if tag == 'test' %}
@@ -226,7 +226,7 @@
 				<span class='tag'>{{tag}}</span>
 			{% endfor %}
 		</div>
-		<!-- forloop object -->
+		<!-- forloop object: expects index/index0/rindex/rindex0/first/last/length for each navLink -->
 		<table>
 			<tr><th>index</th><th>index0</th><th>rindex</th><th>rindex0</th><th>first</th><th>last</th><th>length</th><th>value</th></tr>
 			{% for link in navLinks %}
@@ -242,6 +242,48 @@
 			</tr>
 			{% endfor %}
 		</table>
+
+		<!-- limit only: expects Home, About -->
+		<div class='limit-only'>
+			{% for link in navLinks limit:2 %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
+
+		<!-- offset only: expects Blog, Contact -->
+		<div class='offset-only'>
+			{% for link in navLinks offset:2 %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
+
+		<!-- limit and offset: expects About, Blog -->
+		<div class='limit-and-offset'>
+			{% for link in navLinks limit:2 offset:1 %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
+
+		<!-- reversed: expects Contact, Blog, About, Home -->
+		<div class='reversed'>
+			{% for link in navLinks reversed %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
+
+		<!-- reversed then limit: reverse first, then take 2 — expects Contact, Blog -->
+		<div class='reversed-limit'>
+			{% for link in navLinks reversed limit:2 %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
+
+		<!-- limit then reversed: take 2 first, then reverse — expects About, Home -->
+		<div class='limit-reversed'>
+			{% for link in navLinks limit:2 reversed %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
 	</section>
 
 	<!-- 7. FOOTER -->

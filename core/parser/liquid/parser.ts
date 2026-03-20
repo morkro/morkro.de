@@ -7,7 +7,8 @@ import type {
   TokenKeyword,
   NodeIf,
   TokenOperator,
-  TokenIdent
+  TokenIdent,
+  NodeForParams
 } from './types.ts'
 import { tokenize, tokenizeInner } from './tokenizer.ts'
 import { ParserError } from './utils.ts'
@@ -370,7 +371,7 @@ function parseNodes(
             )
           }
 
-          const { expression: iterable } = parseExpression({
+          const { expression: iterable, cursor: iterableCursor } = parseExpression({
             tokens: innerTokens,
             index: 3
           }, ctx)
@@ -380,17 +381,64 @@ function parseNodes(
             ctx,
             ['else', 'endfor']
           )
-          
+
+          let cursor = iterableCursor
+          const forParams: NodeForParams[] = []
           let elseBody: Node[] = []
 
+          // Parse limit and offset params
+          while (current(cursor).type === 'Ident') {
+            const params = current(cursor) as TokenIdent
+            const isNotParam = params.value !== 'limit' && params.value !== 'offset' && params.value !== 'reversed'
+            if (isNotParam) break
+
+            if (params.value === 'reversed') {
+              forParams.push({ type: 'reversed' })
+              cursor = next(cursor)
+              continue
+            }
+
+            cursor = next(cursor)
+            const colonToken = current(cursor)
+            // Expect ":" after the param name
+            if (colonToken.type !== 'Punct' || colonToken.value !== ':') {
+              throw new ParserError(
+                `Expected ":" but got ${colonToken.type}`,
+                colonToken.start,
+                ctx.source,
+                ctx.filePath
+              )
+            }
+
+            cursor = next(cursor)
+            const { expression: value, cursor: valueCursor } = parseExpression(cursor, ctx)
+            // Expect a number literal
+            if (value.type !== 'Literal' || typeof value.value !== 'number') {
+              throw new ParserError(
+                `Expected "Literal" but got ${params.value}`,
+                params.start,
+                ctx.source,
+                ctx.filePath
+              )
+            }
+
+            if (params.value === 'limit') {
+              forParams.push({ type: 'limit', value: value.value })
+            } else if (params.value === 'offset') {
+              forParams.push({ type: 'offset', value: value.value })
+            }
+            cursor = valueCursor
+          }
+
+          const hasParams = forParams.length > 0
           if (stoppedAt === 'else') {
             const elseResult = parseNodes(tokens, endIndex, ctx, ['endfor'])
             elseBody = elseResult.nodes
             index = elseResult.endIndex
-            nodes.push({ type: 'For', variable: variable.value, collection: iterable, body, elseBody })
+            nodes.push({ type: 'For', variable: variable.value, collection: iterable, body, elseBody, params: hasParams ? forParams : undefined })
           } else {
             index = endIndex
-            nodes.push({ type: 'For', variable: variable.value, collection: iterable, body })
+            nodes.push({ type: 'For', variable: variable.value, collection: iterable, body, params: hasParams ? forParams : undefined })
           }
 
           continue

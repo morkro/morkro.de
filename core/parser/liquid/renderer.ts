@@ -124,17 +124,24 @@ export async function render(
             ))
           }
         } else {
-          for (let i = 0; i < collection.length; i++) {
+          let _collection: unknown[] = collection
+          for (const param of node.params ?? []) {
+            if (param.type === 'reversed') _collection = _collection.toReversed()
+            if (param.type === 'offset') _collection = _collection.slice(param.value)
+            if (param.type === 'limit') _collection = _collection.slice(0, param.value)
+          }
+
+          for (let i = 0; i < _collection.length; i++) {
             const isolatedContext = Object.create(localContext) // Isolated scope for the loop
-            isolatedContext[node.variable] = collection[i]
+            isolatedContext[node.variable] = _collection[i]
             isolatedContext['forloop'] = {
               index: i + 1,
               index0: i,
-              rindex: collection.length - i,
-              rindex0: collection.length - i - 1,
+              rindex: _collection.length - i,
+              rindex0: _collection.length - i - 1,
               first: i === 0,
-              last: i === collection.length - 1,
-              length: collection.length,
+              last: i === _collection.length - 1,
+              length: _collection.length,
             } satisfies ForLoopContext
 
             try {

@@ -18,13 +18,18 @@ export type Expression =
 /**
  * Nodes
  */
+type ForParamLimit = { type: 'limit', value: number }
+type ForParamOffset = { type: 'offset', value: number }
+type ForParamReversed = { type: 'reversed' }
+export type NodeForParams = ForParamLimit | ForParamOffset | ForParamReversed
+
 export type NodeVariable = { name: string, expression: Expression }
 export type NodeText = { type: 'Text', value: string }
 export type NodeOutput = { type: 'Output', expression: Expression }
 export type NodeAssign = { type: 'Assign' } & NodeVariable
 export type NodeRender = { type: 'Render', file: string, variables: NodeVariable[] }
 export type NodeIf = { type: 'If', condition: Expression , body: Node[], elseBody?: Node[] }
-export type NodeFor = { type: 'For', variable: string, collection: Expression, body: Node[], elseBody?: Node[] }
+export type NodeFor = { type: 'For', variable: string, collection: Expression, body: Node[], elseBody?: Node[], params?: NodeForParams[] }
 export type NodeForBreak = { type: 'ForBreak' }
 export type NodeForContinue = { type: 'ForContinue' }
 
