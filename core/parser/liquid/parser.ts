@@ -50,6 +50,7 @@ const current = (cursor: CursorState) => {
   }
   return token
 }
+
 const next = (cursor: CursorState): CursorState => ({
   tokens: cursor.tokens,
   index: cursor.index + 1
@@ -116,6 +117,38 @@ function parseExpression (cursor: CursorState, ctx: ParseContext): ParseExpressi
 
     return {
       expression: { type: 'Var', path },
+      cursor
+    }
+  }
+
+  if (token.type === 'Punct' && token.value === '(') {
+    cursor = next(cursor)
+    const { expression: from, cursor: fromCursor } = parseExpression(cursor, ctx)
+    cursor = fromCursor
+
+    const currentToken = current(cursor)
+    if (currentToken.type !== 'Punct' || currentToken.value !== '..') {
+      throw new ParserError(
+        `Expected ".." but got ${current(cursor).type}`,
+        current(cursor).start,
+        ctx.source, ctx.filePath)
+    }
+
+    cursor = next(cursor)
+    const { expression: to, cursor: toCursor } = parseExpression(cursor, ctx)
+
+    cursor = toCursor
+    const toToken = current(cursor)
+    if (toToken.type !== 'Punct' || toToken.value !== ')') {
+      throw new ParserError(
+        `Expected ")" but got ${toToken.type}`,
+        toToken.start,
+        ctx.source, ctx.filePath)
+    }
+    
+    cursor = next(cursor)
+    return {
+      expression: { type: 'Range', from, to },
       cursor
     }
   }

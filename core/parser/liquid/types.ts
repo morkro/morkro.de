@@ -9,11 +9,17 @@ export type ExpressionBinary = {
   right: Expression,
   operator: TokenOperator['value']
 }
+export type ExpressionRange = {
+  type: 'Range',
+  from: Expression,
+  to: Expression,
+}
 
 export type Expression =
   | ExpressionVar
   | ExpressionLiteral
   | ExpressionBinary
+  | ExpressionRange
 
 /**
  * Nodes
@@ -90,6 +96,7 @@ export const TokenPunctValues = [
   '|',
   '(',
   ')',
+  '..',
 ] as const
 
 export type TokenText = { type: 'Text', value: string, start: number, end: number }

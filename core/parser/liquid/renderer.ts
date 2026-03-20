@@ -12,6 +12,10 @@ function resolveExpression (expression: Expression, localContext: RenderContext)
     return getFromObject(expression.path, localContext)
   } else if (expression.type === 'Binary') {
     throw new ParserError(`Unexpected binary expression`, 0)
+  } else if (expression.type === 'Range') {
+    const from = Number(resolveExpression(expression.from, localContext))
+    const to = Number(resolveExpression(expression.to, localContext))
+    return Array.from({ length: to - from + 1 }, (_, i) => from + i)
   }
   return undefined
 }

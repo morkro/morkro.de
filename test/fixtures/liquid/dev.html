@@ -284,6 +284,56 @@
 			<p>{{link.label}}</p>
 			{% endfor %}
 		</div>
+
+		<!-- range with literals: expects 1, 2, 3, 4, 5 -->
+		<div class='range-literal'>
+			{% for i in (1..5) %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range with variable: expects 1, 2, 3 -->
+		<div class='range-variable'>
+			{% assign num = 3 %}
+			{% for i in (1..num) %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range reversed: expects 5, 4, 3, 2, 1 -->
+		<div class='range-reversed'>
+			{% for i in (1..5) reversed %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range with limit: expects 1, 2, 3 -->
+		<div class='range-limit'>
+			{% for i in (1..8) limit:3 %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range with offset: expects 4, 5, 6, 7, 8 -->
+		<div class='range-offset'>
+			{% for i in (1..8) offset:3 %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range reversed then limit: expects 8, 7, 6 -->
+		<div class='range-reversed-limit'>
+			{% for i in (1..8) reversed limit:3 %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range limit then reversed: expects 3, 2, 1 -->
+		<div class='range-limit-reversed'>
+			{% for i in (1..8) limit:3 reversed %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
 	</section>
 
 	<!-- 7. FOOTER -->

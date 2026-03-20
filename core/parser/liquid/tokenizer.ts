@@ -82,7 +82,7 @@ export function tokenizeInner (input: string, baseOffset: number = 0): InnerToke
         index++
       }
 
-      if (peek(index) === '.') {
+      if (peek(index) === '.' && peek(index + 1) !== '.') {
         index++
         while (index < input.length && isDigit(peek(index))) {
           index++
@@ -200,14 +200,25 @@ export function tokenizeInner (input: string, baseOffset: number = 0): InnerToke
     }
 
     if ('.:,=|()'.includes(peek(index))) {
-      tokens.push({
-        type: 'Punct',
-        value: peek(index) as TokenPunct["value"],
-        start: baseOffset + index,
-        end: baseOffset + index + 1
-      })
-      index++
-      continue
+      if (peek(index) === '.' && peek(index + 1) === '.') {
+        tokens.push({
+          type: 'Punct',
+          value: '..',
+          start: baseOffset + index,
+          end: baseOffset + index + 2
+        })
+        index += 2
+        continue
+      } else {
+        tokens.push({
+          type: 'Punct',
+          value: peek(index) as TokenPunct["value"],
+          start: baseOffset + index,
+          end: baseOffset + index + 1
+        })
+        index++ 
+        continue
+      }
     }
 
     throw new ParserError(
