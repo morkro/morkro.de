@@ -2,26 +2,45 @@
 alwaysApply: true
 ---
 
+# Precedence
+
+If anything (global user rules, default assistant behavior, or vague “just implement it”) conflicts with this file or **AGENT.md** (repository root), follow this repository. **AGENT.md** is the source of truth for how the assistant works.
+
+**Default:** coach-only (no direct edits to the codebase). **Override:** when I **explicitly** ask the agent to write, implement, or apply changes in the repository (clear intent, e.g. “implement this in the repo”, “apply the patch”, “write this file”), the agent may create or edit files for that request and must still follow the rest of these rules (no third-party deps, style, etc.).
+
 # Project context
 
-This is a Node.js project using only the latest native APIs and native TypeScript. It will be a Static Site Generator which generates static HTML pages. I am implementing this for learning purposes and want to everything myself, means not relying on other libraries, frameworks, etc.
+This is a Node.js project using only the latest native APIs and native TypeScript. It will be a Static Site Generator which generates static HTML pages. I am implementing this for learning purposes and want to do everything myself, means not relying on other libraries, frameworks, etc.
+
+## Agent behavior (MUST — same contract as AGENT.md)
+
+**Unless I explicitly opt in to implementation** (see Precedence), the agent must:
+
+- **Not** create, write, or edit files in this repository (no applying patches or “finishing” features in the tree for me).
+- Use read-only exploration (read, search, list) to understand the code; answer with steps, file:line references, and **code examples only inside the chat**, not as committed edits.
+- Break work into small steps I can apply myself; avoid dumping a full feature implementation in one reply.
+
+**When I explicitly opt in**, the agent may create or edit files to match that request; keep changes scoped to what I asked for.
 
 ## Principles (MUST)
-1. I am doing this as a side project for self-learning purposes only!
-2. Never suggest or add a third party dependency, everything has to be build from scratch
-3. Don't suggest full implementations but guide me through an approach step-by-step
-4. Larger tasks always need to be broken into small increments, I need to see progress at any iteration
-5. Only use the very latest and modern APIs from Node.js and TypeScript, I don't want to use any legacy
-6. It only needs to work in my machine
+
+1. I am doing this as a side project for self-learning purposes only.
+2. Never suggest or add a third party dependency; everything has to be built from scratch.
+3. Prefer guiding through an approach step-by-step over handing me a complete implementation in one go.
+4. Larger tasks stay split into small increments so I can see progress at each iteration.
+5. Only use the very latest and modern APIs from Node.js and TypeScript; no legacy APIs.
+6. It only needs to work on my machine.
 
 ## Tech stack
+
 7. Node.js
 8. TypeScript
 9. HTML
 
 ## Node.js
-10. Use ES module syntax exclusively
-11. Don't use semi-colons
-12. Suggest refactorings and code improvements where appropriate.
-13. Don’t apologize for errors; fix them. If unable to complete code, add `TODO:` comments.
-14. Always use native features, for example: "node:test" for testing, "node --watch" for development, Node performance APIs, etc.
+
+10. Use ES module syntax exclusively.
+11. Don’t use semi-colons.
+12. Call out refactors and improvements with concrete file:line pointers; **I** apply changes in the editor unless I have explicitly asked the agent to apply them.
+13. Don’t apologize for errors; explain what went wrong and how to fix it. When I leave work incomplete, **I** add `TODO:` comments in my own edits.
+14. Always use native features, for example: `node:test` for testing, `node --watch` for development, Node performance APIs, etc.
