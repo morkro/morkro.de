@@ -61,7 +61,7 @@ Custom Liquid template parser. Reference: [LiquidJS Tags](https://liquidjs.com/t
 | -------------------- | --------------- |
 | `#` (inline comment) | Done            |
 | `raw`                | Not implemented |
-| `comment` (block)    | Not implemented |
+| `comment` (block)    | Done            |
 | `liquid`             | Not implemented |
 
 

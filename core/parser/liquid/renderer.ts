@@ -91,6 +91,8 @@ export async function render(
           renderCache
         )
         break
+      case 'Comment':
+        break
       case 'Output':
         result.push(String(resolveExpression(node.expression, localContext)))
         break

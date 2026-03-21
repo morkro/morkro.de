@@ -7,6 +7,9 @@
 </head>
 <body>
 	<!-- COMPREHENSIVE LIQUID FEATURE TEST -->
+	{% comment %}
+		This is a comment
+	{% endcomment %}
 
 	<!-- 1. VARIABLE SUBSTITUTION -->
 	<section id='variables'>
@@ -385,8 +388,9 @@
 	<!-- 8. CAPTURE TAG -->
 	<section id='capture'>
 		<h2>Capture Tests</h2>
+		{% assign number = 10 %}
 		{% capture content %}
-		<p>This is captured content: {{site.title}}</p>
+		<p>This is captured content: {{site.title}} and {{ number }}</p>
 		{% endcapture %}
 		<p>{{content}}</p>
 	</section>

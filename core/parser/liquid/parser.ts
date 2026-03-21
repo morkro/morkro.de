@@ -347,6 +347,20 @@ function parseNodes(
       case 'Tag': {
         const innerTokens = tokenizeInner(token.value, token.innerStart)
         const firstToken = innerTokens[0]
+        const isToken = (name: TokenKeyword['value']) =>
+          firstToken.type === 'Keyword' && firstToken.value === name
+
+        if (isToken('comment')) {
+          const { nodes: body, endIndex } = parseNodes(
+            tokens,
+            index + 1,
+            ctx,
+            ['endcomment']
+          )
+          index = endIndex
+          nodes.push({ type: 'Comment', body })
+          continue
+        }
 
         if (stopKeywords && firstToken.type === 'Keyword' && stopKeywords.includes(firstToken.value)) {
           return {
@@ -357,7 +371,7 @@ function parseNodes(
           }
         }
 
-        if (firstToken.type === 'Keyword' && firstToken.value === 'capture') {
+        if (isToken('capture')) {
           const nameToken = innerTokens[1] as TokenIdent
           if (nameToken.type !== 'Ident') {
             throw new ParserError(
@@ -380,7 +394,7 @@ function parseNodes(
           continue
         }
 
-        if (firstToken.type === 'Keyword' && firstToken.value === 'if') {
+        if (isToken('if')) {
           const { expression: condition } = parseCondition({
             tokens: innerTokens,
             index: 1
@@ -416,7 +430,7 @@ function parseNodes(
           continue
         }
 
-        if (firstToken.type === 'Keyword' && firstToken.value === 'unless') {
+        if (isToken('unless')) {
           const { expression: condition } = parseCondition({
             tokens: innerTokens,
             index: 1
@@ -443,7 +457,7 @@ function parseNodes(
           continue
         }
 
-        if (firstToken.type === 'Keyword' && firstToken.value === 'for') {
+        if (isToken('for')) {
           const variable = innerTokens[1] as TokenIdent
           if (variable.type !== 'Ident') {
             throw new ParserError(
