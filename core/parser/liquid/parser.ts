@@ -208,7 +208,7 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
       expression, // until EOF
     }
   }
-
+  
   // {% render "file.html", key: value %}
   // {% render 'file.html', key: value %}
   if (token.value === 'render') {
@@ -355,6 +355,29 @@ function parseNodes(
             stoppedAt: firstToken.value,
             stoppedAtTokens: innerTokens
           }
+        }
+
+        if (firstToken.type === 'Keyword' && firstToken.value === 'capture') {
+          const nameToken = innerTokens[1] as TokenIdent
+          if (nameToken.type !== 'Ident') {
+            throw new ParserError(
+              `Expected "Ident" but got ${nameToken.type}`,
+              nameToken.start,
+              ctx.source,
+              ctx.filePath
+            )
+          }
+
+          const { nodes: body, endIndex } = parseNodes(
+            tokens,
+            index + 1,
+            ctx,
+            ['endcapture']
+          )
+          
+          index = endIndex
+          nodes.push({ type: 'Capture', name: nameToken.value, body })
+          continue
         }
 
         if (firstToken.type === 'Keyword' && firstToken.value === 'if') {

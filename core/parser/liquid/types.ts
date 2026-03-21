@@ -38,6 +38,7 @@ export type NodeIf = { type: 'If', condition: Expression , body: Node[], elseBod
 export type NodeFor = { type: 'For', variable: string, collection: Expression, body: Node[], elseBody?: Node[], params?: NodeForParams[] }
 export type NodeForBreak = { type: 'ForBreak' }
 export type NodeForContinue = { type: 'ForContinue' }
+export type NodeCapture = { type: 'Capture', name: string, body: Node[] }
 
 export type Node =
   | NodeText
@@ -48,6 +49,7 @@ export type Node =
   | NodeFor
   | NodeForBreak
   | NodeForContinue
+  | NodeCapture
 
 /** For loop context object */
 export type ForLoopContext = {
@@ -76,6 +78,8 @@ export const TokenKeywordValues = [
   'in',
   'break',
   'continue',
+  'capture',
+  'endcapture',
 ] as const
 
 export const TokenOperatorValues = [

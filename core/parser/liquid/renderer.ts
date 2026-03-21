@@ -83,6 +83,14 @@ export async function render(
       case 'Assign':
         localContext[node.name] = resolveExpression(node.expression, localContext)
         break
+      case 'Capture':
+        localContext[node.name] = await render(
+          { type: 'Template', body: node.body, meta: template.meta },
+          localContext,
+          resolver,
+          renderCache
+        )
+        break
       case 'Output':
         result.push(String(resolveExpression(node.expression, localContext)))
         break

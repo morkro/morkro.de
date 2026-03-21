@@ -39,7 +39,7 @@ Custom Liquid template parser. Reference: [LiquidJS Tags](https://liquidjs.com/t
 | Tag                       | Status          |
 | ------------------------- | --------------- |
 | `assign`                  | Done            |
-| `capture`                 | Not implemented |
+| `capture`                 | Done            |
 | `increment` / `decrement` | Not implemented |
 | `echo`                    | Not implemented |
 

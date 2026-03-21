@@ -382,7 +382,16 @@
 		</div>
 	</section>
 
-	<!-- 8. FOOTER -->
+	<!-- 8. CAPTURE TAG -->
+	<section id='capture'>
+		<h2>Capture Tests</h2>
+		{% capture content %}
+		<p>This is captured content: {{site.title}}</p>
+		{% endcapture %}
+		<p>{{content}}</p>
+	</section>
+
+	<!-- 9. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>
