@@ -12,7 +12,7 @@ Custom Liquid template parser. Reference: [LiquidJS Tags](https://liquidjs.com/t
 | `if`            | Done            |
 | `elsif`         | Done            |
 | `else`          | Done            |
-| `unless`        | Not implemented |
+| `unless`        | Done            |
 | `case` / `when` | Not implemented |
 
 
@@ -21,7 +21,7 @@ Custom Liquid template parser. Reference: [LiquidJS Tags](https://liquidjs.com/t
 
 | Tag                     | Status                         |
 | ----------------------- | ------------------------------ |
-| `for`                   | Partial (basic `for..in` only) |
+| `for`                   | Done                           |
 | `else` (empty fallback) | Done                           |
 | `break`                 | Done                           |
 | `continue`              | Done                           |

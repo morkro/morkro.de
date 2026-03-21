@@ -94,6 +94,8 @@ export async function render(
           condition = resolveExpression(node.condition, localContext)
         }
 
+        if (node.negated) condition = !condition
+
         if (Boolean(condition)) {
           result.push(await render(
             { type: 'Template', body: node.body, meta: template.meta },

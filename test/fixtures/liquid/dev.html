@@ -121,7 +121,53 @@
 		{% endif %}
 	</section>
 
-	<!-- 4. RENDER INCLUDES -->
+	<!-- 4. UNLESS CONDITIONALS -->
+	<section id='unless'>
+		<h2>Unless Tests</h2>
+
+		<!-- Unless with truthy value: expects nothing (user.isAdmin is true) -->
+		{% unless user.isAdmin %}
+		<p>User is not admin</p>
+		{% endunless %}
+
+		<!-- Unless with falsy value: expects "User is not an editor" (user.isEditor is undefined) -->
+		{% unless user.isEditor %}
+		<p>User is not an editor</p>
+		{% endunless %}
+
+		<!-- Unless with else, truthy condition: expects "Welcome back, admin" (user.isLoggedIn is true) -->
+		{% unless user.isLoggedIn %}
+		<p>Please log in</p>
+		{% else %}
+		<p>Welcome back, admin</p>
+		{% endunless %}
+
+		<!-- Unless with else, falsy condition: expects "No featured badge" (page.archived is undefined) -->
+		{% unless page.archived %}
+		<p>No featured badge</p>
+		{% else %}
+		<p>This page is archived</p>
+		{% endunless %}
+
+		<!-- Unless with binary operator: expects nothing (user.name == 'Admin User' is true) -->
+		{% unless user.name == 'Admin User' %}
+		<p>Not the admin user</p>
+		{% endunless %}
+
+		<!-- Unless with != operator: expects "Name matches" (user.name != 'Admin User' is false) -->
+		{% unless user.name != 'Admin User' %}
+		<p>Name matches</p>
+		{% endunless %}
+
+		<!-- Unless nested inside if: expects "Logged in non-editor" -->
+		{% if user.isLoggedIn %}
+			{% unless user.isEditor %}
+			<p>Logged in non-editor</p>
+			{% endunless %}
+		{% endif %}
+	</section>
+
+	<!-- 5. RENDER INCLUDES -->
 	<section id='renders'>
 		<h2>Render Tests</h2>
 
@@ -143,7 +189,7 @@
 		</div>
 	</section>
 
-	<!-- 5. COMBINED FEATURES -->
+	<!-- 6. COMBINED FEATURES -->
 	<section id='combined'>
 		<h2>Combined Feature Tests</h2>
 
@@ -166,7 +212,7 @@
 		{% render 'button', label: ctaLabel, type: 'primary' %}
 	</section>
 
-	<!-- 6. FOR LOOPS -->
+	<!-- 7. FOR LOOPS -->
 	<section id='loops'>
 		<h2>For Loop Tests</h2>
 
@@ -336,7 +382,7 @@
 		</div>
 	</section>
 
-	<!-- 7. FOOTER -->
+	<!-- 8. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>

@@ -145,7 +145,7 @@ function parseExpression (cursor: CursorState, ctx: ParseContext): ParseExpressi
         toToken.start,
         ctx.source, ctx.filePath)
     }
-    
+
     cursor = next(cursor)
     return {
       expression: { type: 'Range', from, to },
@@ -388,6 +388,33 @@ function parseNodes(
           } else {
             index = endIndex
             nodes.push({ type: 'If', condition, body })
+          }
+
+          continue
+        }
+
+        if (firstToken.type === 'Keyword' && firstToken.value === 'unless') {
+          const { expression: condition } = parseCondition({
+            tokens: innerTokens,
+            index: 1
+          }, ctx)
+          const { nodes: body, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(
+            tokens,
+            index + 1,
+            ctx,
+            ['else', 'endunless']
+          )
+
+          let elseBody: Node[] = []
+
+          if (stoppedAt === 'else') {
+            const elseResult = parseNodes(tokens, endIndex, ctx,['endunless'])
+            elseBody = elseResult.nodes
+            index = elseResult.endIndex
+            nodes.push({ type: 'If', condition, body, elseBody, negated: true })
+          } else {
+            index = endIndex
+            nodes.push({ type: 'If', condition, body, negated: true })
           }
 
           continue
