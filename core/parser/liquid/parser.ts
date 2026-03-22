@@ -8,7 +8,8 @@ import type {
   NodeIf,
   TokenOperator,
   TokenIdent,
-  NodeForParams
+  NodeForParams,
+  NodeCaseWhen
 } from './types.ts'
 import { tokenize, tokenizeInner } from './tokenizer.ts'
 import { ParserError } from './utils.ts'
@@ -319,6 +320,32 @@ function parseIfBlock (
   }
 }
 
+function parseWhenExpressions (innerTokens: InnerToken[], ctx: ParseContext): Expression[] {
+	const values: Expression[] = []
+	let cursor: CursorState = { tokens: innerTokens, index: 1 }
+	const first = parseExpression(cursor, ctx)
+	values.push(first.expression)
+	cursor = first.cursor
+
+	while (current(cursor).type !== 'EOF') {
+		const punct = current(cursor)
+		if (punct.type !== 'Punct' || punct.value !== ',') {
+			throw new ParserError(
+				`Expected "," or end of tag in when, got ${punct.type}`,
+				punct.start,
+				ctx.source,
+				ctx.filePath
+			)
+		}
+		cursor = next(cursor)
+		const nextPart = parseExpression(cursor, ctx)
+		values.push(nextPart.expression)
+		cursor = nextPart.cursor
+	}
+
+	return values
+}
+
 function parseNodes(
   tokens: Token[],
   startIndex: number,
@@ -425,6 +452,66 @@ function parseNodes(
           } else {
             index = endIndex
             nodes.push({ type: 'If', condition, body })
+          }
+
+          continue
+        }
+
+        if (isToken('case')) {
+          const { expression: subject } = parseExpression({
+            tokens: innerTokens,
+            index: 1
+          }, ctx)
+          const { nodes: leadingNodes, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(
+            tokens,
+            index + 1,
+            ctx,
+            ['when', 'else', 'endcase']
+          )
+
+          // check that there is only whitespace between the case and when tags
+          for (const node of leadingNodes) {
+            if (node.type !== 'Text' || node.value.trim() !== '') {
+              throw new ParserError(
+                'Only whitespace may appear between {% case %} and the next {% when %}, {% else %}, or {% endcase %}',
+                innerTokens[0].start,
+                ctx.source,
+                ctx.filePath
+              )
+            }
+          }
+
+          let elseBody: Node[] = []
+          let stopped = stoppedAt
+          let cursor = endIndex
+          let tagTokens = stoppedAtTokens
+          let whens: NodeCaseWhen[] = []
+
+          while (stopped === 'when') {
+            if (tagTokens === undefined) {
+              throw new ParserError(
+                'Internal parse error: expected {% when %} tags after {% case %}',
+                innerTokens[0].start,
+                ctx.source,
+                ctx.filePath
+              )
+            }
+            const values = parseWhenExpressions(tagTokens, ctx)
+            const segment = parseNodes(tokens, cursor, ctx, ['when', 'else', 'endcase'])
+            whens.push({ values, body: segment.nodes })
+            stopped = segment.stoppedAt
+            cursor = segment.endIndex
+            tagTokens = segment.stoppedAtTokens
+          }
+
+          if (stopped === 'else') {
+            const elseResult = parseNodes(tokens, cursor, ctx, ['endcase'])
+            elseBody = elseResult.nodes
+            index = elseResult.endIndex
+            nodes.push({ type: 'Case', subject, whens, elseBody })
+          } else {
+            index = cursor
+            nodes.push({ type: 'Case', subject, whens })
           }
 
           continue

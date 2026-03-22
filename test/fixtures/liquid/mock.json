@@ -42,5 +42,10 @@
 		{ "url": "/contact", "label": "Contact" }
 	],
 	"tags": ["html", "css", "test", "javascript"],
-	"emptyList": []
+	"emptyList": [],
+	"caseDemo": {
+		"kind": "beta",
+		"label": "alpha",
+		"tier": "free"
+	}
 }

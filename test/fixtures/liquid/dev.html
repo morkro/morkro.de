@@ -170,7 +170,47 @@
 		{% endif %}
 	</section>
 
-	<!-- 5. RENDER INCLUDES -->
+	<!-- 5. CASE / WHEN -->
+	<section id='case-when'>
+		<h2>Case / When Tests</h2>
+
+		<!-- First branch matches (caseDemo.kind is beta): expects "Kind is beta" -->
+		{% case caseDemo.kind %}
+		{% when 'beta' %}
+		<p>Kind is beta</p>
+		{% when 'gamma' %}
+		<p>Kind is gamma</p>
+		{% else %}
+		<p>Kind is unknown</p>
+		{% endcase %}
+
+		<!-- Comma-separated when (label is alpha): expects "Label is alpha or omega" -->
+		{% case caseDemo.label %}
+		{% when 'alpha', 'omega' %}
+		<p>Label is alpha or omega</p>
+		{% else %}
+		<p>Label did not match</p>
+		{% endcase %}
+
+		<!-- No when matches (tier is not platinum): expects "Case fallback: no tier match" -->
+		{% case caseDemo.tier %}
+		{% when 'platinum' %}
+		<p>Platinum tier</p>
+		{% else %}
+		<p>Case fallback: no tier match</p>
+		{% endcase %}
+
+		<!-- assign + case on variable: expects "Switch is two" -->
+		{% assign caseSwitch = 'two' %}
+		{% case caseSwitch %}
+		{% when 'one' %}
+		<p>Switch is one</p>
+		{% when 'two' %}
+		<p>Switch is two</p>
+		{% endcase %}
+	</section>
+
+	<!-- 6. RENDER INCLUDES -->
 	<section id='renders'>
 		<h2>Render Tests</h2>
 
@@ -192,7 +232,7 @@
 		</div>
 	</section>
 
-	<!-- 6. COMBINED FEATURES -->
+	<!-- 7. COMBINED FEATURES -->
 	<section id='combined'>
 		<h2>Combined Feature Tests</h2>
 
@@ -215,7 +255,7 @@
 		{% render 'button', label: ctaLabel, type: 'primary' %}
 	</section>
 
-	<!-- 7. FOR LOOPS -->
+	<!-- 8. FOR LOOPS -->
 	<section id='loops'>
 		<h2>For Loop Tests</h2>
 
@@ -385,7 +425,7 @@
 		</div>
 	</section>
 
-	<!-- 8. CAPTURE TAG -->
+	<!-- 9. CAPTURE TAG -->
 	<section id='capture'>
 		<h2>Capture Tests</h2>
 		{% assign number = 10 %}
@@ -395,7 +435,7 @@
 		<p>{{content}}</p>
 	</section>
 
-	<!-- 9. FOOTER -->
+	<!-- 10. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>

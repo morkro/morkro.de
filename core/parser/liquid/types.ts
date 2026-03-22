@@ -40,6 +40,8 @@ export type NodeForBreak = { type: 'ForBreak' }
 export type NodeForContinue = { type: 'ForContinue' }
 export type NodeCapture = { type: 'Capture', name: string, body: Node[] }
 export type NodeComment = { type: 'Comment', body: Node[] }
+export type NodeCaseWhen = { values: Expression[], body: Node[] }
+export type NodeCase = { type: 'Case', subject: Expression, whens: NodeCaseWhen[], elseBody?: Node[] }
 
 export type Node =
   | NodeText
@@ -52,6 +54,7 @@ export type Node =
   | NodeForContinue
   | NodeCapture
   | NodeComment
+  | NodeCase
 
 /** For loop context object */
 export type ForLoopContext = {
@@ -84,6 +87,9 @@ export const TokenKeywordValues = [
   'endcapture',
   'comment',
   'endcomment',
+  'case',
+  'when',
+  'endcase',
 ] as const
 
 export const TokenOperatorValues = [

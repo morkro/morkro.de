@@ -13,7 +13,7 @@ Custom Liquid template parser. Reference: [LiquidJS Tags](https://liquidjs.com/t
 | `elsif`         | Done            |
 | `else`          | Done            |
 | `unless`        | Done            |
-| `case` / `when` | Not implemented |
+| `case` / `when` | Done            |
 
 
 ### Iteration

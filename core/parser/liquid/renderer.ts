@@ -20,6 +20,14 @@ function resolveExpression (expression: Expression, localContext: RenderContext)
   return undefined
 }
 
+function evaluateExpression (expression: Expression, localContext: RenderContext) {
+  if (expression.type === 'Binary') {
+    return evaluateBinary(expression, localContext)
+  } else {
+    return resolveExpression(expression, localContext)
+  }
+}
+
 function evaluateBinary (condition: ExpressionBinary, localContext: RenderContext) {
   const left = resolveExpression(condition.left, localContext)
   const right = resolveExpression(condition.right, localContext)
@@ -43,6 +51,8 @@ function evaluateBinary (condition: ExpressionBinary, localContext: RenderContex
       return Number(left) >= Number(right)
     case '<=':
       return Number(left) <= Number(right)
+    default:
+      throw new ParserError(`Unexpected binary operator: ${condition.operator}`, 0)
   }
 }
 
@@ -97,13 +107,7 @@ export async function render(
         result.push(String(resolveExpression(node.expression, localContext)))
         break
       case 'If':
-        let condition: unknown
-        if (node.condition.type === 'Binary') {
-          condition = evaluateBinary(node.condition, localContext)
-        } else {
-          condition = resolveExpression(node.condition, localContext)
-        }
-
+        let condition = evaluateExpression(node.condition, localContext)
         if (node.negated) condition = !condition
 
         if (Boolean(condition)) {
@@ -122,6 +126,33 @@ export async function render(
               renderCache
             ))
           }
+        }
+        break
+      case 'Case':
+        const subject = evaluateExpression(node.subject, localContext)
+        let matched = false
+
+        for (const when of node.whens) {
+          const values = when.values.map(value => evaluateExpression(value, localContext))
+          if (values.includes(subject)) {
+            result.push(await render(
+              { type: 'Template', body: when.body, meta: template.meta },
+              localContext,
+              resolver,
+              renderCache
+            ))
+            matched = true
+            break
+          }
+        }
+
+        if (!matched && node.elseBody && node.elseBody.length > 0) {
+          result.push(await render(
+            { type: 'Template', body: node.elseBody, meta: template.meta },
+            localContext,
+            resolver,
+            renderCache
+          ))
         }
         break
       case 'For':
