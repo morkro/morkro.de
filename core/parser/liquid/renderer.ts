@@ -29,31 +29,53 @@ function evaluateExpression (expression: Expression, localContext: RenderContext
 }
 
 function evaluateBinary (condition: ExpressionBinary, localContext: RenderContext) {
-  const left = resolveExpression(condition.left, localContext)
-  const right = resolveExpression(condition.right, localContext)
+	const operands = () => ({
+		left: evaluateExpression(condition.left, localContext),
+		right: evaluateExpression(condition.right, localContext),
+	})
 
-  switch (condition.operator) {
-    case 'or':
-      return left || right
-    case 'and':
-      return left && right
-    case 'contains':
-      return String(left).includes(String(right))
-    case '==':
-      return left === right
-    case '!=':
-      return left !== right
-    case '>':
-      return Number(left) > Number(right)
-    case '<':
-      return Number(left) < Number(right)
-    case '>=':
-      return Number(left) >= Number(right)
-    case '<=':
-      return Number(left) <= Number(right)
-    default:
-      throw new ParserError(`Unexpected binary operator: ${condition.operator}`, 0)
-  }
+	switch (condition.operator) {
+		case 'or':
+			return (
+				evaluateExpression(condition.left, localContext)
+				|| evaluateExpression(condition.right, localContext)
+			)
+		case 'and':
+			return (
+				evaluateExpression(condition.left, localContext)
+				&& evaluateExpression(condition.right, localContext)
+			)
+		case 'contains': {
+			const { left, right } = operands()
+			return String(left).includes(String(right))
+		}
+		case '==': {
+			const { left, right } = operands()
+			return left === right
+		}
+		case '!=': {
+			const { left, right } = operands()
+			return left !== right
+		}
+		case '>': {
+			const { left, right } = operands()
+			return Number(left) > Number(right)
+		}
+		case '<': {
+			const { left, right } = operands()
+			return Number(left) < Number(right)
+		}
+		case '>=': {
+			const { left, right } = operands()
+			return Number(left) >= Number(right)
+		}
+		case '<=': {
+			const { left, right } = operands()
+			return Number(left) <= Number(right)
+		}
+		default:
+			throw new ParserError(`Unexpected binary operator: ${condition.operator}`, 0)
+	}
 }
 
 export async function render(

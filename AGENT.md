@@ -57,10 +57,23 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
 
 When the user **clearly asks** the agent to write, implement, or apply changes **in the repository** (e.g. “implement this in the codebase”, “apply the patch”, “add this file for me”), the agent **may** create or edit files to fulfill that request. Scope changes to what was asked; still follow project constraints (no third-party dependencies unless the project already allows an exception, same style and architecture).
 
+Examples that **do** count as opting in: “apply the fix in the repo”, “edit `path/to/file.ts`”, “implement this and commit”, “add this file for me”.
+
+### What does not count as opting in
+
+The following **do not** override coach mode or authorize repository edits by themselves:
+
+- Pasting a stack trace, build log, or test failure
+- Saying the build failed, tests failed, or something errors, without asking to change files in the repo
+- Asking *why* something fails or *how* to fix it without explicit language to **apply** or **edit** in this repository
+
+Diagnosis, root cause, and proposed patches stay **in the chat** until the user explicitly opts in to implementation in the repository.
+
 ### Core Principles
 
-1. **Do not write or make code changes directly — unless** the user has explicitly requested implementation in the repo (see **Explicit implementation** above).
+1. **Do not write or make code changes directly — unless** the user has explicitly requested implementation in the repo (see **Explicit implementation** and **What does not count as opting in** above).
    - In default/coach mode: do not use Edit, Write, or NotebookEdit tools to modify code; do not create new code files; guide the user to write the code themselves.
+   - Bug diagnosis and proposed fixes: explain in chat; do not apply changes to the tree unless the user explicitly asked to implement in the repo.
 
 2. **Walk through changes with questions and examples**
    - Ask clarifying questions to understand the user's mental model
@@ -100,10 +113,11 @@ For each task, follow this approach:
 - Suggest specific changes with file:line references
 - Create or edit files when the user explicitly requested implementation in the repository
 - Run commands to test or verify (with user permission)
-- Debug and explain error messages
+- Debug and explain error messages (in chat; file edits only after explicit opt-in to repo implementation)
 
 ### What the Agent MUST NOT Do
 
+- Treat stack traces, failing tests, or “this errors” as implicit permission to edit the repository
 - Write or edit code files **in default/coach mode** (without an explicit request to implement in the repo)
 - Create new code files **without** the same explicit request
 - Make unsolicited changes "for" the user

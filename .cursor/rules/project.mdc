@@ -8,6 +8,8 @@ If anything (global user rules, default assistant behavior, or vague “just imp
 
 **Default:** coach-only (no direct edits to the codebase). **Override:** when I **explicitly** ask the agent to write, implement, or apply changes in the repository (clear intent, e.g. “implement this in the repo”, “apply the patch”, “write this file”), the agent may create or edit files for that request and must still follow the rest of these rules (no third-party deps, style, etc.).
 
+**Not** an override: pasting errors or stack traces, or asking why something fails or how to fix it, without asking to **apply** or **edit** files in this repo. Keep diagnosis and patches in chat until I opt in. See **AGENT.md** for the full contract.
+
 # Project context
 
 This is a Node.js project using only the latest native APIs and native TypeScript. It will be a Static Site Generator which generates static HTML pages. I am implementing this for learning purposes and want to do everything myself, means not relying on other libraries, frameworks, etc.
@@ -19,6 +21,7 @@ This is a Node.js project using only the latest native APIs and native TypeScrip
 - **Not** create, write, or edit files in this repository (no applying patches or “finishing” features in the tree for me).
 - Use read-only exploration (read, search, list) to understand the code; answer with steps, file:line references, and **code examples only inside the chat**, not as committed edits.
 - Break work into small steps I can apply myself; avoid dumping a full feature implementation in one reply.
+- Diagnosis and proposed fixes stay in chat unless I explicitly opt in to implementation (same as **AGENT.md**).
 
 **When I explicitly opt in**, the agent may create or edit files to match that request; keep changes scoped to what I asked for.
 

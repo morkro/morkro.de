@@ -50,7 +50,6 @@ Custom Liquid template parser. Reference: [LiquidJS Tags](https://liquidjs.com/t
 | Tag       | Status          |
 | --------- | --------------- |
 | `render`  | Done            |
-| `include` | Not implemented |
 | `layout`  | Not implemented |
 
 
@@ -68,11 +67,11 @@ Custom Liquid template parser. Reference: [LiquidJS Tags](https://liquidjs.com/t
 ## Operators
 
 
-| Operator                         | Status                     |
-| -------------------------------- | -------------------------- |
-| `==`, `!=`, `>`, `<`, `>=`, `<=` | Done                       |
-| `contains`                       | Done                       |
-| `and`, `or`                      | Partial (simple form only) |
+| Operator                         | Status |
+| -------------------------------- | ------ |
+| `==`, `!=`, `>`, `<`, `>=`, `<=` | Done   |
+| `contains`                       | Done   |
+| `and`, `or`                      | Done   |
 
 
 ## Filters

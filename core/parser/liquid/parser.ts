@@ -41,6 +41,17 @@ type ParseExpressionResult = {
   readonly cursor: CursorState
 }
 
+type ParseOperand = (cursor: CursorState, ctx: ParseContext) => ParseExpressionResult
+
+const comparisonOperators = new Set<TokenOperator['value']>([
+	'==',
+	'!=',
+	'>',
+	'<',
+	'>=',
+	'<=',
+])
+
 const current = (cursor: CursorState) => {
   const token = cursor.tokens[cursor.index]
   if (!token) {
@@ -66,23 +77,6 @@ function trimLeadingWhitespace (nodes: Node[]): Node[] {
     }
   }
   return _nodes
-}
-
-function parseCondition (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
-  const { expression: left, cursor: leftCursor } = parseExpression(cursor, ctx)
-  cursor = leftCursor
-  if (current(cursor).type !== 'Operator') {
-    return { expression: left, cursor }
-  }
-  
-  const token = current(cursor) as TokenOperator
-  cursor = next(cursor)
-  const { expression: right, cursor: rightCursor } = parseExpression(cursor, ctx)
-
-  return {
-    expression: { type: 'Binary', left, right, operator: token.value },
-    cursor: rightCursor
-  }
 }
 
 function parseExpression (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
@@ -160,6 +154,98 @@ function parseExpression (cursor: CursorState, ctx: ParseContext): ParseExpressi
     ctx.source,
     ctx.filePath
   )
+}
+
+function parseWhenExpressions (innerTokens: InnerToken[], ctx: ParseContext): Expression[] {
+	const values: Expression[] = []
+	let cursor: CursorState = { tokens: innerTokens, index: 1 }
+	const first = parseExpression(cursor, ctx)
+	values.push(first.expression)
+	cursor = first.cursor
+
+	while (current(cursor).type !== 'EOF') {
+		const punct = current(cursor)
+		if (punct.type !== 'Punct' || punct.value !== ',') {
+			throw new ParserError(
+				`Expected "," or end of tag in when, got ${punct.type}`,
+				punct.start,
+				ctx.source,
+				ctx.filePath
+			)
+		}
+		cursor = next(cursor)
+		const nextPart = parseExpression(cursor, ctx)
+		values.push(nextPart.expression)
+		cursor = nextPart.cursor
+	}
+
+	return values
+}
+
+function parseComparisonExpression (cursor: CursorState,ctx: ParseContext): ParseExpressionResult {
+	let { expression: left, cursor: leftCursor } = parseExpression(cursor, ctx)
+	
+  const currentToken = current(leftCursor)
+	if (currentToken.type !== 'Operator' || !comparisonOperators.has(currentToken.value)) {
+		return { expression: left, cursor: leftCursor }
+	}
+
+	const operator = currentToken.value
+	leftCursor = next(leftCursor)
+
+	const { expression: right, cursor: rightCursor } = parseExpression(leftCursor, ctx)
+	return {
+		expression: { type: 'Binary', left, right, operator },
+		cursor: rightCursor,
+	}
+}
+
+function parseLeftAssociative (
+	cursor: CursorState,
+	ctx: ParseContext,
+	parseOperand: ParseOperand,
+	operator: TokenOperator['value']
+): ParseExpressionResult {
+  let { expression: left, cursor: leftCursor } = parseOperand(cursor, ctx)
+
+  let currentToken = current(leftCursor)
+  while (currentToken.type === 'Operator' && currentToken.value === operator) {
+    leftCursor = next(leftCursor)
+    const { expression: right, cursor: rightCursor } = parseOperand(leftCursor, ctx)
+    left = { type: 'Binary', left, right, operator }
+    leftCursor = rightCursor
+    currentToken = current(leftCursor)
+  }
+
+  return { expression: left, cursor: leftCursor }
+}
+
+function parseContainsExpression (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+	return parseLeftAssociative(cursor, ctx, parseComparisonExpression, 'contains')
+}
+
+function parseAndExpression (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+	return parseLeftAssociative(cursor, ctx, parseContainsExpression, 'and')
+}
+
+function parseOrExpression (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+	return parseLeftAssociative(cursor, ctx, parseAndExpression, 'or')
+}
+
+function parseCondition (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+  const { expression, cursor: conditionCursor } = parseOrExpression(cursor, ctx)
+
+  const currentToken = current(conditionCursor)
+  if (currentToken.type !== 'EOF') {
+    throw new ParserError(
+      `Expected "EOF" but got ${currentToken.type}`,
+      currentToken.start,
+      ctx.source,
+      ctx.filePath
+    )
+  }
+
+  return { expression, cursor: conditionCursor }
 }
 
 function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
@@ -318,32 +404,6 @@ function parseIfBlock (
     node: { type: 'If', condition, body: ifBody, elseBody },
     endIndex: finalEndIndex
   }
-}
-
-function parseWhenExpressions (innerTokens: InnerToken[], ctx: ParseContext): Expression[] {
-	const values: Expression[] = []
-	let cursor: CursorState = { tokens: innerTokens, index: 1 }
-	const first = parseExpression(cursor, ctx)
-	values.push(first.expression)
-	cursor = first.cursor
-
-	while (current(cursor).type !== 'EOF') {
-		const punct = current(cursor)
-		if (punct.type !== 'Punct' || punct.value !== ',') {
-			throw new ParserError(
-				`Expected "," or end of tag in when, got ${punct.type}`,
-				punct.start,
-				ctx.source,
-				ctx.filePath
-			)
-		}
-		cursor = next(cursor)
-		const nextPart = parseExpression(cursor, ctx)
-		values.push(nextPart.expression)
-		cursor = nextPart.cursor
-	}
-
-	return values
 }
 
 function parseNodes(

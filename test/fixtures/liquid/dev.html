@@ -111,6 +111,29 @@
 		<p>Has elevated access</p>
 		{% endif %}
 
+		<!-- and/or: two comparisons with `and` (1 == 1 and 2 == 2): expects "Chained comparison: pass" -->
+		{% assign condA = 1 %}
+		{% assign condB = 1 %}
+		{% assign condC = 2 %}
+		{% if condA == condB and condC == 2 %}
+		<p>Chained comparison: pass</p>
+		{% endif %}
+
+		<!-- and/or: chained comparisons negative (second part false): expects nothing (no "Chained comparison: fail") -->
+		{% if condA == condB and condC == 99 %}
+		<p>Chained comparison: fail</p>
+		{% endif %}
+
+		<!-- Precedence: `or` looser than `and` — `true or (true and false)` true; LTR-equal would be `(true or true) and false` false. Expects "Precedence: or before and" -->
+		{% if site.showHeader or page.featured and user.isEditor %}
+		<p>Precedence: or before and</p>
+		{% endif %}
+
+		<!-- Precedence: `and` before `or` — `(false and true) or true` true. Expects "Precedence: and before or" -->
+		{% if user.isEditor and page.featured or site.showHeader %}
+		<p>Precedence: and before or</p>
+		{% endif %}
+
 		<!-- Nested conditionals -->
 		{% if user.isLoggedIn %}
 			<p>Welcome, {{user.name}}</p>
