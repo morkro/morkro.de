@@ -686,7 +686,26 @@ function parseNodes(
           }
 
           continue
-        }    
+        }   
+        
+        if (isToken('raw')) {
+          if (
+            tokens[index + 1]?.type !== 'Text'
+            || tokens[index + 2]?.type !== 'Tag'
+            || tokens[index + 2]?.value !== 'endraw'
+          ) {
+            throw new ParserError(
+              'Expected "Text" or "Tag" tag after "raw" tag',
+              tokens[index + 1]?.start ?? token.start,
+              ctx.source,
+              ctx.filePath
+            )
+          }  
+
+          nodes.push({ type: 'Raw', body: [{ type: 'Text', value: tokens[index + 1].value }] })
+          index += 3 // skip the text and endraw tag
+          continue
+        }
 
         nodes.push(parseTag(innerTokens, ctx))
         index++

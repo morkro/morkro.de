@@ -26,6 +26,29 @@ function pushText (value: string, start: number, end: number): TokenText | undef
   } else return undefined
 }
 
+function findEndrawTag(input: string, fromIndex: number): number {
+	let index = fromIndex
+	while (index < input.length) {
+		const open = input.indexOf('{%', index)
+		if (open === -1) {
+			throw new ParserError('Unclosed raw block', fromIndex)
+		}
+
+		const close = input.indexOf('%}', open + 2)
+		if (close === -1) {
+			throw new ParserError('Unclosed tag inside raw search', fromIndex)
+		}
+
+		const tagInner = input.slice(open + 2, close).trim()
+		if (tagInner === 'endraw') {
+			return open
+		}
+
+		index = close + 2
+	}
+	throw new ParserError('Unclosed raw block', fromIndex)
+}
+
 export function tokenizeInner (input: string, baseOffset: number = 0): InnerToken[] {
   const tokens: InnerToken[] = []
   const peek = (index: number) => input[index]
@@ -295,6 +318,39 @@ export function tokenize(input: string): Token[] {
       const inner = input.slice(cursor.index, end)
       if (inner.includes('{%') || inner.includes('{{')) {
         throw new ParserError(`Unclosed tag`, start)
+      }
+
+
+      if (inner.trim() === 'raw') {
+        const afterOpenTag = end + 2
+        const endrawTag = findEndrawTag(input, afterOpenTag)
+        const literal = input.slice(afterOpenTag, endrawTag)
+        const afterEndrawTag = input.indexOf('%}', endrawTag + 2) + 2
+        
+        cursor = { input, index: start + 2 }
+        tokens.push({
+          type: 'Tag',
+          value: 'raw',
+          start,
+          end: afterOpenTag,
+          innerStart: cursor.index + (inner.length - inner.trimStart().length),
+        })
+        tokens.push({
+          type: 'Text',
+          value: literal,
+          start: afterOpenTag,
+          end: endrawTag,
+        })
+        tokens.push({
+          type: 'Tag',
+          value: 'endraw',
+          start: endrawTag,
+          end: afterEndrawTag,
+          innerStart: endrawTag + 2,
+        })
+        cursor = { input, index: afterEndrawTag }
+
+        continue
       }
       
       // Ignore Liquid comments

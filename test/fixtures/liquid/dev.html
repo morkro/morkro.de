@@ -458,7 +458,15 @@
 		<p>{{content}}</p>
 	</section>
 
-	<!-- 10. FOOTER -->
+	<!-- 10. RAW TAG -->
+	<section id='raw'>
+		<h2>Raw Tests</h2>
+		{% raw %}
+		<p>This is raw content: {{site.title}} and {{ number }}</p>
+		{% endraw %}
+	</section>
+
+	<!-- 11. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>

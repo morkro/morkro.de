@@ -236,6 +236,14 @@ export async function render(
         throw new BreakSignal()
       case 'ForContinue':
         throw new ContinueSignal()
+      case 'Raw':
+        result.push(await render(
+          { type: 'Template', body: node.body, meta: template.meta },
+          localContext,
+          resolver,
+          renderCache
+        ))
+        break
     }
   }
 
