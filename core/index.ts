@@ -15,29 +15,6 @@ type TraverseOptions = {
 
 const flattenDirectories = ['pages']
 
-function ensureOutputPath (fileName: string, buildRoot: string, permalink?: string): string {
-  const htmlName = basename(fileName, extname(fileName)) + '.html'
-
-  if (!permalink || typeof permalink !== 'string') {
-    return join(buildRoot, dirname(fileName), htmlName)
-  }
-
-  let path = permalink.trim()
-  if (!path.startsWith('/')) {
-    path = `/${path}`
-  }
-
-  if (path.endsWith('/')) {
-    const innerPath = path.slice(1, -1)
-    if (innerPath === '') {
-      return join(buildRoot, htmlName)
-    }
-    return join(buildRoot, ...innerPath.split('/').filter(Boolean), htmlName)
-  }
-
-  return join(buildRoot, path.slice(1))
-}
-
 async function traverseDir(src: string, dest: string, config: TraverseOptions) {
   const dir = await readdir(src)
   const { dataFiles, flatten, parse, isFlattenDir = false } = config
@@ -77,15 +54,13 @@ async function traverseDir(src: string, dest: string, config: TraverseOptions) {
       const extension = entry.split('.').pop() as typeof PARSE_EXTENSIONS[number] | undefined
       if (extension && parse.includes(extension)) {
         log(`Parsing file "${entry}"`, { lvl: 'debug' })
-        const context = Object.fromEntries(dataFiles.entries())
         const raw = await readFile(srcPath, 'utf-8')
-        const { frontmatter, rendered } = await compile(raw, srcPath, context)
-        const path = ensureOutputPath(fileName, DIRECTORIES.DEST, frontmatter.permalink as string | undefined)
+        const { rendered, outputPath } = await compile(raw, srcPath, dataFiles)
 
         log(`Writing file "${entry}"`, { lvl: 'debug' })
-        log(path, { lvl: 'debug' })
-        await mkdir(dirname(path), { recursive: true })
-        await writeFile(path, rendered)
+        log(outputPath, { lvl: 'debug' })
+        await mkdir(dirname(outputPath), { recursive: true })
+        await writeFile(outputPath, rendered)
       } else {
         await copyFile(srcPath, `${destPath}`)
       }

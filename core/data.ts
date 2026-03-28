@@ -3,8 +3,34 @@ import { basename, extname, resolve } from 'node:path'
 import { CUSTOM_DATA_MAPPING, DIRECTORIES } from '#config'
 import { parseJSON } from '#utils/json.ts'
 import { logSsg as log } from '#utils/log.ts'
+import { toUrl } from '#utils/url.ts'
 
 export type DataFileMap = Map<string, Record<string, unknown>>
+export type BuildContext = Record<string, unknown>
+export type PageContext = BuildContext & {
+  page: {
+    inputPath: string
+    outputPath: string
+    url: string
+  }
+}
+
+export function createPageContext (
+  global: DataFileMap,
+  input: string,
+  output: string,
+  baseUrl: string,
+  frontmatter: Record<string, unknown>
+): PageContext {
+  const core = Object.fromEntries(global.entries()) as BuildContext
+  return Object.assign(Object.create(core), frontmatter, {
+    page: {
+      inputPath: input,
+      outputPath: output,
+      url: toUrl(baseUrl, output)
+    }
+  })
+}
 
 async function loadCoreData (): Promise<DataFileMap> {
   const map: DataFileMap = new Map()
