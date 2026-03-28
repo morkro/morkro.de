@@ -1,6 +1,6 @@
 {
   "name": "morkro.de",
-  "version": "26.03.27.P0",
+  "version": "26.03.28.P0",
   "description": "Website of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
@@ -12,19 +12,19 @@
     "#core/*": "./core/*"
   },
   "scripts": {
-    "clean:site": "rimraf _site",
+    "clean:build": "node scripts/clean-artifacts.ts",
     "lint:js": "biome lint --error-on-warnings ./src/scripts/",
     "lint:css": "biome lint --error-on-warnings src/css/**/*.css",
     "lint": "npm run lint:js && npm run lint:css",
-    "setup": "npm run clean:site && npm run lint",
+    "setup": "npm run clean:build && npm run lint",
     "build:css": "postcss src/css/*.css --no-map --dir _site/css",
-    "build:ssg": "node --experimental-transform-types core/index.ts",
+    "build:ssg": "node core/index.ts",
     "watch:css": "postcss src/css/*.css --no-map --dir _site/css --watch",
     "build": "cross-env NODE_ENV=production npm run setup && npx @11ty/eleventy",
     "start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet",
-    "start:ssg": "node --experimental-transform-types --watch --env-file=.env core/index.ts --serve",
-    "test": "node --experimental-transform-types --test",
-    "parse:liquid": "DEBUG=true node --experimental-transform-types --watch-path=core/parser --watch-preserve-output core/parser/index.ts --parse=liquid",
+    "start:ssg": "node --watch --env-file=.env core/index.ts --serve",
+    "test": "node --test",
+    "parse:liquid": "DEBUG=true node --watch-path=core/parser --watch-preserve-output core/parser/index.ts --parse=liquid",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -42,7 +42,6 @@
     "postcss": "^8.5.3",
     "postcss-cli": "^11.0.1",
     "postcss-import": "^16.1.0",
-    "rimraf": "^6.0.1",
     "snyk": "^1.1295.4"
   },
   "dependencies": {
