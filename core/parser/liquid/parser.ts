@@ -9,7 +9,7 @@ import type {
   TokenOperator,
   TokenIdent,
   NodeForParams,
-  NodeCaseWhen
+  NodeCaseWhen,
 } from './types.ts'
 import { tokenize, tokenizeInner } from './tokenizer.ts'
 import { ParserError } from './utils.ts'
@@ -31,14 +31,20 @@ type ParseResult = {
   readonly stoppedAtTokens?: InnerToken[]
 }
 
-type ParseIfResult = {
-  readonly node: NodeIf
-  readonly endIndex: number
-}
-
 type ParseExpressionResult = {
   readonly expression: Expression
   readonly cursor: CursorState
+}
+
+type ParseForHeaderResult = {
+  readonly variable: TokenIdent
+  readonly expression: Expression
+  readonly cursor: CursorState
+}
+
+type IfChainResult = {
+  readonly node: NodeIf
+  readonly endIndex: number
 }
 
 type ParseOperand = (cursor: CursorState, ctx: ParseContext) => ParseExpressionResult
@@ -373,37 +379,64 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
   )
 }
 
-function parseIfBlock (
-  tokens: Token[],
-  innerTokens: InnerToken[],
-  startIndex: number,
-  ctx: ParseContext
-): ParseIfResult {
-  const { expression: condition } = parseCondition({ tokens: innerTokens, index: 1 }, ctx)
-  const { nodes: ifBody, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(
-    tokens,
-    startIndex,
-    ctx,
-    ['else', 'elsif', 'endif']
-  )
+function parseForHeader (innerTokens: InnerToken[], ctx: ParseContext): ParseForHeaderResult {
+  const cursor: CursorState = { tokens: innerTokens, index: 0 }
 
-  let elseBody: Node[] = []
-  let finalEndIndex: number = endIndex
-
-  if (stoppedAt === 'elsif') {
-    const nestedIf = parseIfBlock(tokens, stoppedAtTokens!, endIndex, ctx)
-    elseBody = [nestedIf.node]
-    finalEndIndex = nestedIf.endIndex
-  } else if (stoppedAt === 'else') {
-    const elseResult = parseNodes(tokens, endIndex, ctx, ['endif'])
-    elseBody = elseResult.nodes
-    finalEndIndex = elseResult.endIndex
+  const forKeyword = current(cursor)
+  if (forKeyword.type !== 'Keyword' || forKeyword.value !== 'for') {
+    throw new ParserError(
+      `Expected "for" keyword but got ${forKeyword.type}`,
+      forKeyword.start,
+      ctx.source,
+      ctx.filePath
+    )
   }
 
-  return {
-    node: { type: 'If', condition, body: ifBody, elseBody },
-    endIndex: finalEndIndex
+  const variable = innerTokens[1] as TokenIdent
+  if (!variable || variable.type !== 'Ident') {
+    throw new ParserError(
+      `Expected "Ident" but got ${variable.type}`,
+      variable.start,
+      ctx.source,
+      ctx.filePath
+    )
   }
+
+  const inKeyword = innerTokens[2] as TokenKeyword
+  if (!inKeyword || inKeyword.type !== 'Keyword' || inKeyword.value !== 'in') {
+    throw new ParserError(
+      `Expected "in" keyword but got ${inKeyword.type}`,
+      inKeyword.start,
+      ctx.source,
+      ctx.filePath
+    )
+  }
+
+  const { expression, cursor: collectionCursor } = parseExpression(({ tokens: innerTokens, index: 3 }), ctx)
+  return { variable, expression, cursor: collectionCursor }
+}
+
+function parseIfChain (tokens: Token[], tagTokens: InnerToken[], startIndex: number, ctx: ParseContext): IfChainResult {
+  const { expression: condition } = parseCondition({ tokens: tagTokens, index: 1 }, ctx)
+	const { nodes: body, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(tokens, startIndex, ctx, ['elsif', 'else', 'endif'])
+
+	if (stoppedAt === 'elsif') {
+		const nested = parseIfChain(tokens, stoppedAtTokens!, endIndex, ctx)
+		return {
+      node: { type: 'If', condition, body, elseBody: [nested.node] },
+      endIndex: nested.endIndex
+    }
+	}
+	
+  if (stoppedAt === 'else') {
+		const elseResult = parseNodes(tokens, endIndex, ctx, ['endif'])
+		return {
+      node: { type: 'If', condition, body, elseBody: elseResult.nodes },
+      endIndex: elseResult.endIndex
+    }
+	}
+	
+  return { node: { type: 'If', condition, body }, endIndex }
 }
 
 function parseNodes(
@@ -482,37 +515,10 @@ function parseNodes(
         }
 
         if (isToken('if')) {
-          const { expression: condition } = parseCondition({
-            tokens: innerTokens,
-            index: 1
-          }, ctx)
-          const { nodes: body, stoppedAt, stoppedAtTokens, endIndex } = parseNodes(
-            tokens,
-            index + 1,
-            ctx,
-            ['else', 'elsif', 'endif']
-          )
-          let elseBody: Node[] = []
+          const { node, endIndex } = parseIfChain(tokens, innerTokens, index + 1, ctx)
 
-          if (stoppedAt === 'elsif') {
-            const elsifResult = parseIfBlock(tokens, stoppedAtTokens!, endIndex, ctx)
-            
-            index = elsifResult.endIndex
-            nodes.push({
-              type: 'If',
-              condition,
-              body,
-              elseBody: [elsifResult.node]
-            })
-          } else if (stoppedAt === 'else') {
-            const elseResult = parseNodes(tokens, endIndex, ctx,['endif'])
-            elseBody = elseResult.nodes
-            index = elseResult.endIndex
-            nodes.push({ type: 'If', condition, body, elseBody })
-          } else {
-            index = endIndex
-            nodes.push({ type: 'If', condition, body })
-          }
+          nodes.push(node)
+          index = endIndex
 
           continue
         }
@@ -605,20 +611,7 @@ function parseNodes(
         }
 
         if (isToken('for')) {
-          const variable = innerTokens[1] as TokenIdent
-          if (variable.type !== 'Ident') {
-            throw new ParserError(
-              `Expected "Ident" but got ${variable.type}`,
-              variable.start,
-              ctx.source,
-              ctx.filePath
-            )
-          }
-
-          const { expression: iterable, cursor: iterableCursor } = parseExpression({
-            tokens: innerTokens,
-            index: 3
-          }, ctx)
+          const { variable, expression: iterable, cursor: iterableCursor } = parseForHeader(innerTokens, ctx)
           const { nodes: body, stoppedAt, endIndex } = parseNodes(
             tokens,
             index + 1,

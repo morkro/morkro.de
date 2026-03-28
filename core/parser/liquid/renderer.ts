@@ -1,4 +1,4 @@
-import type { Expression, ExpressionBinary, Template, ForLoopContext } from "./types.ts";
+import type { Expression, ExpressionBinary, Template, ForLoopContext, Node } from "./types.ts";
 import type { templateResolver } from "./resolver.ts";
 import { getFromObject } from "#utils/object.ts";
 import { ParserError, BreakSignal, ContinueSignal } from "./utils.ts";
@@ -78,16 +78,16 @@ function evaluateBinary (condition: ExpressionBinary, localContext: RenderContex
 	}
 }
 
-export async function render(
-  template: Template,
-  context: RenderContext,
+async function renderNodes(
+  nodes: Node[],
+  templateSource: string,
+  localContext: RenderContext,
   resolver: typeof templateResolver,
-  renderCache = new Map<string, Template>()
-): Promise<string> {
-  let result: string[] = []
-  const localContext: RenderContext = Object.create(context)
+  renderCache: Map<string, Template>
+) : Promise<string> {
+  const result: string[] = []
 
-  for (const node of template.body) {
+  for (const node of nodes) {
     switch (node.type) {
       case 'Text':
         result.push(node.value)
@@ -97,7 +97,7 @@ export async function render(
         if (renderCache.has(node.file)) {
           file = renderCache.get(node.file)!
         } else {
-          const resolved = await resolver(template.meta.source, node.file)
+          const resolved = await resolver(templateSource, node.file)
           renderCache.set(node.file, resolved)
           file = resolved
         }
@@ -117,7 +117,7 @@ export async function render(
         break
       case 'Capture':
         localContext[node.name] = await render(
-          { type: 'Template', body: node.body, meta: template.meta },
+          { type: 'Template', body: node.body, meta: { source: templateSource } },
           localContext,
           resolver,
           renderCache
@@ -134,7 +134,7 @@ export async function render(
 
         if (Boolean(condition)) {
           result.push(await render(
-            { type: 'Template', body: node.body, meta: template.meta },
+            { type: 'Template', body: node.body, meta: { source: templateSource } },
             localContext,
             resolver,
             renderCache
@@ -142,7 +142,7 @@ export async function render(
         } else {
           if (node.elseBody && node.elseBody.length > 0) {
             result.push(await render(
-              { type: 'Template', body: node.elseBody, meta: template.meta },
+              { type: 'Template', body: node.elseBody, meta: { source: templateSource } },
               localContext,
               resolver,
               renderCache
@@ -158,7 +158,7 @@ export async function render(
           const values = when.values.map(value => evaluateExpression(value, localContext))
           if (values.includes(subject)) {
             result.push(await render(
-              { type: 'Template', body: when.body, meta: template.meta },
+              { type: 'Template', body: when.body, meta: { source: templateSource } },
               localContext,
               resolver,
               renderCache
@@ -170,7 +170,7 @@ export async function render(
 
         if (!matched && node.elseBody && node.elseBody.length > 0) {
           result.push(await render(
-            { type: 'Template', body: node.elseBody, meta: template.meta },
+            { type: 'Template', body: node.elseBody, meta: { source: templateSource } },
             localContext,
             resolver,
             renderCache
@@ -186,7 +186,7 @@ export async function render(
         if (collection.length === 0) {
           if (node.elseBody && node.elseBody.length > 0) {
             result.push(await render(
-              { type: 'Template', body: node.elseBody, meta: template.meta },
+              { type: 'Template', body: node.elseBody, meta: { source: templateSource } },
               localContext,
               resolver,
               renderCache
@@ -215,7 +215,7 @@ export async function render(
 
             try {
               result.push(await render(
-                { type: 'Template', body: node.body, meta: template.meta },
+                { type: 'Template', body: node.body, meta: { source: templateSource } },
                 isolatedContext,
                 resolver,
                 renderCache
@@ -238,7 +238,7 @@ export async function render(
         throw new ContinueSignal()
       case 'Raw':
         result.push(await render(
-          { type: 'Template', body: node.body, meta: template.meta },
+          { type: 'Template', body: node.body, meta: { source: templateSource } },
           localContext,
           resolver,
           renderCache
@@ -248,4 +248,20 @@ export async function render(
   }
 
   return result.join('')
+}
+
+export async function render(
+  template: Template,
+  context: RenderContext,
+  resolver: typeof templateResolver,
+  renderCache = new Map<string, Template>()
+): Promise<string> {
+  const localContext: RenderContext = Object.create(context)
+  return await renderNodes(
+    template.body,
+    template.meta.source,
+    localContext,
+    resolver,
+    renderCache
+  )
 }
