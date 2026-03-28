@@ -1,5 +1,5 @@
 import { access, mkdir, readdir, readFile, writeFile, stat, copyFile, rm } from 'node:fs/promises'
-import { dirname, join, relative, resolve } from 'node:path'
+import { basename, dirname, extname, join, relative, resolve } from 'node:path'
 import { DIRECTORIES, PARSE_EXTENSIONS } from '#config'
 import { logSsg as log, logGroupEnd } from '#utils/log.ts'
 import { startServer } from './server.ts'
@@ -14,6 +14,29 @@ type TraverseOptions = {
 }
 
 const flattenDirectories = ['pages']
+
+function ensureOutputPath (fileName: string, buildRoot: string, permalink?: string): string {
+  const htmlName = basename(fileName, extname(fileName)) + '.html'
+
+  if (!permalink || typeof permalink !== 'string') {
+    return join(buildRoot, dirname(fileName), htmlName)
+  }
+
+  let path = permalink.trim()
+  if (!path.startsWith('/')) {
+    path = `/${path}`
+  }
+
+  if (path.endsWith('/')) {
+    const innerPath = path.slice(1, -1)
+    if (innerPath === '') {
+      return join(buildRoot, htmlName)
+    }
+    return join(buildRoot, ...innerPath.split('/').filter(Boolean), htmlName)
+  }
+
+  return join(buildRoot, path.slice(1))
+}
 
 async function traverseDir(src: string, dest: string, config: TraverseOptions) {
   const dir = await readdir(src)
@@ -57,15 +80,7 @@ async function traverseDir(src: string, dest: string, config: TraverseOptions) {
         const context = Object.fromEntries(dataFiles.entries())
         const raw = await readFile(srcPath, 'utf-8')
         const { frontmatter, rendered } = await compile(raw, srcPath, context)
-        let path = destPath
-        if (frontmatter.permalink && typeof frontmatter.permalink === 'string') {
-          log(DIRECTORIES.DEST, { lvl: 'debug' })
-          if (frontmatter.permalink.endsWith('/')) {
-            path = `${DIRECTORIES.DEST}${frontmatter.permalink}${entry}`
-          } else {
-            path = `${DIRECTORIES.DEST}${frontmatter.permalink}`
-          }
-        }
+        const path = ensureOutputPath(fileName, DIRECTORIES.DEST, frontmatter.permalink as string | undefined)
 
         log(`Writing file "${entry}"`, { lvl: 'debug' })
         log(path, { lvl: 'debug' })

@@ -60,7 +60,7 @@ This file tracks what the parser/renderer under `liquid/` supports relative to c
 | Tag | Status |
 | --- | ------ |
 | `render` | Done |
-| `include` | Not implemented |
+| `include` | Deprecated |
 | `layout` | Not implemented |
 
 ### Language

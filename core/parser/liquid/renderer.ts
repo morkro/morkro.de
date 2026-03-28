@@ -1,9 +1,17 @@
 import type { Expression, ExpressionBinary, Template, ForLoopContext, Node } from "./types.ts";
 import type { templateResolver } from "./resolver.ts";
 import { getFromObject } from "#utils/object.ts";
+import { logParser } from "#utils/log.ts";
 import { ParserError, BreakSignal, ContinueSignal } from "./utils.ts";
 
 export type RenderContext = Record<string, unknown>
+
+function getCollectionName (expression: Expression): string {
+  if (expression.type === 'Var') {
+    return expression.path.join('.')
+  }
+  return '(non-variable collection)'
+}
 
 function resolveExpression (expression: Expression, localContext: RenderContext): unknown {
   if (expression.type === 'Literal') {
@@ -178,9 +186,15 @@ async function renderNodes(
         }
         break
       case 'For':
-        const collection = resolveExpression(node.collection, localContext)
+        const rawCollection = resolveExpression(node.collection, localContext)
+        let collection = rawCollection as unknown[]
         if (!Array.isArray(collection)) {
-          throw new ParserError(`Expected array but got ${typeof collection}`, 0)
+          const colName = getCollectionName(node.collection)
+          logParser(
+            `Expected array but got ${typeof collection} for collection "${colName}"`,
+            { lvl: 'error' }
+          )
+          collection = []
         }
 
         if (collection.length === 0) {
@@ -193,7 +207,7 @@ async function renderNodes(
             ))
           }
         } else {
-          let _collection: unknown[] = collection
+          let _collection = collection
           for (const param of node.params ?? []) {
             if (param.type === 'reversed') _collection = _collection.toReversed()
             if (param.type === 'offset') _collection = _collection.slice(param.value)
