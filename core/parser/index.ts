@@ -1,14 +1,42 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { DIRECTORIES } from '#config'
-import { removeFrontmatter } from '#parser/frontmatter/parser.ts'
+import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
 import { render, type RenderContext } from '#parser/liquid/renderer.ts'
 import { templateResolver } from '#parser/liquid/resolver.ts'
+import type { Template } from '#parser/liquid/types.ts'
 import { loadFile } from '#utils/fs.ts'
 import { parseJSON } from '#utils/json.ts'
 
-/** TEMP */
+type Compiled = {
+  ast: Template
+  frontmatter: Record<string, unknown>
+  rendered: string
+}
+
+export async function compile (file: string, path: string, context: RenderContext): Promise<Compiled> {
+  console.time('Total compiling')
+  let source = file
+  
+  console.time('Parsing Frontmatter')
+  const frontmatter = parseFrontmatter<{ pageClass: string }>(file)
+  source = removeFrontmatter(source)
+  console.timeEnd('Parsing Frontmatter')
+  const localContext = Object.assign(Object.create(context), frontmatter)
+
+  console.time('Parsing Liquid')
+  const ast = parseLiquid(source, path)
+  console.timeEnd('Parsing Liquid')
+  
+  console.time('Rendering Liquid')
+  source = await render(ast, localContext, templateResolver)
+  console.timeEnd('Rendering Liquid')
+
+  console.timeEnd('Total compiling')
+  return { ast, frontmatter, rendered: source }
+}
+
 async function cleanup () {
   try {
     await rm(resolve(DIRECTORIES.TEMP), { recursive: true })
@@ -29,15 +57,16 @@ if (process.argv.includes('--parse=liquid')) {
       `test/fixtures/liquid`, 'mock.json'),
       'test/fixtures/liquid/mock.json')
 
-  console.time('Parsing Liquid')
-  const liquid = parseLiquid(removeFrontmatter(file), 'test/fixtures/liquid/dev.html')
-  console.timeEnd('Parsing Liquid')
-  console.time('Rendering Liquid')
-  const rendered = await render(liquid, mockContext, templateResolver)
-  console.timeEnd('Rendering Liquid')
+  const compiled = await compile(file, 'test/fixtures/liquid/dev.html', mockContext)
 
   // write AST
-  await writeFile(join(DIRECTORIES.TEMP, 'ast.json'), JSON.stringify(liquid, null, 2), 'utf-8')
+  await writeFile(
+    join(DIRECTORIES.TEMP, 'ast.json'), 
+    JSON.stringify(compiled.ast, null, 2),
+    'utf-8')
   // write rendered
-  await writeFile(join(DIRECTORIES.TEMP, 'rendered.html'), rendered, 'utf-8')
+  await writeFile(
+    join(DIRECTORIES.TEMP, 'rendered.html'),
+    compiled.rendered,
+    'utf-8')
 }

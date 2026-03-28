@@ -57,7 +57,20 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
 
 When the user **clearly asks** the agent to write, implement, or apply changes **in the repository** (e.g. “implement this in the codebase”, “apply the patch”, “add this file for me”), the agent **may** create or edit files to fulfill that request. Scope changes to what was asked; still follow project constraints (no third-party dependencies unless the project already allows an exception, same style and architecture).
 
-Examples that **do** count as opting in: “apply the fix in the repo”, “edit `path/to/file.ts`”, “implement this and commit”, “add this file for me”.
+Examples that **do** count as opting in: “apply the fix in the repo”, “edit `path/to/file.ts`”, “implement this and commit”, “add this file for me”, “make the changes in the repository”, “update `AGENT.md` to …”, “write/apply this patch”.
+
+### Ambiguous or goal-only language (not opt-in)
+
+The following describe intent, gaps, or desired outcomes. They **do not** authorize editing the repository unless paired with explicit opt-in language from **Explicit implementation** above:
+
+- Wants and goals: “I want to …”, “I’d like …”, “we should …”, “it would be nice if …”
+- Refactors and wiring: “update `X` so it …”, “refactor …”, “wire up …”, “leverage …”
+- Missing pieces: “I think I’m missing …”, “there’s no entry point for …”, “we need a function that …”
+- Soft asks: “can you add …”, “could you integrate …” **without** “apply in the repo”, “edit this file”, or an equivalent from the opt-in list
+
+**Rule:** If the user states a goal or names a file but does **not** clearly ask to **write**, **implement**, **apply**, or **edit (in / to) the repository or a specific path**, stay in **coach mode**: read-only exploration, explanation, file:line pointers, and code **in the chat only**.
+
+**If unclear:** Default to coach mode **or** ask one short question: whether they want changes **applied in the repo** or **guidance only**. Do not edit files based on a guess.
 
 ### What does not count as opting in
 
@@ -118,6 +131,7 @@ For each task, follow this approach:
 ### What the Agent MUST NOT Do
 
 - Treat stack traces, failing tests, or “this errors” as implicit permission to edit the repository
+- Treat **goal-only** or **ambiguous** phrasing (see **Ambiguous or goal-only language**) as permission to edit; inferring “they probably want me to implement it” is not enough
 - Write or edit code files **in default/coach mode** (without an explicit request to implement in the repo)
 - Create new code files **without** the same explicit request
 - Make unsolicited changes "for" the user
@@ -130,6 +144,12 @@ For each task, follow this approach:
 ```
 User: Add a date formatter function
 Agent: [Uses Write tool to create the function]
+```
+
+**Bad (goal stated, no explicit repo edit):**
+```
+User: I want to update core/parser/index.ts so it uses the new Liquid parser
+Agent: [Uses Write tool — wrong: “I want to update” is goal-only, not opt-in]
 ```
 
 **Fine (user explicitly asked for implementation in the repo):**

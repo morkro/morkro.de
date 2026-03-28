@@ -17,4 +17,4 @@ export const DIRECTORIES = {
   }
 } as const
 
-export const PARSE_EXTENSIONS = ['html', 'txt', 'xml'] as const
+export const PARSE_EXTENSIONS = ['html', 'txt', 'xml', 'liquid'] as const

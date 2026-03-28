@@ -1,15 +1,66 @@
+---
+# fixture: frontmatter parsing (lines starting with # are ignored by parseFrontmatter)
+title: Development Test File
+description: This is a test file for the development of the Liquid parser
+permalink: /dev
+layout: default
+pageClass: dev
+fmVersion: 1
+navOrder: 42
+keywords:
+  - test
+  - test2
+tags:
+  - alpha
+  - beta
+---
+
 <!DOCTYPE html>
 <html lang='en'>
 <head>
 	<meta charset='UTF-8'>
-	<title>{{site.title}} - Development Test File</title>
-	<meta name='description' content='{{site.description}}'>
+	<title>{{ site.title }} — {{ title }}</title>
+	<meta name='description' content='{{ description }}'>
 </head>
 <body>
 	<!-- COMPREHENSIVE LIQUID FEATURE TEST -->
 	{% comment %}
 		This is a comment
 	{% endcomment %}
+
+	<!-- 0. FRONTMATTER (YAML merged into render context before Liquid; see parseFrontmatter) -->
+	<section id='frontmatter'>
+		<h2>Frontmatter Tests</h2>
+		<p class='fm-title'>Page title (FM): {{ title }}</p>
+		<p class='fm-description'>{{ description }}</p>
+		<p class='fm-permalink'>{{ permalink }}</p>
+		<p class='fm-layout'>{{ layout }}</p>
+		<p class='fm-pageClass'>{{ pageClass }}</p>
+		<p class='fm-navOrder'>{{ navOrder }}</p>
+		<p class='fm-fmVersion'>{{ fmVersion }}</p>
+		<ul class='fm-keywords'>
+			{% for kw in keywords %}
+			<li>{{ kw }}</li>
+			{% endfor %}
+		</ul>
+		<ul class='fm-tags'>
+			{% for t in tags %}
+			<li>{{ t }}</li>
+			{% endfor %}
+		</ul>
+		{% if pageClass == 'dev' %}
+		<p class='fm-check-pageClass'>pageClass is dev</p>
+		{% endif %}
+		{% if permalink == '/dev' %}
+		<p class='fm-check-permalink'>permalink matches</p>
+		{% endif %}
+		{% if description contains 'Liquid' %}
+		<p class='fm-check-description'>description contains Liquid</p>
+		{% endif %}
+		{% if navOrder == '42' %}
+		<p class='fm-check-navOrder-string'>navOrder is string 42 (YAML scalars are strings in this parser)</p>
+		{% endif %}
+	</section>
 
 	<!-- 1. VARIABLE SUBSTITUTION -->
 	<section id='variables'>

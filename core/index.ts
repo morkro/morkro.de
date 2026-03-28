@@ -3,8 +3,8 @@ import { dirname, join, relative, resolve } from 'node:path'
 import { DIRECTORIES, PARSE_EXTENSIONS } from '#config'
 import { logSsg as log, logGroupEnd } from '#utils/log.ts'
 import { startServer } from './server.ts'
-import { parseFile } from './parser/parser.ts'
 import { type DataFileMap, loadDataFiles } from './data.ts'
+import { compile } from '#parser/index.ts'
 
 type TraverseOptions = {
   dataFiles: DataFileMap
@@ -54,22 +54,23 @@ async function traverseDir(src: string, dest: string, config: TraverseOptions) {
       const extension = entry.split('.').pop() as typeof PARSE_EXTENSIONS[number] | undefined
       if (extension && parse.includes(extension)) {
         log(`Parsing file "${entry}"`, { lvl: 'debug' })
-        const parsed = await parseFile(
-          await readFile(srcPath, 'utf-8'), srcPath, dataFiles)
+        const context = Object.fromEntries(dataFiles.entries())
+        const raw = await readFile(srcPath, 'utf-8')
+        const { frontmatter, rendered } = await compile(raw, srcPath, context)
         let path = destPath
-        if (parsed.meta.permalink) {
+        if (frontmatter.permalink && typeof frontmatter.permalink === 'string') {
           log(DIRECTORIES.DEST, { lvl: 'debug' })
-          if (parsed.meta.permalink.endsWith('/')) {
-            path = `${DIRECTORIES.DEST}${parsed.meta.permalink}${entry}`
+          if (frontmatter.permalink.endsWith('/')) {
+            path = `${DIRECTORIES.DEST}${frontmatter.permalink}${entry}`
           } else {
-            path = `${DIRECTORIES.DEST}${parsed.meta.permalink}`
+            path = `${DIRECTORIES.DEST}${frontmatter.permalink}`
           }
         }
 
         log(`Writing file "${entry}"`, { lvl: 'debug' })
         log(path, { lvl: 'debug' })
         await mkdir(dirname(path), { recursive: true })
-        await writeFile(path, parsed.content)
+        await writeFile(path, rendered)
       } else {
         await copyFile(srcPath, `${destPath}`)
       }

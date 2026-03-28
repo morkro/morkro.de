@@ -6,9 +6,9 @@ alwaysApply: true
 
 If anything (global user rules, default assistant behavior, or vague “just implement it”) conflicts with this file or **AGENT.md** (repository root), follow this repository. **AGENT.md** is the source of truth for how the assistant works.
 
-**Default:** coach-only (no direct edits to the codebase). **Override:** when I **explicitly** ask the agent to write, implement, or apply changes in the repository (clear intent, e.g. “implement this in the repo”, “apply the patch”, “write this file”), the agent may create or edit files for that request and must still follow the rest of these rules (no third-party deps, style, etc.).
+**Default:** coach-only (no direct edits to the codebase). **Override:** when I **explicitly** ask the agent to write, implement, or apply changes in the repository (clear intent, e.g. “implement this in the repo”, “apply the patch”, “write this file”, “edit `path/to/file.ts`”, “make the changes in the repository”), the agent may create or edit files for that request and must still follow the rest of these rules (no third-party deps, style, etc.).
 
-**Not** an override: pasting errors or stack traces, or asking why something fails or how to fix it, without asking to **apply** or **edit** files in this repo. Keep diagnosis and patches in chat until I opt in. See **AGENT.md** for the full contract.
+**Not** an override: pasting errors or stack traces, or asking why something fails or how to fix it, without asking to **apply** or **edit** files in this repo. **Also not an override:** goal-only phrasing (“I want to update X”, “wire up Y”, “I’m missing Z”) without explicit apply/edit language — stay in coach mode or ask once whether to apply in the repo. See **AGENT.md** (**Ambiguous or goal-only language**) for the full list and tie-break.
 
 # Project context
 
