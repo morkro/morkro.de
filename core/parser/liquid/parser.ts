@@ -1,17 +1,17 @@
-import type {
-  InnerToken,
-  Token,
-  Expression,
-  Node,
-  Template,
-  TokenKeyword,
-  NodeIf,
-  TokenOperator,
-  TokenIdent,
-  NodeForParams,
-  NodeCaseWhen,
-} from './types.ts'
 import { tokenize, tokenizeInner } from './tokenizer.ts'
+import type {
+  Expression,
+  InnerToken,
+  Node,
+  NodeCaseWhen,
+  NodeForParams,
+  NodeIf,
+  Template,
+  Token,
+  TokenIdent,
+  TokenKeyword,
+  TokenOperator,
+} from './types.ts'
 import { ParserError } from './utils.ts'
 
 type CursorState = {
@@ -62,7 +62,7 @@ const current = (cursor: CursorState) => {
   const token = cursor.tokens[cursor.index]
   if (!token) {
     throw new ParserError(
-      `Expected token but got EOF`,
+      'Expected token but got EOF',
       cursor.tokens[cursor.index - 1]?.end ?? 0
     )
   }
@@ -456,7 +456,7 @@ function parseNodes(
         nodes.push({ type: 'Text', value: token.value })
         index++
         break
-      case 'Output':
+      case 'Output': {
         const { expression } = parseExpression({
           tokens: tokenizeInner(token.value, token.innerStart),
           index: 0
@@ -464,6 +464,7 @@ function parseNodes(
         nodes.push({ type: 'Output', expression })
         index++
         break
+      }
       case 'Tag': {
         const innerTokens = tokenizeInner(token.value, token.innerStart)
         const firstToken = innerTokens[0]

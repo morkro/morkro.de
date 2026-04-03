@@ -1,9 +1,9 @@
 import { readFile } from 'node:fs/promises'
-import { createServer, IncomingMessage, ServerResponse } from 'node:http'
+import { type IncomingMessage, type ServerResponse, createServer } from 'node:http'
 import { extname, resolve } from 'node:path'
+import { DIRECTORIES } from '#config'
 import { logServer as log } from '#utils/log.ts'
 import { getMimeType, isTextFile } from '#utils/mime-types.ts'
-import { DIRECTORIES } from '#config'
 
 const hasExtension = (path: string): boolean => extname(path) !== ''
 
@@ -57,7 +57,7 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
   res.end()
 }
 
-export function startServer (port: number = 8080): void {
+export function startServer (port = 8080): void {
   const host = 'localhost'
   const server = createServer(handleRequest)
 

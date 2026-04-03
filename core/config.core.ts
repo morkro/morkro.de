@@ -1,11 +1,7 @@
-// User configuration
-export const BASE_URL = process.env.BASE_URL ?? 'https://morkro.de'
+/**
+ * System configuration
+ */
 
-export const CUSTOM_DATA_MAPPING = {
-  'pkg': './package.json',
-} as const
-
-// System configuration
 export const DIRECTORIES = {
   SRC: 'src',
   TEMP: '.tmp',

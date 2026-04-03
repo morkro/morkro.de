@@ -1,10 +1,10 @@
 import {
-  type TokenText,
   type InnerToken,
   type Token,
-  type TokenPunct,
+  TokenKeywordValues,
   type TokenOperator,
-  TokenKeywordValues
+  type TokenPunct,
+  type TokenText
 } from './types.ts'
 import { ParserError } from './utils.ts'
 
@@ -23,7 +23,8 @@ const logicalOperators = new Set(['and', 'or', 'contains'])
 function pushText (value: string, start: number, end: number): TokenText | undefined {
   if (value.length > 0) {
     return { type: 'Text', value, start, end }
-  } else return undefined
+  }
+  return undefined
 }
 
 function findEndrawTag(input: string, fromIndex: number): number {
@@ -49,7 +50,7 @@ function findEndrawTag(input: string, fromIndex: number): number {
 	throw new ParserError('Unclosed raw block', fromIndex)
 }
 
-export function tokenizeInner (input: string, baseOffset: number = 0): InnerToken[] {
+export function tokenizeInner (input: string, baseOffset = 0): InnerToken[] {
   const tokens: InnerToken[] = []
   const peek = (index: number) => input[index]
   let index = 0
@@ -98,7 +99,7 @@ export function tokenizeInner (input: string, baseOffset: number = 0): InnerToke
     }
 
     if (isDigit(peek(index))) {
-      let start = index
+      const start = index
       index++
 
       while (index < input.length && isDigit(peek(index))) {
@@ -178,7 +179,7 @@ export function tokenizeInner (input: string, baseOffset: number = 0): InnerToke
 
     if (`"'`.includes(peek(index))) {
       const quote = peek(index)
-      let start = index
+      const start = index
       index++
       let output = ''
       let terminated = false
@@ -217,7 +218,7 @@ export function tokenizeInner (input: string, baseOffset: number = 0): InnerToke
       }
 
       if (!terminated) {
-        throw new ParserError(`Unclosed string literal`, baseOffset + index)
+        throw new ParserError('Unclosed string literal', baseOffset + index)
       }
       continue
     }
@@ -232,16 +233,16 @@ export function tokenizeInner (input: string, baseOffset: number = 0): InnerToke
         })
         index += 2
         continue
-      } else {
-        tokens.push({
-          type: 'Punct',
-          value: peek(index) as TokenPunct["value"],
-          start: baseOffset + index,
-          end: baseOffset + index + 1
-        })
-        index++ 
-        continue
       }
+
+      tokens.push({
+        type: 'Punct',
+        value: peek(index) as TokenPunct["value"],
+        start: baseOffset + index,
+        end: baseOffset + index + 1
+      })
+      index++ 
+      continue
     }
 
     throw new ParserError(
@@ -312,12 +313,12 @@ export function tokenize(input: string): Token[] {
       
       const end = input.indexOf('%}', cursor.index)
       if (end === -1) {
-        throw new ParserError(`Unclosed tag`, start)
+        throw new ParserError('Unclosed tag', start)
       }
       
       const inner = input.slice(cursor.index, end)
       if (inner.includes('{%') || inner.includes('{{')) {
-        throw new ParserError(`Unclosed tag`, start)
+        throw new ParserError('Unclosed tag', start)
       }
 
 

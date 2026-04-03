@@ -1,8 +1,8 @@
-import type { Expression, ExpressionBinary, Template, ForLoopContext, Node } from "./types.ts";
-import type { templateResolver } from "./resolver.ts";
-import { getFromObject } from "#utils/object.ts";
 import { logParser } from "#utils/log.ts";
-import { ParserError, BreakSignal, ContinueSignal } from "./utils.ts";
+import { getFromObject } from "#utils/object.ts";
+import type { templateResolver } from "./resolver.ts";
+import type { Expression, ExpressionBinary, ForLoopContext, Node, Template } from "./types.ts";
+import { BreakSignal, ContinueSignal, ParserError } from "./utils.ts";
 
 export type RenderContext = Record<string, unknown>
 
@@ -16,11 +16,14 @@ function getCollectionName (expression: Expression): string {
 function resolveExpression (expression: Expression, localContext: RenderContext): unknown {
   if (expression.type === 'Literal') {
     return expression.value
-  } else if (expression.type === 'Var') {
+  }
+  if (expression.type === 'Var') {
     return getFromObject(expression.path, localContext)
-  } else if (expression.type === 'Binary') {
-    throw new ParserError(`Unexpected binary expression`, 0)
-  } else if (expression.type === 'Range') {
+  }
+  if (expression.type === 'Binary') {
+    throw new ParserError('Unexpected binary expression', 0)
+  }
+  if (expression.type === 'Range') {
     const from = Number(resolveExpression(expression.from, localContext))
     const to = Number(resolveExpression(expression.to, localContext))
     return Array.from({ length: to - from + 1 }, (_, i) => from + i)
@@ -31,9 +34,8 @@ function resolveExpression (expression: Expression, localContext: RenderContext)
 function evaluateExpression (expression: Expression, localContext: RenderContext) {
   if (expression.type === 'Binary') {
     return evaluateBinary(expression, localContext)
-  } else {
-    return resolveExpression(expression, localContext)
   }
+  return resolveExpression(expression, localContext)
 }
 
 function evaluateBinary (condition: ExpressionBinary, localContext: RenderContext) {
@@ -100,7 +102,7 @@ async function renderNodes(
       case 'Text':
         result.push(node.value)
         break
-      case 'Render':
+      case 'Render': {
         let file: Template
         if (renderCache.has(node.file)) {
           file = renderCache.get(node.file)!
@@ -120,6 +122,7 @@ async function renderNodes(
         // Renders should have isolated scope, so not passing the global context
         result.push(await render(file, renderContext, resolver, renderCache))
         break
+      }
       case 'Assign':
         localContext[node.name] = resolveExpression(node.expression, localContext)
         break
@@ -136,7 +139,7 @@ async function renderNodes(
       case 'Output':
         result.push(String(resolveExpression(node.expression, localContext)))
         break
-      case 'If':
+      case 'If': {
         let condition = evaluateExpression(node.condition, localContext)
         if (node.negated) condition = !condition
 
@@ -158,7 +161,8 @@ async function renderNodes(
           }
         }
         break
-      case 'Case':
+      }
+      case 'Case': {
         const subject = evaluateExpression(node.subject, localContext)
         let matched = false
 
@@ -185,13 +189,14 @@ async function renderNodes(
           ))
         }
         break
-      case 'For':
+      }
+      case 'For': {
         const rawCollection = resolveExpression(node.collection, localContext)
         let collection = rawCollection as unknown[]
         if (!Array.isArray(collection)) {
           const colName = getCollectionName(node.collection)
           logParser(
-            `Expected array but got ${typeof collection} for collection "${colName}"`,
+            `Expected array but got ${typeof rawCollection} for collection "${colName}" in ${templateSource}`,
             { lvl: 'error' }
           )
           collection = []
@@ -217,7 +222,7 @@ async function renderNodes(
           for (let i = 0; i < _collection.length; i++) {
             const isolatedContext = Object.create(localContext) // Isolated scope for the loop
             isolatedContext[node.variable] = _collection[i]
-            isolatedContext['forloop'] = {
+            isolatedContext.forloop = {
               index: i + 1,
               index0: i,
               rindex: _collection.length - i,
@@ -246,6 +251,7 @@ async function renderNodes(
           }
         }
         break
+      }
       case 'ForBreak':
         throw new BreakSignal()
       case 'ForContinue':

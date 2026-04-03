@@ -26,9 +26,9 @@ export class ParserError extends Error {
 
   static #buildMessage (message: string, offset: number, source?: string, filePath?: string): string {
     const location = source
-      ? '\n' + ParserError.#formatLocation(source, offset, offset + 1)
+      ? `\n${ParserError.#formatLocation(source, offset, offset + 1)}`
       : ''
-    return `${message}${filePath ? ` in ${filePath}` : ''}${location ? '\n' + location : ''}`
+    return `${message}${filePath ? ` in ${filePath}` : ''}${location ? `\n${location}` : ''}`
   }
 
   static #offsetToLocation (source: string, offset: number): SourceLocation {
@@ -64,9 +64,9 @@ export class ParserError extends Error {
     const nextLine = startLocation.line < split.length ? split[startLocation.line] : null
     const gutterWidth = String(split.length).length
     const caretLength = Math.max(1, errorLine.trimEnd().length - (startLocation.column - 1))
-    const emptyGutter = '   ' + ' '.repeat(gutterWidth) + ' │ '
+    const emptyGutter = `   ${' '.repeat(gutterWidth)} │ `
     const indent = errorLine.slice(0, startLocation.column - 1).replace(/[^\t]/g, ' ')
-    const gutter = (lineNum: number, marker: boolean = false) =>
+    const gutter = (lineNum: number, marker = false) =>
       `${marker ? ' > ' : '   '}${String(lineNum).padStart(gutterWidth)} │ `
     
     const output: string[] = []

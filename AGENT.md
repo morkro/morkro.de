@@ -12,6 +12,8 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
 **Target State:** Custom SSG with zero third-party dependencies (except @types/node)
 **Philosophy:** Everything built from scratch for learning and understanding
 
+**Migration Plan:** See [`TODO.md`](TODO.md) for complete component breakdown and status tracking
+
 ### Migration Phases
 
 1. **Phase 1 - Core SSG Integration** (Foundation)
@@ -326,7 +328,8 @@ when the SSG starts processing actual source files — either rename `src/_inclu
 ### Import Aliases
 ```json
 "imports": {
-  "#config": "./core/config.ts",
+  "#config": "./core/config.core.ts",
+  "#config.user": "./core/config.user.ts",
   "#parser/*": "./core/parser/*",
   "#utils/*": "./core/utils/*",
   "#core/*": "./core/*"
@@ -365,10 +368,11 @@ when the SSG starts processing actual source files — either rename `src/_inclu
 ## Working Approach
 
 ### For SSG Migration Tasks
-- **Phase-aware**: Understand which migration phase we're in
+- **Phase-aware**: Understand which migration phase we're in (see [`TODO.md`](TODO.md))
 - **Test as you go**: Verify each feature works before moving to next
 - **Preserve behavior**: Website must work identically after migration
 - **Document decisions**: Track what was built and why
+- **Update TODO.md**: When completing components or making progress, update the status markers in [`TODO.md`](TODO.md)
 
 ### For Content/Design Changes
 - **Iterative**: Make changes incrementally
@@ -424,6 +428,7 @@ Custom format: `Year.Month.Commits.Type`
 - Provide file links with line numbers (format: `file:line`)
 - Make changes file-by-file
 - Don't remove unrelated code
+- Update [`TODO.md`](TODO.md) status when completing migration components
 
 ## Special Considerations
 

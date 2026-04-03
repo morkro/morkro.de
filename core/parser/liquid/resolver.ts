@@ -1,9 +1,9 @@
 import { dirname, resolve } from 'node:path'
 import { cwd } from 'node:process'
-import { DIRECTORIES } from '#config'
-import type { Template } from './types'
+import { DIRECTORIES } from '#core/config.core.ts'
 import { loadFile } from '#utils/fs.ts'
 import { parseLiquid } from './parser.ts'
+import type { Template } from './types'
 
 function stripQuotes (file: string): string {
 	return file.replace(/^['"]|['"]$/g, '')

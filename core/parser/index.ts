@@ -1,21 +1,53 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { join, relative, resolve } from 'node:path'
-import { BASE_URL, DIRECTORIES } from '#config'
+import { DIRECTORIES } from '#config'
+import { BASE_URL } from '#config.user'
+import type { DataFileMap } from '#core/data/types.ts'
 import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
-import { render, type RenderContext } from '#parser/liquid/renderer.ts'
+import { type RenderContext, render } from '#parser/liquid/renderer.ts'
 import { templateResolver } from '#parser/liquid/resolver.ts'
 import type { Template } from '#parser/liquid/types.ts'
 import { loadFile } from '#utils/fs.ts'
 import { parseJSON } from '#utils/json.ts'
-import { type DataFileMap, createPageContext } from '#core/data.ts'
+import { log } from '#utils/log.ts'
 import { ensureOutputPath } from '#utils/path.ts'
+import { toUrl } from '#utils/url.ts'
 
 type Compiled = {
   ast: Template
   frontmatter: Record<string, unknown>
   rendered: string
   outputPath: string
+}
+
+export type BuildContext = Record<string, unknown>
+
+export type PageContext = BuildContext & {
+  page: {
+    inputPath: string
+    outputPath: string
+    url: string
+  }
+}
+
+export function createPageContext (
+  global: DataFileMap,
+  input: string,
+  output: string,
+  baseUrl: string,
+  frontmatter: Record<string, unknown>
+): PageContext {
+  const core = Object.fromEntries(global.entries()) as BuildContext
+  const context = Object.assign(Object.create(core), frontmatter, {
+    page: {
+      inputPath: input,
+      outputPath: output,
+      url: toUrl(baseUrl, output)
+    }
+  })
+  log(JSON.stringify(context, null, 2), { lvl: 'debug' })
+  return context
 }
 
 export async function compile (file: string, path: string, globalData: DataFileMap): Promise<Compiled> {
@@ -26,6 +58,7 @@ export async function compile (file: string, path: string, globalData: DataFileM
   const frontmatter = parseFrontmatter<{ pageClass: string; permalink?: string }>(file)
   source = removeFrontmatter(source)
   console.timeEnd('Parsing Frontmatter')
+  
   const srcRoot = resolve(DIRECTORIES.SRC)
   const srcRelative = relative(srcRoot, resolve(path))
   const outputPath = ensureOutputPath(srcRelative, DIRECTORIES.DEST, frontmatter.permalink)
@@ -62,11 +95,10 @@ async function cleanup () {
 
 if (process.argv.includes('--parse=liquid')) {
   await cleanup()
-  const file = await loadFile(`test/fixtures/liquid`, 'dev.html')
+  const file = await loadFile(join('test/fixtures/liquid', 'dev.html'), 'dev.html')
   const mockContext: RenderContext = parseJSON(
-    await loadFile(
-      `test/fixtures/liquid`, 'mock.json'),
-      'test/fixtures/liquid/mock.json')
+    await loadFile(join('test/fixtures/liquid', 'mock.json'), 'mock.json'),
+    join('test/fixtures/liquid', 'mock.json'))
 
   const compiled = await compile(
     file,

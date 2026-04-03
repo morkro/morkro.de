@@ -1,10 +1,11 @@
-import { access, mkdir, readdir, readFile, writeFile, stat, copyFile, rm } from 'node:fs/promises'
-import { basename, dirname, extname, join, relative, resolve } from 'node:path'
+import { access, copyFile, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
+import { dirname, join, relative, resolve } from 'node:path'
 import { DIRECTORIES, PARSE_EXTENSIONS } from '#config'
+import { loadDataFiles } from '#core/data/index.ts'
+import type { DataFileMap } from '#core/data/types.ts'
+import { compile } from '#parser/index.ts'
 import { logSsg as log, logGroupEnd } from '#utils/log.ts'
 import { startServer } from './server.ts'
-import { type DataFileMap, loadDataFiles } from './data.ts'
-import { compile } from '#parser/index.ts'
 
 type TraverseOptions = {
   dataFiles: DataFileMap
@@ -81,7 +82,7 @@ async function build () {
     await access(destDir)
     // flush dest directory
     await rm(destDir, { recursive: true })
-    log(`Directory flushed`, { lvl: 'debug' })
+    log('Directory flushed', { lvl: 'debug' })
   } catch {
     log(`Directory not found, creating "${destDir}"`, { lvl: 'debug' })
     await mkdir(destDir, { recursive: true })
