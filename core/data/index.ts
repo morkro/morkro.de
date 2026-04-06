@@ -1,6 +1,7 @@
 import { DIRECTORIES } from '#config'
 import { CUSTOM_DATA_MAPPING } from '#config.user'
 import { loadFromDir, loadFromFile } from './loader.ts'
+import { loadPosts } from './posts.ts'
 import type { DataFileMap } from './types.ts'
 
 export async function loadDataFiles(): Promise<DataFileMap> {
@@ -9,9 +10,9 @@ export async function loadDataFiles(): Promise<DataFileMap> {
     ...(await loadFromFile(CUSTOM_DATA_MAPPING)),
   ])
 
-  const posts = await loadFromDir(DIRECTORIES.INTERNAL.POSTS)
-  if (posts?.size > 0) {
-    data.set('collections', { posts: Array.from(posts) })
+  const posts = await loadPosts()
+  if (posts?.length > 0) {
+    data.set('collections', { posts })
   }
 
   return data

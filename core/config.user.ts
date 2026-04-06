@@ -11,5 +11,7 @@ export const CUSTOM_DATA_MAPPING = {
 export const COLLECTIONS = {
   POSTS: {
     sortBy: 'date',
+    layout: 'post',
+    permalink: `/writes/{{ page.date | date: '%Y/' }}/{{ page.fileSlug }}/`
   },
 } as const

@@ -1,7 +1,7 @@
-import { styleText } from 'node:util'
 import { stderr } from 'node:process'
+import { styleText } from 'node:util'
 
-type LogDomain = 'parser' | 'server' | 'test' | 'ssg'
+type LogDomain = 'parser' | 'server' | 'test' | 'ssg' | 'data'
 type LogLevel = 'debug' | 'info' | 'error' | 'warn'
 
 export type LogConfig = {

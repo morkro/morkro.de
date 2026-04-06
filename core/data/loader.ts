@@ -16,6 +16,12 @@ async function readOrImport (filePath: string): Promise<unknown> {
       const javascript = await import(filePath)
       return javascript.default
     }
+    if (ext === '.md') {
+      const markdown = await readFile(filePath, 'utf-8')
+      return markdown
+    }
+    log(`Unsupported file extension '${ext}' for file '${filePath}'`, { lvl: 'error', d: 'data' })
+    return null
   } catch (error) {
     log(`Failed to read or import data file '${filePath}': ${error}`, { lvl: 'error' })
     return null

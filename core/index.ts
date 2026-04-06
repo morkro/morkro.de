@@ -88,8 +88,16 @@ async function build () {
     await mkdir(destDir, { recursive: true })
   }
 
+
+  const dataFiles = await loadDataFiles()
+
+  await mkdir(resolve(DIRECTORIES.TEMP), { recursive: true })
+  await writeFile(
+    resolve(DIRECTORIES.TEMP, 'context.json'), 
+    JSON.stringify(Object.fromEntries(dataFiles.entries()), null, 2))
+
   await traverseDir(srcDir, destDir, {
-    dataFiles: await loadDataFiles(),
+    dataFiles,
     parse: PARSE_EXTENSIONS,
     flatten: flattenDirectories
   })
