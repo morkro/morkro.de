@@ -1,3 +1,4 @@
+import { ParserError, getIndentWidth } from '#parser/utils.ts'
 import {
   type InnerToken,
   type Token,
@@ -6,7 +7,6 @@ import {
   type TokenPunct,
   type TokenText
 } from './types.ts'
-import { ParserError } from './utils.ts'
 
 export type Cursor = {
   readonly input: string
@@ -291,7 +291,7 @@ export function tokenize(input: string): Token[] {
 
       const end = input.indexOf("}}", cursor.index)
       if (end === -1) {
-        throw new ParserError(`Unclosed output`, start)
+        throw new ParserError('Unclosed output', start)
       }
 
       const inner = input.slice(cursor.index, end)
@@ -300,7 +300,7 @@ export function tokenize(input: string): Token[] {
         value: inner.trim(),
         start,
         end: end + 2,
-        innerStart: cursor.index + (inner.length - inner.trimStart().length),
+        innerStart: cursor.index + getIndentWidth(inner),
       })
       cursor = { input, index: end + 2 }
 
@@ -334,7 +334,7 @@ export function tokenize(input: string): Token[] {
           value: 'raw',
           start,
           end: afterOpenTag,
-          innerStart: cursor.index + (inner.length - inner.trimStart().length),
+          innerStart: cursor.index + getIndentWidth(inner),
         })
         tokens.push({
           type: 'Text',
@@ -365,11 +365,9 @@ export function tokenize(input: string): Token[] {
         value: inner.trim(),
         start,
         end: end + 2,
-        innerStart: cursor.index + (inner.length - inner.trimStart().length),
+        innerStart: cursor.index + getIndentWidth(inner),
       })
       cursor = { input, index: end + 2 }
-      
-      continue
     } 
   }
 

@@ -72,11 +72,8 @@ export async function loadPosts(): Promise<CollectionPost[]> {
 
   switch (COLLECTIONS.POSTS.sortBy) {
     case 'date':
-      posts.sort((a, b) => b.date.getTime() - a.date.getTime())
-      break
+      return posts.toSorted((a: CollectionPost, b: CollectionPost) => b.date.getTime() - a.date.getTime())
     default:
-      break
+      return posts
   }
-
-  return posts
 }

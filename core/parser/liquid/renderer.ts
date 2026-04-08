@@ -1,8 +1,8 @@
+import { BreakSignal, ContinueSignal, ParserError } from "#parser/utils.ts";
 import { logParser } from "#utils/log.ts";
 import { getFromObject } from "#utils/object.ts";
 import type { templateResolver } from "./resolver.ts";
 import type { Expression, ExpressionBinary, ForLoopContext, Node, Template } from "./types.ts";
-import { BreakSignal, ContinueSignal, ParserError } from "./utils.ts";
 
 export type RenderContext = Record<string, unknown>
 

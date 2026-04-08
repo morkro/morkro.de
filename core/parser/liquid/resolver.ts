@@ -1,13 +1,10 @@
 import { dirname, resolve } from 'node:path'
 import { cwd } from 'node:process'
 import { DIRECTORIES } from '#core/config.core.ts'
+import { stripQuotes } from "#parser/utils.ts"
 import { loadFile } from '#utils/fs.ts'
 import { parseLiquid } from './parser.ts'
 import type { Template } from './types'
-
-function stripQuotes (file: string): string {
-	return file.replace(/^['"]|['"]$/g, '')
-}
 
 function derivePartialFileNames (file: string): string[] {
 	const base = stripQuotes(file)

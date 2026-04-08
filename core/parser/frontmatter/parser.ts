@@ -1,116 +1,127 @@
-type IndentedBlockResult =
-	| { variant: 'list'; list: string[]; nextIndex: number }
-	| { variant: 'map'; map: Record<string, string>; nextIndex: number }
+import { getIndentWidth, stripQuotes } from "#parser/utils.ts"
 
 const FRONTMATTER_REGEX = /^---\r?\n([\s\S]*?)\r?\n---/
+const YAML_LINE_REGEX = /^\s*-\s+(.*)$/
 
-function parseQuotedString(raw: string) {
-	const string = raw.trim()
-	if (string.length < 2) return string
-
-	const open = string[0]
-	const close = string[string.length - 1]
-	if ((open === "'" && close === "'") || (open === '"' && close === '"')) {
-		return string.slice(1, -1)
-	}
-  
-	return string.replace(/^['"]|['"]$/g, '')
+export type Cursor = {
+	readonly lines: readonly string[]
+	index: number
 }
 
-function contentIndent(line: string): number {
-	return line.length - line.trimStart().length
+export const createCursor = (lines: readonly string[]): Cursor => ({ lines, index: 0 })
+
+type WalkStep = {
+	cursor: Cursor
+	line?: { raw: string; trimmed: string }
+}
+
+type BlockResult = {
+	result?: string[] | Record<string, string>
+	index: number
+}
+
+function isBlankOrComment(line: string): boolean {
+	const trimmed = line.trim()
+	return !trimmed || trimmed.startsWith('#')
 }
 
 function findNextNonEmpty(lines: string[], from: number): number {
 	for (let index = from; index < lines.length; index++) {
-		const trim = lines[index].trim()
-		if (trim && !trim.startsWith('#')) {
+		if (!isBlankOrComment(lines[index])) {
 			return index
 		}
 	}
 	return -1
 }
 
+function walkUntilIndent(cursor: Cursor, parentIndent: number): WalkStep {
+	let index = cursor.index
+	const { lines } = cursor
+
+	while (index < lines.length) {
+		const raw = lines[index]
+		const trimmed = raw.trim()
+		if (isBlankOrComment(trimmed)) {
+			index++
+			continue
+		}
+
+		// we found the end of the indented block
+		if (getIndentWidth(raw) <= parentIndent) {
+			return { cursor: { lines, index } }
+		}
+
+		// we found the start of the indented block
+		return { cursor: { lines, index }, line: { raw, trimmed } }
+	}
+
+	// we reached the end of the file
+	return { cursor: { lines, index } }
+}
+
 /**
  * Parses lines more indented than `parentIndent` until dedent or EOF.
  * List vs map is decided from the first non-comment line: `- ` → list, `key:` → map.
  */
-function parseIndentedBlock(
-	lines: string[],
-	start: number,
-	parentIndent: number
-): IndentedBlockResult {
-	let index = start
-
-	while (index < lines.length) {
-		const raw = lines[index]
-		const trimmed = raw.trim()
-
-		if (!trimmed || trimmed.startsWith('#')) {
-			index++
-			continue
-		}
-
-		if (contentIndent(raw) <= parentIndent) {
-			return { variant: 'map', map: {}, nextIndex: index }
-		}
-
-		break
+function parseIndentedBlock(cursor: Cursor, parentIndent: number): BlockResult {
+	const { lines } = cursor
+	const step = walkUntilIndent(cursor, parentIndent)
+	if (step.line === undefined) {
+		return { index: step.cursor.index }
 	}
 
-	if (index >= lines.length) {
-		return { variant: 'map', map: {}, nextIndex: index }
-	}
-
-	const firstRaw = lines[index]
-	if (/^\s*-\s/.test(firstRaw)) {
+	const { raw, trimmed: firstTrimmed } = step.line
+	const match = YAML_LINE_REGEX.exec(raw)
+	if (match) {
 		const list: string[] = []
-		let _index = index
+		list.push(stripQuotes(match[1]))
 
-		while (_index < lines.length) {
-			const raw = lines[_index]
-			const t = raw.trim()
-			if (!t || t.startsWith('#')) {
-				_index++
-				continue
+		let lineCursor: Cursor = { lines, index: step.cursor.index + 1 }
+		while (lineCursor.index < lines.length) {
+			const inner = walkUntilIndent(lineCursor, parentIndent)
+			if (inner.line === undefined) {
+				return { result: list, index: inner.cursor.index }
 			}
 
-			if (contentIndent(raw) <= parentIndent) break
-			const m = /^\s*-\s+(.*)$/.exec(raw)
-			if (!m) break
-			
-      list.push(parseQuotedString(m[1]))
-			_index++
+			const itemMatch = YAML_LINE_REGEX.exec(inner.line.raw)
+			if (!itemMatch) {
+				return { result: list, index: inner.cursor.index }
+			}
+
+			list.push(stripQuotes(itemMatch[1]))
+			lineCursor = { lines, index: inner.cursor.index + 1 }
 		}
 
-		return { variant: 'list', list, nextIndex: _index }
+		return { result: list, index: lineCursor.index }
 	}
 
 	const map: Record<string, string> = {}
-	while (index < lines.length) {
-		const raw = lines[index]
-		const trimmed = raw.trim()
-		if (!trimmed || trimmed.startsWith('#')) {
-			index++
-			continue
+	const colon0 = firstTrimmed.indexOf(':')
+	if (colon0 !== -1) {
+		const key = firstTrimmed.slice(0, colon0).trim()
+		map[key] = stripQuotes(firstTrimmed.slice(colon0 + 1))
+	}
+
+	let lineCursor: Cursor = { lines, index: step.cursor.index + 1 }
+	while (lineCursor.index < lines.length) {
+		const inner = walkUntilIndent(lineCursor, parentIndent)
+		if (inner.line === undefined) {
+			return { result: map, index: inner.cursor.index }
 		}
 
-		if (contentIndent(raw) <= parentIndent) {
-			break
-		}
-
+		const trimmed = inner.line.trimmed
 		const colon = trimmed.indexOf(':')
 		if (colon === -1) {
-			index++
+			lineCursor = { lines, index: inner.cursor.index + 1 }
 			continue
 		}
 
 		const key = trimmed.slice(0, colon).trim()
-		map[key] = parseQuotedString(trimmed.slice(colon + 1))
-		index++
+		map[key] = stripQuotes(trimmed.slice(colon + 1))
+		lineCursor = { lines, index: inner.cursor.index + 1 }
 	}
 
-	return { variant: 'map', map, nextIndex: index }
+	return { result: map, index: lineCursor.index }
 }
 
 export function removeFrontmatter(file: string) {
@@ -125,60 +136,56 @@ export function removeFrontmatter(file: string) {
 export function parseFrontmatter<T>(content: string): T {
   // files can have some frontmatter meta data at the top, wrapped in "---" lines.
   // the wrapped text structure is in YAML format. we parse the content using regex and return it as an object.
-	const result: Record<string, unknown> = {}
+	const out: Record<string, unknown> = {}
 	const inner = content.match(FRONTMATTER_REGEX)?.[1]
 	if (!inner) {
-		return result as T
+		return out as T
 	}
 
 	const lines = inner.split('\n')
+	let cursor = createCursor(lines)
 
-	let index = 0
-	while (index < lines.length) {
-		const raw = lines[index]
+	while (cursor.index < lines.length) {
+		const raw = lines[cursor.index]
 		const trimmed = raw.trim()
-		if (!trimmed || trimmed.startsWith('#')) {
-			index++
+		if (isBlankOrComment(raw)) {
+			cursor = { lines, index: cursor.index + 1 }
 			continue
 		}
 
-		const colonIdx = trimmed.indexOf(':')
-		if (colonIdx === -1) {
-			index++
+		const colon = trimmed.indexOf(':')
+		if (colon === -1) {
+			cursor = { lines, index: cursor.index + 1 }
 			continue
 		}
 
-		const key = trimmed.slice(0, colonIdx).trim()
-		const value = parseQuotedString(trimmed.slice(colonIdx + 1))
-		const indent = contentIndent(raw)
+		const key = trimmed.slice(0, colon).trim()
 
+		const value = stripQuotes(trimmed.slice(colon + 1))
 		if (value !== '') {
-			result[key] = value
-			index++
+			out[key] = value
+			cursor = { lines, index: cursor.index + 1 }
 			continue
 		}
-
-		const next = findNextNonEmpty(lines, index + 1)
+		
+		const next = findNextNonEmpty(lines, cursor.index + 1)
 		if (next === -1) {
-			result[key] = ''
-			index++
+			out[key] = ''
+			cursor = { lines, index: cursor.index + 1 }
+			continue
+		}
+		
+		const indent = getIndentWidth(raw)
+		if (getIndentWidth(lines[next]) > indent) {
+			const block = parseIndentedBlock({ lines, index: next }, indent)
+			out[key] = block.result
+			cursor = { lines, index: block.index }
 			continue
 		}
 
-		if (contentIndent(lines[next]) > indent) {
-			const block = parseIndentedBlock(lines, next, indent)
-			if (block.variant === 'list') {
-				result[key] = block.list
-			} else {
-				result[key] = block.map
-			}
-			index = block.nextIndex
-			continue
-		}
-
-		result[key] = ''
-		index++
+		out[key] = ''
+		cursor = { lines, index: cursor.index + 1 }
 	}
 
-	return result as T
+	return out as T
 }
