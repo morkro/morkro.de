@@ -226,13 +226,13 @@ _site/                   # Eleventy build output (git-ignored)
 core/                    # Build system core
   index.ts              # Main build orchestration
   data/
-    index.ts            # loadDataFiles: _data/, custom file map, collections.posts
+    index.ts            # loadDataFiles: _data/, customDataMapping (+ optional key pick), collections.posts
     loader.ts           # loadFromDir, loadFromFile
     posts.ts            # loadPosts from _posts/, sort, URL helpers
     types.ts            # DataFileMap and related types
   server.ts             # Static HTTP server for .build/
   config.core.ts        # Directory & extension configuration (import #config)
-  config.user.ts        # User overrides (import #config.user)
+  config.user.ts        # User overrides: customDataMapping, collections, baseUrl (import #config.user)
   parser/
     index.ts            # Parsing pipeline entry point and dev CLI (--parse=liquid)
     utils.ts            # Shared parser helpers (indent, quotes; used by frontmatter + liquid)
@@ -259,6 +259,14 @@ test/
   fixtures/liquid/      # Liquid test fixtures (dev.html, mock.json, simple/, complex/, includes/)
   utils/                # Utility tests (json, mime-types, object)
 ```
+
+### Global data (`loadDataFiles`)
+
+[`core/data/index.ts`](core/data/index.ts) builds the global data map used at render time:
+
+1. **Directory data** — JSON files under `src/_data/` (via `loadFromDir`).
+2. **Custom file map** — Optional `customDataMapping` in [`core/config.user.ts`](core/config.user.ts). Each key names a data entry; the value is either a path string to a JSON file (the whole parsed object is stored under that key) or `{ path, values }`, where `values` is a list of **top-level** keys to keep from that file (e.g. `version` and `author` from `package.json`). Omitted keys are not copied into the map.
+3. **Collections** — When posts exist, `collections` is set with `{ posts }` from [`core/data/posts.ts`](core/data/posts.ts).
 
 ### Current Eleventy Features to Replicate
 
@@ -296,8 +304,8 @@ test/
 
 **Variable Resolution**
 - Syntax: `{{identifier.path.to.value}}`
-- Sources: _data/ files, page frontmatter
-- Example: `{{site.title}}` → loads `_data/site.js` → accesses `title`
+- Sources: `src/_data/` files, entries from `customDataMapping` in `config.user.ts`, `collections` (when posts are loaded), page frontmatter
+- Example: `{{site.title}}` → data from `_data/site.*` → accesses `title`
 
 **Layout System**
 - Defined in frontmatter: `layout: default`
@@ -322,6 +330,8 @@ currently reference variables that are not passed explicitly:
 - `page-scripts.liquid`: needs `pkg.version`, `site.timestamp`
 - `menu.liquid`: needs `title` (only `location` is passed today)
 - `meta-head.liquid`: needs `site.*`, `page.*`, `pkg.*`, `eleventy.*`, `keywords`, `pageClass`
+
+Keys such as `pkg.version` can be present in global data when listed under `customDataMapping` (e.g. selected fields from `package.json`); isolated `render` still requires passing them into each include at the call site.
 
 **TODO:** Update every `{% render %}` call site for these includes to pass all required
 variables explicitly.

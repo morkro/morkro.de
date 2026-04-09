@@ -217,6 +217,7 @@ Tokenizer per language:
 | File discovery and processing | In progress |
 | Layout system | In progress |
 | Data file loading (`_data/` directory) | In progress |
+| Custom data mapping (`customDataMapping` in `config.user.ts`: path string, or `{ path, values }` to expose only listed top-level keys from a JSON file) | Done |
 | Posts collection in global context (`collections.posts`) | Done |
 | Permalink handling | Not started |
 | Asset copying (passthrough) | Not started |
@@ -269,6 +270,8 @@ Update `src/_includes/` files to work with isolated render scope:
 | `page-scripts.liquid` | Blocked | `pkg.version`, `site.timestamp` |
 | `menu.liquid` | Blocked | `title` |
 | `meta-head.liquid` | Blocked | `site.*`, `page.*`, `pkg.*`, `eleventy.*`, `keywords`, `pageClass` |
+
+`pkg` keys listed in `customDataMapping` (e.g. `version`, `author` from `package.json`) are available from `loadDataFiles()`; templates remain blocked until render scope and the other variables above are wired.
 
 ### 6.2 Directory Name Resolution
 

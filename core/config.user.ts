@@ -1,10 +1,15 @@
 /**
  * User configuration
  */
+export interface CustomDataFields {
+  path: string
+  values: string[]
+}
+
 interface UserConfig {
   baseUrl?: string 
   customDataMapping?: {
-    [key: string]: string
+    [key: string]: string | CustomDataFields
   }
   collections?: {
     posts?: {
@@ -19,7 +24,10 @@ interface UserConfig {
 const config: UserConfig = {
   baseUrl: 'https://morkro.de',
   customDataMapping: {
-    'pkg': './package.json',
+    'pkg': {
+      path: './package.json',
+      values: ['version', 'author'],
+    },
   },
   collections: {
     posts: {

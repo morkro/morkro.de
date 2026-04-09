@@ -4,22 +4,53 @@ import { loadFromDir, loadFromFile } from './loader.ts'
 import { loadPosts } from './posts.ts'
 import type { DataFileMap } from './types.ts'
 
+function pickValues(
+  source: Record<string, unknown>,
+  values: string[] | undefined
+): Record<string, unknown> {
+	if (!values || values.length === 0) {
+		return source
+	}
+	
+  const result: Record<string, unknown> = {}
+	for (const value of values) {
+		if (Object.prototype.hasOwnProperty.call(source, value)) {
+			result[value] = source[value]
+		}
+	}
+	
+  return result
+}
+
 export async function loadDataFiles(): Promise<DataFileMap> {
-  const data = new Map([
-    ...(await loadFromDir(config.directories.internal.data)),
-  ])
+	const data = new Map([
+		...(await loadFromDir(config.directories.internal.data)),
+	])
 
-  if (userConfig?.customDataMapping) {
-    const customDataMapping = await loadFromFile(userConfig.customDataMapping)
-    for (const [key, value] of customDataMapping.entries()) {
-      data.set(key, value)
-    }
-  }
+	if (userConfig?.customDataMapping) {
+		const paths: Record<string, string> = {}
+		const getByKey = new Map<string, string[] | undefined>()
 
-  const posts = await loadPosts()
-  if (posts?.length > 0) {
-    data.set('collections', { posts })
-  }
+		for (const [key, spec] of Object.entries(userConfig.customDataMapping)) {
+			if (typeof spec === 'string') {
+				paths[key] = spec
+				getByKey.set(key, undefined)
+			} else {
+				paths[key] = spec.path
+				getByKey.set(key, spec.values)
+			}
+		}
 
-  return data
+		const file = await loadFromFile(paths)
+		for (const [key, raw] of file) {
+			data.set(key, pickValues(raw, getByKey.get(key)))
+		}
+	}
+
+	const posts = await loadPosts()
+	if (posts?.length > 0) {
+		data.set('collections', { posts })
+	}
+
+	return data
 }
