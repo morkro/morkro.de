@@ -1,7 +1,7 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { join, relative, resolve } from 'node:path'
-import { DIRECTORIES } from '#config'
-import { BASE_URL } from '#config.user'
+import userConfig from '#config.user'
+import config from '#core/config.core.ts'
 import type { DataFileMap } from '#core/data/types.ts'
 import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
@@ -59,14 +59,14 @@ export async function compile (file: string, path: string, globalData: DataFileM
   source = removeFrontmatter(source)
   console.timeEnd('Parsing Frontmatter')
   
-  const srcRoot = resolve(DIRECTORIES.SRC)
+  const srcRoot = resolve(config.directories.src)
   const srcRelative = relative(srcRoot, resolve(path))
-  const outputPath = ensureOutputPath(srcRelative, DIRECTORIES.DEST, frontmatter.permalink)
+  const outputPath = ensureOutputPath(srcRelative, config.directories.dest, frontmatter.permalink)
   const localContext = createPageContext(
     globalData,
     path,
     outputPath,
-    BASE_URL,
+    userConfig?.baseUrl ?? '',
     frontmatter)
 
   console.time('Parsing Liquid')
@@ -83,11 +83,11 @@ export async function compile (file: string, path: string, globalData: DataFileM
 
 async function cleanup () {
   try {
-    await rm(resolve(DIRECTORIES.TEMP), { recursive: true })
+    await rm(resolve(config.directories.temp), { recursive: true })
   } catch {}
 
   try {
-    await mkdir(resolve(DIRECTORIES.TEMP), { recursive: true })
+    await mkdir(resolve(config.directories.temp), { recursive: true })
   } catch (error){
     throw new Error('Failed to cleanup temporary directory', { cause: error })
   }
@@ -107,12 +107,12 @@ if (process.argv.includes('--parse=liquid')) {
 
   // write AST
   await writeFile(
-    join(DIRECTORIES.TEMP, 'ast.json'), 
+    join(config.directories.temp, 'ast.json'), 
     JSON.stringify(compiled.ast, null, 2),
     'utf-8')
   // write rendered
   await writeFile(
-    join(DIRECTORIES.TEMP, 'rendered.html'),
+    join(config.directories.temp, 'rendered.html'),
     compiled.rendered,
     'utf-8')
 }

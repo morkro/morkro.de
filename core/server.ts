@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { type IncomingMessage, type ServerResponse, createServer } from 'node:http'
 import { extname, resolve } from 'node:path'
-import { DIRECTORIES } from '#config'
+import config from '#core/config.core.ts'
 import { logServer as log } from '#utils/log.ts'
 import { getMimeType, isTextFile } from '#utils/mime-types.ts'
 
@@ -12,8 +12,8 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
   const url = new URL(req.url ?? '/', `http://${req.headers.host}`)
   const urlPath = url.pathname.replace(/^\//, '')
   const filePath = hasExtension(urlPath) ? urlPath : `${urlPath}/index.html`
-  const resolvedBase = resolve(DIRECTORIES.DEST)
-  const resolvedPath = resolve(DIRECTORIES.DEST, filePath)
+  const resolvedBase = resolve(config.directories.dest)
+  const resolvedPath = resolve(config.directories.dest, filePath)
   
   // secure exit if the file is not in the build directory
   if (!resolvedPath.startsWith(resolvedBase)) {
@@ -40,7 +40,7 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
     // lets see if the there is a custom "404.html" file and serve that instead
     try {
       file = await readFile(resolve(resolvedBase, '404.html'), 'utf-8')
-      log(`Served file: "${DIRECTORIES.DEST}/404.html"`)
+      log(`Served file: "${config.directories.dest}/404.html"`)
       contentType = getMimeType('html')
     } catch {
       log('No custom 404 file found, serving default 404', { lvl: 'debug' })

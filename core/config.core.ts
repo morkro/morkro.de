@@ -1,22 +1,40 @@
 /**
  * System configuration
  */
+export type ParseExtension = 'html' | 'txt' | 'xml' | 'liquid' | 'md'
 
-export const DIRECTORIES = {
-  SRC: 'src',
-  TEMP: '.tmp',
-  DEST: '.build',
-  PAGES: 'pages',
-  INTERNAL: {
-    DATA: '_data',
-    INCLUDES: 'includes',
-    LAYOUTS: '_layouts',
-    POSTS: '_posts',
+export interface CoreConfig {
+  directories: {
+    src: string
+    temp: string
+    dest: string
+    pages: string
+    internal: {
+      data: string
+      includes: string
+      layouts: string
+      posts: string
+    }
   }
-} as const
+  parseExtensions: ParseExtension[]
+  parseLiquidExtensions: ParseExtension[]
+}
 
-export const PARSE_EXTENSIONS = ['html', 'txt', 'xml', 'liquid', 'md'] as const
-export const PARSE_LIQUID_EXTS: (typeof PARSE_EXTENSIONS)[number][] = [
-  'html',
-  'liquid'
-]
+const config: CoreConfig = {
+  directories: {
+    src: 'src',
+    temp: '.tmp',
+    dest: '.build',
+    pages: 'pages',
+    internal: {
+      data: '_data',
+      includes: 'includes',
+      layouts: '_layouts',
+      posts: '_posts',
+    }
+  },
+  parseExtensions: ['html', 'txt', 'xml', 'liquid', 'md'],
+  parseLiquidExtensions: ['html', 'liquid'],
+}
+
+export default config

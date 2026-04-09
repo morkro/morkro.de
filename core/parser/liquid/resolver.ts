@@ -1,7 +1,7 @@
 import { dirname, resolve } from 'node:path'
 import { cwd } from 'node:process'
-import { DIRECTORIES } from '#core/config.core.ts'
-import { stripQuotes } from "#parser/utils.ts"
+import config from '#core/config.core.ts'
+import { stripQuotes } from '#parser/utils.ts'
 import { loadFile } from '#utils/fs.ts'
 import { parseLiquid } from './parser.ts'
 import type { Template } from './types'
@@ -15,8 +15,8 @@ function derivePartialFileNames (file: string): string[] {
 }
 
 export async function templateResolver (parentPath: string, file: string): Promise<Template> {
-	const globalIncludes = resolve(cwd(), DIRECTORIES.SRC, '_includes')
-	const localIncludes = resolve(dirname(parentPath), DIRECTORIES.INTERNAL.INCLUDES)
+	const globalIncludes = resolve(cwd(), config.directories.src, '_includes')
+	const localIncludes = resolve(dirname(parentPath), config.directories.internal.includes)
 	const searchRoots = [globalIncludes, localIncludes]
 	const errors: unknown[] = []
 

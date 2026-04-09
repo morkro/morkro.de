@@ -1,5 +1,5 @@
-import { DIRECTORIES } from "#config"
-import { COLLECTIONS } from "#config.user"
+import userConfig from "#config.user"
+import config from "#core/config.core.ts"
 import { parseFrontmatter, removeFrontmatter } from "#parser/frontmatter/parser.ts"
 import { loadFromDir } from "./loader.ts"
 
@@ -51,7 +51,7 @@ function createPostUrl (meta: { date: Date, slug: string }, pattern: string): st
 }
 
 export async function loadPosts(): Promise<CollectionPost[]> {
-  const data = await loadFromDir(DIRECTORIES.INTERNAL.POSTS)
+  const data = await loadFromDir(config.directories.internal.posts)
   const posts: CollectionPost[] = []
 
   for (const [filename, value] of data.entries()) {
@@ -64,15 +64,22 @@ export async function loadPosts(): Promise<CollectionPost[]> {
     posts.push({
       data: post,
       // TODO: Permalink should have a default
-      url: post.external?.url ?? createPostUrl(meta, COLLECTIONS.POSTS.permalink),
+      url: post.external?.url ?? createPostUrl(meta, userConfig.collections?.posts?.permalink ?? '/writes/{{ page.date | date: "%Y/" }}/{{ page.fileSlug }}/'),
       date: meta.date,
       content,
     })
   }
 
-  switch (COLLECTIONS.POSTS.sortBy) {
+    switch (userConfig.collections?.posts?.sortBy) {
     case 'date':
-      return posts.toSorted((a: CollectionPost, b: CollectionPost) => b.date.getTime() - a.date.getTime())
+      return posts.sort((a: CollectionPost, b: CollectionPost) => {
+        switch (userConfig.collections?.posts?.sortOrder) {
+          case 'asc':
+            return a.date.getTime() - b.date.getTime()
+          default:
+            return b.date.getTime() - a.date.getTime()
+        }
+      })
     default:
       return posts
   }

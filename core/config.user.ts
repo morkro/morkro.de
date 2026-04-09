@@ -1,17 +1,34 @@
 /**
  * User configuration
  */
+interface UserConfig {
+  baseUrl?: string 
+  customDataMapping?: {
+    [key: string]: string
+  }
+  collections?: {
+    posts?: {
+      sortBy: 'date' | 'title'
+      sortOrder: 'asc' | 'desc'
+      layout: string
+      permalink: string
+    }
+  }
+}
 
-export const BASE_URL = process.env.BASE_URL ?? 'https://morkro.de'
-
-export const CUSTOM_DATA_MAPPING = {
-  'pkg': './package.json',
-} as const
-
-export const COLLECTIONS = {
-  POSTS: {
-    sortBy: 'date',
-    layout: 'post',
-    permalink: `/writes/{{ page.date | date: '%Y/' }}/{{ page.fileSlug }}/`
+const config: UserConfig = {
+  baseUrl: 'https://morkro.de',
+  customDataMapping: {
+    'pkg': './package.json',
   },
-} as const
+  collections: {
+    posts: {
+      sortBy: 'date',
+      sortOrder: 'desc',
+      layout: 'post',
+      permalink: `/writes/{{ page.date | date: '%Y/' }}/{{ page.fileSlug }}/`
+    }
+  }
+}
+
+export default config

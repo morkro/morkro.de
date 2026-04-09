@@ -1,6 +1,6 @@
 import { access, copyFile, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
 import { dirname, join, relative, resolve } from 'node:path'
-import { DIRECTORIES, PARSE_EXTENSIONS } from '#config'
+import config, { type ParseExtension } from '#core/config.core.ts'
 import { loadDataFiles } from '#core/data/index.ts'
 import type { DataFileMap } from '#core/data/types.ts'
 import { compile } from '#parser/index.ts'
@@ -9,16 +9,16 @@ import { startServer } from './server.ts'
 
 type TraverseOptions = {
   dataFiles: DataFileMap
-  parse: typeof PARSE_EXTENSIONS
+  parse: ParseExtension[]
   flatten: string[]
   isFlattenDir?: boolean
 }
 
 const flattenDirectories = ['pages']
 
-async function traverseDir(src: string, dest: string, config: TraverseOptions) {
+async function traverseDir(src: string, dest: string, traverseOptions: TraverseOptions) {
   const dir = await readdir(src)
-  const { dataFiles, flatten, parse, isFlattenDir = false } = config
+  const { dataFiles, flatten, parse, isFlattenDir = false } = traverseOptions
   
   for (const entry of dir) {
     const srcPath = join(src, entry)
@@ -32,8 +32,8 @@ async function traverseDir(src: string, dest: string, config: TraverseOptions) {
       }
 
       const shouldFlatten = flatten.includes(entry) || isFlattenDir
-      if (!shouldFlatten) {
-        const dirPath = destPath ? relative(DIRECTORIES.SRC, srcPath) : 'unknown'
+      if (!shouldFlatten) { 
+        const dirPath = destPath ? relative(config.directories.src, srcPath) : 'unknown'
         log(`Scanning directory "${dirPath}/":`, { type: 'group' })
         await mkdir(`${destPath}`, { recursive: true })
       }
@@ -49,10 +49,10 @@ async function traverseDir(src: string, dest: string, config: TraverseOptions) {
         logGroupEnd()
       }
     } else if (stats.isFile()) {
-      const fileName = srcPath ? relative(DIRECTORIES.SRC, srcPath) : 'unknown'
+      const fileName = srcPath ? relative(config.directories.src, srcPath) : 'unknown'
       log(`Processing file "${fileName}"`, { type: 'group' })
 
-      const extension = entry.split('.').pop() as typeof PARSE_EXTENSIONS[number] | undefined
+      const extension = entry.split('.').pop() as ParseExtension | undefined
       if (extension && parse.includes(extension)) {
         log(`Parsing file "${entry}"`, { lvl: 'debug' })
         const raw = await readFile(srcPath, 'utf-8')
@@ -73,8 +73,8 @@ async function traverseDir(src: string, dest: string, config: TraverseOptions) {
 
 async function build () {
   log('Building pages')
-  const srcDir = resolve(DIRECTORIES.SRC)
-  const destDir = resolve(DIRECTORIES.DEST)
+  const srcDir = resolve(config.directories.src)
+  const destDir = resolve(config.directories.dest)
 
   // Ensure we have a build directory
   try {
@@ -91,14 +91,14 @@ async function build () {
 
   const dataFiles = await loadDataFiles()
 
-  await mkdir(resolve(DIRECTORIES.TEMP), { recursive: true })
+  await mkdir(resolve(config.directories.temp), { recursive: true })
   await writeFile(
-    resolve(DIRECTORIES.TEMP, 'context.json'), 
+    resolve(config.directories.temp, 'context.json'), 
     JSON.stringify(Object.fromEntries(dataFiles.entries()), null, 2))
 
   await traverseDir(srcDir, destDir, {
     dataFiles,
-    parse: PARSE_EXTENSIONS,
+    parse: config.parseExtensions,
     flatten: flattenDirectories
   })
 
