@@ -43,11 +43,12 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 
 | Feature | Status |
 | ------- | ------ |
-| Line-based frontmatter (flat keys, simple lists) | Done |
-| Full YAML parsing (nested maps, `external:` blocks, consistent `tags:` arrays) | Not started |
-| Parity with Eleventy / gray-matter style frontmatter for `_posts/*.md` | Not started |
+| Delimited frontmatter (`---` … `---`), flat keys, YAML-style comments (`#`) | Done |
+| Indented blocks: nested maps (e.g. `external:` with child keys), list-style arrays (`- item`) | In progress |
+| Full YAML 1.x spec compliance | Not started |
+| Parity with Eleventy / gray-matter for every edge case in `_posts/*.md` | In progress |
 
-**Issue:** The current `parseFrontmatter` implementation in `core/parser/frontmatter/parser.ts` is a minimal line parser, not a YAML parser. Posts with nested frontmatter (e.g. `external:` with `host` / `url`) and edge cases around `tags:` can fail to populate `data.tags` or mis-parse keys, which breaks Liquid `{% for %}` over `data.tags` and diverges from the 11ty build. Replace or augment with real YAML parsing when addressing migration parity.
+**Remaining gaps:** `parseFrontmatter` in `core/parser/frontmatter/parser.ts` is a custom YAML-like subset (indent walks, list vs map blocks), not a full YAML implementation. Validate remaining posts against the Eleventy build; extend the parser or document unsupported syntax as needed.
 
 ### 1.3 Markdown Parser
 
@@ -87,11 +88,13 @@ From `eleventy.config.js`:
 
 | Feature | Status |
 | ------- | ------ |
-| File globbing for `_posts/*.md` | Not started |
-| Metadata extraction from frontmatter | Not started |
-| Sorting by date (newest first) | Not started |
-| Collection registration system | Not started |
-| Access via `{{collections.posts}}` in templates | Not started |
+| Discover files under `_posts/` (via data loader) | Done |
+| Metadata extraction from frontmatter | Done |
+| Sorting by date (newest first, when configured) | Done |
+| Registration in global data (`collections.posts` from `loadDataFiles()`) | Done |
+| Access via `collections.posts` in Liquid | Done |
+| Permalink URL from pattern (full Liquid/date filter semantics) | In progress — see TODOs in `core/data/posts.ts` |
+| Per-post output pages matching Eleventy permalinks | Not started (see section 6.4, build output parity) |
 
 ---
 
@@ -214,6 +217,7 @@ Tokenizer per language:
 | File discovery and processing | In progress |
 | Layout system | In progress |
 | Data file loading (`_data/` directory) | In progress |
+| Posts collection in global context (`collections.posts`) | Done |
 | Permalink handling | Not started |
 | Asset copying (passthrough) | Not started |
 
@@ -234,10 +238,10 @@ Phase 4 - Developer Experience
 
 | Feature | Status |
 | ------- | ------ |
-| HTTP server | Not started |
+| HTTP server (static files from build output) | Done — `core/server.ts` |
+| File serving | Done |
+| Error page handling | In progress — serves `404.html` when present, else plain 404 |
 | Live reload/WebSocket | Not started |
-| File serving | Not started |
-| Error page handling | Not started |
 
 ### 5.4 Asset Management
 
@@ -330,7 +334,7 @@ CSS Parser (shared - build first)
 Template Features
 ├── Filters (6 functions)
 ├── Shortcodes (registration + resolver)
-└── Collections (globbing + sorting)
+└── Collections (globbing + sorting; global `collections.posts` wired — permalink pages still open)
 
 Syntax Highlighting
 ├── Code Block Detector
@@ -351,7 +355,7 @@ Markdown Processing
 
 1. **Complete Template Features** (Phase 2)
    - Filters (especially `dateToRFC3339`, `encodeXML`)
-   - Collections system
+   - Collections parity (per-post pages, permalinks, URL helpers — `core/data/posts.ts`)
    - Shortcodes system
 
 2. **CSS Processing** (Phase 3)

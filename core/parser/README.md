@@ -4,6 +4,8 @@ Custom Liquid template parser. Language reference: [Liquid template language](ht
 
 This file tracks what the parser/renderer under `liquid/` supports relative to common Liquid syntax (tags, output, filters, conditions). Hosts may add their own tags or filters; those are out of scope here unless listed as implemented.
 
+Shared helpers used by the frontmatter parser and Liquid (indent width, quote stripping, etc.) live in [`utils.ts`](utils.ts) in this directory.
+
 ## Scope (language features)
 
 | Area | Notes |

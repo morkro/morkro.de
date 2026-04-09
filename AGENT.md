@@ -28,8 +28,8 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
    - ~~Implement render tag with variable passing~~ (done)
    - ~~Implement variable output with dot-notation~~ (done)
    - ~~Implement for loops~~ (done)
+   - Collections for posts: partial — `collections.posts` is loaded from `_posts/` via `core/data/posts.ts` and merged in `loadDataFiles()`; per-post HTML output, full permalink handling, and Eleventy-shaped collection APIs are still open
    - Implement filters (dateToRFC3339, encodeXML, etc.)
-   - Build collections system for blog posts
    - Implement shortcodes system (currentYear, etc.)
    - Test with all pages and posts
 
@@ -199,11 +199,12 @@ npm run lint           # Lint JS and CSS via Biome
 
 ### Custom SSG
 ```bash
-npm run build:ssg      # Build site once (node --experimental-transform-types core/index.ts)
-npm run start:ssg      # Dev server with file watching (--watch --env-file=.env)
+npm run clean:build    # Remove build/temp artifacts (see scripts/clean-artifacts.ts)
+npm run build:ssg      # Build site once (node core/index.ts)
+npm run start:ssg      # Rebuild on change + serve .build/ (node --watch --env-file=.env core/index.ts --serve)
 npm run parse:liquid   # Dev tool: parse test fixture, output AST + rendered HTML to .tmp/
-npm test               # Run all tests
-node --experimental-transform-types --test test/path/to/file.test.ts  # Run single test
+npm test               # Run all tests (node --test)
+node --test test/path/to/file.test.ts  # Run a single test file
 ```
 
 ## Architecture
@@ -224,30 +225,39 @@ _site/                   # Eleventy build output (git-ignored)
 .tmp/                    # Temporary files for dev/debug (AST dumps, rendered output)
 core/                    # Build system core
   index.ts              # Main build orchestration
-  data.ts               # Data file loading
-  server.ts             # Dev server
-  config.ts             # Directory & extension configuration
+  data/
+    index.ts            # loadDataFiles: _data/, custom file map, collections.posts
+    loader.ts           # loadFromDir, loadFromFile
+    posts.ts            # loadPosts from _posts/, sort, URL helpers
+    types.ts            # DataFileMap and related types
+  server.ts             # Static HTTP server for .build/
+  config.core.ts        # Directory & extension configuration (import #config)
+  config.user.ts        # User overrides (import #config.user)
   parser/
     index.ts            # Parsing pipeline entry point and dev CLI (--parse=liquid)
+    utils.ts            # Shared parser helpers (indent, quotes; used by frontmatter + liquid)
     frontmatter/
-      parser.ts         # YAML frontmatter parser
+      parser.ts         # Frontmatter parser (YAML-like subset)
     liquid/
       parser.ts         # Liquid AST parser (tokenize → parse → Template)
       tokenizer.ts      # Liquid tokenizer (raw text → Token[])
       renderer.ts       # Liquid AST renderer (Template → string)
       resolver.ts       # Template file resolver for render includes
       types.ts          # Token, Node, Expression, Template type definitions
-      utils.ts          # Parser utilities (vizTokens, ParserError)
   utils/
     fs.ts               # File system helpers (loadFile, ensureExtension)
     json.ts             # JSON parsing
     log.ts              # Debug logging
     mime-types.ts       # MIME type resolution
     object.ts           # Object access helpers (getFromObject)
+    path.ts             # Output path helpers
+    url.ts              # URL helpers for page context
 test/
-  parser.test.ts        # Parser tests
+  parser/
+    liquid.test.ts      # Liquid parser/renderer tests
+    frontmatter.test.ts # Frontmatter parser tests
   fixtures/liquid/      # Liquid test fixtures (dev.html, mock.json, simple/, complex/, includes/)
-  utils/                # Utility tests (frontmatter, json, mime-types, object)
+  utils/                # Utility tests (json, mime-types, object)
 ```
 
 ### Current Eleventy Features to Replicate
@@ -346,7 +356,7 @@ when the SSG starts processing actual source files — either rename `src/_inclu
 - **Single quotes for strings**: Already configured in biome.json
 - **Latest Node.js APIs**: Use modern native features
 - **Node.js 25.1.0**: Pinned via `.nvmrc`
-- **No tsconfig.json**: Uses `--experimental-transform-types` flag for native TypeScript execution
+- **`tsconfig.json`**: Minimal `compilerOptions` (e.g. `"lib": ["esnext"]`) for editor and tooling; entrypoints run with `node` as in `package.json` (e.g. `node core/index.ts`)
 
 ### TypeScript
 - Strong typing: Avoid `any`, prefer `unknown`
@@ -361,7 +371,7 @@ when the SSG starts processing actual source files — either rename `src/_inclu
 
 ### Testing
 - Use `node:test` framework
-- Test files mirror source: `test/parser.test.ts` tests `core/parser/parser.ts`
+- Test files mirror source: e.g. `test/parser/liquid.test.ts`, `test/parser/frontmatter.test.ts`
 - Use `describe()` and `it()` for organization
 - Import assertions from `node:assert`
 
@@ -464,7 +474,7 @@ Custom format: `Year.Month.Commits.Type`
 - postcss, postcss-cli, postcss-import
 - autoprefixer, cssnano
 - html-minifier
-- cross-env, rimraf
+- cross-env
 
 ### May Keep Temporarily
 - @biomejs/biome (linting - decide later)
