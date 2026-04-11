@@ -112,7 +112,7 @@ async function renderNodes(
           file = resolved
         }
 
-        const renderContext = {}
+        const renderContext = { shortCodes: localContext.shortCodes }
         if (node.variables.length > 0) {
           for (const variable of node.variables) {
             renderContext[variable.name] = resolveExpression(variable.expression, localContext)
@@ -264,6 +264,16 @@ async function renderNodes(
           renderCache
         ))
         break
+      case 'ShortCode': {
+        const shortCodes = localContext.shortCodes as Record<string, () => unknown>
+        const fn = shortCodes?.[node.name]
+        if (!fn) {
+          logParser(`Unknown short code: ${node.name}`, { lvl: 'error' })
+        }
+        result.push(String(fn?.()))
+        break
+      }
+
     }
   }
 

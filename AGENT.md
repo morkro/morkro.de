@@ -30,7 +30,8 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
    - ~~Implement for loops~~ (done)
    - Collections for posts: partial — `collections.posts` is loaded from `_posts/` via `core/data/posts.ts` and merged in `loadDataFiles()`; per-post HTML output, full permalink handling, and Eleventy-shaped collection APIs are still open
    - Implement filters (dateToRFC3339, encodeXML, etc.)
-   - Implement shortcodes system (currentYear, etc.)
+   - ~~Implement shortcodes system (currentYear, etc.)~~ (done — `ShortCode` node type, registry in `config.user.ts`, resolved at render time)
+   - ~~Implement layout system~~ (done — `layoutResolver` in `resolver.ts`, nested chains via frontmatter `layout` key, content injection via `{{ content }}`)
    - Test with all pages and posts
 
 3. **Phase 3 - Build Tool Replacements** (Quality)
@@ -232,7 +233,7 @@ core/                    # Build system core
     types.ts            # DataFileMap and related types
   server.ts             # Static HTTP server for .build/
   config.core.ts        # Directory & extension configuration (import #config)
-  config.user.ts        # User overrides: customDataMapping, collections, baseUrl (import #config.user)
+  config.user.ts        # User overrides: customDataMapping, collections, baseUrl, shortCodes (import #config.user)
   parser/
     index.ts            # Parsing pipeline entry point and dev CLI (--parse=liquid)
     utils.ts            # Shared parser helpers (indent, quotes; used by frontmatter + liquid)
@@ -242,7 +243,7 @@ core/                    # Build system core
       parser.ts         # Liquid AST parser (tokenize → parse → Template)
       tokenizer.ts      # Liquid tokenizer (raw text → Token[])
       renderer.ts       # Liquid AST renderer (Template → string)
-      resolver.ts       # Template file resolver for render includes
+      resolver.ts       # Template file resolver for render includes and layout resolution
       types.ts          # Token, Node, Expression, Template type definitions
   utils/
     fs.ts               # File system helpers (loadFile, ensureExtension)
@@ -309,9 +310,16 @@ test/
 
 **Layout System**
 - Defined in frontmatter: `layout: default`
-- Layouts in `_layouts/`
-- Supports nesting
-- Content injection via `{{ content }}`
+- Layouts in `_layouts/`, resolved by `layoutResolver` in `core/parser/liquid/resolver.ts`
+- Supports nested chains (e.g. `page → default → meta`); walks `layout` key in each layout's frontmatter until none remains
+- Content injection via `{{ content }}` — the child's rendered output is set as `content` on the layout's context
+- Layout wrapping happens in `compile()` (`core/parser/index.ts`) after the page body is rendered
+
+**Shortcodes**
+- Registry: `shortCodes` map in `config.user.ts` (e.g. `currentYear: () => new Date().getFullYear()`)
+- Syntax: `{% name %}` — a single identifier tag not matching any built-in keyword
+- Parser emits `ShortCode` AST node; renderer resolves the function from context and outputs its return value
+- Unknown shortcodes throw at render time
 
 **Liquid Features**
 

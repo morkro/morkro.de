@@ -17,6 +17,9 @@ export type UserConfig = {
     [key: string]: string | CustomDataFields
   }
   passThroughCopy?: PassThroughCopy[]
+  shortCodes?: {
+    [key: string]: () => unknown
+  }
   collections?: {
     posts?: {
       sortBy: 'date' | 'title'
@@ -39,6 +42,9 @@ const config: UserConfig = {
     { from: 'src/assets', to: 'assets', },
     { from: 'src/scripts', to: 'assets/scripts', },
   ],
+  shortCodes: {
+    currentYear: () => new Date().getFullYear(),
+  },
   collections: {
     posts: {
       sortBy: 'date',

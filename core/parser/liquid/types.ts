@@ -43,6 +43,7 @@ export type NodeComment = { type: 'Comment', body: Node[] }
 export type NodeCaseWhen = { values: Expression[], body: Node[] }
 export type NodeCase = { type: 'Case', subject: Expression, whens: NodeCaseWhen[], elseBody?: Node[] }
 export type NodeRaw = { type: 'Raw', body: Node[] }
+export type NodeShortCode = { type: 'ShortCode', name: string }
 
 export type Node =
   | NodeText
@@ -57,6 +58,7 @@ export type Node =
   | NodeComment
   | NodeCase
   | NodeRaw
+  | NodeShortCode
 
 /** For loop context object */
 export type ForLoopContext = {
@@ -155,4 +157,13 @@ export type Template = {
     source: string
   }
   body: Node[]
+}
+
+export type Layout = {
+  type: 'Layout',
+  template: Template,
+  frontmatter: Record<string, unknown>,
+  meta: {
+    source: string
+  }
 }

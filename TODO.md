@@ -78,9 +78,9 @@ From `eleventy.config.js`:
 
 | Feature | Status |
 | ------- | ------ |
-| `currentYear` shortcode | Not started |
-| Shortcode registration system | Not started |
-| Shortcode resolver in templates | Not started |
+| `currentYear` shortcode | Done |
+| Shortcode registration system | Done — `shortCodes` map in `config.user.ts` |
+| Shortcode resolver in templates | Done — `ShortCode` AST node, resolved during rendering |
 
 ### 1.6 Collections
 
@@ -215,7 +215,7 @@ Tokenizer per language:
 | Feature | Status |
 | ------- | ------ |
 | File discovery and processing | In progress |
-| Layout system | In progress |
+| Layout system | Done — `layoutResolver` in `resolver.ts`; nested layout chains via frontmatter `layout` key; content injection via `{{ content }}` |
 | Data file loading (`_data/` directory) | In progress |
 | Custom data mapping (`customDataMapping` in `config.user.ts`: path string, or `{ path, values }` to expose only listed top-level keys from a JSON file) | Done |
 | Posts collection in global context (`collections.posts`) | Done |

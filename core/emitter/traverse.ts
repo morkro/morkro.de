@@ -55,7 +55,9 @@ export async function traverseDir(src: string, dest: string, traverseOptions: Tr
       if (!shouldFlatten) {
         logGroupEnd()
       }
-    } else if (stats.isFile()) {
+    }
+    
+    if (stats.isFile()) {
       const fileName = srcPath ? relative(config.directories.src, srcPath) : 'unknown'
       log(`Processing file "${fileName}"`, { type: 'group' })
 

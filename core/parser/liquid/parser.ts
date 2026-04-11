@@ -702,6 +702,12 @@ function parseNodes(
           continue
         }
 
+        if (firstToken.type === 'Ident' && innerTokens.length === 2 && innerTokens[1].type === 'EOF') {
+          nodes.push({ type: 'ShortCode', name: firstToken.value })
+          index++
+          break
+        }
+
         nodes.push(parseTag(innerTokens, ctx))
         index++
         break

@@ -6,7 +6,7 @@ import type { DataFileMap } from '#core/data/types.ts'
 import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
 import { type RenderContext, render } from '#parser/liquid/renderer.ts'
-import { templateResolver } from '#parser/liquid/resolver.ts'
+import { layoutResolver, templateResolver } from '#parser/liquid/resolver.ts'
 import type { Template } from '#parser/liquid/types.ts'
 import { loadFile } from '#utils/fs.ts'
 import { parseJSON } from '#utils/json.ts'
@@ -55,7 +55,7 @@ export async function compile (file: string, path: string, globalData: DataFileM
   let source = file
   
   console.time('Parsing Frontmatter')
-  const frontmatter = parseFrontmatter<{ pageClass: string; permalink?: string }>(file)
+  const frontmatter = parseFrontmatter<{ pageClass: string; permalink?: string; layout?: string }>(file)
   source = removeFrontmatter(source)
   console.timeEnd('Parsing Frontmatter')
   
@@ -68,6 +68,7 @@ export async function compile (file: string, path: string, globalData: DataFileM
     outputPath,
     userConfig?.baseUrl ?? '',
     frontmatter)
+  localContext.shortCodes = userConfig?.shortCodes ?? {}
 
   console.time('Parsing Liquid')
   const ast = parseLiquid(source, path)
@@ -75,6 +76,14 @@ export async function compile (file: string, path: string, globalData: DataFileM
   
   console.time('Rendering Liquid')
   source = await render(ast, localContext, templateResolver)
+  let layoutName = frontmatter.layout as string | undefined
+  while (layoutName) {
+    const layout = await layoutResolver(layoutName)
+    const layoutContext = Object.create(localContext)
+    layoutContext.content = source
+    source = await render(layout.template, layoutContext, templateResolver)
+    layoutName = layout.frontmatter.layout as string | undefined
+  }
   console.timeEnd('Rendering Liquid')
 
   console.timeEnd('Total compiling')

@@ -1,10 +1,11 @@
 import { dirname, resolve } from 'node:path'
 import { cwd } from 'node:process'
 import config from '#core/config.core.ts'
+import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { stripQuotes } from '#parser/utils.ts'
 import { loadFile } from '#utils/fs.ts'
 import { parseLiquid } from './parser.ts'
-import type { Template } from './types'
+import type { Layout, Template } from './types.ts'
 
 function derivePartialFileNames (file: string): string[] {
 	const base = stripQuotes(file)
@@ -12,6 +13,24 @@ function derivePartialFileNames (file: string): string[] {
 		return [base]
 	}
 	return [`${base}.liquid`, `${base}.html`]
+}
+
+export async function layoutResolver (name: string): Promise<Layout> {
+	const fileName = name.endsWith('.liquid') ? name : `${name}.liquid`
+	const dir = resolve(cwd(), config.directories.src, config.directories.internal.layouts)
+
+	const source = await loadFile(dir, fileName)
+	const frontmatter = parseFrontmatter<Record<string, unknown>>(source)
+	const body = removeFrontmatter(source)
+	const path = resolve(dir, fileName)
+	const template = parseLiquid(body, path)
+	
+	return {
+		type: 'Layout',
+		template,
+		frontmatter,
+		meta: { source }
+	}
 }
 
 export async function templateResolver (parentPath: string, file: string): Promise<Template> {
@@ -34,6 +53,6 @@ export async function templateResolver (parentPath: string, file: string): Promi
 
 	throw new Error(
 		`Could not resolve partial ${file} (from ${parentPath}). Tried roots: ${searchRoots.join(', ')}`,
-		{ cause: errors.at(-1) },
+		{ cause: errors[0] },
 	)
 }

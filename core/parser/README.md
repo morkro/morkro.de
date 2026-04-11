@@ -63,7 +63,13 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 | --- | ------ |
 | `render` | Done |
 | `include` | Deprecated |
-| `layout` | Not implemented |
+| `layout` | Done — resolved via frontmatter `layout` key; supports nested chains (e.g. `page → default → meta`). Content injected through `{{ content }}`. |
+
+### Shortcodes
+
+| Tag | Status |
+| --- | ------ |
+| `{% name %}` (single-ident custom tags) | Done — parsed as `ShortCode` node; resolved at render time from `shortCodes` in user config (`config.user.ts`). Unknown shortcodes throw at render time. |
 
 ### Language
 
