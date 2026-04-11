@@ -105,7 +105,10 @@ async function renderNodes(
       case 'Render': {
         let file: Template
         if (renderCache.has(node.file)) {
-          file = renderCache.get(node.file)!
+          file = (
+            renderCache.get(node.file)
+            ?? { type: 'Template', body: [], meta: { source: templateSource } }
+          )
         } else {
           const resolved = await resolver(templateSource, node.file)
           renderCache.set(node.file, resolved)

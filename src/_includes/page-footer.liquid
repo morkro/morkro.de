@@ -23,7 +23,7 @@
 
 			<ul class="footer-socialmedia">
 				<li>
-					<a href="mailto:{{ site.email }}">
+					<a href="mailto:{{ site_email }}">
 						<svg aria-hidden="true" focusable="false">
 							<use xlink:href="#mail"></use>
 						</svg>
@@ -32,7 +32,7 @@
 				</li>
 				<li>
 					<a
-						href="{{ socialnetworks.linkedin.url }}"
+						href="{{ socialnetworks_linkedin_url }}"
 						target="_blank"
 						rel="noopene noreferrerr"
 						title="LinkedIn"
@@ -45,10 +45,10 @@
 				</li>
 				<li>
 					<a
-						href="{{ socialnetworks.github.url }}"
-						target="_blank"
-						rel="noopene noreferrerr"
-						title="Github"
+					href="{{ socialnetworks_github_url }}"
+					target="_blank"
+					rel="noopene noreferrerr"
+					title="Github"
 					>
 						<svg aria-hidden="true" focusable="false">
 							<use xlink:href="#github"></use>
@@ -58,7 +58,7 @@
 				</li>
 				<li>
 					<a
-						href="{{ socialnetworks.stackoverflow.url }}"
+						href="{{ socialnetworks_stackoverflow_url }}"
 						target="_blank"
 						rel="noopene noreferrerr"
 						title="StackOverflow"
@@ -71,7 +71,7 @@
 				</li>
 				<li>
 					<a
-						href="{{ socialnetworks.instagram.url }}"
+						href="{{ socialnetworks_instagram_url }}"
 						target="_blank"
 						rel="noopene noreferrerr"
 						title="Instagram"
@@ -86,7 +86,7 @@
 
 			<div class="footer-content">
 				<p>
-					This website <span data-tooltip data-tooltip-message="$year.$month.$commits.$type=M1|M2|P0" tabindex="0">(v{{ pkg.version }}<svg aria-hidden="true" focusable="false"><use xlink:href="#question"></use></svg>)</span> is made with
+					This website <span data-tooltip data-tooltip-message="$year.$month.$commits.$type=M1|M2|P0" tabindex="0">(v{{ pkg_version }}<svg aria-hidden="true" focusable="false"><use xlink:href="#question"></use></svg>)</span> is made with
 					<a
 						href="https://www.11ty.dev/"
 						target="_blank"
@@ -96,7 +96,7 @@
 					>
 					and all content is
 					<a
-						href="{{ socialnetworks.github.url }}/morkro.de"
+						href="{{ socialnetworks_github_url }}/morkro.de"
 						target="_blank"
 						rel="noopener noreferrer"
 						class="anim-underline"
@@ -109,7 +109,7 @@
 		</div>
 
 		<div class="footer-menu col-2">
-			{% render menu, location: 'footer' %}
+			{% render "menu", location: 'footer', title: title %}
 			<a href="#top" class="footer-gotop" data-scrollto="#">
 				<span class="sr-only">Back to top</span>
 				<svg aria-hidden="true" focusable="false">

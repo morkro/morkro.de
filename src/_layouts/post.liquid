@@ -27,7 +27,7 @@ layout: default
 
     {% assign pubYear = page.date | date: "%Y" %}
     {% if pubYear == "2015" %}
-      {% render article-outdated-warning.html %}
+      {% render "article-outdated-warning.html" %}
     {% endif %}
 
     <section itemtype="articleBody" class="article-body">

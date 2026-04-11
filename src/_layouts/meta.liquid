@@ -3,7 +3,15 @@
   lang="en"
   data-theme="light"
   id="top">
-  {% render meta-head %}
+  {% render "meta-head",
+    site: site,
+    page: page,
+    pkg: pkg,
+    eleventy: eleventy,
+    keywords: keywords,
+    pageClass: pageClass,
+    title: title,
+  %}
   <body
     {% if pageClass %}
     class="template-{{ pageClass }}"
@@ -12,10 +20,13 @@
       Jump directly to main content
     </a>
 
-    {% render iconset.html %}
+    {% render "iconset.html" %}
 
     {{ content }}
 
-    {% render page-scripts %}
+    {% render "page-scripts",
+      pkg_version: pkg.version,
+      site_timestamp: site.timestamp,
+    %}
   </body>
 </html>
