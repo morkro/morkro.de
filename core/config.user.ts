@@ -1,16 +1,22 @@
 /**
  * User configuration
  */
-export interface CustomDataFields {
+export type CustomDataFields = {
   path: string
-  values: string[]
+  includeFields: string[]
 }
 
-interface UserConfig {
+export type PassThroughCopy = {
+  from: string
+  to: string
+}
+
+export type UserConfig = {
   baseUrl?: string 
   customDataMapping?: {
     [key: string]: string | CustomDataFields
   }
+  passThroughCopy?: PassThroughCopy[]
   collections?: {
     posts?: {
       sortBy: 'date' | 'title'
@@ -26,9 +32,13 @@ const config: UserConfig = {
   customDataMapping: {
     'pkg': {
       path: './package.json',
-      values: ['version', 'author'],
+      includeFields: ['version', 'author'],
     },
   },
+  passThroughCopy: [
+    { from: 'src/assets', to: 'assets', },
+    { from: 'src/scripts', to: 'assets/scripts', },
+  ],
   collections: {
     posts: {
       sortBy: 'date',

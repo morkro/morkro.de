@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { type IncomingMessage, type ServerResponse, createServer } from 'node:http'
-import { extname, resolve } from 'node:path'
+import { extname, join, resolve } from 'node:path'
 import config from '#core/config.core.ts'
 import { logServer as log } from '#utils/log.ts'
 import { getMimeType, isTextFile } from '#utils/mime-types.ts'
@@ -11,7 +11,7 @@ const hasExtension = (path: string): boolean => extname(path) !== ''
 async function handleRequest (req: IncomingMessage, res: ServerResponse): Promise<void> {
   const url = new URL(req.url ?? '/', `http://${req.headers.host}`)
   const urlPath = url.pathname.replace(/^\//, '')
-  const filePath = hasExtension(urlPath) ? urlPath : `${urlPath}/index.html`
+  const filePath = hasExtension(urlPath) ? urlPath : join(urlPath, 'index.html')
   const resolvedBase = resolve(config.directories.dest)
   const resolvedPath = resolve(config.directories.dest, filePath)
   

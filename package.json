@@ -1,6 +1,6 @@
 {
   "name": "morkro.de",
-  "version": "26.04.37.M2",
+  "version": "26.04.38.M1",
   "description": "Website of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
@@ -8,6 +8,7 @@
   "imports": {
     "#config": "./core/config.core.ts",
     "#config.user": "./core/config.user.ts",
+    "#emitter/*": "./core/emitter/*",
     "#parser/*": "./core/parser/*",
     "#utils/*": "./core/utils/*",
     "#core/*": "./core/*"

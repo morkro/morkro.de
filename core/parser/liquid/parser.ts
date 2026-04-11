@@ -80,6 +80,7 @@ function trimLeadingWhitespace (nodes: Node[]): Node[] {
     const node = _nodes[i]
     if (node.type === 'Text') {
       _nodes[i] = { ...node, value: node.value.replace(/^\n/, '') }
+      break
     }
   }
   return _nodes

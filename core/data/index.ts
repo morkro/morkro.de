@@ -37,7 +37,7 @@ export async function loadDataFiles(): Promise<DataFileMap> {
 				getByKey.set(key, undefined)
 			} else {
 				paths[key] = spec.path
-				getByKey.set(key, spec.values)
+				getByKey.set(key, spec.includeFields)
 			}
 		}
 
