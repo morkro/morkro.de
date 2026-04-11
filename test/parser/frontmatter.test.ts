@@ -1,6 +1,6 @@
-import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
+import { describe, it } from 'node:test'
+import { createCursor, parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 
 const bodyHtml = `<html>
   <body>
@@ -84,16 +84,49 @@ type FileMeta = {
 	pageClass: string
 }
 
+describe('createCursor', () => {
+	it('initialises with index 0 and the given lines', () => {
+		const lines = ['a', 'b', 'c']
+		const cursor = createCursor(lines)
+		assert.strictEqual(cursor.index, 0)
+		assert.strictEqual(cursor.lines, lines)
+	})
+
+	it('works with an empty array', () => {
+		const cursor = createCursor([])
+		assert.strictEqual(cursor.index, 0)
+		assert.strictEqual(cursor.lines.length, 0)
+	})
+})
+
 describe('removeFrontmatter', () => {
 	it('strips YAML delimiters and leaves body', () => {
 		const file = removeFrontmatter(testFileFull)
-		assert.strictEqual(file, bodyHtml)
+		assert.strictEqual(file, `\n\n${bodyHtml}\n`)
 	})
 
 	it('handles CRLF line endings in delimiters', () => {
 		const stripped = removeFrontmatter(testCrlfDelimiters)
 		assert.ok(stripped.includes('content'))
 		assert.ok(!stripped.includes('title: CRLF'))
+	})
+
+	it('returns input when no frontmatter is present', () => {
+		const result = removeFrontmatter('  hello world  ')
+		assert.strictEqual(result, '  hello world  ')
+	})
+
+	it('only removes the first frontmatter block', () => {
+		const input = '---\nfirst: yes\n---\nsome content\n---\nsecond: no\n---'
+		const result = removeFrontmatter(input)
+		assert.ok(!result.includes('first: yes'))
+		assert.ok(result.includes('second: no'))
+	})
+
+	it('handles empty frontmatter block', () => {
+		const input = '---\n\n---\ncontent here'
+		const result = removeFrontmatter(input)
+		assert.ok(result.includes('content here'))
 	})
 })
 
@@ -155,5 +188,132 @@ describe('parseFrontmatter', () => {
 	it('parses when inner block has no trailing newline after last key', () => {
 		const p = parseFrontmatter<{ title: string }>(testNoTrailingNewlineInner)
 		assert.strictEqual(p.title, 'edge')
+	})
+
+	it('handles empty frontmatter block', () => {
+		const p = parseFrontmatter('---\n---')
+		assert.deepStrictEqual(p, {})
+	})
+
+	it('handles frontmatter with only blank lines', () => {
+		const p = parseFrontmatter('---\n\n\n---')
+		assert.deepStrictEqual(p, {})
+	})
+
+	it('handles frontmatter with only comments', () => {
+		const p = parseFrontmatter('---\n# just a comment\n# another\n---')
+		assert.deepStrictEqual(p, {})
+	})
+
+	it('preserves colons inside values', () => {
+		const p = parseFrontmatter<{ url: string }>('---\nurl: https://example.com:8080/path\n---')
+		assert.strictEqual(p.url, 'https://example.com:8080/path')
+	})
+
+	it('preserves colons inside quoted values', () => {
+		const p = parseFrontmatter<{ time: string }>('---\ntime: "12:30:00"\n---')
+		assert.strictEqual(p.time, '12:30:00')
+	})
+
+	it('handles multiple list blocks', () => {
+		const input = `---
+tags:
+  - javascript
+  - typescript
+categories:
+  - web
+  - frontend
+---`
+		const p = parseFrontmatter<{ tags: string[], categories: string[] }>(input)
+		assert.deepStrictEqual(p.tags, ['javascript', 'typescript'])
+		assert.deepStrictEqual(p.categories, ['web', 'frontend'])
+	})
+
+	it('handles multiple nested map blocks', () => {
+		const input = `---
+author:
+  name: Alice
+  email: alice@example.com
+social:
+  twitter: alice
+  github: alice123
+---`
+		const p = parseFrontmatter<{
+			author: Record<string, string>
+			social: Record<string, string>
+		}>(input)
+		assert.deepStrictEqual(p.author, { name: 'Alice', email: 'alice@example.com' })
+		assert.deepStrictEqual(p.social, { twitter: 'alice', github: 'alice123' })
+	})
+
+	it('handles mixed flat values, lists, and maps in one block', () => {
+		const input = `---
+title: My Post
+layout: default
+tags:
+  - blog
+  - tech
+author:
+  name: Bob
+draft: false
+---`
+		const p = parseFrontmatter<{
+			title: string
+			layout: string
+			tags: string[]
+			author: Record<string, string>
+			draft: string
+		}>(input)
+		assert.strictEqual(p.title, 'My Post')
+		assert.strictEqual(p.layout, 'default')
+		assert.deepStrictEqual(p.tags, ['blog', 'tech'])
+		assert.deepStrictEqual(p.author, { name: 'Bob' })
+		assert.strictEqual(p.draft, 'false')
+	})
+
+	it('treats numeric values as strings', () => {
+		const p = parseFrontmatter<{ port: string }>('---\nport: 8080\n---')
+		assert.strictEqual(p.port, '8080')
+	})
+
+	it('treats boolean-like values as strings', () => {
+		const p = parseFrontmatter<{ published: string }>('---\npublished: true\n---')
+		assert.strictEqual(p.published, 'true')
+	})
+
+	it('skips lines without a colon', () => {
+		const p = parseFrontmatter<{ title: string }>('---\nno colon here\ntitle: valid\n---')
+		assert.strictEqual(p.title, 'valid')
+		assert.ok(!('no colon here' in (p as Record<string, unknown>)))
+	})
+
+	it('handles values with leading whitespace after colon', () => {
+		const p = parseFrontmatter<{ title: string }>('---\ntitle:   spaced   \n---')
+		assert.strictEqual(p.title, 'spaced')
+	})
+
+	it('handles list items with quoted values', () => {
+		const input = `---
+items:
+  - 'quoted item'
+  - "double quoted"
+  - unquoted
+---`
+		const p = parseFrontmatter<{ items: string[] }>(input)
+		assert.deepStrictEqual(p.items, ['quoted item', 'double quoted', 'unquoted'])
+	})
+
+	it('handles key followed by indented block then another key', () => {
+		const input = `---
+nested:
+  inner: value
+after: next
+---`
+		const p = parseFrontmatter<{
+			nested: Record<string, string>
+			after: string
+		}>(input)
+		assert.deepStrictEqual(p.nested, { inner: 'value' })
+		assert.strictEqual(p.after, 'next')
 	})
 })
