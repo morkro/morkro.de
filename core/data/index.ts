@@ -1,5 +1,5 @@
-import userConfig from '#config.user'
 import config from '#core/config.core.ts'
+import type { UserConfig } from '#core/config.user.ts'
 import { loadFromDir, loadFromFile } from './loader.ts'
 import { loadPosts } from './posts.ts'
 import type { DataFileMap } from './types.ts'
@@ -22,7 +22,7 @@ function pickValues(
   return result
 }
 
-export async function loadDataFiles(): Promise<DataFileMap> {
+export async function loadDataFiles(userConfig?: UserConfig): Promise<DataFileMap> {
 	const data = new Map([
 		...(await loadFromDir(config.directories.internal.data)),
 	])
@@ -47,7 +47,7 @@ export async function loadDataFiles(): Promise<DataFileMap> {
 		}
 	}
 
-	const posts = await loadPosts()
+	const posts = await loadPosts(userConfig)
 	if (posts?.length > 0) {
 		data.set('collections', { posts })
 	}

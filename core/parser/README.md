@@ -63,7 +63,7 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 | --- | ------ |
 | `render` | Done |
 | `include` | Deprecated |
-| `layout` | Done — resolved via frontmatter `layout` key; supports nested chains (e.g. `page → default → meta`). Content injected through `{{ content }}`. |
+| `layout` | Done |
 
 ### Shortcodes
 

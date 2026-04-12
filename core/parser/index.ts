@@ -1,6 +1,5 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { join, relative, resolve } from 'node:path'
-import userConfig from '#config.user'
 import config from '#core/config.core.ts'
 import type { DataFileMap } from '#core/data/types.ts'
 import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
@@ -19,6 +18,12 @@ type Compiled = {
   frontmatter: Record<string, unknown>
   rendered: string
   outputPath: string
+}
+
+type CompilerOptions = {
+  data: DataFileMap
+  baseUrl: string
+  shortCodes: Record<string, () => unknown>
 }
 
 export type BuildContext = Record<string, unknown>
@@ -50,7 +55,7 @@ export function createPageContext (
   return context
 }
 
-export async function compile (file: string, path: string, globalData: DataFileMap): Promise<Compiled> {
+export async function compile (file: string, path: string, options: CompilerOptions): Promise<Compiled> {
   console.time('Total compiling')
   let source = file
   
@@ -63,12 +68,12 @@ export async function compile (file: string, path: string, globalData: DataFileM
   const srcRelative = relative(srcRoot, resolve(path))
   const outputPath = ensureOutputPath(srcRelative, config.directories.dest, frontmatter.permalink)
   const localContext = createPageContext(
-    globalData,
+    options.data,
     path,
     outputPath,
-    userConfig?.baseUrl ?? '',
+    options.baseUrl,
     frontmatter)
-  localContext.shortCodes = userConfig?.shortCodes ?? {}
+  localContext.shortCodes = options.shortCodes
 
   console.time('Parsing Liquid')
   const ast = parseLiquid(source, path)
@@ -112,7 +117,11 @@ if (process.argv.includes('--parse=liquid')) {
   const compiled = await compile(
     file,
     'test/fixtures/liquid/dev.html',
-    new Map([['mock', mockContext]]))
+    {
+      data: new Map([['mock', mockContext]]),
+      baseUrl: 'https://morkro.de',
+      shortCodes: {}
+    })
 
   // write AST
   await writeFile(

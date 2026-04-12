@@ -1,0 +1,104 @@
+import { describe, it } from 'node:test'
+import assert from 'node:assert'
+import { ensureOutputPath } from '#utils/path.ts'
+
+describe('ensureOutputPath function', () => {
+	const buildRoot = '.build'
+
+	describe('without permalink', () => {
+		it('converts source filename to .html in build root', () => {
+			assert.strictEqual(
+				ensureOutputPath('index.liquid', buildRoot),
+				'.build/index.html'
+			)
+		})
+
+		it('preserves subdirectory structure', () => {
+			assert.strictEqual(
+				ensureOutputPath('pages/about/index.liquid', buildRoot),
+				'.build/pages/about/index.html'
+			)
+		})
+
+		it('replaces any extension with .html', () => {
+			assert.strictEqual(
+				ensureOutputPath('post.md', buildRoot),
+				'.build/post.html'
+			)
+		})
+
+		it('treats undefined permalink as no permalink', () => {
+			assert.strictEqual(
+				ensureOutputPath('index.liquid', buildRoot, undefined),
+				'.build/index.html'
+			)
+		})
+
+		it('treats non-string permalink as no permalink', () => {
+			assert.strictEqual(
+				ensureOutputPath('index.liquid', buildRoot, 42 as unknown as string),
+				'.build/index.html'
+			)
+		})
+	})
+
+	describe('with permalink ending in /', () => {
+		it('uses source basename as filename under permalink path', () => {
+			assert.strictEqual(
+				ensureOutputPath('about.liquid', buildRoot, '/about/'),
+				'.build/about/about.html'
+			)
+		})
+
+		it('handles nested permalink paths', () => {
+			assert.strictEqual(
+				ensureOutputPath('index.liquid', buildRoot, '/blog/posts/'),
+				'.build/blog/posts/index.html'
+			)
+		})
+
+		it('places file at build root when permalink is /', () => {
+			assert.strictEqual(
+				ensureOutputPath('index.liquid', buildRoot, '/'),
+				'.build/index.html'
+			)
+		})
+
+		it('prepends / when permalink lacks leading slash', () => {
+			assert.strictEqual(
+				ensureOutputPath('index.liquid', buildRoot, 'about/'),
+				'.build/about/index.html'
+			)
+		})
+
+		it('trims whitespace from permalink', () => {
+			assert.strictEqual(
+				ensureOutputPath('index.liquid', buildRoot, '  /about/  '),
+				'.build/about/index.html'
+			)
+		})
+	})
+
+	describe('with permalink not ending in /', () => {
+		it('uses permalink as the exact output filename', () => {
+			assert.strictEqual(
+				ensureOutputPath('feed.liquid', buildRoot, '/feed.xml'),
+				'.build/feed.xml'
+			)
+		})
+
+		it('handles nested file permalink', () => {
+			assert.strictEqual(
+				ensureOutputPath('page.liquid', buildRoot, '/about/resume.html'),
+				'.build/about/resume.html'
+			)
+		})
+
+		it('prepends / when permalink lacks leading slash', () => {
+			assert.strictEqual(
+				ensureOutputPath('feed.liquid', buildRoot, 'feed.xml'),
+				'.build/feed.xml'
+			)
+		})
+	})
+})

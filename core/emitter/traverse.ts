@@ -4,6 +4,7 @@ import { relative } from "node:path"
 import { dirname } from "node:path"
 import type { ParseExtension } from "#core/config.core.ts"
 import config from "#core/config.core.ts"
+import type { UserConfig } from "#core/config.user.ts"
 import type { DataFileMap } from "#core/data/types.ts"
 import { compile } from "#parser/index.ts"
 import { log } from "#utils/log.ts"
@@ -15,11 +16,12 @@ type TraverseOptions = {
   flatten: string[]
   skip: Set<string>
   isFlattenDir?: boolean
+  userConfig?: UserConfig
 }
 
 export async function traverseDir(src: string, dest: string, traverseOptions: TraverseOptions) {
   const dir = await readdir(src)
-  const { dataFiles, flatten, parse, skip, isFlattenDir = false } = traverseOptions
+  const { dataFiles, flatten, parse, skip, isFlattenDir = false, userConfig } = traverseOptions
   
   for (const entry of dir) {
     if (skip?.has(entry)) {
@@ -44,12 +46,13 @@ export async function traverseDir(src: string, dest: string, traverseOptions: Tr
         await mkdir(`${destPath}`, { recursive: true })
       }
 
-      await traverseDir(srcPath, `${destPath}`, {
+      await traverseDir(srcPath, destPath, {
         dataFiles,
         parse,
         flatten,
         skip,
-        isFlattenDir: shouldFlatten
+        isFlattenDir: shouldFlatten,
+        userConfig
       })
 
       if (!shouldFlatten) {
@@ -65,7 +68,11 @@ export async function traverseDir(src: string, dest: string, traverseOptions: Tr
       if (extension && parse.includes(extension)) {
         log(`Parsing file "${entry}"`, { lvl: 'debug' })
         const raw = await readFile(srcPath, 'utf-8')
-        const { rendered, outputPath } = await compile(raw, srcPath, dataFiles)
+        const { rendered, outputPath } = await compile(raw, srcPath, {
+          data: dataFiles,
+          baseUrl: userConfig?.baseUrl ?? '',
+          shortCodes: userConfig?.shortCodes ?? {}
+        })
 
         log(`Writing file "${entry}"`, { lvl: 'debug' })
         log(outputPath, { lvl: 'debug' })

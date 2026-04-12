@@ -27,7 +27,7 @@ async function build () {
     await mkdir(destDir, { recursive: true })
   }
 
-  const dataFiles = await loadDataFiles()
+  const dataFiles = await loadDataFiles(userConfig)
   const skipEntries = new Set<string>()
 
   if (userConfig?.passThroughCopy) {
@@ -51,7 +51,8 @@ async function build () {
     dataFiles,
     parse: config.parseExtensions,
     skip: skipEntries,
-    flatten: flattenDirectories
+    flatten: flattenDirectories,
+    userConfig
   })
 
   log('✔ Build complete')

@@ -130,7 +130,7 @@ export function removeFrontmatter(file: string) {
 	if (frontmatter) {
 		result = result.replace(frontmatter[0], '')
 	}
-	return result.trim()
+	return result
 }
 
 export function parseFrontmatter<T>(content: string): T {
