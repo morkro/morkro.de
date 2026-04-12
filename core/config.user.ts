@@ -43,7 +43,7 @@ const config: UserConfig = {
     { from: 'src/scripts', to: 'assets/scripts', },
   ],
   shortCodes: {
-    currentYear: () => new Date().getFullYear(),
+    'currentYear': () => new Date().getFullYear(),
   },
   collections: {
     posts: {

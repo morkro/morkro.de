@@ -702,8 +702,51 @@ function parseNodes(
           continue
         }
 
-        if (firstToken.type === 'Ident' && innerTokens.length === 2 && innerTokens[1].type === 'EOF') {
-          nodes.push({ type: 'ShortCode', name: firstToken.value })
+        if (firstToken.type === 'Ident') {
+          if (innerTokens.length === 2 && innerTokens[1].type === 'EOF') {
+            nodes.push({ type: 'ShortCode', name: firstToken.value })
+            index++
+            break
+          }
+
+          const tagName = firstToken.value
+          const endTagName = `end${tagName}`
+          const args = innerTokens
+            .slice(1)
+            .filter(t => t.type !== 'EOF')
+            .map(t => t.value)
+            .join(' ')
+          
+          let searchIndex = index + 1
+          let found = false
+          while (searchIndex < tokens.length) {
+            const token = tokens[searchIndex]
+            if (token.type === 'Tag') {
+              const inner = tokenizeInner(token.value, token.innerStart)
+              if (inner[0].type === 'Ident' && inner[0].value === endTagName) {
+                found = true
+                break
+              }
+            }
+            searchIndex++
+          }
+
+          if (found) {
+            const parts: string[] = []
+            for (let i = index + 1; i < searchIndex; i++) {
+              parts.push(tokens[i].value)
+            }
+            nodes.push({
+              type: 'Unknown',
+              name: tagName,
+              args,
+              body: parts.join(''),
+            })
+            index = searchIndex + 1
+            continue
+          }
+
+          nodes.push({ type: 'Unknown', name: tagName, body: '', args })
           index++
           break
         }

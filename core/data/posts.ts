@@ -1,3 +1,4 @@
+import { join } from "node:path"
 import config from "#core/config.core.ts"
 import type { UserConfig } from "#core/config.user.ts"
 import { parseFrontmatter, removeFrontmatter } from "#parser/frontmatter/parser.ts"
@@ -20,6 +21,10 @@ export type CollectionPost = {
   date: Date
   url?: string
   content?: string
+  meta: {
+    raw: string
+    srcPath: string
+  }
 }
 
 function parseFilename(filename: string): { date: Date, slug: string } {
@@ -60,27 +65,24 @@ export async function loadPosts(userConfig?: UserConfig): Promise<CollectionPost
     const content = removeFrontmatter(raw).trim()
     const meta = parseFilename(filename)
     const post = createPost(raw)
+    const srcPath = join(
+      config.directories.src,
+      config.directories.internal.posts,
+      filename
+    )
 
     posts.push({
       data: post,
-      // TODO: Permalink should have a default
-      url: post.external?.url ?? createPostUrl(meta, userConfig?.collections?.posts?.permalink ?? '/writes/{{ page.date | date: "%Y/" }}/{{ page.fileSlug }}/'),
+      url: !post.external && userConfig?.collections?.posts?.permalink
+        ? createPostUrl(meta, userConfig?.collections?.posts?.permalink)
+        : post.external?.url
+          ? undefined
+          : `/${config.directories.posts}/${meta.date.getFullYear()}/${meta.slug}`,
       date: meta.date,
-      content,
+      content: content ? content : undefined,
+      meta: { raw, srcPath }
     })
-  }
+  } 
 
-  switch (userConfig?.collections?.posts?.sortBy) {
-    case 'date':
-      return posts.sort((a: CollectionPost, b: CollectionPost) => {
-        switch (userConfig.collections?.posts?.sortOrder) {
-          case 'asc':
-            return a.date.getTime() - b.date.getTime()
-          default:
-            return b.date.getTime() - a.date.getTime()
-        }
-      })
-    default:
-      return posts
-  }
+  return posts
 }

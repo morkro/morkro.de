@@ -276,7 +276,10 @@ async function renderNodes(
         result.push(String(fn?.()))
         break
       }
-
+      case 'Unknown': {
+        logParser(`Unknown tag: ${node.name}`, { lvl: 'warn' })
+        break
+      }
     }
   }
 

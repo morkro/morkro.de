@@ -9,6 +9,7 @@ export interface CoreConfig {
     temp: string
     dest: string
     pages: string
+    posts: string
     internal: {
       data: string
       includes: string
@@ -26,6 +27,7 @@ const config: CoreConfig = {
     temp: '.tmp',
     dest: '.build',
     pages: 'pages',
+    posts: 'posts',
     internal: {
       data: '_data',
       includes: 'includes',

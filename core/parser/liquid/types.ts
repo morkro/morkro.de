@@ -44,6 +44,7 @@ export type NodeCaseWhen = { values: Expression[], body: Node[] }
 export type NodeCase = { type: 'Case', subject: Expression, whens: NodeCaseWhen[], elseBody?: Node[] }
 export type NodeRaw = { type: 'Raw', body: Node[] }
 export type NodeShortCode = { type: 'ShortCode', name: string }
+export type NodeUnknown = { type: 'Unknown', name: string, body: string, args: string }
 
 export type Node =
   | NodeText
@@ -59,7 +60,8 @@ export type Node =
   | NodeCase
   | NodeRaw
   | NodeShortCode
-
+  | NodeUnknown
+  
 /** For loop context object */
 export type ForLoopContext = {
   index: number

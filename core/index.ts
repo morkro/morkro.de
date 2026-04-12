@@ -3,8 +3,10 @@ import { relative, resolve } from 'node:path'
 import config from '#core/config.core.ts'
 import userConfig from '#core/config.user.ts'
 import { loadDataFiles } from '#core/data/index.ts'
+import type { CollectionPost } from '#core/data/posts.ts'
 import { startServer } from '#core/server.ts'
 import { copyRecursive } from '#emitter/copy.ts'
+import { writePosts } from '#emitter/posts.ts'
 import { traverseDir } from '#emitter/traverse.ts'
 import { logSsg as log } from '#utils/log.ts'
 
@@ -42,10 +44,13 @@ async function build () {
     }
   }
 
-  await mkdir(resolve(config.directories.temp), { recursive: true })
-  await writeFile(
-    resolve(config.directories.temp, 'context.json'), 
-    JSON.stringify(Object.fromEntries(dataFiles.entries()), null, 2))
+  /** Debug only */
+  if (process.env.DEBUG) {
+    await mkdir(resolve(config.directories.temp), { recursive: true })
+    await writeFile(
+      resolve(config.directories.temp, 'context.json'), 
+      JSON.stringify(Object.fromEntries(dataFiles.entries()), null, 2))
+  }
 
   await traverseDir(srcDir, destDir, {
     dataFiles,
@@ -55,15 +60,20 @@ async function build () {
     userConfig
   })
 
+  const collections = dataFiles.get('collections') as { posts: CollectionPost[] } | undefined
+  if (collections?.posts) {
+    await writePosts(collections.posts, { dataFiles, userConfig })
+  }
+
   log('✔ Build complete')
 }
 
 /**
  * Execute the build process
  */
-console.time('Build time')
+const perfStart = performance.now()
 await build()
-console.timeEnd('Build time')
+log(`Build time: ${performance.now() - perfStart}ms`, { lvl: 'debug' })
 
 if (process.argv.includes('--serve')) {
   startServer()

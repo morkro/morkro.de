@@ -56,13 +56,13 @@ export function createPageContext (
 }
 
 export async function compile (file: string, path: string, options: CompilerOptions): Promise<Compiled> {
-  console.time('Total compiling')
+  const compileStart = performance.now()
   let source = file
   
-  console.time('Parsing Frontmatter')
+  const fmStart = performance.now()
   const frontmatter = parseFrontmatter<{ pageClass: string; permalink?: string; layout?: string }>(file)
   source = removeFrontmatter(source)
-  console.timeEnd('Parsing Frontmatter')
+  log(`Parsing Frontmatter: ${performance.now() - fmStart}ms`, { lvl: 'debug' })
   
   const srcRoot = resolve(config.directories.src)
   const srcRelative = relative(srcRoot, resolve(path))
@@ -75,11 +75,11 @@ export async function compile (file: string, path: string, options: CompilerOpti
     frontmatter)
   localContext.shortCodes = options.shortCodes
 
-  console.time('Parsing Liquid')
+  const lpStart = performance.now()
   const ast = parseLiquid(source, path)
-  console.timeEnd('Parsing Liquid')
+  log(`Parsing Liquid: ${performance.now() - lpStart}ms`, { lvl: 'debug' })
   
-  console.time('Rendering Liquid')
+  const rlStart = performance.now()
   source = await render(ast, localContext, templateResolver)
   let layoutName = frontmatter.layout as string | undefined
   while (layoutName) {
@@ -89,9 +89,9 @@ export async function compile (file: string, path: string, options: CompilerOpti
     source = await render(layout.template, layoutContext, templateResolver)
     layoutName = layout.frontmatter.layout as string | undefined
   }
-  console.timeEnd('Rendering Liquid')
+  log(`Rendering Liquid: ${performance.now() - rlStart}ms`, { lvl: 'debug' })
 
-  console.timeEnd('Total compiling')
+  log(`Total compiling: ${performance.now() - compileStart}ms`, { lvl: 'debug' })
   return { ast, frontmatter, rendered: source, outputPath }
 }
 
