@@ -147,9 +147,8 @@ async function renderNodes(
         break
       case 'Output':
         result.push(
-          escapeXML(
-            String(
-              resolveExpression(node.expression, localContext))))
+          String(
+            resolveExpression(node.expression, localContext)))
         break
       case 'If': {
         let condition = evaluateExpression(node.condition, localContext)

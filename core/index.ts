@@ -1,4 +1,4 @@
-import { access, mkdir, rename, rm, writeFile } from 'node:fs/promises'
+import { mkdir, rename, rm, writeFile } from 'node:fs/promises'
 import { relative, resolve } from 'node:path'
 import config from '#core/config.core.ts'
 import userConfig from '#core/config.user.ts'
@@ -71,8 +71,14 @@ async function build () {
  * Execute the build process
  */
 const buildStart = perf('Build duration')
-await build()
-buildStart.end()
+try {
+  await build()
+} catch (error) {
+  log(`Build failed: ${error}`, { lvl: 'error' })
+  process.exit(1)
+} finally {
+  buildStart.end()
+}
 
 if (process.argv.includes('--serve')) {
   startServer()

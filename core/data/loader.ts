@@ -13,8 +13,8 @@ async function readOrImport (filePath: string): Promise<unknown> {
       return parseJSON(json, filePath)
     }
     if (ext === '.js') {
-      // Logging JS files specifically since they technically shouldn't be trusted
-      log(`Importing JavaScript file: ${filePath}`, { lvl: 'debug' })
+      // Logging JS files specifically since they shouldn't be trusted
+      log(`Importing JavaScript file: ${filePath}`, { lvl: 'debug', d: 'data' })
       const javascript = await import(filePath)
       return javascript.default
     }
@@ -25,8 +25,11 @@ async function readOrImport (filePath: string): Promise<unknown> {
     log(`Unsupported file extension '${ext}' for file '${filePath}'`, { lvl: 'error', d: 'data' })
     return null
   } catch (error) {
-    log(`Failed to read or import data file '${filePath}': ${error}`, { lvl: 'error' })
-    return null
+    if (error.code === 'ENOENT') {
+      log(`File not found: ${filePath}`, { lvl: 'warn', d: 'data' })
+      return null
+    }
+    throw new Error(`Failed to import data file '${filePath}'`, { cause: error })
   }
 }
 
@@ -38,7 +41,7 @@ export async function loadFromDir (dir: DirectoryType): Promise<DataFileMap> {
   try {
     await access(directory)
   } catch {
-    log(`Data directory '${directory}' not found`, { lvl: 'error' })
+    log(`Data directory '${directory}' not found`, { lvl: 'error', d: 'data' })
     return map
   }
 

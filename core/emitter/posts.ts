@@ -17,6 +17,8 @@ export async function writePosts (
   destDir: string,
   options: WritePostOptions
 ): Promise<void> {
+  const errors: { name: string, error: unknown }[] = []
+
   for (const post of posts) {
     if (!post.meta.raw || !post.url || post.data.external) continue
 
@@ -34,8 +36,17 @@ export async function writePosts (
       log(`Writing post "${post.data.title}" at "${post.url}"`, { lvl: 'debug' })
       await writeFile(output, rendered)
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error)
-		  log(`Skipping post "${post.data.title}": ${message}`, { lvl: 'warn' })
+      errors.push({ name: post.data.title, error })
     }
+  }
+
+  if (errors.length > 0) {
+    log(`Failed to write ${errors.length} posts`, { lvl: 'error' })
+
+    for (const { name, error } of errors) {
+      log(`Failed to write post "${name}": ${error}`, { lvl: 'error' })
+    }
+    
+    throw new Error(`${errors.length} post(s) failed to compile`)
   }
 }

@@ -83,6 +83,8 @@ export async function compile (file: string, path: string, options: CompilerOpti
   const rlStart = perf('Rendering Liquid')
   source = await render(ast, localContext, templateResolver)
   rlStart.end()
+
+  const layoutStart = perf('Rendering Layout')
   let layoutName = frontmatter.layout as string | undefined
   while (layoutName) {
     const layout = await layoutResolver(layoutName)
@@ -91,15 +93,20 @@ export async function compile (file: string, path: string, options: CompilerOpti
     source = await render(layout.template, layoutContext, templateResolver)
     layoutName = layout.frontmatter.layout as string | undefined
   }
-  rlStart.end()
+  layoutStart.end()
   compileStart.end()
+
   return { ast, frontmatter, rendered: source, outputPath }
 }
 
 async function cleanup () {
   try {
     await rm(resolve(config.directories.temp), { recursive: true })
-  } catch {}
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      log(`Failed to cleanup temporary directory: ${error}`, { lvl: 'warn' })
+    }
+  }
 
   try {
     await mkdir(resolve(config.directories.temp), { recursive: true })
@@ -121,7 +128,8 @@ if (process.argv.includes('--parse=liquid')) {
     {
       data: new Map([['mock', mockContext]]),
       baseUrl: 'https://morkro.de',
-      shortCodes: {}
+      shortCodes: {},
+      destDir: config.directories.temp
     })
 
   // write AST

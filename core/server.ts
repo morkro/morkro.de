@@ -17,7 +17,7 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
   const normalisedBase = resolvedBase + sep
   
   // secure exit if the file is not in the build directory
-  if (!resolvedPath.startsWith(normalisedBase)) {
+  if (resolvedPath !== resolvedBase && !resolvedPath.startsWith(normalisedBase)) {
     log(`Requested file is not in the build directory: "${resolvedPath}"`, { lvl: 'error' })
     res.statusCode = 404
     res.end('404 Not Found')
@@ -53,11 +53,14 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
   }
 
   log(`Content type: ${contentType}`)
+  const body = typeof file === 'string' ? Buffer.from(file) : file
+
+  res.statusCode = 200
   res.setHeader('Content-Type', contentType)
+  res.setHeader('Content-Length', body.byteLength)
   /** In case I ever do port forwarding */
   res.setHeader('X-Content-Type-Options', 'nosniff')
   res.setHeader('X-Frame-Options', 'DENY')
-  res.setHeader('Content-Security-Policy', "default-src 'self'")
   res.write(file)
   res.end()
 }

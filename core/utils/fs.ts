@@ -1,12 +1,12 @@
-import { resolve, sep } from 'node:path'
 import { readFile } from 'node:fs/promises'
+import { resolve, sep } from 'node:path'
 
 export async function loadFile(path: string, fileName: string): Promise<string> {
   const resolvedBase = resolve(path)
   const normalisedBase = resolvedBase + sep
   const resolvedPath = resolve(resolvedBase, fileName)
 
-  if (!resolvedPath.startsWith(normalisedBase)) {
+  if (resolvedPath !== resolvedBase && !resolvedPath.startsWith(normalisedBase)) {
     throw new Error(`Requested file (${resolvedPath}) is not within src/ directory`)
   }
 
