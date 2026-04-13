@@ -9,7 +9,7 @@ import { layoutResolver, templateResolver } from '#parser/liquid/resolver.ts'
 import type { Template } from '#parser/liquid/types.ts'
 import { loadFile } from '#utils/fs.ts'
 import { parseJSON } from '#utils/json.ts'
-import { log } from '#utils/log.ts'
+import { log, perf } from '#utils/log.ts'
 import { ensureOutputPath } from '#utils/path.ts'
 import { toUrl } from '#utils/url.ts'
 
@@ -24,6 +24,7 @@ type CompilerOptions = {
   data: DataFileMap
   baseUrl: string
   shortCodes: Record<string, () => unknown>
+  destDir: string
 }
 
 export type BuildContext = Record<string, unknown>
@@ -56,17 +57,17 @@ export function createPageContext (
 }
 
 export async function compile (file: string, path: string, options: CompilerOptions): Promise<Compiled> {
-  const compileStart = performance.now()
+  const compileStart = perf('Total compiling')
   let source = file
   
-  const fmStart = performance.now()
+  const fmStart = perf('Parsing Frontmatter')
   const frontmatter = parseFrontmatter<{ pageClass: string; permalink?: string; layout?: string }>(file)
   source = removeFrontmatter(source)
-  log(`Parsing Frontmatter: ${performance.now() - fmStart}ms`, { lvl: 'debug' })
+  fmStart.end()
   
   const srcRoot = resolve(config.directories.src)
   const srcRelative = relative(srcRoot, resolve(path))
-  const outputPath = ensureOutputPath(srcRelative, config.directories.dest, frontmatter.permalink)
+  const outputPath = ensureOutputPath(srcRelative, options.destDir, frontmatter.permalink)
   const localContext = createPageContext(
     options.data,
     path,
@@ -75,12 +76,13 @@ export async function compile (file: string, path: string, options: CompilerOpti
     frontmatter)
   localContext.shortCodes = options.shortCodes
 
-  const lpStart = performance.now()
+  const lpStart = perf('Parsing Liquid')
   const ast = parseLiquid(source, path)
-  log(`Parsing Liquid: ${performance.now() - lpStart}ms`, { lvl: 'debug' })
+  lpStart.end()
   
-  const rlStart = performance.now()
+  const rlStart = perf('Rendering Liquid')
   source = await render(ast, localContext, templateResolver)
+  rlStart.end()
   let layoutName = frontmatter.layout as string | undefined
   while (layoutName) {
     const layout = await layoutResolver(layoutName)
@@ -89,9 +91,8 @@ export async function compile (file: string, path: string, options: CompilerOpti
     source = await render(layout.template, layoutContext, templateResolver)
     layoutName = layout.frontmatter.layout as string | undefined
   }
-  log(`Rendering Liquid: ${performance.now() - rlStart}ms`, { lvl: 'debug' })
-
-  log(`Total compiling: ${performance.now() - compileStart}ms`, { lvl: 'debug' })
+  rlStart.end()
+  compileStart.end()
   return { ast, frontmatter, rendered: source, outputPath }
 }
 

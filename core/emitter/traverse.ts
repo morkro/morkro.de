@@ -17,6 +17,7 @@ type TraverseOptions = {
   skip: Set<string>
   isFlattenDir?: boolean
   userConfig?: UserConfig
+  destRoot: string
 }
 
 export async function traverseDir(src: string, dest: string, traverseOptions: TraverseOptions) {
@@ -57,7 +58,8 @@ export async function traverseDir(src: string, dest: string, traverseOptions: Tr
         flatten,
         skip,
         isFlattenDir: shouldFlatten,
-        userConfig
+        userConfig,
+        destRoot: traverseOptions.destRoot
       })
 
       if (!shouldFlatten) {
@@ -76,7 +78,8 @@ export async function traverseDir(src: string, dest: string, traverseOptions: Tr
         const { rendered, outputPath } = await compile(raw, srcPath, {
           data: dataFiles,
           baseUrl: userConfig?.baseUrl ?? '',
-          shortCodes: userConfig?.shortCodes ?? {}
+          shortCodes: userConfig?.shortCodes ?? {},
+          destDir: traverseOptions.destRoot
         })
 
         log(`Writing file "${entry}"`, { lvl: 'debug' })

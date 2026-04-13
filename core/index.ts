@@ -1,4 +1,4 @@
-import { access, mkdir, rm, writeFile } from 'node:fs/promises'
+import { access, mkdir, rename, rm, writeFile } from 'node:fs/promises'
 import { relative, resolve } from 'node:path'
 import config from '#core/config.core.ts'
 import userConfig from '#core/config.user.ts'
@@ -8,7 +8,7 @@ import { startServer } from '#core/server.ts'
 import { copyRecursive } from '#emitter/copy.ts'
 import { writePosts } from '#emitter/posts.ts'
 import { traverseDir } from '#emitter/traverse.ts'
-import { logSsg as log } from '#utils/log.ts'
+import { logSsg as log, perf } from '#utils/log.ts'
 
 const flattenDirectories = ['pages']
 
@@ -17,19 +17,9 @@ async function build () {
   const srcDir = resolve(config.directories.src)
   const destDir = resolve(config.directories.dest)
 
-  // Ensure we have a build directory
-  try {
-    log(`Validating "${destDir}" directory`, { lvl: 'debug' })
-    await access(destDir)
-    // flush dest directory
-    await rm(destDir, { recursive: true })
-    log('Directory flushed', { lvl: 'debug' })
-  } catch (error){
-    if (error instanceof Error && (error as NodeJS.ErrnoException).code !== 'ENOENT') {
-      throw error
-    }
-  }
-  await mkdir(destDir, { recursive: true })
+  // Create a temporary directory to store the build files
+  const tmpDir = `${destDir}.tmp.${Date.now()}`
+  await mkdir(tmpDir, { recursive: true })
 
   const dataFiles = await loadDataFiles(userConfig)
   const skipEntries = new Set<string>()
@@ -37,7 +27,7 @@ async function build () {
   if (userConfig?.passThroughCopy) {
     for (const entry of userConfig.passThroughCopy) {
       const src = resolve(entry.from)
-      const dest = resolve(destDir, entry.to)
+      const dest = resolve(tmpDir, entry.to)
       log(`Copying "${src}" to "${dest}"`, { lvl: 'debug' })
 
       if (await copyRecursive(src, dest)) {
@@ -51,21 +41,28 @@ async function build () {
     await mkdir(resolve(config.directories.temp), { recursive: true })
     await writeFile(
       resolve(config.directories.temp, 'context.json'), 
-      JSON.stringify(Object.fromEntries(dataFiles.entries()), null, 2))
+        JSON.stringify(Object.fromEntries(dataFiles.entries()), null, 2))
   }
 
-  await traverseDir(srcDir, destDir, {
+  await traverseDir(srcDir, tmpDir, {
     dataFiles,
     parse: config.parseExtensions,
     skip: skipEntries,
     flatten: flattenDirectories,
-    userConfig
+    userConfig,
+    destRoot: tmpDir
   })
 
   const collections = dataFiles.get('collections') as { posts: CollectionPost[] } | undefined
   if (collections?.posts) {
-    await writePosts(collections.posts, { dataFiles, userConfig })
+    await writePosts(collections.posts, tmpDir, { dataFiles, userConfig })
   }
+
+  // Swap tmp with old
+  const oldDest = `${destDir}.old`
+  try { await rename(destDir, oldDest) } catch {}
+  await rename(tmpDir, destDir)
+  try { await rm(oldDest, { recursive: true }) } catch {}
 
   log('✔ Build complete')
 }
@@ -73,9 +70,9 @@ async function build () {
 /**
  * Execute the build process
  */
-const perfStart = performance.now()
+const buildStart = perf('Build duration')
 await build()
-log(`Build time: ${performance.now() - perfStart}ms`, { lvl: 'debug' })
+buildStart.end()
 
 if (process.argv.includes('--serve')) {
   startServer()

@@ -14,18 +14,20 @@ type WritePostOptions = {
 
 export async function writePosts (
   posts: CollectionPost[],
+  destDir: string,
   options: WritePostOptions
 ): Promise<void> {
   for (const post of posts) {
     if (!post.meta.raw || !post.url || post.data.external) continue
 
-    const output = join(config.directories.dest, post.url, 'index.html')
+    const output = join(destDir, post.url, 'index.html')
 
     try {
       const { rendered } = await compile(post.meta.raw, post.meta.srcPath, {
         data: options.dataFiles,
         baseUrl: options.userConfig?.baseUrl ?? '',
-        shortCodes: options.userConfig?.shortCodes ?? {}
+        shortCodes: options.userConfig?.shortCodes ?? {},
+        destDir
       })
       
       await mkdir(dirname(output), { recursive: true })
