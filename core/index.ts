@@ -24,10 +24,12 @@ async function build () {
     // flush dest directory
     await rm(destDir, { recursive: true })
     log('Directory flushed', { lvl: 'debug' })
-  } catch {
-    log(`Directory not found, creating "${destDir}"`, { lvl: 'debug' })
-    await mkdir(destDir, { recursive: true })
+  } catch (error){
+    if (error instanceof Error && (error as NodeJS.ErrnoException).code !== 'ENOENT') {
+      throw error
+    }
   }
+  await mkdir(destDir, { recursive: true })
 
   const dataFiles = await loadDataFiles(userConfig)
   const skipEntries = new Set<string>()

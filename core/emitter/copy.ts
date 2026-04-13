@@ -1,9 +1,13 @@
-import { copyFile, mkdir, readdir, stat } from "node:fs/promises"
+import { copyFile, lstat, mkdir, readdir } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { log } from "#utils/log.ts"
 
 export async function copyRecursive (src: string, dest: string): Promise<boolean> {
-  const stats = await stat(src)
+  const stats = await lstat(src)
+  if (stats.isSymbolicLink()) {
+    log(`Skipping symbolic link "${src}"`, { lvl: 'debug' })
+    return true
+  }
 
   if (stats.isFile()) {
     try {

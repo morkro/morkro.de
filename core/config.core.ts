@@ -19,6 +19,7 @@ export interface CoreConfig {
   }
   parseExtensions: ParseExtension[]
   parseLiquidExtensions: ParseExtension[]
+  reservedKeys: Set<string>
 }
 
 const config: CoreConfig = {
@@ -37,6 +38,13 @@ const config: CoreConfig = {
   },
   parseExtensions: ['html', 'txt', 'xml', 'liquid', 'md'],
   parseLiquidExtensions: ['html', 'liquid'],
+  reservedKeys: new Set([
+    'page',
+    'shortCodes',
+    'eleventy',
+    'content',
+    'collections',
+  ]),
 }
 
 export default config

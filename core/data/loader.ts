@@ -13,6 +13,8 @@ async function readOrImport (filePath: string): Promise<unknown> {
       return parseJSON(json, filePath)
     }
     if (ext === '.js') {
+      // Logging JS files specifically since they technically shouldn't be trusted
+      log(`Importing JavaScript file: ${filePath}`, { lvl: 'debug' })
       const javascript = await import(filePath)
       return javascript.default
     }

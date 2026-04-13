@@ -1,4 +1,6 @@
+import config from "#core/config.core.ts";
 import { BreakSignal, ContinueSignal, ParserError } from "#parser/utils.ts";
+import { escapeXML } from "#utils/html.ts";
 import { logParser } from "#utils/log.ts";
 import { getFromObject } from "#utils/object.ts";
 import type { templateResolver } from "./resolver.ts";
@@ -127,6 +129,10 @@ async function renderNodes(
         break
       }
       case 'Assign':
+        if (config.reservedKeys.has(node.name)) {
+          logParser(`Cannot assign to reserved key: ${node.name}`, { lvl: 'error' })
+          break
+        }
         localContext[node.name] = resolveExpression(node.expression, localContext)
         break
       case 'Capture':
@@ -140,7 +146,10 @@ async function renderNodes(
       case 'Comment':
         break
       case 'Output':
-        result.push(String(resolveExpression(node.expression, localContext)))
+        result.push(
+          escapeXML(
+            String(
+              resolveExpression(node.expression, localContext))))
         break
       case 'If': {
         let condition = evaluateExpression(node.condition, localContext)

@@ -1,4 +1,4 @@
-import { copyFile , mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises"
+import { copyFile, lstat, mkdir, readFile, readdir, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { relative } from "node:path"
 import { dirname } from "node:path"
@@ -31,7 +31,12 @@ export async function traverseDir(src: string, dest: string, traverseOptions: Tr
 
     const srcPath = join(src, entry)
     const destPath = join(dest, entry)
-    const stats = await stat(srcPath)
+    
+    const stats = await lstat(srcPath)
+    if (stats.isSymbolicLink()) {
+      log(`Skipping symbolic link "${srcPath}"`, { lvl: 'debug' })
+      continue
+    }
 
     if (stats.isDirectory()) {
       if (entry.startsWith('_')) {

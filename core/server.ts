@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { type IncomingMessage, type ServerResponse, createServer } from 'node:http'
-import { extname, join, resolve } from 'node:path'
+import { extname, join, resolve, sep } from 'node:path'
 import config from '#core/config.core.ts'
 import { logServer as log } from '#utils/log.ts'
 import { getMimeType, isTextFile } from '#utils/mime-types.ts'
@@ -14,9 +14,10 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
   const filePath = hasExtension(urlPath) ? urlPath : join(urlPath, 'index.html')
   const resolvedBase = resolve(config.directories.dest)
   const resolvedPath = resolve(config.directories.dest, filePath)
+  const normalisedBase = resolvedBase + sep
   
   // secure exit if the file is not in the build directory
-  if (!resolvedPath.startsWith(resolvedBase)) {
+  if (!resolvedPath.startsWith(normalisedBase)) {
     log(`Requested file is not in the build directory: "${resolvedPath}"`, { lvl: 'error' })
     res.statusCode = 404
     res.end('404 Not Found')
@@ -53,6 +54,10 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
 
   log(`Content type: ${contentType}`)
   res.setHeader('Content-Type', contentType)
+  /** In case I ever do port forwarding */
+  res.setHeader('X-Content-Type-Options', 'nosniff')
+  res.setHeader('X-Frame-Options', 'DENY')
+  res.setHeader('Content-Security-Policy', "default-src 'self'")
   res.write(file)
   res.end()
 }

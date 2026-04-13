@@ -1,4 +1,4 @@
-export function getMimeType(extension: string = ''): string {
+export function getMimeType(extension = ''): string {
   const utf8 = '; charset=utf-8'
   switch (extension.toLowerCase()) {
     case '.html':
