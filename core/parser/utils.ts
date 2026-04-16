@@ -91,5 +91,9 @@ export class ParserError extends Error {
   get offset(): number { return this.#offset }
 }
 
-export class BreakSignal {}
-export class ContinueSignal {}
+export class BreakSignal extends Error {
+  constructor() { super('Break signal') }
+}
+export class ContinueSignal extends Error {
+  constructor() { super('Continue signal') }
+}

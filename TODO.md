@@ -12,8 +12,9 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 4. [Syntax Highlighting](#4-syntax-highlighting)
 5. [Build System](#5-build-system)
 6. [Migration Tasks](#6-migration-tasks)
-7. [Component Dependency Tree](#component-dependency-tree)
-8. [Build Order Recommendation](#build-order-recommendation)
+7. [Code Quality & Architecture](#7-code-quality--architecture)
+8. [Component Dependency Tree](#component-dependency-tree)
+9. [Build Order Recommendation](#build-order-recommendation)
 
 ---
 
@@ -304,13 +305,101 @@ Append a row when you re-run the comparison (`find _site -type f | wc -l` and `f
 | Date | `_site` files | `.build` files | Notes |
 | ---- | ------------- | -------------- | ----- |
 | 2026-03-30 | ~95 | ~88 | Same passthrough assets (fonts, images, certifications, favicon, CSS tree, top-level pages, `feed.xml`, `humans.txt`) |
+| 2026-04-13 | 95 | 90 | `_site` built from `343c380` (last Eleventy-compatible commit). Gap is 5 external post pages. Script path resolved. Eleventy build broken on current HEAD (render syntax incompatible). |
 
-Gaps (as of first snapshot):
+Gaps:
 
 | Gap | Notes | Status |
 | --- | ----- | ------ |
-| Individual post HTML | `_site` has one page per post under `writes/:year/:slug/index.html` (e.g. seven posts in 2015–2016). `.build` only emits `writes/index.html` — no permalink pages yet | Not started |
-| Script output path | `_site` exposes JS at `assets/scripts/*.js`. `.build` writes `scripts/*.js` at the output root — templates and passthrough must agree so `src` in HTML matches deployment | Not started |
+| External post pages (5 files) | SSG skips posts with `external:` frontmatter (`core/emitter/posts.ts:27`). Eleventy generates a local page for each. All five are 2016 guest articles on SitePoint. Decide: emit a redirect/stub page, or skip intentionally. | Not started |
+| HTML minification | `.build` output is unminified (e.g. `index.html`: 785 lines / 35 KB vs Eleventy's single-line / 32 KB). Phase 3 task. | Not started |
+| Eleventy build broken on current source | Render syntax change in `759bfd3` (`{% render world.html %}` → `{% render "world.html" %}`) is incompatible with Eleventy's LiquidJS. Expected during migration — future comparisons require building Eleventy from a prior commit or the comparison becomes obsolete once migration completes. | Expected |
+| Script output path | `_site` exposes JS at `assets/scripts/*.js`. `.build` writes `scripts/*.js` at the output root — templates and passthrough must agree so `src` in HTML matches deployment | Done |
+| Individual post HTML (non-external) | `_site` has one page per post under `writes/:year/:slug/index.html`. `.build` now emits the two 2015 posts correctly. Only the five external posts differ (see row above). | Done |
+
+---
+
+## 7. Code Quality & Architecture
+
+### 7.1 Architecture: Split `compile()` into a pipeline
+
+`core/parser/index.ts` — `compile()` handles frontmatter extraction, output path resolution, context creation, Liquid parsing, rendering, and layout resolution in one function. Before adding filters, markdown, or HTML minification (Phase 3), decompose into composable pipeline steps so new processing stages can be inserted without growing the function further.
+
+| Task | Status | File |
+| ---- | ------ | ---- |
+| Extract frontmatter step | Not started | `core/parser/index.ts:63` |
+| Extract output path resolution step | Not started | `core/parser/index.ts:73` |
+| Extract context creation step | Not started | `core/parser/index.ts:76` |
+| Extract layout resolution into its own step | Not started | `core/parser/index.ts:90` |
+| Define shared pipeline state type | Not started | `core/parser/index.ts` |
+
+### 7.2 Architecture: Separate file discovery from processing in `traverseDir`
+
+`core/emitter/traverse.ts` — `traverseDir()` mixes directory walking, file reading, compilation, and writing into a single recursive function. Splitting discovery (which files exist) from processing (compile + write) would simplify testing, enable parallel file processing later, and make the flow easier to follow.
+
+| Task | Status | File |
+| ---- | ------ | ---- |
+| Extract file discovery into a standalone function returning a file list | Not started | `core/emitter/traverse.ts:23` |
+| Move compile + write into a separate processing step | Not started | `core/emitter/traverse.ts:70` |
+
+### 7.3 Type Safety: Remove `as` casts where narrowing suffices
+
+The parser uses `as TokenIdent` / `as TokenKeyword` casts *before* the runtime type check on the next line. If the value is `undefined`, the cast silently lies. Check first, then the type is narrowed automatically.
+
+| Task | Status | File |
+| ---- | ------ | ---- |
+| `variable` cast in `parseForHeader` | Not started | `core/parser/liquid/parser.ts:396` |
+| `inKeyword` cast in `parseForHeader` | Not started | `core/parser/liquid/parser.ts:406` |
+| `nameToken` cast in `capture` branch | Not started | `core/parser/liquid/parser.ts:497` |
+| `params` cast in for-loop param parsing | Not started | `core/parser/liquid/parser.ts:630` |
+
+### 7.4 Type Safety: Narrow catch-block errors
+
+Several catch blocks access `.code` on an untyped `error` without narrowing. Add an `isErrnoException` type guard (or inline narrowing) so `error.code` access is safe.
+
+| Task | Status | File |
+| ---- | ------ | ---- |
+| Add `isErrnoException` guard to `core/utils/` | Not started | — |
+| Use guard in `readOrImport` catch | Not started | `core/data/loader.ts:28` |
+
+### 7.5 Type Safety: Replace `as Record<string, unknown>` casts in data loader
+
+`loadFromDir` and `loadFromFile` cast `readOrImport` results with `as Record<string, unknown>`. Add a type guard (`isRecord`) so malformed data (arrays, primitives) is caught instead of silently accepted.
+
+| Task | Status | File |
+| ---- | ------ | ---- |
+| Add `isRecord` type guard | Not started | `core/data/loader.ts` |
+| Apply in `loadFromDir` | Not started | `core/data/loader.ts:54` |
+| Apply in `loadFromFile` | Not started | `core/data/loader.ts:67` |
+
+### 7.6 Robustness: Validate `parseFilename` date parts
+
+`core/data/posts.ts:30` — `parseFilename` splits the filename and maps to `Number`. If a filename doesn't follow `YYYY-MM-DD-slug`, the date parts are `NaN` and `new Date(NaN, NaN, NaN)` silently propagates an Invalid Date.
+
+| Task | Status | File |
+| ---- | ------ | ---- |
+| Add `NaN` guard after parsing year/month/day | Not started | `core/data/posts.ts:31` |
+
+### 7.7 Performance: Optimise for-loop param application order
+
+`core/parser/liquid/renderer.ts:227` — `toReversed()`, `slice(offset)`, `slice(0, limit)` each create a new array. Applying offset/limit first (smaller array) then reversing reduces allocations for large collections.
+
+| Task | Status | File |
+| ---- | ------ | ---- |
+| Reorder param application: offset → limit → reversed | Not started | `core/parser/liquid/renderer.ts:226` |
+
+### 7.8 Test Coverage: Add tests for untested modules
+
+The parser and utility modules are well covered. The integration layer (build, traverse, data, posts) has no dedicated tests.
+
+| Module | Risk | Status |
+| ------ | ---- | ------ |
+| `core/data/posts.ts` (date parsing, URL generation) | Medium | Not started |
+| `core/data/loader.ts` (file loading, error paths) | Medium | Not started |
+| `core/data/index.ts` (data merging, `pickValues`) | Medium | Not started |
+| `core/emitter/traverse.ts` (file processing) | High | Not started |
+| `core/emitter/posts.ts` (post compilation) | Medium | Not started |
+| `core/server.ts` (request handling, 404 paths) | Medium | Not started |
 
 ---
 

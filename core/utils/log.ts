@@ -12,6 +12,10 @@ export type LogConfig = {
 
 export const logGroupEnd = console.groupEnd
 
+/**
+ * Usage:
+ * log('Hello, world!', { lvl: 'info', d: 'parser' })
+ */
 export const log = (message: string, config: LogConfig): void => {
   const now = new Date().toLocaleDateString('de-DE',
     { hour: '2-digit', minute: '2-digit', second: '2-digit' })
@@ -29,7 +33,7 @@ export const log = (message: string, config: LogConfig): void => {
     logger(syntax(styleText(['blue', 'bold'], 'info')))
   } else if (lvl === 'warn') {
     logger(syntax(styleText(['yellow', 'bold'], 'warn')))
-  } else if (config.lvl === 'error') {
+  } else if (lvl === 'error') {
     console.error(syntax(styleText(['red', 'bold'], 'error', { stream: stderr })))
   }
 }

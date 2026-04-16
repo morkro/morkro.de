@@ -381,7 +381,7 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
 }
 
 function parseForHeader (innerTokens: InnerToken[], ctx: ParseContext): ParseForHeaderResult {
-  const cursor: CursorState = { tokens: innerTokens, index: 0 }
+  let cursor: CursorState = { tokens: innerTokens, index: 0 }
 
   const forKeyword = current(cursor)
   if (forKeyword.type !== 'Keyword' || forKeyword.value !== 'for') {
@@ -392,9 +392,10 @@ function parseForHeader (innerTokens: InnerToken[], ctx: ParseContext): ParseFor
       ctx.filePath
     )
   }
+  cursor = next(cursor)
 
-  const variable = innerTokens[1] as TokenIdent
-  if (!variable || variable.type !== 'Ident') {
+  const variable = current(cursor)
+  if (!variable || variable.type !== 'Ident') {
     throw new ParserError(
       `Expected "Ident" but got ${variable.type}`,
       variable.start,
@@ -402,8 +403,9 @@ function parseForHeader (innerTokens: InnerToken[], ctx: ParseContext): ParseFor
       ctx.filePath
     )
   }
+  cursor = next(cursor)
 
-  const inKeyword = innerTokens[2] as TokenKeyword
+  const inKeyword = current(cursor)
   if (!inKeyword || inKeyword.type !== 'Keyword' || inKeyword.value !== 'in') {
     throw new ParserError(
       `Expected "in" keyword but got ${inKeyword.type}`,
@@ -412,6 +414,7 @@ function parseForHeader (innerTokens: InnerToken[], ctx: ParseContext): ParseFor
       ctx.filePath
     )
   }
+  cursor = next(cursor)
 
   const { expression, cursor: collectionCursor } = parseExpression(({ tokens: innerTokens, index: 3 }), ctx)
   return { variable, expression, cursor: collectionCursor }

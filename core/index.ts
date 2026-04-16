@@ -70,16 +70,19 @@ async function build () {
 /**
  * Execute the build process
  */
-const buildStart = perf('Build duration')
-try {
-  await build()
-} catch (error) {
-  log(`Build failed: ${error}`, { lvl: 'error' })
-  process.exit(1)
-} finally {
-  buildStart.end()
-}
+const isMainModule = import.meta.url.endsWith(process.argv[1])
+if (isMainModule) { 
+  const buildStart = perf('Build duration')
+  try {
+    await build()
+  } catch (error) {
+    log(`Build failed: ${error}`, { lvl: 'error' })
+    process.exit(1)
+  } finally {
+    buildStart.end()
+  }
 
-if (process.argv.includes('--serve')) {
-  startServer()
+  if (process.argv.includes('--serve')) {
+    startServer()
+  }
 }

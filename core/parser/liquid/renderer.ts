@@ -1,6 +1,5 @@
 import config from "#core/config.core.ts";
 import { BreakSignal, ContinueSignal, ParserError } from "#parser/utils.ts";
-import { escapeXML } from "#utils/html.ts";
 import { logParser } from "#utils/log.ts";
 import { getFromObject } from "#utils/object.ts";
 import type { templateResolver } from "./resolver.ts";
@@ -278,10 +277,11 @@ async function renderNodes(
       case 'ShortCode': {
         const shortCodes = localContext.shortCodes as Record<string, () => unknown>
         const fn = shortCodes?.[node.name]
-        if (!fn) {
-          logParser(`Unknown short code: ${node.name}`, { lvl: 'error' })
+        if (!fn || typeof fn !== 'function') {
+          logParser(`Unknown shortcode: ${node.name}`, { lvl: 'error' })
+          break
         }
-        result.push(String(fn?.()))
+        result.push(String(fn()))
         break
       }
       case 'Unknown': {

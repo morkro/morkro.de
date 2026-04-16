@@ -1,1 +1,1 @@
-export type DataFileMap = Map<string, Record<string, unknown>>
+export type DataFileMap = Map<string, unknown>

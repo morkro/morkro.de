@@ -35,6 +35,7 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
       encoding: isTextFile(extension) ? 'utf-8' : undefined
     })
     log(`Served file: "${resolvedPath}"`)
+    res.statusCode = 200
   } catch (error) {
     log(`Error reading file ${filePath}: ${error}`, { lvl: 'error' })
     
@@ -55,14 +56,12 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
   log(`Content type: ${contentType}`)
   const body = typeof file === 'string' ? Buffer.from(file) : file
 
-  res.statusCode = 200
   res.setHeader('Content-Type', contentType)
   res.setHeader('Content-Length', body.byteLength)
   /** In case I ever do port forwarding */
   res.setHeader('X-Content-Type-Options', 'nosniff')
   res.setHeader('X-Frame-Options', 'DENY')
-  res.write(file)
-  res.end()
+  res.end(file)
 }
 
 export function startServer (port = 8080): void {
