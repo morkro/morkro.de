@@ -221,7 +221,7 @@ Tokenizer per language:
 | Custom data mapping (`customDataMapping` in `config.user.ts`: path string, or `{ path, values }` to expose only listed top-level keys from a JSON file) | Done |
 | Posts collection in global context (`collections.posts`) | Done |
 | Permalink handling | Not started |
-| Asset copying (passthrough) | Not started |
+| Asset copying (passthrough) | Done |
 
 ### 5.2 File Watcher
 
@@ -251,8 +251,8 @@ From `eleventy.config.js`:
 
 | Feature | Status |
 | ------- | ------ |
-| Passthrough copy for `assets/`, `scripts/`, `_redirects` | Not started |
-| Directory structure preservation | Not started |
+| Passthrough copy for `assets/`, `scripts/`, `_redirects` | Done |
+| Directory structure preservation | Done |
 | Asset bundling | Not started |
 
 ---
@@ -339,8 +339,8 @@ Gaps:
 
 | Task | Status | File |
 | ---- | ------ | ---- |
-| Extract file discovery into a standalone function returning a file list | Not started | `core/emitter/traverse.ts:23` |
-| Move compile + write into a separate processing step | Not started | `core/emitter/traverse.ts:70` |
+| Extract file discovery into a standalone function returning a file list | Done | `core/emitter/traverse.ts:23` |
+| Move compile + write into a separate processing step | Done | `core/emitter/traverse.ts:70` |
 
 ### 7.3 Type Safety: Remove `as` casts where narrowing suffices
 

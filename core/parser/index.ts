@@ -1,17 +1,14 @@
-import { mkdir, rm, writeFile } from 'node:fs/promises'
-import { join, resolve } from 'node:path'
-import config from '#core/config.core.ts'
 import type { DataFileMap } from '#core/data/types.ts'
 import { extractFrontmatter } from '#parser/frontmatter/index.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
 import { type RenderContext, render } from '#parser/liquid/renderer.ts'
 import { layoutResolver, templateResolver } from '#parser/liquid/resolver.ts'
-import type { Template } from '#parser/liquid/types.ts'
-import { loadFile } from '#utils/fs.ts'
-import { parseJSON } from '#utils/json.ts'
-import { log, perf } from '#utils/log.ts'
+import type { Layout, Template } from '#parser/liquid/types.ts'
+import { log, logParser, perf } from '#utils/log.ts'
 import { resolveOutput } from '#utils/path.ts'
 import { toUrl } from '#utils/url.ts'
+
+const layoutCache = new Map<string, Layout>()
 
 type Compiled = {
   ast: Template
@@ -45,13 +42,22 @@ export function createPageContext (
   frontmatter: Record<string, unknown>
 ): PageContext {
   const core = Object.fromEntries(global.entries()) as BuildContext
-  const context = Object.assign(Object.create(core), frontmatter, {
-    page: {
-      inputPath: input,
-      outputPath: output,
-      url: toUrl(baseUrl, output)
+
+  // Check if any page variables would be overwritten by frontmatter data
+  for (const key of Object.keys(frontmatter)) {
+    if (key in core) {
+      logParser(
+        `Frontmatter key "${key}" overwrites core variable "${key}"`,
+        { lvl: 'warn' }
+      )
     }
-  })
+  }
+
+  const context = { ...core, ...frontmatter, page: {
+    inputPath: input,
+    outputPath: output,
+    url: toUrl(baseUrl, output)
+  }}
   log(JSON.stringify(context, null, 2), { lvl: 'debug' })
   return context
 }
@@ -65,7 +71,7 @@ async function applyLayouts (
   let currentLayout = layoutName
 
   while (currentLayout) {
-    const layout = await layoutResolver(currentLayout)
+    const layout = await layoutResolver(currentLayout, layoutCache)
     const layoutContext = Object.create(context)
     layoutContext.content = result
     result = await render(layout.template, layoutContext, templateResolver)
@@ -99,49 +105,4 @@ export async function compile (file: string, path: string, options: CompilerOpti
 
   compileStart.end()
   return { ast, frontmatter, rendered: final, outputPath }
-}
-
-async function cleanup () {
-  try {
-    await rm(resolve(config.directories.temp), { recursive: true })
-  } catch (error) {
-    if (error.code !== 'ENOENT') {
-      log(`Failed to cleanup temporary directory: ${error}`, { lvl: 'warn' })
-    }
-  }
-
-  try {
-    await mkdir(resolve(config.directories.temp), { recursive: true })
-  } catch (error){
-    throw new Error('Failed to cleanup temporary directory', { cause: error })
-  }
-}
-
-if (process.argv.includes('--parse=liquid')) {
-  await cleanup()
-  const file = await loadFile(join('test/fixtures/liquid', 'dev.html'), 'dev.html')
-  const mockContext: RenderContext = parseJSON(
-    await loadFile(join('test/fixtures/liquid', 'mock.json'), 'mock.json'),
-    join('test/fixtures/liquid', 'mock.json'))
-
-  const compiled = await compile(
-    file,
-    'test/fixtures/liquid/dev.html',
-    {
-      data: new Map([['mock', mockContext]]),
-      baseUrl: 'https://morkro.de',
-      shortCodes: {},
-      destDir: config.directories.temp
-    })
-
-  // write AST
-  await writeFile(
-    join(config.directories.temp, 'ast.json'), 
-    JSON.stringify(compiled.ast, null, 2),
-    'utf-8')
-  // write rendered
-  await writeFile(
-    join(config.directories.temp, 'rendered.html'),
-    compiled.rendered,
-    'utf-8')
 }

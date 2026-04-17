@@ -45,11 +45,16 @@ async function build () {
   }
 
   const files = await discoverFiles(srcDir, tmpDir, {
-    parse: config.parseExtensions,
+    parse: config.parser.parseExtensions,
     flatten: flattenDirectories,
     skip: skipEntries,
   })
-  await processFiles(files, { dataFiles, userConfig, destRoot: tmpDir })
+  await processFiles(files, {
+    dataFiles,
+    userConfig,
+    destRoot: tmpDir,
+    concurrency: config.parser.concurrency
+  })
 
   const collections = dataFiles.get('collections') as { posts: CollectionPost[] } | undefined
   if (collections?.posts) {

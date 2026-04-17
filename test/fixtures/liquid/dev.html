@@ -499,7 +499,52 @@ tags:
 		</div>
 	</section>
 
-	<!-- 9. CAPTURE TAG -->
+	<!-- 9. BRACKET ACCESS -->
+	<section id='bracket-access'>
+		<h2>Bracket Access Tests</h2>
+
+		<!-- Numeric index on array: expects "red" -->
+		<p class='ba-first-color'>{{ colors[0] }}</p>
+
+		<!-- Last element by index: expects "blue" -->
+		<p class='ba-last-color'>{{ colors[2] }}</p>
+
+		<!-- String key on object: expects "My Test Site" -->
+		<p class='ba-string-key'>{{ site["title"] }}</p>
+
+		<!-- Variable as bracket key: expects "green" -->
+		{% assign idx = 1 %}
+		<p class='ba-variable-key'>{{ colors[idx] }}</p>
+
+		<!-- Assign with bracket access: expects "green" -->
+		{% assign secondColor = colors[1] %}
+		<p class='ba-assign'>{{ secondColor }}</p>
+
+		<!-- Bracket access in condition: expects "First color is red" -->
+		{% if colors[0] == 'red' %}
+		<p class='ba-condition'>First color is red</p>
+		{% endif %}
+
+		<!-- Bracket access in for collection: expects 10, 20, 30 -->
+		<div class='ba-for-collection'>
+			{% for val in matrix[0] %}
+			<span>{{ val }}</span>
+			{% endfor %}
+		</div>
+
+		<!-- Chained bracket access: expects "50" -->
+		<p class='ba-chained'>{{ matrix[1][1] }}</p>
+
+		<!-- Bracket access with loop variable: expects colors listed by forloop index -->
+		<ul class='ba-loop-index'>
+			{% for color in colors %}
+			<li>{{ colors[forloop.index0] }}</li>
+			{% endfor %}
+		</ul>
+	</section>
+
+	<!-- 10. CAPTURE TAG -->
+
 	<section id='capture'>
 		<h2>Capture Tests</h2>
 		{% assign number = 10 %}
@@ -509,7 +554,7 @@ tags:
 		<p>{{content}}</p>
 	</section>
 
-	<!-- 10. RAW TAG -->
+	<!-- 11. RAW TAG -->
 	<section id='raw'>
 		<h2>Raw Tests</h2>
 		{% raw %}
@@ -517,7 +562,7 @@ tags:
 		{% endraw %}
 	</section>
 
-	<!-- 11. FOOTER -->
+	<!-- 12. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>

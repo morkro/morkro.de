@@ -12,6 +12,7 @@ import type {
   TokenIdent,
   TokenKeyword,
   TokenOperator,
+  TokenPunct,
 } from './types.ts'
 
 type CursorState = {
@@ -86,17 +87,15 @@ function trimLeadingWhitespace (nodes: Node[]): Node[] {
   return _nodes
 }
 
-function parseExpression (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+function parseExpression (_cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+  let cursor = _cursor
+  let expression: Expression
   const token = current(cursor)
 
   if (token.type === 'String' || token.type === 'Number') {
-    return {
-      expression: { type: 'Literal', value: token.value },
-      cursor: next(cursor)
-    }
-  }
-
-  if (token.type === 'Ident') {
+    expression = { type: 'Literal', value: token.value }
+    cursor = next(cursor)
+  } else if (token.type === 'Ident') {
     const path = [token.value]
     cursor = next(cursor) 
     
@@ -117,13 +116,8 @@ function parseExpression (cursor: CursorState, ctx: ParseContext): ParseExpressi
       currentToken = current(cursor)
     }
 
-    return {
-      expression: { type: 'Var', path },
-      cursor
-    }
-  }
-
-  if (token.type === 'Punct' && token.value === '(') {
+    expression = { type: 'Var', path }
+  } else if (token.type === 'Punct' && token.value === '(') {
     cursor = next(cursor)
     const { expression: from, cursor: fromCursor } = parseExpression(cursor, ctx)
     cursor = fromCursor
@@ -149,18 +143,37 @@ function parseExpression (cursor: CursorState, ctx: ParseContext): ParseExpressi
     }
 
     cursor = next(cursor)
-    return {
-      expression: { type: 'Range', from, to },
-      cursor
-    }
+    expression = { type: 'Range', from, to }
+  } else {
+    throw new ParserError(
+      `Unsupported expression starting with ${token.type}`,
+      token.start,
+      ctx.source,
+      ctx.filePath
+    )
   }
 
-  throw new ParserError(
-    `Unsupported expression starting with ${token.type}`,
-    token.start,
-    ctx.source,
-    ctx.filePath
-  )
+  // Postfix bracket access: x[0], x["foo"], x[key], x[1][2]
+  while (current(cursor).type === 'Punct' && (current(cursor) as TokenPunct).value === '[') {
+    cursor = next(cursor)
+    const { expression: key, cursor: keyCursor } = parseExpression(cursor, ctx)
+    cursor = keyCursor
+
+    const closeBracketCursor = current(cursor)
+    if (closeBracketCursor.type !== 'Punct' || closeBracketCursor.value !== ']') {
+      throw new ParserError(
+        `Expected "]" but got ${closeBracketCursor.type}`,
+        closeBracketCursor.start,
+        ctx.source,
+        ctx.filePath
+      )
+    }
+
+    cursor = next(cursor)
+    expression = { type: 'Access', object: expression, key }
+  }
+
+  return { expression, cursor }
 }
 
 function parseWhenExpressions (innerTokens: InnerToken[], ctx: ParseContext): Expression[] {

@@ -1,6 +1,6 @@
 {
   "name": "morkro.de",
-  "version": "26.04.48.P0",
+  "version": "26.04.49.M2",
   "description": "Website of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
@@ -26,7 +26,7 @@
     "start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet",
     "start:ssg": "node --watch --env-file=.env core/index.ts --serve",
     "test": "node --test",
-    "parse:liquid": "DEBUG=true node --watch-path=core/parser --watch-preserve-output core/parser/index.ts --parse=liquid",
+    "test:liquid": "DEBUG=true node test/fixtures/liquid/run.ts",
     "prepare": "husky"
   },
   "devDependencies": {

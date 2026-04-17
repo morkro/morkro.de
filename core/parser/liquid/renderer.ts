@@ -29,6 +29,12 @@ function resolveExpression (expression: Expression, localContext: RenderContext)
     const to = Number(resolveExpression(expression.to, localContext))
     return Array.from({ length: to - from + 1 }, (_, i) => from + i)
   }
+  if (expression.type === 'Access') {
+    const object = resolveExpression(expression.object, localContext)
+    if (object === null || object === undefined) return undefined
+    const key = resolveExpression(expression.key, localContext)
+    return (object as Record<string, unknown>)[String(key)]
+  }
   return undefined
 }
 
@@ -124,7 +130,13 @@ async function renderNodes(
         }
         
         // Renders should have isolated scope, so not passing the global context
-        result.push(await render(file, renderContext, resolver, renderCache))
+        result.push(await renderNodes(
+          file.body,
+          file.meta.source,
+          renderContext,
+          resolver,
+          renderCache
+        ))
         break
       }
       case 'Assign':
@@ -135,8 +147,9 @@ async function renderNodes(
         localContext[node.name] = resolveExpression(node.expression, localContext)
         break
       case 'Capture':
-        localContext[node.name] = await render(
-          { type: 'Template', body: node.body, meta: { source: templateSource } },
+        localContext[node.name] = await renderNodes(
+          node.body,
+          templateSource,
           localContext,
           resolver,
           renderCache
@@ -154,16 +167,18 @@ async function renderNodes(
         if (node.negated) condition = !condition
 
         if (Boolean(condition)) {
-          result.push(await render(
-            { type: 'Template', body: node.body, meta: { source: templateSource } },
+          result.push(await renderNodes(
+            node.body,
+            templateSource,
             localContext,
             resolver,
             renderCache
           ))
         } else {
           if (node.elseBody && node.elseBody.length > 0) {
-            result.push(await render(
-              { type: 'Template', body: node.elseBody, meta: { source: templateSource } },
+            result.push(await renderNodes(
+              node.elseBody,
+              templateSource,
               localContext,
               resolver,
               renderCache
@@ -179,8 +194,9 @@ async function renderNodes(
         for (const when of node.whens) {
           const values = when.values.map(value => evaluateExpression(value, localContext))
           if (values.includes(subject)) {
-            result.push(await render(
-              { type: 'Template', body: when.body, meta: { source: templateSource } },
+            result.push(await renderNodes(
+              when.body,
+              templateSource,
               localContext,
               resolver,
               renderCache
@@ -214,8 +230,9 @@ async function renderNodes(
 
         if (collection.length === 0) {
           if (node.elseBody && node.elseBody.length > 0) {
-            result.push(await render(
-              { type: 'Template', body: node.elseBody, meta: { source: templateSource } },
+            result.push(await renderNodes(
+              node.elseBody,
+              templateSource,
               localContext,
               resolver,
               renderCache
@@ -243,8 +260,9 @@ async function renderNodes(
             } satisfies ForLoopContext
 
             try {
-              result.push(await render(
-                { type: 'Template', body: node.body, meta: { source: templateSource } },
+              result.push(await renderNodes(
+                node.body,
+                templateSource,
                 isolatedContext,
                 resolver,
                 renderCache
@@ -267,8 +285,9 @@ async function renderNodes(
       case 'ForContinue':
         throw new ContinueSignal()
       case 'Raw':
-        result.push(await render(
-          { type: 'Template', body: node.body, meta: { source: templateSource } },
+        result.push(await renderNodes(
+          node.body,
+          templateSource,
           localContext,
           resolver,
           renderCache

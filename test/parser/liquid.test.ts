@@ -681,6 +681,101 @@ describe('parseLiquid: expressions', () => {
 	})
 })
 
+describe('parseLiquid: bracket access', () => {
+	it('parses numeric index on variable', () => {
+		const body = parse('{{ items[0] }}')
+		const node = body[0] as NodeOutput
+		assert.deepStrictEqual(node.expression, {
+			type: 'Access',
+			object: { type: 'Var', path: ['items'] },
+			key: { type: 'Literal', value: 0 },
+		})
+	})
+
+	it('parses string key on variable', () => {
+		const body = parse('{{ obj["name"] }}')
+		const node = body[0] as NodeOutput
+		assert.deepStrictEqual(node.expression, {
+			type: 'Access',
+			object: { type: 'Var', path: ['obj'] },
+			key: { type: 'Literal', value: 'name' },
+		})
+	})
+
+	it('parses bracket after dot-notation path', () => {
+		const body = parse('{{ a.b[0] }}')
+		const node = body[0] as NodeOutput
+		assert.deepStrictEqual(node.expression, {
+			type: 'Access',
+			object: { type: 'Var', path: ['a', 'b'] },
+			key: { type: 'Literal', value: 0 },
+		})
+	})
+
+	it('parses variable as bracket key', () => {
+		const body = parse('{{ items[idx] }}')
+		const node = body[0] as NodeOutput
+		assert.deepStrictEqual(node.expression, {
+			type: 'Access',
+			object: { type: 'Var', path: ['items'] },
+			key: { type: 'Var', path: ['idx'] },
+		})
+	})
+
+	it('parses chained bracket access', () => {
+		const body = parse('{{ matrix[0][1] }}')
+		const node = body[0] as NodeOutput
+		assert.deepStrictEqual(node.expression, {
+			type: 'Access',
+			object: {
+				type: 'Access',
+				object: { type: 'Var', path: ['matrix'] },
+				key: { type: 'Literal', value: 0 },
+			},
+			key: { type: 'Literal', value: 1 },
+		})
+	})
+
+	it('parses bracket access in assign expression', () => {
+		const body = parse('{% assign first = items[0] %}')
+		const node = body[0] as NodeAssign
+		assert.strictEqual(node.type, 'Assign')
+		assert.strictEqual(node.name, 'first')
+		assert.deepStrictEqual(node.expression, {
+			type: 'Access',
+			object: { type: 'Var', path: ['items'] },
+			key: { type: 'Literal', value: 0 },
+		})
+	})
+
+	it('parses bracket access in if condition', () => {
+		const body = parse('{% if items[0] == "a" %}yes{% endif %}')
+		const node = body[0] as NodeIf
+		assert.strictEqual(node.condition.type, 'Binary')
+		if (node.condition.type === 'Binary') {
+			assert.deepStrictEqual(node.condition.left, {
+				type: 'Access',
+				object: { type: 'Var', path: ['items'] },
+				key: { type: 'Literal', value: 0 },
+			})
+		}
+	})
+
+	it('parses bracket access as for collection', () => {
+		const body = parse('{% for item in nested[0] %}{{ item }}{% endfor %}')
+		const node = body[0] as NodeFor
+		assert.deepStrictEqual(node.collection, {
+			type: 'Access',
+			object: { type: 'Var', path: ['nested'] },
+			key: { type: 'Literal', value: 0 },
+		})
+	})
+
+	it('throws on unclosed bracket', () => {
+		assert.throws(() => parse('{{ items[0 }}'), ParserError)
+	})
+})
+
 describe('parseLiquid: error handling', () => {
 	it('throws ParserError on unclosed output tag', () => {
 		assert.throws(() => parse('{{ broken'), ParserError)

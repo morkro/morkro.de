@@ -223,7 +223,7 @@ export function tokenizeInner (input: string, baseOffset = 0): InnerToken[] {
       continue
     }
 
-    if ('.:,=|()'.includes(peek(index))) {
+    if ('.:,=|()[]'.includes(peek(index))) {
       if (peek(index) === '.' && peek(index + 1) === '.') {
         tokens.push({
           type: 'Punct',

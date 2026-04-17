@@ -8,6 +8,14 @@ export function getIndentWidth(line: string): number {
 	return line.length - line.trimStart().length
 }
 
+export function coerceValue (raw: string): string | number | boolean {
+  if (raw === 'true') return true
+  if (raw === 'false') return false
+  const num = Number(raw)
+  if (!Number.isNaN(num) && raw.trim() !== '') return num
+  return raw
+}
+
 export type SourceLocation = { line: number, column: number }
 
 export class ParserError extends Error {
@@ -91,9 +99,9 @@ export class ParserError extends Error {
   get offset(): number { return this.#offset }
 }
 
-export class BreakSignal extends Error {
-  constructor() { super('Break signal') }
+export class BreakSignal {
+  readonly type = 'break'
 }
-export class ContinueSignal extends Error {
-  constructor() { super('Continue signal') }
+export class ContinueSignal {
+  readonly type = 'continue'
 }

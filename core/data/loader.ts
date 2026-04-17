@@ -25,7 +25,7 @@ async function readOrImport (filePath: string): Promise<unknown> {
     log(`Unsupported file extension '${ext}' for file '${filePath}'`, { lvl: 'error', d: 'data' })
     return null
   } catch (error) {
-    if (error.code === 'ENOENT') {
+    if (error instanceof Error && (error as NodeJS.ErrnoException).code === 'ENOENT') {
       log(`File not found: ${filePath}`, { lvl: 'warn', d: 'data' })
       return null
     }

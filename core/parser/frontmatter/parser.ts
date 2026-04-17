@@ -1,4 +1,4 @@
-import { getIndentWidth, stripQuotes } from "#parser/utils.ts"
+import { coerceValue, getIndentWidth, stripQuotes } from "#parser/utils.ts"
 
 const FRONTMATTER_REGEX = /^---\r?\n([\s\S]*?)\r?\n---/
 const YAML_LINE_REGEX = /^\s*-\s+(.*)$/
@@ -16,7 +16,7 @@ type WalkStep = {
 }
 
 type BlockResult = {
-	result?: string[] | Record<string, string>
+	result?: string[] | Record<string, string | number | boolean>
 	index: number
 }
 
@@ -95,11 +95,11 @@ function parseIndentedBlock(cursor: Cursor, parentIndent: number): BlockResult {
 		return { result: list, index: lineCursor.index }
 	}
 
-	const map: Record<string, string> = {}
+	const map: Record<string, string | number | boolean> = {}
 	const colon0 = firstTrimmed.indexOf(':')
 	if (colon0 !== -1) {
 		const key = firstTrimmed.slice(0, colon0).trim()
-		map[key] = stripQuotes(firstTrimmed.slice(colon0 + 1))
+		map[key] = coerceValue(stripQuotes(firstTrimmed.slice(colon0 + 1)))
 	}
 
 	let lineCursor: Cursor = { lines, index: step.cursor.index + 1 }
@@ -117,7 +117,7 @@ function parseIndentedBlock(cursor: Cursor, parentIndent: number): BlockResult {
 		}
 
 		const key = trimmed.slice(0, colon).trim()
-		map[key] = stripQuotes(trimmed.slice(colon + 1))
+		map[key] = coerceValue(stripQuotes(trimmed.slice(colon + 1)))
 		lineCursor = { lines, index: inner.cursor.index + 1 }
 	}
 
@@ -163,7 +163,7 @@ export function parseFrontmatter<T>(content: string): T {
 
 		const value = stripQuotes(trimmed.slice(colon + 1))
 		if (value !== '') {
-			out[key] = value
+			out[key] = coerceValue(value)
 			cursor = { lines, index: cursor.index + 1 }
 			continue
 		}

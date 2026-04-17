@@ -22,7 +22,8 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 | String / number literals | Done |
 | Variables and dot paths (`a.b.c`) | Done |
 | Range literals `(expr..expr)` (e.g. for `for`) | Done |
-| Bracket access (`x[0]`), arithmetic (`+`, `-`, `*`, `/`), unary `not` | Not implemented |
+| Bracket access (`x[0]`, `x["key"]`, `x[var]`) | Done |
+| Arithmetic (`+`, `-`, `*`, `/`), unary `not` | Not implemented |
 
 ## Tags
 

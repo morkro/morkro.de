@@ -14,12 +14,18 @@ export type ExpressionRange = {
   from: Expression,
   to: Expression,
 }
+export type ExpressionAccess = {
+  type: 'Access',
+  object: Expression,
+  key: Expression,
+}
 
 export type Expression =
   | ExpressionVar
   | ExpressionLiteral
   | ExpressionBinary
   | ExpressionRange
+  | ExpressionAccess
 
 /**
  * Nodes
@@ -122,6 +128,8 @@ export const TokenPunctValues = [
   '(',
   ')',
   '..',
+  '[',
+  ']'
 ] as const
 
 export type TokenText = { type: 'Text', value: string, start: number, end: number }

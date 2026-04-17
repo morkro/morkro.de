@@ -1,7 +1,5 @@
 import { copyFile, lstat, mkdir, readFile, readdir, writeFile } from "node:fs/promises"
-import { join } from "node:path"
-import { relative } from "node:path"
-import { dirname } from "node:path"
+import { dirname, join, relative } from "node:path"
 import type { ParseExtension } from "#core/config.core.ts"
 import config from "#core/config.core.ts"
 import type { UserConfig } from "#core/config.user.ts"
@@ -27,6 +25,7 @@ type ProcessOptions = {
   dataFiles: DataFileMap
   userConfig?: UserConfig
   destRoot: string
+  concurrency: number
 }
 
 export async function discoverFiles(
@@ -81,26 +80,36 @@ export async function discoverFiles(
   return files
 }
 
-export async function processFiles(files: SourceFile[], options: ProcessOptions) {
-  for (const file of files) {
-    const fileName = relative(config.directories.src, file.srcPath)
-    log(`Processing file "${fileName}"`, { type: 'group' })
-
-    if (file.action === 'compile') {
-      const raw = await readFile(file.srcPath, 'utf-8')
-      const { rendered, outputPath } = await compile(raw, file.srcPath, {
-        data: options.dataFiles,
-        baseUrl: options.userConfig?.baseUrl ?? '',
-        shortCodes: options.userConfig?.shortCodes ?? {},
-        destDir: options.destRoot
-      })
-      await mkdir(dirname(outputPath), { recursive: true })
-      await writeFile(outputPath, rendered)
-    } else {
-      await mkdir(dirname(file.destPath), { recursive: true })
-      await copyFile(file.srcPath, file.destPath)
+export async function processFiles (files: SourceFile[], options: ProcessOptions) {
+  const queue = Array.from(files)
+  const workers = Array.from({ length: options.concurrency }, async () => {
+    while (queue.length > 0) {
+      const file = queue.shift()
+      if (!file) break
+      await processSingleFile(file, options)
     }
+  })
+  await Promise.all(workers)
+}
 
-    logGroupEnd()
+async function processSingleFile(file: SourceFile, options: ProcessOptions) {
+  const fileName = relative(config.directories.src, file.srcPath)
+  log(`Processing file "${fileName}"`, { type: 'group' })
+
+  if (file.action === 'compile') {
+    const raw = await readFile(file.srcPath, 'utf-8')
+    const { rendered, outputPath } = await compile(raw, file.srcPath, {
+      data: options.dataFiles,
+      baseUrl: options.userConfig?.baseUrl ?? '',
+      shortCodes: options.userConfig?.shortCodes ?? {},
+      destDir: options.destRoot
+    })
+    await mkdir(dirname(outputPath), { recursive: true })
+    await writeFile(outputPath, rendered)
+  } else {
+    await mkdir(dirname(file.destPath), { recursive: true })
+    await copyFile(file.srcPath, file.destPath)
   }
+
+  logGroupEnd()
 }

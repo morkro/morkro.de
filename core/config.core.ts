@@ -17,8 +17,11 @@ export interface CoreConfig {
       posts: string
     }
   }
-  parseExtensions: ParseExtension[]
-  parseLiquidExtensions: ParseExtension[]
+  parser: {
+    parseExtensions: ParseExtension[]
+    parseLiquidExtensions: ParseExtension[]
+    concurrency: number
+  }
   reservedKeys: Set<string>
 }
 
@@ -36,8 +39,11 @@ const config: CoreConfig = {
       posts: '_posts',
     }
   },
-  parseExtensions: ['html', 'txt', 'xml', 'liquid', 'md'],
-  parseLiquidExtensions: ['html', 'liquid'],
+  parser: {
+    parseExtensions: ['html', 'txt', 'xml', 'liquid', 'md'],
+    parseLiquidExtensions: ['html', 'liquid'],
+    concurrency: 8,
+  },
   reservedKeys: new Set([
     'page',
     'shortCodes',

@@ -203,7 +203,7 @@ npm run lint           # Lint JS and CSS via Biome
 npm run clean:build    # Remove build/temp artifacts (see scripts/clean-artifacts.ts)
 npm run build:ssg      # Build site once (node core/index.ts)
 npm run start:ssg      # Rebuild on change + serve .build/ (node --watch --env-file=.env core/index.ts --serve)
-npm run parse:liquid   # Dev tool: parse test fixture, output AST + rendered HTML to .tmp/
+npm run test:liquid    # Dev tool: parse test fixture, output AST + rendered HTML to .tmp/
 npm test               # Run all tests (node --test)
 node --test test/path/to/file.test.ts  # Run a single test file
 ```
@@ -235,7 +235,7 @@ core/                    # Build system core
   config.core.ts        # Directory & extension configuration (import #config)
   config.user.ts        # User overrides: customDataMapping, collections, baseUrl, shortCodes (import #config.user)
   parser/
-    index.ts            # Parsing pipeline entry point and dev CLI (--parse=liquid)
+    index.ts            # Parsing pipeline entry point (compile, createPageContext)
     utils.ts            # Shared parser helpers (indent, quotes; used by frontmatter + liquid)
     frontmatter/
       parser.ts         # Frontmatter parser (YAML-like subset)
@@ -257,7 +257,7 @@ test/
   parser/
     liquid.test.ts      # Liquid parser/renderer tests
     frontmatter.test.ts # Frontmatter parser tests
-  fixtures/liquid/      # Liquid test fixtures (dev.html, mock.json, simple/, complex/, includes/)
+  fixtures/liquid/      # Liquid test fixtures (dev.html, mock.json, run.ts, simple/, complex/, includes/)
   utils/                # Utility tests (json, mime-types, object)
 ```
 

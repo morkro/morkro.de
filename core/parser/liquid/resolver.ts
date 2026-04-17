@@ -15,22 +15,26 @@ function derivePartialFileNames (file: string): string[] {
 	return [`${base}.liquid`, `${base}.html`]
 }
 
-export async function layoutResolver (name: string): Promise<Layout> {
+export async function layoutResolver (name: string, cache: Map<string, Layout>): Promise<Layout> {
+  if (cache.has(name)) return Promise.resolve(cache.get(name) as Layout)
+
 	const fileName = name.endsWith('.liquid') ? name : `${name}.liquid`
 	const dir = resolve(cwd(), config.directories.src, config.directories.internal.layouts)
-
 	const source = await loadFile(dir, fileName)
 	const frontmatter = parseFrontmatter<Record<string, unknown>>(source)
 	const body = removeFrontmatter(source)
 	const path = resolve(dir, fileName)
 	const template = parseLiquid(body, path)
-	
-	return {
+
+	const layout = {
 		type: 'Layout',
 		template,
 		frontmatter,
-		meta: { source }
-	}
+		meta: { source: path }
+	} satisfies Layout
+
+	cache.set(name, layout)
+	return layout
 }
 
 export async function templateResolver (parentPath: string, file: string): Promise<Template> {

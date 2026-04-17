@@ -1,8 +1,8 @@
-import { join } from "node:path"
-import config from "#core/config.core.ts"
-import type { UserConfig } from "#core/config.user.ts"
-import { parseFrontmatter, removeFrontmatter } from "#parser/frontmatter/parser.ts"
-import { loadFromDir } from "./loader.ts"
+import { join } from 'node:path'
+import config from '#core/config.core.ts'
+import type { UserConfig } from '#core/config.user.ts'
+import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
+import { loadFromDir } from './loader.ts'
 
 export type Post = {
   title: string

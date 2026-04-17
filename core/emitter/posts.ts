@@ -1,7 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import type { UserConfig } from "#config.user"
-import config from "#core/config.core.ts"
 import type { CollectionPost } from "#core/data/posts.ts"
 import type { DataFileMap } from "#core/data/types.ts"
 import { compile } from "#parser/index.ts"
