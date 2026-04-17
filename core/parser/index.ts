@@ -1,8 +1,8 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises'
-import { join, relative, resolve } from 'node:path'
+import { join, resolve } from 'node:path'
 import config from '#core/config.core.ts'
 import type { DataFileMap } from '#core/data/types.ts'
-import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
+import { extractFrontmatter } from '#parser/frontmatter/index.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
 import { type RenderContext, render } from '#parser/liquid/renderer.ts'
 import { layoutResolver, templateResolver } from '#parser/liquid/resolver.ts'
@@ -10,7 +10,7 @@ import type { Template } from '#parser/liquid/types.ts'
 import { loadFile } from '#utils/fs.ts'
 import { parseJSON } from '#utils/json.ts'
 import { log, perf } from '#utils/log.ts'
-import { ensureOutputPath } from '#utils/path.ts'
+import { resolveOutput } from '#utils/path.ts'
 import { toUrl } from '#utils/url.ts'
 
 type Compiled = {
@@ -56,18 +56,30 @@ export function createPageContext (
   return context
 }
 
+async function applyLayouts (
+  source: string,
+  layoutName: string | undefined,
+  context: RenderContext
+): Promise<string> {
+  let result = source
+  let currentLayout = layoutName
+
+  while (currentLayout) {
+    const layout = await layoutResolver(currentLayout)
+    const layoutContext = Object.create(context)
+    layoutContext.content = result
+    result = await render(layout.template, layoutContext, templateResolver)
+    currentLayout = layout.frontmatter.layout as string | undefined
+  }
+
+  return result
+}
+
 export async function compile (file: string, path: string, options: CompilerOptions): Promise<Compiled> {
   const compileStart = perf('Total compiling')
-  let source = file
+  const { frontmatter, body } = extractFrontmatter(file)
+  const outputPath = resolveOutput(path, options.destDir, frontmatter.permalink as string)
   
-  const fmStart = perf('Parsing Frontmatter')
-  const frontmatter = parseFrontmatter<{ pageClass: string; permalink?: string; layout?: string }>(file)
-  source = removeFrontmatter(source)
-  fmStart.end()
-  
-  const srcRoot = resolve(config.directories.src)
-  const srcRelative = relative(srcRoot, resolve(path))
-  const outputPath = ensureOutputPath(srcRelative, options.destDir, frontmatter.permalink)
   const localContext = createPageContext(
     options.data,
     path,
@@ -77,26 +89,16 @@ export async function compile (file: string, path: string, options: CompilerOpti
   localContext.shortCodes = options.shortCodes
 
   const lpStart = perf('Parsing Liquid')
-  const ast = parseLiquid(source, path)
+  const ast = parseLiquid(body, path)
   lpStart.end()
   
   const rlStart = perf('Rendering Liquid')
-  source = await render(ast, localContext, templateResolver)
+  const rendered = await render(ast, localContext, templateResolver)
+  const final = await applyLayouts(rendered, frontmatter.layout as string | undefined, localContext)
   rlStart.end()
 
-  const layoutStart = perf('Rendering Layout')
-  let layoutName = frontmatter.layout as string | undefined
-  while (layoutName) {
-    const layout = await layoutResolver(layoutName)
-    const layoutContext = Object.create(localContext)
-    layoutContext.content = source
-    source = await render(layout.template, layoutContext, templateResolver)
-    layoutName = layout.frontmatter.layout as string | undefined
-  }
-  layoutStart.end()
   compileStart.end()
-
-  return { ast, frontmatter, rendered: source, outputPath }
+  return { ast, frontmatter, rendered: final, outputPath }
 }
 
 async function cleanup () {

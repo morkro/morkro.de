@@ -7,7 +7,7 @@ import type { CollectionPost } from '#core/data/posts.ts'
 import { startServer } from '#core/server.ts'
 import { copyRecursive } from '#emitter/copy.ts'
 import { writePosts } from '#emitter/posts.ts'
-import { traverseDir } from '#emitter/traverse.ts'
+import { discoverFiles, processFiles } from '#emitter/traverse.ts'
 import { logSsg as log, perf } from '#utils/log.ts'
 
 const flattenDirectories = ['pages']
@@ -44,14 +44,12 @@ async function build () {
         JSON.stringify(Object.fromEntries(dataFiles.entries()), null, 2))
   }
 
-  await traverseDir(srcDir, tmpDir, {
-    dataFiles,
+  const files = await discoverFiles(srcDir, tmpDir, {
     parse: config.parseExtensions,
-    skip: skipEntries,
     flatten: flattenDirectories,
-    userConfig,
-    destRoot: tmpDir
+    skip: skipEntries,
   })
+  await processFiles(files, { dataFiles, userConfig, destRoot: tmpDir })
 
   const collections = dataFiles.get('collections') as { posts: CollectionPost[] } | undefined
   if (collections?.posts) {

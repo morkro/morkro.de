@@ -10,87 +10,97 @@ import { compile } from "#parser/index.ts"
 import { log } from "#utils/log.ts"
 import { logGroupEnd } from "#utils/log.ts"
 
-type TraverseOptions = {
-  dataFiles: DataFileMap
+type SourceFile = {
+  srcPath: string
+  destPath: string
+  action: 'compile' | 'copy'
+}
+
+type DiscoverOptions = {
   parse: ParseExtension[]
   flatten: string[]
   skip: Set<string>
   isFlattenDir?: boolean
+}
+
+type ProcessOptions = {
+  dataFiles: DataFileMap
   userConfig?: UserConfig
   destRoot: string
 }
 
-export async function traverseDir(src: string, dest: string, traverseOptions: TraverseOptions) {
+export async function discoverFiles(
+  src: string,
+  dest: string,
+  options: DiscoverOptions
+): Promise<SourceFile[]> {
+  const files: SourceFile[] = []
   const dir = await readdir(src)
-  const { dataFiles, flatten, parse, skip, isFlattenDir = false, userConfig } = traverseOptions
-  
+  const { parse, flatten, skip, isFlattenDir = false } = options
+
   for (const entry of dir) {
-    if (skip?.has(entry)) {
-      log(`Skipping entry "${entry}"`, { lvl: 'debug' })
+    if (skip.has(entry)) {
+      log(`Skipping entry "${entry}"`, { lvl: 'debug', d: 'emitter' })
       continue
     }
 
     const srcPath = join(src, entry)
     const destPath = join(dest, entry)
-    
     const stats = await lstat(srcPath)
-    if (stats.isSymbolicLink()) {
-      log(`Skipping symbolic link "${srcPath}"`, { lvl: 'debug' })
-      continue
-    }
 
+    if (stats.isSymbolicLink()) continue
+    
     if (stats.isDirectory()) {
       if (entry.startsWith('_')) {
-        log(`Skipping directory "${entry}"`, { lvl: 'debug' })
+        log(`Skipping directory "${entry}"`, { lvl: 'debug', d: 'emitter' })
         continue
       }
 
       const shouldFlatten = flatten.includes(entry) || isFlattenDir
-      if (!shouldFlatten) { 
-        const dirPath = destPath ? relative(config.directories.src, srcPath) : 'unknown'
-        log(`Scanning directory "${dirPath}/":`, { type: 'group' })
-        await mkdir(`${destPath}`, { recursive: true })
-      }
-
-      await traverseDir(srcPath, destPath, {
-        dataFiles,
+      const nested = await discoverFiles(srcPath, destPath, {
         parse,
         flatten,
         skip,
-        isFlattenDir: shouldFlatten,
-        userConfig,
-        destRoot: traverseOptions.destRoot
+        isFlattenDir: shouldFlatten
       })
 
-      if (!shouldFlatten) {
-        logGroupEnd()
-      }
+      files.push(...nested)
+      continue
     }
-    
+
     if (stats.isFile()) {
-      const fileName = srcPath ? relative(config.directories.src, srcPath) : 'unknown'
-      log(`Processing file "${fileName}"`, { type: 'group' })
-
       const extension = entry.split('.').pop() as ParseExtension | undefined
-      if (extension && parse.includes(extension)) {
-        log(`Parsing file "${entry}"`, { lvl: 'debug' })
-        const raw = await readFile(srcPath, 'utf-8')
-        const { rendered, outputPath } = await compile(raw, srcPath, {
-          data: dataFiles,
-          baseUrl: userConfig?.baseUrl ?? '',
-          shortCodes: userConfig?.shortCodes ?? {},
-          destDir: traverseOptions.destRoot
-        })
-
-        log(`Writing file "${entry}"`, { lvl: 'debug' })
-        log(outputPath, { lvl: 'debug' })
-        await mkdir(dirname(outputPath), { recursive: true })
-        await writeFile(outputPath, rendered)
-      } else {
-        await copyFile(srcPath, `${destPath}`)
-      }
-
-      logGroupEnd()
+      files.push({
+        srcPath,
+        destPath,
+        action: extension && parse.includes(extension) ? 'compile' : 'copy'
+      })
     }
+  }
+
+  return files
+}
+
+export async function processFiles(files: SourceFile[], options: ProcessOptions) {
+  for (const file of files) {
+    const fileName = relative(config.directories.src, file.srcPath)
+    log(`Processing file "${fileName}"`, { type: 'group' })
+
+    if (file.action === 'compile') {
+      const raw = await readFile(file.srcPath, 'utf-8')
+      const { rendered, outputPath } = await compile(raw, file.srcPath, {
+        data: options.dataFiles,
+        baseUrl: options.userConfig?.baseUrl ?? '',
+        shortCodes: options.userConfig?.shortCodes ?? {},
+        destDir: options.destRoot
+      })
+      await mkdir(dirname(outputPath), { recursive: true })
+      await writeFile(outputPath, rendered)
+    } else {
+      await mkdir(dirname(file.destPath), { recursive: true })
+      await copyFile(file.srcPath, file.destPath)
+    }
+
+    logGroupEnd()
   }
 }
