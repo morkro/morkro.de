@@ -422,6 +422,51 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
     return { type: 'Decrement', variable: variableToken.value }
   }
 
+  // {% cycle group, value1, value2, ... %}
+  // {% cycle "group": "one", "two", "three" %}
+  if (token.value === 'cycle') {
+    cursor = next(cursor)
+    const first = parseExpression(cursor, ctx)
+    cursor = first.cursor
+
+    let group: string | undefined
+    const values: Expression[] = []
+
+    const afterFirst = current(cursor)
+    if (afterFirst.type === 'Punct' && afterFirst.value === ':') {
+      if (first.expression.type !== 'Literal' || typeof first.expression.value !== 'string') {
+        throw new ParserError(
+          'Cycle group name must be a string literal',
+          afterFirst.start,
+          ctx.source,
+          ctx.filePath
+        )
+      }
+      group = first.expression.value
+      cursor = next(cursor)
+      const nextValue = parseExpression(cursor, ctx)
+      values.push(nextValue.expression)
+      cursor = nextValue.cursor
+    } else {
+      values.push(first.expression)
+    }
+
+    while (current(cursor).type === 'Punct' && (current(cursor) as TokenPunct).value === ',') {
+      cursor = next(cursor)
+      const nextValue = parseExpression(cursor, ctx)
+      values.push(nextValue.expression)
+      cursor = nextValue.cursor
+    }
+
+    const derivedGroup = group ?? values.map(value => {
+      if (value.type === 'Literal') return String(value.value)
+      if (value.type === 'Var') return value.path.join('.')
+      return '(non-variable expression)'
+    }).join('.')
+    
+    return { type: 'Cycle', group: derivedGroup, values }
+  }
+
   throw new ParserError(
     `Unsupported tag starting with ${token.type} "${token.value}"`,
     token.start,

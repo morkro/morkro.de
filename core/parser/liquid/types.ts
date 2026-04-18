@@ -53,6 +53,7 @@ export type NodeEcho = { type: 'Echo', expression: Expression }
 export type NodeIncrement = { type: 'Increment', variable: string }
 export type NodeDecrement = { type: 'Decrement', variable: string }
 export type NodeShortCode = { type: 'ShortCode', name: string }
+export type NodeCycle = { type: 'Cycle', group: string, values: Expression[] }
 export type NodeUnknown = { type: 'Unknown', name: string, body: string, args: string }
 
 export type Node =
@@ -72,6 +73,7 @@ export type Node =
   | NodeIncrement
   | NodeDecrement
   | NodeShortCode
+  | NodeCycle
   | NodeUnknown
   
 /** For loop context object */
@@ -114,6 +116,7 @@ export const TokenKeywordValues = [
   'echo',
   'increment',
   'decrement',
+  'cycle',
 ] as const
 
 export const TokenOperatorValues = [

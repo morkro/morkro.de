@@ -326,6 +326,18 @@ async function renderNodes(
         counters.set(node.variable, current - 1)
         break
       }
+      case 'Cycle': {
+        if (!localContext.__cycles__) {
+          localContext.__cycles__ = new Map<string, number>()
+        }
+
+        const cycles = localContext.__cycles__ as Map<string, number>
+        const index = cycles.get(node.group) ?? 0
+        const value = resolveExpression(node.values[index % node.values.length], localContext)
+        result.push(String(value))
+        cycles.set(node.group, index + 1)
+        break
+      }
       case 'Unknown': {
         logParser(`Unknown tag: ${node.name}`, { lvl: 'warn' })
         break

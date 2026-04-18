@@ -46,7 +46,7 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 | `limit` / `offset` | Done |
 | Range `(1..5)` as collection | Done |
 | `reversed` | Done |
-| `cycle` | Not implemented |
+| `cycle` | Done |
 | `tablerow` / `endtablerow` | Not implemented |
 
 ### Variable

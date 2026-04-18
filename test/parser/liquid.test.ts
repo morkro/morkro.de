@@ -8,6 +8,7 @@ import type {
 	NodeCapture,
 	NodeCase,
 	NodeComment,
+	NodeCycle,
 	NodeDecrement,
 	NodeEcho,
 	NodeFor,
@@ -864,6 +865,69 @@ describe('parseLiquid: echo', () => {
 			object: { type: 'Var', path: ['items'] },
 			key: { type: 'Literal', value: 0 },
 		})
+	})
+})
+
+describe('parseLiquid: cycle', () => {
+	it('parses unnamed cycle with string literals', () => {
+		const body = parse('{% cycle "one", "two", "three" %}')
+		assert.strictEqual(body.length, 1)
+		const node = body[0] as NodeCycle
+		assert.strictEqual(node.type, 'Cycle')
+		assert.strictEqual(node.values.length, 3)
+		assert.deepStrictEqual(node.values[0], { type: 'Literal', value: 'one' })
+		assert.deepStrictEqual(node.values[1], { type: 'Literal', value: 'two' })
+		assert.deepStrictEqual(node.values[2], { type: 'Literal', value: 'three' })
+	})
+
+	it('derives group name from values for unnamed cycle', () => {
+		const body = parse('{% cycle "one", "two" %}')
+		const node = body[0] as NodeCycle
+		assert.strictEqual(node.group, 'one.two')
+	})
+
+	it('parses named cycle with explicit group', () => {
+		const body = parse('{% cycle "row": "odd", "even" %}')
+		const node = body[0] as NodeCycle
+		assert.strictEqual(node.type, 'Cycle')
+		assert.strictEqual(node.group, 'row')
+		assert.strictEqual(node.values.length, 2)
+		assert.deepStrictEqual(node.values[0], { type: 'Literal', value: 'odd' })
+		assert.deepStrictEqual(node.values[1], { type: 'Literal', value: 'even' })
+	})
+
+	it('parses cycle with number literals', () => {
+		const body = parse('{% cycle 1, 2, 3 %}')
+		const node = body[0] as NodeCycle
+		assert.strictEqual(node.values.length, 3)
+		assert.deepStrictEqual(node.values[0], { type: 'Literal', value: 1 })
+		assert.deepStrictEqual(node.values[1], { type: 'Literal', value: 2 })
+		assert.deepStrictEqual(node.values[2], { type: 'Literal', value: 3 })
+	})
+
+	it('parses cycle with variable references', () => {
+		const body = parse('{% cycle a, b %}')
+		const node = body[0] as NodeCycle
+		assert.strictEqual(node.values.length, 2)
+		assert.deepStrictEqual(node.values[0], { type: 'Var', path: ['a'] })
+		assert.deepStrictEqual(node.values[1], { type: 'Var', path: ['b'] })
+	})
+
+	it('derives group from variable paths', () => {
+		const body = parse('{% cycle a.x, b %}')
+		const node = body[0] as NodeCycle
+		assert.strictEqual(node.group, 'a.x.b')
+	})
+
+	it('parses cycle with single value', () => {
+		const body = parse('{% cycle "only" %}')
+		const node = body[0] as NodeCycle
+		assert.strictEqual(node.values.length, 1)
+		assert.deepStrictEqual(node.values[0], { type: 'Literal', value: 'only' })
+	})
+
+	it('throws when named cycle group is not a string literal', () => {
+		assert.throws(() => parse('{% cycle 123: "a", "b" %}'), ParserError)
 	})
 })
 

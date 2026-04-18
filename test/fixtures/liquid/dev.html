@@ -592,7 +592,45 @@ tags:
 		</div>
 	</section>
 
-	<!-- 11. CAPTURE TAG -->
+	<!-- 11. CYCLE TAG -->
+	<section id='cycle'>
+		<h2>Cycle Tests</h2>
+
+		<!-- Unnamed cycle: outputs one, two, three, one, two -->
+		<div class='cycle-basic'>
+			{% cycle 'one', 'two', 'three' %}
+			{% cycle 'one', 'two', 'three' %}
+			{% cycle 'one', 'two', 'three' %}
+			{% cycle 'one', 'two', 'three' %}
+			{% cycle 'one', 'two', 'three' %}
+		</div>
+
+		<!-- Named cycle groups are independent: expects odd, a, even, b, odd -->
+		<div class='cycle-named'>
+			{% cycle 'row': 'odd', 'even' %}
+			{% cycle 'col': 'a', 'b' %}
+			{% cycle 'row': 'odd', 'even' %}
+			{% cycle 'col': 'a', 'b' %}
+			{% cycle 'row': 'odd', 'even' %}
+		</div>
+
+		<!-- Cycle inside for loop: expects odd, even, odd -->
+		<ul class='cycle-for'>
+			{% for color in colors %}
+			<li class='{% cycle "rows": "odd", "even" %}'>{{ color }}</li>
+			{% endfor %}
+		</ul>
+
+		<!-- Unnamed cycles with different values are independent -->
+		<div class='cycle-different-values'>
+			{% cycle 'x', 'y' %}
+			{% cycle 'a', 'b', 'c' %}
+			{% cycle 'x', 'y' %}
+			{% cycle 'a', 'b', 'c' %}
+		</div>
+	</section>
+
+	<!-- 12. CAPTURE TAG -->
 
 	<section id='capture'>
 		<h2>Capture Tests</h2>
@@ -603,7 +641,7 @@ tags:
 		<p>{{content}}</p>
 	</section>
 
-	<!-- 12. RAW TAG -->
+	<!-- 13. RAW TAG -->
 	<section id='raw'>
 		<h2>Raw Tests</h2>
 		{% raw %}
@@ -611,7 +649,7 @@ tags:
 		{% endraw %}
 	</section>
 
-	<!-- 13. FOOTER -->
+	<!-- 14. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>
