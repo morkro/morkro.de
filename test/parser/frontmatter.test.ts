@@ -132,7 +132,7 @@ describe('removeFrontmatter', () => {
 
 describe('parseFrontmatter', () => {
 	it('parses flat keys and list blocks', () => {
-		const frontmatter = parseFrontmatter<FileMeta>(testFileFull)
+		const frontmatter = parseFrontmatter(testFileFull)
 		assert.strictEqual(frontmatter.title, 'Test')
 		assert.deepStrictEqual(frontmatter.keywords, ['test', 'test2'])
 		assert.strictEqual(frontmatter.permalink, '/test')
@@ -141,17 +141,13 @@ describe('parseFrontmatter', () => {
 	})
 
 	it('strips matching single- and double-quoted scalars', () => {
-		const p = parseFrontmatter<{ title: string; subtitle: string }>(testQuotedScalars)
+		const p = parseFrontmatter(testQuotedScalars)
 		assert.strictEqual(p.title, 'Single-quoted title')
 		assert.strictEqual(p.subtitle, 'Double-quoted: with colon')
 	})
 
 	it('parses nested mapping (external) and a tag list in one block', () => {
-		const p = parseFrontmatter<{
-			external: Record<string, string>
-			layout: string
-			tags: string[]
-		}>(testNestedExternal)
+		const p = parseFrontmatter(testNestedExternal)
 		assert.deepStrictEqual(p.external, {
 			host: 'SitePoint',
 			url: 'https://www.sitepoint.com/article/',
@@ -161,7 +157,7 @@ describe('parseFrontmatter', () => {
 	})
 
 	it('skips # comment lines inside the YAML block', () => {
-		const frontmatter = parseFrontmatter<Pick<FileMeta, 'title' | 'keywords'>>(
+		const frontmatter = parseFrontmatter(
 			testFileWithCommentedFrontmatter
 		)
 		assert.deepStrictEqual(frontmatter, {
@@ -171,22 +167,22 @@ describe('parseFrontmatter', () => {
 	})
 
 	it('returns empty object when there are no --- delimiters', () => {
-		const frontmatter = parseFrontmatter(testFileWithout)
+		const frontmatter = parseFrontmatter(testFileWithout,)
 		assert.deepStrictEqual(frontmatter, {})
 	})
 
 	it('returns empty object when opening delimiter is missing', () => {
-		const frontmatter = parseFrontmatter<FileMeta>(testFileWithBrokenFrontmatter)
+		const frontmatter = parseFrontmatter(testFileWithBrokenFrontmatter)
 		assert.deepStrictEqual(frontmatter, {})
 	})
 
 	it('uses empty string for key with no indented or following value before close', () => {
-		const p = parseFrontmatter<{ only_empty: string }>(testEmptyBlockValue)
+		const p = parseFrontmatter(testEmptyBlockValue)
 		assert.strictEqual(p.only_empty, '')
 	})
 
 	it('parses when inner block has no trailing newline after last key', () => {
-		const p = parseFrontmatter<{ title: string }>(testNoTrailingNewlineInner)
+		const p = parseFrontmatter(testNoTrailingNewlineInner)
 		assert.strictEqual(p.title, 'edge')
 	})
 
@@ -206,12 +202,12 @@ describe('parseFrontmatter', () => {
 	})
 
 	it('preserves colons inside values', () => {
-		const p = parseFrontmatter<{ url: string }>('---\nurl: https://example.com:8080/path\n---')
+		const p = parseFrontmatter('---\nurl: https://example.com:8080/path\n---')
 		assert.strictEqual(p.url, 'https://example.com:8080/path')
 	})
 
 	it('preserves colons inside quoted values', () => {
-		const p = parseFrontmatter<{ time: string }>('---\ntime: "12:30:00"\n---')
+		const p = parseFrontmatter('---\ntime: "12:30:00"\n---')
 		assert.strictEqual(p.time, '12:30:00')
 	})
 
@@ -224,7 +220,7 @@ categories:
   - web
   - frontend
 ---`
-		const p = parseFrontmatter<{ tags: string[], categories: string[] }>(input)
+		const p = parseFrontmatter(input)
 		assert.deepStrictEqual(p.tags, ['javascript', 'typescript'])
 		assert.deepStrictEqual(p.categories, ['web', 'frontend'])
 	})
@@ -238,10 +234,7 @@ social:
   twitter: alice
   github: alice123
 ---`
-		const p = parseFrontmatter<{
-			author: Record<string, string>
-			social: Record<string, string>
-		}>(input)
+		const p = parseFrontmatter(input)
 		assert.deepStrictEqual(p.author, { name: 'Alice', email: 'alice@example.com' })
 		assert.deepStrictEqual(p.social, { twitter: 'alice', github: 'alice123' })
 	})
@@ -257,13 +250,7 @@ author:
   name: Bob
 draft: false
 ---`
-		const p = parseFrontmatter<{
-			title: string
-			layout: string
-			tags: string[]
-			author: Record<string, string>
-			draft: string
-		}>(input)
+		const p = parseFrontmatter(input)
 		assert.strictEqual(p.title, 'My Post')
 		assert.strictEqual(p.layout, 'default')
 		assert.deepStrictEqual(p.tags, ['blog', 'tech'])
@@ -272,23 +259,23 @@ draft: false
 	})
 
 	it('treats numeric values as strings', () => {
-		const p = parseFrontmatter<{ port: string }>('---\nport: 8080\n---')
+		const p = parseFrontmatter('---\nport: 8080\n---')
 		assert.strictEqual(p.port, '8080')
 	})
 
 	it('treats boolean-like values as strings', () => {
-		const p = parseFrontmatter<{ published: string }>('---\npublished: true\n---')
+		const p = parseFrontmatter('---\npublished: true\n---')
 		assert.strictEqual(p.published, 'true')
 	})
 
 	it('skips lines without a colon', () => {
-		const p = parseFrontmatter<{ title: string }>('---\nno colon here\ntitle: valid\n---')
+		const p = parseFrontmatter('---\nno colon here\ntitle: valid\n---')
 		assert.strictEqual(p.title, 'valid')
 		assert.ok(!('no colon here' in (p as Record<string, unknown>)))
 	})
 
 	it('handles values with leading whitespace after colon', () => {
-		const p = parseFrontmatter<{ title: string }>('---\ntitle:   spaced   \n---')
+		const p = parseFrontmatter('---\ntitle:   spaced   \n---')
 		assert.strictEqual(p.title, 'spaced')
 	})
 
@@ -299,7 +286,7 @@ items:
   - "double quoted"
   - unquoted
 ---`
-		const p = parseFrontmatter<{ items: string[] }>(input)
+		const p = parseFrontmatter(input)
 		assert.deepStrictEqual(p.items, ['quoted item', 'double quoted', 'unquoted'])
 	})
 
@@ -309,10 +296,7 @@ nested:
   inner: value
 after: next
 ---`
-		const p = parseFrontmatter<{
-			nested: Record<string, string>
-			after: string
-		}>(input)
+		const p = parseFrontmatter(input)
 		assert.deepStrictEqual(p.nested, { inner: 'value' })
 		assert.strictEqual(p.after, 'next')
 	})

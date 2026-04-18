@@ -36,15 +36,29 @@ function parseFilename(filename: string): { date: Date, slug: string } {
   }
 }
 
-function createPost (data: string): Post {
-  const frontmatter = parseFrontmatter<Post>(data)
+function createPost(data: string, filename: string): Post {
+  const fm = parseFrontmatter(data)
+
+  if (typeof fm.title !== 'string') {
+    throw new Error(`Post "${filename}": missing "title"`)
+  }
+  if (typeof fm.excerpt !== 'string') {
+    throw new Error(`Post "${filename}": missing "excerpt"`)
+  }
+  if (!Array.isArray(fm.tags)) {
+    throw new Error(`Post "${filename}": missing "tags"`)
+  }
+  if (typeof fm.layout !== 'string') {
+    throw new Error(`Post "${filename}": missing "layout"`)
+  }
+
   return {
-    title: frontmatter.title,
-    excerpt: frontmatter.excerpt,
-    tags: frontmatter.tags,
-    layout: frontmatter.layout,
-    permalink: frontmatter.permalink ?? undefined,
-    external: frontmatter.external ?? undefined,
+    title: fm.title,
+    excerpt: fm.excerpt,
+    tags: fm.tags as string[],
+    layout: fm.layout,
+    permalink: typeof fm.permalink === 'string' ? fm.permalink : undefined,
+    external: fm.external as Post['external'],
   }
 }
 
@@ -64,7 +78,7 @@ export async function loadPosts(userConfig?: UserConfig): Promise<CollectionPost
     const raw = value as unknown as string
     const content = removeFrontmatter(raw).trim()
     const meta = parseFilename(filename)
-    const post = createPost(raw)
+    const post = createPost(raw, filename)
     const srcPath = join(
       config.directories.src,
       config.directories.internal.posts,

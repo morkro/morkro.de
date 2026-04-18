@@ -133,13 +133,13 @@ export function removeFrontmatter(file: string) {
 	return result
 }
 
-export function parseFrontmatter<T>(content: string): T {
+export function parseFrontmatter(content: string): Record<string, unknown> {
   // files can have some frontmatter meta data at the top, wrapped in "---" lines.
   // the wrapped text structure is in YAML format. we parse the content using regex and return it as an object.
 	const out: Record<string, unknown> = {}
 	const inner = content.match(FRONTMATTER_REGEX)?.[1]
 	if (!inner) {
-		return out as T
+		return out
 	}
 
 	const lines = inner.split('\n')
@@ -187,5 +187,5 @@ export function parseFrontmatter<T>(content: string): T {
 		cursor = { lines, index: cursor.index + 1 }
 	}
 
-	return out as T
+	return out
 }

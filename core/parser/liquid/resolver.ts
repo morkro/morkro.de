@@ -21,7 +21,7 @@ export async function layoutResolver (name: string, cache: Map<string, Layout>):
 	const fileName = name.endsWith('.liquid') ? name : `${name}.liquid`
 	const dir = resolve(cwd(), config.directories.src, config.directories.internal.layouts)
 	const source = await loadFile(dir, fileName)
-	const frontmatter = parseFrontmatter<Record<string, unknown>>(source)
+	const frontmatter = parseFrontmatter(source)
 	const body = removeFrontmatter(source)
 	const path = resolve(dir, fileName)
 	const template = parseLiquid(body, path)
