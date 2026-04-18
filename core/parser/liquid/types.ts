@@ -49,6 +49,9 @@ export type NodeComment = { type: 'Comment', body: Node[] }
 export type NodeCaseWhen = { values: Expression[], body: Node[] }
 export type NodeCase = { type: 'Case', subject: Expression, whens: NodeCaseWhen[], elseBody?: Node[] }
 export type NodeRaw = { type: 'Raw', body: Node[] }
+export type NodeEcho = { type: 'Echo', expression: Expression }
+export type NodeIncrement = { type: 'Increment', variable: string }
+export type NodeDecrement = { type: 'Decrement', variable: string }
 export type NodeShortCode = { type: 'ShortCode', name: string }
 export type NodeUnknown = { type: 'Unknown', name: string, body: string, args: string }
 
@@ -65,6 +68,9 @@ export type Node =
   | NodeComment
   | NodeCase
   | NodeRaw
+  | NodeEcho
+  | NodeIncrement
+  | NodeDecrement
   | NodeShortCode
   | NodeUnknown
   
@@ -105,6 +111,9 @@ export const TokenKeywordValues = [
   'endcase',
   'raw',
   'endraw',
+  'echo',
+  'increment',
+  'decrement',
 ] as const
 
 export const TokenOperatorValues = [
@@ -161,11 +170,13 @@ export type InnerToken =
 /**
  * Template
  */
+type TemplateMeta = {
+  source: string
+}
+
 export type Template = {
   type: 'Template',
-  meta: {
-    source: string
-  }
+  meta: TemplateMeta
   body: Node[]
 }
 
@@ -173,7 +184,5 @@ export type Layout = {
   type: 'Layout',
   template: Template,
   frontmatter: Record<string, unknown>,
-  meta: {
-    source: string
-  }
+  meta: TemplateMeta
 }

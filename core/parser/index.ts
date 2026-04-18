@@ -92,7 +92,7 @@ export async function compile (file: string, path: string, options: CompilerOpti
     outputPath,
     options.baseUrl,
     frontmatter)
-  localContext.shortCodes = options.shortCodes
+  localContext.__shortCodes__ = options.shortCodes
 
   const lpStart = perf('Parsing Liquid')
   const ast = parseLiquid(body, path)

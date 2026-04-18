@@ -8,8 +8,11 @@ import type {
 	NodeCapture,
 	NodeCase,
 	NodeComment,
+	NodeDecrement,
+	NodeEcho,
 	NodeFor,
 	NodeIf,
+	NodeIncrement,
 	NodeOutput,
 	NodeRaw,
 	NodeRender,
@@ -773,6 +776,94 @@ describe('parseLiquid: bracket access', () => {
 
 	it('throws on unclosed bracket', () => {
 		assert.throws(() => parse('{{ items[0 }}'), ParserError)
+	})
+})
+
+describe('parseLiquid: increment and decrement', () => {
+	it('parses increment tag', () => {
+		const body = parse('{% increment my_counter %}')
+		assert.strictEqual(body.length, 1)
+		const node = body[0] as NodeIncrement
+		assert.strictEqual(node.type, 'Increment')
+		assert.strictEqual(node.variable, 'my_counter')
+	})
+
+	it('parses decrement tag', () => {
+		const body = parse('{% decrement my_counter %}')
+		assert.strictEqual(body.length, 1)
+		const node = body[0] as NodeDecrement
+		assert.strictEqual(node.type, 'Decrement')
+		assert.strictEqual(node.variable, 'my_counter')
+	})
+
+	it('parses multiple increment tags with same variable', () => {
+		const body = parse('{% increment x %}{% increment x %}{% increment x %}')
+		assert.strictEqual(body.length, 3)
+		for (const node of body) {
+			assert.strictEqual(node.type, 'Increment')
+			assert.strictEqual((node as NodeIncrement).variable, 'x')
+		}
+	})
+
+	it('parses increment and decrement on same variable', () => {
+		const body = parse('{% increment x %}{% decrement x %}')
+		assert.strictEqual(body.length, 2)
+		assert.strictEqual(body[0].type, 'Increment')
+		assert.strictEqual(body[1].type, 'Decrement')
+		assert.strictEqual((body[0] as NodeIncrement).variable, 'x')
+		assert.strictEqual((body[1] as NodeDecrement).variable, 'x')
+	})
+
+	it('parses increment with hyphenated variable name', () => {
+		const body = parse('{% increment my-var %}')
+		const node = body[0] as NodeIncrement
+		assert.strictEqual(node.variable, 'my-var')
+	})
+
+	it('throws on increment without variable name', () => {
+		assert.throws(() => parse('{% increment %}'), ParserError)
+	})
+
+	it('throws on decrement without variable name', () => {
+		assert.throws(() => parse('{% decrement %}'), ParserError)
+	})
+})
+
+describe('parseLiquid: echo', () => {
+	it('parses echo with variable', () => {
+		const body = parse('{% echo title %}')
+		assert.strictEqual(body.length, 1)
+		const node = body[0] as NodeEcho
+		assert.strictEqual(node.type, 'Echo')
+		assert.deepStrictEqual(node.expression, { type: 'Var', path: ['title'] })
+	})
+
+	it('parses echo with dot-notation path', () => {
+		const body = parse('{% echo site.title %}')
+		const node = body[0] as NodeEcho
+		assert.deepStrictEqual(node.expression, { type: 'Var', path: ['site', 'title'] })
+	})
+
+	it('parses echo with string literal', () => {
+		const body = parse('{% echo "hello" %}')
+		const node = body[0] as NodeEcho
+		assert.deepStrictEqual(node.expression, { type: 'Literal', value: 'hello' })
+	})
+
+	it('parses echo with number literal', () => {
+		const body = parse('{% echo 42 %}')
+		const node = body[0] as NodeEcho
+		assert.deepStrictEqual(node.expression, { type: 'Literal', value: 42 })
+	})
+
+	it('parses echo with bracket access', () => {
+		const body = parse('{% echo items[0] %}')
+		const node = body[0] as NodeEcho
+		assert.deepStrictEqual(node.expression, {
+			type: 'Access',
+			object: { type: 'Var', path: ['items'] },
+			key: { type: 'Literal', value: 0 },
+		})
 	})
 })
 

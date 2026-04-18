@@ -46,9 +46,10 @@ const config: CoreConfig = {
   },
   reservedKeys: new Set([
     'page',
-    'shortCodes',
     'content',
     'collections',
+    '__shortCodes__',
+    '__counters__',
   ]),
 }
 

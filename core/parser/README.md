@@ -55,8 +55,8 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 | --- | ------ |
 | `assign` | Done (expression only; no filters on the right-hand side) |
 | `capture` / `endcapture` | Done |
-| `increment` / `decrement` | Not implemented |
-| `echo` | Not implemented |
+| `increment` / `decrement` | Done |
+| `echo` | Done |
 
 ### Partials / includes
 

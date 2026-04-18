@@ -385,6 +385,43 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
     return { type: 'ForContinue' }
   }
 
+  // {% echo expression %}
+  if (token.value === 'echo') {
+    cursor = next(cursor)
+    const { expression } = parseExpression(cursor, ctx)
+    return { type: 'Echo', expression }
+  }
+
+  // {% increment variable %}
+  if (token.value === 'increment') {
+    cursor = next(cursor)
+    const variableToken = current(cursor)
+    if (variableToken.type !== 'Ident') {
+      throw new ParserError(
+        `Expected "Ident" but got ${variableToken.type}`,
+        variableToken.start,
+        ctx.source,
+        ctx.filePath
+      )
+    }
+    return { type: 'Increment', variable: variableToken.value }
+  }
+
+  // {% decrement variable %}
+  if (token.value === 'decrement') {
+    cursor = next(cursor)
+    const variableToken = current(cursor)
+    if (variableToken.type !== 'Ident') {
+      throw new ParserError(
+        `Expected "Ident" but got ${variableToken.type}`,
+        variableToken.start,
+        ctx.source,
+        ctx.filePath
+      )
+    }
+    return { type: 'Decrement', variable: variableToken.value }
+  }
+
   throw new ParserError(
     `Unsupported tag starting with ${token.type} "${token.value}"`,
     token.start,

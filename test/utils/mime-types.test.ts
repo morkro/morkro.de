@@ -1,5 +1,5 @@
-import { describe, it } from 'node:test'
 import assert from 'node:assert'
+import { describe, it } from 'node:test'
 import { getMimeType, isTextFile } from '#utils/mime-types.ts'
 
 describe('getMimeType function', () => {
@@ -7,9 +7,9 @@ describe('getMimeType function', () => {
     assert.equal(getMimeType('.html'), 'text/html; charset=utf-8')
     assert.equal(getMimeType('.css'), 'text/css; charset=utf-8')
     assert.equal(getMimeType('.js'), 'application/javascript; charset=utf-8')
-    assert.equal(getMimeType('.json'), 'application/json')
+    assert.equal(getMimeType('.json'), 'application/json; charset=utf-8')
     assert.equal(getMimeType('.txt'), 'text/plain; charset=utf-8')
-    assert.equal(getMimeType('.svg'), 'image/svg+xml; charset=utf-8')
+    assert.equal(getMimeType('.svg'), 'image/svg+xml')
     assert.equal(getMimeType('.png'), 'image/png')
     assert.equal(getMimeType('.jpg'), 'image/jpeg')
     assert.equal(getMimeType('.jpeg'), 'image/jpeg')

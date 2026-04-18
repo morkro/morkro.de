@@ -104,6 +104,10 @@ async function renderNodes(
 ) : Promise<string> {
   const result: string[] = []
 
+  if (!localContext.__counters__) {
+    localContext.__counters__ = new Map<string, number>()
+  }
+
   for (const node of nodes) {
     switch (node.type) {
       case 'Text':
@@ -122,7 +126,7 @@ async function renderNodes(
           file = resolved
         }
 
-        const renderContext = { shortCodes: localContext.shortCodes }
+        const renderContext = { __shortCodes__: localContext.__shortCodes__ }
         if (node.variables.length > 0) {
           for (const variable of node.variables) {
             renderContext[variable.name] = resolveExpression(variable.expression, localContext)
@@ -294,13 +298,32 @@ async function renderNodes(
         ))
         break
       case 'ShortCode': {
-        const shortCodes = localContext.shortCodes as Record<string, () => unknown>
+        const shortCodes = localContext.__shortCodes__ as Record<string, () => unknown>
         const fn = shortCodes?.[node.name]
         if (!fn || typeof fn !== 'function') {
           logParser(`Unknown shortcode: ${node.name}`, { lvl: 'error' })
           break
         }
         result.push(String(fn()))
+        break
+      }
+      case 'Echo':
+        result.push(String(evaluateExpression(node.expression, localContext)))
+        break
+      case 'Increment': {
+        // Liquid outputs first, then increments
+        const counters = localContext.__counters__ as Map<string, number>
+        const current = counters.get(node.variable) ?? 0
+        result.push(String(current))
+        counters.set(node.variable, current + 1)
+        break
+      }
+      case 'Decrement': {
+        // Liquid decrements first, then outputs
+        const counters = localContext.__counters__ as Map<string, number>
+        const current = counters.get(node.variable) ?? 0
+        result.push(String(current - 1))
+        counters.set(node.variable, current - 1)
         break
       }
       case 'Unknown': {

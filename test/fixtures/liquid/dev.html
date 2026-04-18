@@ -543,7 +543,56 @@ tags:
 		</ul>
 	</section>
 
-	<!-- 10. CAPTURE TAG -->
+	<!-- 10. INCREMENT / DECREMENT / ECHO -->
+	<section id='increment-decrement-echo'>
+		<h2>Increment / Decrement / Echo Tests</h2>
+
+		<!-- Increment: outputs 0, 1, 2 (outputs current, then increments) -->
+		<div class='inc-basic'>
+			{% increment my_counter %}
+			{% increment my_counter %}
+			{% increment my_counter %}
+		</div>
+
+		<!-- Decrement: outputs -1, -2, -3 (decrements, then outputs) -->
+		<div class='dec-basic'>
+			{% decrement my_dec %}
+			{% decrement my_dec %}
+			{% decrement my_dec %}
+		</div>
+
+		<!-- Separate counters per variable name: expects a=0, b=0, a=1 -->
+		<div class='inc-separate'>
+			{% increment a %}
+			{% increment b %}
+			{% increment a %}
+		</div>
+
+		<!-- Counter independent from assign: expects counter=0, assign=10 -->
+		<div class='inc-assign-independent'>
+			{% assign x = 10 %}
+			{% increment x %}
+			{{ x }}
+		</div>
+
+		<!-- Shared counter between increment and decrement: expects 0, 1, 1, 1 -->
+		<div class='inc-dec-shared'>
+			{% increment shared %}
+			{% increment shared %}
+			{% decrement shared %}
+			{% increment shared %}
+		</div>
+
+		<!-- Echo: equivalent to output tags -->
+		<div class='echo-basic'>
+			<p>{% echo site.title %}</p>
+			<p>{% echo 'literal string' %}</p>
+			<p>{% echo 99 %}</p>
+			<p>{% echo colors[0] %}</p>
+		</div>
+	</section>
+
+	<!-- 11. CAPTURE TAG -->
 
 	<section id='capture'>
 		<h2>Capture Tests</h2>
@@ -554,7 +603,7 @@ tags:
 		<p>{{content}}</p>
 	</section>
 
-	<!-- 11. RAW TAG -->
+	<!-- 12. RAW TAG -->
 	<section id='raw'>
 		<h2>Raw Tests</h2>
 		{% raw %}
@@ -562,7 +611,7 @@ tags:
 		{% endraw %}
 	</section>
 
-	<!-- 12. FOOTER -->
+	<!-- 13. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>

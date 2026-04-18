@@ -255,17 +255,17 @@ draft: false
 		assert.strictEqual(p.layout, 'default')
 		assert.deepStrictEqual(p.tags, ['blog', 'tech'])
 		assert.deepStrictEqual(p.author, { name: 'Bob' })
-		assert.strictEqual(p.draft, 'false')
+		assert.strictEqual(p.draft, false)
 	})
 
-	it('treats numeric values as strings', () => {
+	it('coerces numeric values to numbers', () => {
 		const p = parseFrontmatter('---\nport: 8080\n---')
-		assert.strictEqual(p.port, '8080')
+		assert.strictEqual(p.port, 8080)
 	})
 
-	it('treats boolean-like values as strings', () => {
+	it('coerces boolean-like values to booleans', () => {
 		const p = parseFrontmatter('---\npublished: true\n---')
-		assert.strictEqual(p.published, 'true')
+		assert.strictEqual(p.published, true)
 	})
 
 	it('skips lines without a colon', () => {

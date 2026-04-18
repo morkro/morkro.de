@@ -38,7 +38,8 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 | Raw blocks (raw/endraw) | Done |
 | Filters (pipe chains in output and assign) | Not started |
 | Whitespace control (`{{-`, `-}}`, `{%-`, `-%}`) | Not started |
-| Additional tags (cycle, tablerow, increment/decrement, echo) | Not started |
+| Variable tags (increment/decrement, echo) | Done |
+| Additional tags (cycle, tablerow) | Not started |
 
 ### 1.2 Frontmatter Parser
 
@@ -73,15 +74,7 @@ Required filters from `eleventy.config.js`:
 | `prepend` | Not started | String prefixing |
 | `date` | Not started | strftime-style formatting |
 
-### 1.5 Shortcodes
-
-From `eleventy.config.js`:
-
-| Feature | Status |
-| ------- | ------ |
-| `currentYear` shortcode | Done |
-| Shortcode registration system | Done — `shortCodes` map in `config.user.ts` |
-| Shortcode resolver in templates | Done — `ShortCode` AST node, resolved during rendering |
+### 1.5 Shortcodes — Done
 
 ### 1.6 Collections
 
@@ -215,8 +208,8 @@ Tokenizer per language:
 
 | Feature | Status |
 | ------- | ------ |
-| File discovery and processing | In progress |
-| Layout system | Done — `layoutResolver` in `resolver.ts`; nested layout chains via frontmatter `layout` key; content injection via `{{ content }}` |
+| File discovery and processing | Done |
+| Layout system | Done |
 | Data file loading (`_data/` directory) | In progress |
 | Custom data mapping (`customDataMapping` in `config.user.ts`: path string, or `{ path, values }` to expose only listed top-level keys from a JSON file) | Done |
 | Posts collection in global context (`collections.posts`) | Done |
@@ -259,20 +252,7 @@ From `eleventy.config.js`:
 
 ## 6. Migration Tasks
 
-### 6.1 Template Updates
-
-**Blocked by:** Render scope (Phase 2)
-
-Update `src/_includes/` files to work with isolated render scope:
-
-| File | Status | Required Variables |
-| ---- | ------ | ------------------ |
-| `page-footer.liquid` | Blocked | `site.email`, `socialnetworks.*`, `pkg.version` |
-| `page-scripts.liquid` | Blocked | `pkg.version`, `site.timestamp` |
-| `menu.liquid` | Blocked | `title` |
-| `meta-head.liquid` | Blocked | `site.*`, `page.*`, `pkg.*`, `eleventy.*`, `keywords`, `pageClass` |
-
-`pkg` keys listed in `customDataMapping` (e.g. `version`, `author` from `package.json`) are available from `loadDataFiles()`; templates remain blocked until render scope and the other variables above are wired.
+### 6.1 Template Updates — Done
 
 ### 6.2 Directory Name Resolution
 
@@ -333,14 +313,7 @@ Gaps:
 | Extract layout resolution into its own step | Not started | `core/parser/index.ts:90` |
 | Define shared pipeline state type | Not started | `core/parser/index.ts` |
 
-### 7.2 Architecture: Separate file discovery from processing in `traverseDir`
-
-`core/emitter/traverse.ts` — `traverseDir()` mixes directory walking, file reading, compilation, and writing into a single recursive function. Splitting discovery (which files exist) from processing (compile + write) would simplify testing, enable parallel file processing later, and make the flow easier to follow.
-
-| Task | Status | File |
-| ---- | ------ | ---- |
-| Extract file discovery into a standalone function returning a file list | Done | `core/emitter/traverse.ts:23` |
-| Move compile + write into a separate processing step | Done | `core/emitter/traverse.ts:70` |
+### 7.2 Architecture: Separate file discovery from processing in `traverseDir` — Done
 
 ### 7.3 Type Safety: Remove `as` casts where narrowing suffices
 
@@ -353,14 +326,7 @@ The parser uses `as TokenIdent` / `as TokenKeyword` casts *before* the runtime t
 | `nameToken` cast in `capture` branch | Not started | `core/parser/liquid/parser.ts:497` |
 | `params` cast in for-loop param parsing | Not started | `core/parser/liquid/parser.ts:630` |
 
-### 7.4 Type Safety: Narrow catch-block errors
-
-Several catch blocks access `.code` on an untyped `error` without narrowing. Add an `isErrnoException` type guard (or inline narrowing) so `error.code` access is safe.
-
-| Task | Status | File |
-| ---- | ------ | ---- |
-| Add `isErrnoException` guard to `core/utils/` | Not started | — |
-| Use guard in `readOrImport` catch | Not started | `core/data/loader.ts:28` |
+### 7.4 Type Safety: Narrow catch-block errors — Done
 
 ### 7.5 Type Safety: Replace `as Record<string, unknown>` casts in data loader
 
@@ -440,49 +406,3 @@ Markdown Processing
     ├── Parser
     └── HTML Renderer
 ```
-
----
-
-## Build Order Recommendation
-
-1. **Complete Template Features** (Phase 2)
-   - Filters (especially `dateToRFC3339`, `encodeXML`)
-   - Collections parity (per-post pages, permalinks, URL helpers — `core/data/posts.ts`)
-   - Shortcodes system
-
-2. **CSS Processing** (Phase 3)
-   - CSS Parser (shared dependency)
-   - CSS @import Resolver (most important)
-   - CSS Minifier
-   - Autoprefixer (optional, evaluate if needed)
-
-3. **HTML Minification** (Phase 3)
-   - HTML Parser
-   - HTML Minifier
-
-4. **Markdown Parser** (if not done)
-   - Full parser implementation
-   - Integration with frontmatter
-
-5. **Syntax Highlighting** (Phase 3)
-   - Start with languages used in blog
-   - Expand as needed
-
-6. **Developer Experience** (Phase 4)
-   - File watcher
-   - Dev server with live reload
-
-7. **Final Cleanup** (Phase 5)
-   - Remove all dependencies
-   - Update documentation
-
----
-
-## Notes
-
-- **CSS Autoprefixer:** Evaluate if needed. Modern browsers support most CSS features without prefixes.
-- **Language Grammars:** Syntax highlighting requires significant work. Start with actively used languages.
-- **Shared Parsers:** CSS Parser is a dependency for multiple components - build it first and reuse.
-- **Testing:** Test each component with actual site content before moving to next.
-- **Compatibility:** Website must work identically after migration (see AGENT.md).
-
