@@ -18,6 +18,7 @@ import type {
 	NodeRaw,
 	NodeRender,
 	NodeShortCode,
+	NodeTableRow,
 	NodeText,
 } from '#parser/liquid/types.ts'
 
@@ -928,6 +929,78 @@ describe('parseLiquid: cycle', () => {
 
 	it('throws when named cycle group is not a string literal', () => {
 		assert.throws(() => parse('{% cycle 123: "a", "b" %}'), ParserError)
+	})
+})
+
+describe('parseLiquid: tablerow', () => {
+	it('parses basic tablerow', () => {
+		const body = parse('{% tablerow item in items %}{{ item }}{% endtablerow %}')
+		assert.strictEqual(body.length, 1)
+		const node = body[0] as NodeTableRow
+		assert.strictEqual(node.type, 'TableRow')
+		assert.strictEqual(node.variable, 'item')
+		assert.deepStrictEqual(node.collection, { type: 'Var', path: ['items'] })
+		assert.ok(node.body.length > 0)
+	})
+
+	it('parses tablerow with cols param', () => {
+		const body = parse('{% tablerow item in items cols:2 %}{{ item }}{% endtablerow %}')
+		const node = body[0] as NodeTableRow
+		const params = node.params
+		assert.ok(params)
+		const colsParam = params.find(p => p.type === 'cols')
+		assert.ok(colsParam)
+		assert.strictEqual(colsParam.type === 'cols' && colsParam.value, 2)
+	})
+
+	it('parses tablerow with limit param', () => {
+		const body = parse('{% tablerow item in items limit:3 %}{{ item }}{% endtablerow %}')
+		const node = body[0] as NodeTableRow
+		const params = node.params
+		assert.ok(params)
+		const limitParam = params.find(p => p.type === 'limit')
+		assert.ok(limitParam)
+		assert.strictEqual(limitParam.type === 'limit' && limitParam.value, 3)
+	})
+
+	it('parses tablerow with offset param', () => {
+		const body = parse('{% tablerow item in items offset:1 %}{{ item }}{% endtablerow %}')
+		const node = body[0] as NodeTableRow
+		const params = node.params
+		assert.ok(params)
+		const offsetParam = params.find(p => p.type === 'offset')
+		assert.ok(offsetParam)
+		assert.strictEqual(offsetParam.type === 'offset' && offsetParam.value, 1)
+	})
+
+	it('parses tablerow with multiple params', () => {
+		const body = parse('{% tablerow item in items cols:3 limit:6 offset:2 %}{{ item }}{% endtablerow %}')
+		const node = body[0] as NodeTableRow
+		const params = node.params
+		assert.ok(params)
+		assert.strictEqual(params.length, 3)
+	})
+
+	it('parses tablerow with dot-notation collection', () => {
+		const body = parse('{% tablerow tag in site.tags %}{{ tag }}{% endtablerow %}')
+		const node = body[0] as NodeTableRow
+		assert.deepStrictEqual(node.collection, { type: 'Var', path: ['site', 'tags'] })
+	})
+
+	it('parses tablerow with range expression', () => {
+		const body = parse('{% tablerow i in (1..5) cols:3 %}{{ i }}{% endtablerow %}')
+		const node = body[0] as NodeTableRow
+		assert.strictEqual(node.collection.type, 'Range')
+		if (node.collection.type === 'Range') {
+			assert.deepStrictEqual(node.collection.from, { type: 'Literal', value: 1 })
+			assert.deepStrictEqual(node.collection.to, { type: 'Literal', value: 5 })
+		}
+	})
+
+	it('sets params to undefined when none are specified', () => {
+		const body = parse('{% tablerow item in items %}x{% endtablerow %}')
+		const node = body[0] as NodeTableRow
+		assert.strictEqual(node.params, undefined)
 	})
 })
 

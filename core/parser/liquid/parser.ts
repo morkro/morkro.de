@@ -7,6 +7,7 @@ import type {
   NodeCaseWhen,
   NodeForParams,
   NodeIf,
+  NodeTableRowParams,
   Template,
   Token,
   TokenIdent,
@@ -37,7 +38,7 @@ type ParseExpressionResult = {
   readonly cursor: CursorState
 }
 
-type ParseForHeaderResult = {
+type ParseIterationHeaderResult = {
   readonly variable: TokenIdent
   readonly expression: Expression
   readonly cursor: CursorState
@@ -475,14 +476,14 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
   )
 }
 
-function parseForHeader (innerTokens: InnerToken[], ctx: ParseContext): ParseForHeaderResult {
+function parseIterationHeader (innerTokens: InnerToken[], ctx: ParseContext, keyword: 'for' | 'tablerow'): ParseIterationHeaderResult {
   let cursor: CursorState = { tokens: innerTokens, index: 0 }
 
-  const forKeyword = current(cursor)
-  if (forKeyword.type !== 'Keyword' || forKeyword.value !== 'for') {
+  const kw = current(cursor)
+  if (kw.type !== 'Keyword' || kw.value !== keyword) {
     throw new ParserError(
-      `Expected "for" keyword but got ${forKeyword.type}`,
-      forKeyword.start,
+      `Expected "${keyword}" keyword but got ${kw.type}`,
+      kw.start,
       ctx.source,
       ctx.filePath
     )
@@ -711,7 +712,7 @@ function parseNodes(
         }
 
         if (isToken('for')) {
-          const { variable, expression: iterable, cursor: iterableCursor } = parseForHeader(innerTokens, ctx)
+          const { variable, expression: iterable, cursor: iterableCursor } = parseIterationHeader(innerTokens, ctx, 'for')
           const { nodes: body, stoppedAt, endIndex } = parseNodes(
             tokens,
             index + 1,
@@ -780,6 +781,58 @@ function parseNodes(
 
           continue
         }   
+
+        if (isToken('tablerow')) {
+          const { variable, expression: iterable, cursor: iterableCursor } = parseIterationHeader(innerTokens, ctx, 'tablerow')
+          let cursor = iterableCursor
+          const tableRowParams: NodeTableRowParams[] = []
+
+          while (current(cursor).type === 'Ident') {
+            const param = current(cursor) as TokenIdent
+            if (param.value !== 'cols' && param.value !== 'limit' && param.value !== 'offset') break
+
+            cursor = next(cursor)
+            const colonToken = current(cursor)
+            if (colonToken.type !== 'Punct' || colonToken.value !== ':') {
+              throw new ParserError(
+                `Expected ":" but got ${colonToken.type}`,
+                colonToken.start,
+                ctx.source,
+                ctx.filePath
+              )
+            }
+
+            cursor = next(cursor)
+            const { expression: value, cursor: valueCursor } = parseExpression(cursor, ctx)
+            if (value.type !== 'Literal' || typeof value.value !== 'number') {
+              throw new ParserError(
+                `Expected "Literal" but got ${param.value}`,
+                param.start,
+                ctx.source,
+                ctx.filePath
+              )
+            }
+
+            tableRowParams.push({
+              type: param.value as 'cols' | 'limit' | 'offset',
+              value: value.value
+            })
+            cursor = valueCursor
+          }
+
+          // reuse the body from parseNodes but re-parse to get the body nodes
+          const { nodes: body, endIndex } = parseNodes(tokens, index + 1, ctx, ['endtablerow'])
+          index = endIndex
+          nodes.push({
+            type: 'TableRow',
+            variable: variable.value,
+            collection: iterable,
+            body,
+            params: tableRowParams.length > 0 ? tableRowParams : undefined,
+          })
+
+          continue
+        }
         
         if (isToken('raw')) {
           if (

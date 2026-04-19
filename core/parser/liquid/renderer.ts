@@ -3,7 +3,14 @@ import { BreakSignal, ContinueSignal, ParserError } from "#parser/utils.ts";
 import { logParser } from "#utils/log.ts";
 import { getFromObject } from "#utils/object.ts";
 import type { templateResolver } from "./resolver.ts";
-import type { Expression, ExpressionBinary, ForLoopContext, Node, Template } from "./types.ts";
+import type {
+  Expression,
+  ExpressionBinary,
+  ForLoopContext,
+  Node,
+  TableRowLoopContext,
+  Template
+} from "./types.ts";
 
 export type RenderContext = Record<string, unknown>
 
@@ -336,6 +343,68 @@ async function renderNodes(
         const value = resolveExpression(node.values[index % node.values.length], localContext)
         result.push(String(value))
         cycles.set(node.group, index + 1)
+        break
+      }
+      case 'TableRow': {
+        const rawCollection = resolveExpression(node.collection, localContext)
+        let collection = rawCollection as unknown[]
+        if (!Array.isArray(collection)) {
+          const colName = getCollectionName(node.collection)
+          logParser(
+            `Expected array but got ${typeof rawCollection} for collection "${colName}" in ${templateSource}`,
+            { lvl: 'error' }
+          )
+          collection = []
+        }
+
+        let cols = collection.length
+        for (const param of node.params ?? []) {
+          if (param.type === 'offset') collection = collection.slice(param.value)
+          if (param.type === 'limit') collection = collection.slice(0, param.value)
+          if (param.type === 'cols') cols = param.value
+        }
+
+        for (let index = 0; index < collection.length; index++) {
+          const col0 = index % cols
+          const row = Math.floor(index / cols) + 1
+          const colLast = col0 === cols - 1 || index === collection.length - 1
+
+          if (col0 === 0) {
+            result.push(`<tr class="row${row}">`)
+          }
+
+          const isolatedContext = Object.create(localContext)
+          isolatedContext[node.variable] = collection[index]
+          isolatedContext.tablerowloop = {
+            index: index + 1,
+            index0: index,
+            rindex: collection.length - index,
+            rindex0: collection.length - index - 1,
+            first: index === 0,
+            last: index === collection.length - 1,
+            length: collection.length,
+            col: col0 + 1,
+            col0,
+            colFirst: col0 === 0,
+            colLast,
+            row,
+          } satisfies TableRowLoopContext
+
+          result.push(`<td class="col${col0 + 1}">`)
+          result.push(await renderNodes(
+            node.body,
+            templateSource,
+            isolatedContext,
+            resolver,
+            renderCache
+          ))
+          result.push('</td>')
+
+          if (colLast) {
+            result.push('</tr>')
+          }
+        }
+
         break
       }
       case 'Unknown': {

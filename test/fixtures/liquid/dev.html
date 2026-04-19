@@ -630,8 +630,54 @@ tags:
 		</div>
 	</section>
 
-	<!-- 12. CAPTURE TAG -->
+	<!-- 12. TABLEROW TAG -->
+	<section id='tablerow'>
+		<h2>TableRow Tests</h2>
 
+		<!-- Basic tablerow without cols: single row with all items -->
+		<table class='tr-basic'>
+			{% tablerow color in colors %}
+				{{ color }}
+			{% endtablerow %}
+		</table>
+
+		<!-- Tablerow with cols:2: two items per row -->
+		<table class='tr-cols'>
+			{% tablerow tag in tags cols:2 %}
+				{{ tag }}
+			{% endtablerow %}
+		</table>
+
+		<!-- Tablerow with limit: only first 2 items -->
+		<table class='tr-limit'>
+			{% tablerow color in colors limit:2 %}
+				{{ color }}
+			{% endtablerow %}
+		</table>
+
+		<!-- Tablerow with offset: skip first item -->
+		<table class='tr-offset'>
+			{% tablerow color in colors offset:1 %}
+				{{ color }}
+			{% endtablerow %}
+		</table>
+
+		<!-- Tablerow with range: expects 1..5 in 2 columns -->
+		<table class='tr-range'>
+			{% tablerow i in (1..5) cols:2 %}
+				{{ i }}
+			{% endtablerow %}
+		</table>
+
+		<!-- Tablerow with tablerowloop context -->
+		<table class='tr-loop-context'>
+			{% tablerow color in colors cols:2 %}
+				{{ tablerowloop.index }}-{{ tablerowloop.col }}-{{ color }}
+			{% endtablerow %}
+		</table>
+	</section>
+
+	<!-- 13. CAPTURE TAG -->
 	<section id='capture'>
 		<h2>Capture Tests</h2>
 		{% assign number = 10 %}
@@ -641,7 +687,7 @@ tags:
 		<p>{{content}}</p>
 	</section>
 
-	<!-- 13. RAW TAG -->
+	<!-- 14. RAW TAG -->
 	<section id='raw'>
 		<h2>Raw Tests</h2>
 		{% raw %}
@@ -649,7 +695,7 @@ tags:
 		{% endraw %}
 	</section>
 
-	<!-- 14. FOOTER -->
+	<!-- 15. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>

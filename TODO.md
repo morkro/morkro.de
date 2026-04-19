@@ -39,7 +39,7 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 | Filters (pipe chains in output and assign) | Not started |
 | Whitespace control (`{{-`, `-}}`, `{%-`, `-%}`) | Not started |
 | Variable tags (increment/decrement, echo) | Done |
-| Additional tags (cycle, tablerow) | Not started |
+| Iteration tags (cycle, tablerow/endtablerow with cols/limit/offset, tablerowloop) | Done |
 
 ### 1.2 Frontmatter Parser
 
@@ -321,10 +321,11 @@ The parser uses `as TokenIdent` / `as TokenKeyword` casts *before* the runtime t
 
 | Task | Status | File |
 | ---- | ------ | ---- |
-| `variable` cast in `parseForHeader` | Not started | `core/parser/liquid/parser.ts:396` |
-| `inKeyword` cast in `parseForHeader` | Not started | `core/parser/liquid/parser.ts:406` |
-| `nameToken` cast in `capture` branch | Not started | `core/parser/liquid/parser.ts:497` |
-| `params` cast in for-loop param parsing | Not started | `core/parser/liquid/parser.ts:630` |
+| `variable` cast in `parseIterationHeader` | Not started | `core/parser/liquid/parser.ts` |
+| `inKeyword` cast in `parseIterationHeader` | Not started | `core/parser/liquid/parser.ts` |
+| `nameToken` cast in `capture` branch | Not started | `core/parser/liquid/parser.ts` |
+| `params` cast in for-loop param parsing | Not started | `core/parser/liquid/parser.ts` |
+| `param` cast in tablerow param parsing | Not started | `core/parser/liquid/parser.ts` |
 
 ### 7.4 Type Safety: Narrow catch-block errors — Done
 

@@ -30,10 +30,12 @@ export type Expression =
 /**
  * Nodes
  */
-type ForParamLimit = { type: 'limit', value: number }
-type ForParamOffset = { type: 'offset', value: number }
-type ForParamReversed = { type: 'reversed' }
-export type NodeForParams = ForParamLimit | ForParamOffset | ForParamReversed
+type HeaderParamLimit = { type: 'limit', value: number }
+type HeaderParamOffset = { type: 'offset', value: number }
+type HeaderParamReversed = { type: 'reversed' }
+type HeaderParamCols = { type: 'cols', value: number }
+export type NodeForParams = HeaderParamLimit | HeaderParamOffset | HeaderParamReversed
+export type NodeTableRowParams = HeaderParamLimit | HeaderParamOffset | HeaderParamCols
 
 export type NodeVariable = { name: string, expression: Expression }
 export type NodeText = { type: 'Text', value: string }
@@ -54,6 +56,7 @@ export type NodeIncrement = { type: 'Increment', variable: string }
 export type NodeDecrement = { type: 'Decrement', variable: string }
 export type NodeShortCode = { type: 'ShortCode', name: string }
 export type NodeCycle = { type: 'Cycle', group: string, values: Expression[] }
+export type NodeTableRow = { type: 'TableRow', body: Node[], params?: NodeTableRowParams[], variable: string, collection: Expression }
 export type NodeUnknown = { type: 'Unknown', name: string, body: string, args: string }
 
 export type Node =
@@ -74,6 +77,7 @@ export type Node =
   | NodeDecrement
   | NodeShortCode
   | NodeCycle
+  | NodeTableRow
   | NodeUnknown
   
 /** For loop context object */
@@ -85,6 +89,15 @@ export type ForLoopContext = {
   first: boolean
   last: boolean
   length: number
+}
+
+/** Table row context object */
+export type TableRowLoopContext = ForLoopContext & {
+  col: number
+  col0: number
+  colFirst: boolean
+  colLast: boolean
+  row: number
 }
 
 /**
@@ -117,6 +130,8 @@ export const TokenKeywordValues = [
   'increment',
   'decrement',
   'cycle',
+  'tablerow',
+  'endtablerow',
 ] as const
 
 export const TokenOperatorValues = [
