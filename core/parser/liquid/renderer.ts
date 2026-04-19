@@ -29,7 +29,10 @@ function resolveExpression (expression: Expression, localContext: RenderContext)
     return getFromObject(expression.path, localContext)
   }
   if (expression.type === 'Binary') {
-    throw new ParserError('Unexpected binary expression', 0)
+    return evaluateBinary(expression, localContext)
+  }
+  if (expression.type === 'Unary') {
+    return evaluateExpression(expression, localContext)
   }
   if (expression.type === 'Range') {
     const from = Number(resolveExpression(expression.from, localContext))
@@ -48,6 +51,16 @@ function resolveExpression (expression: Expression, localContext: RenderContext)
 function evaluateExpression (expression: Expression, localContext: RenderContext) {
   if (expression.type === 'Binary') {
     return evaluateBinary(expression, localContext)
+  }
+  if (expression.type === 'Unary') {
+    const operand = evaluateExpression(expression.operand, localContext)
+    if (expression.operator === 'not') {
+      return !operand
+    }
+    if (expression.operator === '-') {
+      return -Number(operand)
+    }
+    throw new ParserError(`Unexpected unary operator: ${expression.operator}`, 0)
   }
   return resolveExpression(expression, localContext)
 }
@@ -97,6 +110,22 @@ function evaluateBinary (condition: ExpressionBinary, localContext: RenderContex
 			const { left, right } = operands()
 			return Number(left) <= Number(right)
 		}
+    case '+': {
+      const { left, right } = operands()
+      return Number(left) + Number(right)
+    }
+    case '-': {
+      const { left, right } = operands()
+      return Number(left) - Number(right)
+    }
+    case '*': {
+      const { left, right } = operands()
+      return Number(left) * Number(right)
+    }
+    case '/': {
+      const { left, right } = operands()
+      return Number(left) / Number(right)
+    }
 		default:
 			throw new ParserError(`Unexpected binary operator: ${condition.operator}`, 0)
 	}

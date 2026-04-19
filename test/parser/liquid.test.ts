@@ -1,8 +1,13 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
 import { parseLiquid } from '#parser/liquid/parser.ts'
+import { render, type RenderContext } from '#parser/liquid/renderer.ts'
+import type { Template } from '#parser/liquid/types.ts'
 import { ParserError } from '#parser/utils.ts'
 import type {
+	Expression,
+	ExpressionBinary,
+	ExpressionUnary,
 	Node,
 	NodeAssign,
 	NodeCapture,
@@ -1023,5 +1028,399 @@ describe('parseLiquid: error handling', () => {
 
 	it('throws ParserError on unexpected character in expression', () => {
 		assert.throws(() => parse('{{ @invalid }}'), ParserError)
+	})
+})
+
+describe('parseLiquid: arithmetic expressions', () => {
+	it('parses addition in output', () => {
+		const body = parse('{{ 2 + 3 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.type, 'Binary')
+		assert.strictEqual(expr.operator, '+')
+		assert.deepStrictEqual(expr.left, { type: 'Literal', value: 2 })
+		assert.deepStrictEqual(expr.right, { type: 'Literal', value: 3 })
+	})
+
+	it('parses subtraction in output', () => {
+		const body = parse('{{ 10 - 4 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.type, 'Binary')
+		assert.strictEqual(expr.operator, '-')
+		assert.deepStrictEqual(expr.left, { type: 'Literal', value: 10 })
+		assert.deepStrictEqual(expr.right, { type: 'Literal', value: 4 })
+	})
+
+	it('parses multiplication in output', () => {
+		const body = parse('{{ 3 * 7 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.type, 'Binary')
+		assert.strictEqual(expr.operator, '*')
+		assert.deepStrictEqual(expr.left, { type: 'Literal', value: 3 })
+		assert.deepStrictEqual(expr.right, { type: 'Literal', value: 7 })
+	})
+
+	it('parses division in output', () => {
+		const body = parse('{{ 20 / 4 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.type, 'Binary')
+		assert.strictEqual(expr.operator, '/')
+		assert.deepStrictEqual(expr.left, { type: 'Literal', value: 20 })
+		assert.deepStrictEqual(expr.right, { type: 'Literal', value: 4 })
+	})
+
+	it('parses multiplication before addition (precedence)', () => {
+		const body = parse('{{ 2 + 3 * 4 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.operator, '+')
+		assert.deepStrictEqual(expr.left, { type: 'Literal', value: 2 })
+		const right = expr.right as ExpressionBinary
+		assert.strictEqual(right.operator, '*')
+		assert.deepStrictEqual(right.left, { type: 'Literal', value: 3 })
+		assert.deepStrictEqual(right.right, { type: 'Literal', value: 4 })
+	})
+
+	it('parses left-associative addition', () => {
+		const body = parse('{{ 1 + 2 + 3 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.operator, '+')
+		assert.deepStrictEqual(expr.right, { type: 'Literal', value: 3 })
+		const left = expr.left as ExpressionBinary
+		assert.strictEqual(left.operator, '+')
+		assert.deepStrictEqual(left.left, { type: 'Literal', value: 1 })
+		assert.deepStrictEqual(left.right, { type: 'Literal', value: 2 })
+	})
+
+	it('parses left-associative multiplication', () => {
+		const body = parse('{{ 2 * 3 * 4 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.operator, '*')
+		assert.deepStrictEqual(expr.right, { type: 'Literal', value: 4 })
+		const left = expr.left as ExpressionBinary
+		assert.strictEqual(left.operator, '*')
+		assert.deepStrictEqual(left.left, { type: 'Literal', value: 2 })
+		assert.deepStrictEqual(left.right, { type: 'Literal', value: 3 })
+	})
+
+	it('parses mixed arithmetic with correct precedence', () => {
+		const body = parse('{{ 10 - 2 * 3 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.operator, '-')
+		assert.deepStrictEqual(expr.left, { type: 'Literal', value: 10 })
+		const right = expr.right as ExpressionBinary
+		assert.strictEqual(right.operator, '*')
+	})
+
+	it('parses arithmetic with variables', () => {
+		const body = parse('{{ price * quantity }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.operator, '*')
+		assert.deepStrictEqual(expr.left, { type: 'Var', path: ['price'] })
+		assert.deepStrictEqual(expr.right, { type: 'Var', path: ['quantity'] })
+	})
+
+	it('parses arithmetic in assign', () => {
+		const body = parse('{% assign total = price * quantity %}')
+		const node = body[0] as NodeAssign
+		assert.strictEqual(node.type, 'Assign')
+		assert.strictEqual(node.name, 'total')
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.operator, '*')
+	})
+
+	it('parses arithmetic in if condition with comparison', () => {
+		const body = parse('{% if a + b > 10 %}yes{% endif %}')
+		const ifNode = body[0] as NodeIf
+		const cond = ifNode.condition as ExpressionBinary
+		assert.strictEqual(cond.operator, '>')
+		const left = cond.left as ExpressionBinary
+		assert.strictEqual(left.operator, '+')
+	})
+
+	it('parses division with decimal result operands', () => {
+		const body = parse('{{ 7.5 / 2.5 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.operator, '/')
+		assert.deepStrictEqual(expr.left, { type: 'Literal', value: 7.5 })
+		assert.deepStrictEqual(expr.right, { type: 'Literal', value: 2.5 })
+	})
+})
+
+describe('parseLiquid: unary not', () => {
+	it('parses not operator on variable', () => {
+		const body = parse('{% if not hidden %}visible{% endif %}')
+		const ifNode = body[0] as NodeIf
+		const cond = ifNode.condition as ExpressionUnary
+		assert.strictEqual(cond.type, 'Unary')
+		assert.strictEqual(cond.operator, 'not')
+		assert.deepStrictEqual(cond.operand, { type: 'Var', path: ['hidden'] })
+	})
+
+	it('parses not with comparison: not binds tighter than comparison', () => {
+		const body = parse('{% if not count > 5 %}small{% endif %}')
+		const ifNode = body[0] as NodeIf
+		const cond = ifNode.condition as ExpressionBinary
+		assert.strictEqual(cond.operator, '>')
+		const left = cond.left as ExpressionUnary
+		assert.strictEqual(left.type, 'Unary')
+		assert.strictEqual(left.operator, 'not')
+		assert.deepStrictEqual(left.operand, { type: 'Var', path: ['count'] })
+		assert.deepStrictEqual(cond.right, { type: 'Literal', value: 5 })
+	})
+
+	it('parses double not', () => {
+		const body = parse('{% if not not x %}yes{% endif %}')
+		const ifNode = body[0] as NodeIf
+		const outer = ifNode.condition as ExpressionUnary
+		assert.strictEqual(outer.type, 'Unary')
+		assert.strictEqual(outer.operator, 'not')
+		const inner = outer.operand as ExpressionUnary
+		assert.strictEqual(inner.type, 'Unary')
+		assert.strictEqual(inner.operator, 'not')
+		assert.deepStrictEqual(inner.operand, { type: 'Var', path: ['x'] })
+	})
+
+	it('parses not combined with and', () => {
+		const body = parse('{% if not a and b %}yes{% endif %}')
+		const ifNode = body[0] as NodeIf
+		const cond = ifNode.condition as ExpressionBinary
+		assert.strictEqual(cond.operator, 'and')
+		const left = cond.left as ExpressionUnary
+		assert.strictEqual(left.type, 'Unary')
+		assert.strictEqual(left.operator, 'not')
+		assert.deepStrictEqual(left.operand, { type: 'Var', path: ['a'] })
+		assert.deepStrictEqual(cond.right, { type: 'Var', path: ['b'] })
+	})
+
+	it('parses not combined with or', () => {
+		const body = parse('{% if not a or b %}yes{% endif %}')
+		const ifNode = body[0] as NodeIf
+		const cond = ifNode.condition as ExpressionBinary
+		assert.strictEqual(cond.operator, 'or')
+		const left = cond.left as ExpressionUnary
+		assert.strictEqual(left.type, 'Unary')
+		assert.strictEqual(left.operator, 'not')
+	})
+})
+
+describe('parseLiquid: unary minus', () => {
+	it('parses unary minus on number literal', () => {
+		const body = parse('{{ -5 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionUnary
+		assert.strictEqual(expr.type, 'Unary')
+		assert.strictEqual(expr.operator, '-')
+		assert.deepStrictEqual(expr.operand, { type: 'Literal', value: 5 })
+	})
+
+	it('parses unary minus on variable', () => {
+		const body = parse('{{ -x }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionUnary
+		assert.strictEqual(expr.type, 'Unary')
+		assert.strictEqual(expr.operator, '-')
+		assert.deepStrictEqual(expr.operand, { type: 'Var', path: ['x'] })
+	})
+
+	it('parses unary minus in assign', () => {
+		const body = parse('{% assign neg = -1 %}')
+		const node = body[0] as NodeAssign
+		const expr = node.expression as ExpressionUnary
+		assert.strictEqual(expr.type, 'Unary')
+		assert.strictEqual(expr.operator, '-')
+		assert.deepStrictEqual(expr.operand, { type: 'Literal', value: 1 })
+	})
+
+	it('parses binary minus after unary minus', () => {
+		const body = parse('{{ 10 - -3 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionBinary
+		assert.strictEqual(expr.operator, '-')
+		assert.deepStrictEqual(expr.left, { type: 'Literal', value: 10 })
+		const right = expr.right as ExpressionUnary
+		assert.strictEqual(right.type, 'Unary')
+		assert.strictEqual(right.operator, '-')
+		assert.deepStrictEqual(right.operand, { type: 'Literal', value: 3 })
+	})
+})
+
+const stubResolver = () => {
+	throw new Error('resolver should not be called in these tests')
+}
+
+const renderTemplate = async (input: string, context: RenderContext = {}) => {
+	const template = parseLiquid(input, 'test')
+	return render(template, context, stubResolver as never)
+}
+
+describe('renderLiquid: arithmetic', () => {
+	it('renders addition', async () => {
+		const result = await renderTemplate('{{ 2 + 3 }}')
+		assert.strictEqual(result, '5')
+	})
+
+	it('renders subtraction', async () => {
+		const result = await renderTemplate('{{ 10 - 4 }}')
+		assert.strictEqual(result, '6')
+	})
+
+	it('renders multiplication', async () => {
+		const result = await renderTemplate('{{ 3 * 7 }}')
+		assert.strictEqual(result, '21')
+	})
+
+	it('renders division', async () => {
+		const result = await renderTemplate('{{ 20 / 4 }}')
+		assert.strictEqual(result, '5')
+	})
+
+	it('renders multiplication before addition', async () => {
+		const result = await renderTemplate('{{ 2 + 3 * 4 }}')
+		assert.strictEqual(result, '14')
+	})
+
+	it('renders chained addition', async () => {
+		const result = await renderTemplate('{{ 1 + 2 + 3 }}')
+		assert.strictEqual(result, '6')
+	})
+
+	it('renders chained subtraction left-to-right', async () => {
+		const result = await renderTemplate('{{ 10 - 3 - 2 }}')
+		assert.strictEqual(result, '5')
+	})
+
+	it('renders mixed precedence: sub and mul', async () => {
+		const result = await renderTemplate('{{ 10 - 2 * 3 }}')
+		assert.strictEqual(result, '4')
+	})
+
+	it('renders division with decimal result', async () => {
+		const result = await renderTemplate('{{ 7 / 2 }}')
+		assert.strictEqual(result, '3.5')
+	})
+
+	it('renders arithmetic with variables', async () => {
+		const result = await renderTemplate(
+			'{{ price * quantity }}',
+			{ price: 25, quantity: 4 }
+		)
+		assert.strictEqual(result, '100')
+	})
+
+	it('renders assign with arithmetic', async () => {
+		const result = await renderTemplate(
+			'{% assign total = 5 * 3 %}{{ total }}'
+		)
+		assert.strictEqual(result, '15')
+	})
+
+	it('renders assign with variable arithmetic', async () => {
+		const result = await renderTemplate(
+			'{% assign total = price + tax %}{{ total }}',
+			{ price: 100, tax: 21 }
+		)
+		assert.strictEqual(result, '121')
+	})
+
+	it('renders arithmetic in if condition', async () => {
+		const result = await renderTemplate(
+			'{% if 2 + 2 > 3 %}yes{% else %}no{% endif %}'
+		)
+		assert.strictEqual(result, 'yes')
+	})
+})
+
+describe('renderLiquid: unary minus', () => {
+	it('renders negative number literal', async () => {
+		const result = await renderTemplate('{{ -5 }}')
+		assert.strictEqual(result, '-5')
+	})
+
+	it('renders negative variable', async () => {
+		const result = await renderTemplate('{{ -x }}', { x: 10 })
+		assert.strictEqual(result, '-10')
+	})
+
+	it('renders assign with negative value', async () => {
+		const result = await renderTemplate(
+			'{% assign neg = -1 %}{{ neg }}'
+		)
+		assert.strictEqual(result, '-1')
+	})
+
+	it('renders binary minus with unary minus operand', async () => {
+		const result = await renderTemplate('{{ 10 - -3 }}')
+		assert.strictEqual(result, '13')
+	})
+
+	it('renders multiplication with negative operand', async () => {
+		const result = await renderTemplate('{{ 5 * -2 }}')
+		assert.strictEqual(result, '-10')
+	})
+})
+
+describe('renderLiquid: unary not', () => {
+	it('renders not with falsy variable', async () => {
+		const result = await renderTemplate(
+			'{% if not hidden %}visible{% endif %}',
+			{ hidden: false }
+		)
+		assert.strictEqual(result, 'visible')
+	})
+
+	it('renders not with truthy variable', async () => {
+		const result = await renderTemplate(
+			'{% if not hidden %}visible{% endif %}',
+			{ hidden: true }
+		)
+		assert.strictEqual(result, '')
+	})
+
+	it('renders not with undefined variable', async () => {
+		const result = await renderTemplate(
+			'{% if not missing %}shown{% endif %}'
+		)
+		assert.strictEqual(result, 'shown')
+	})
+
+	it('renders not with comparison (not binds tighter)', async () => {
+		const result = await renderTemplate(
+			'{% if not active == true %}shown{% else %}hidden{% endif %}',
+			{ active: false }
+		)
+		assert.strictEqual(result, 'shown')
+	})
+
+	it('renders double not as identity', async () => {
+		const result = await renderTemplate(
+			'{% if not not active %}yes{% else %}no{% endif %}',
+			{ active: true }
+		)
+		assert.strictEqual(result, 'yes')
+	})
+
+	it('renders not with and', async () => {
+		const result = await renderTemplate(
+			'{% if not a and b %}yes{% else %}no{% endif %}',
+			{ a: false, b: true }
+		)
+		assert.strictEqual(result, 'yes')
+	})
+
+	it('renders not with or', async () => {
+		const result = await renderTemplate(
+			'{% if not a or b %}yes{% else %}no{% endif %}',
+			{ a: true, b: false }
+		)
+		assert.strictEqual(result, 'no')
 	})
 })

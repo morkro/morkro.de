@@ -695,7 +695,74 @@ tags:
 		{% endraw %}
 	</section>
 
-	<!-- 15. FOOTER -->
+	<!-- 15. ARITHMETIC & UNARY -->
+	<section id='arithmetic'>
+		<h2>Arithmetic & Unary Tests</h2>
+
+		<!-- Basic arithmetic: expects 5, 6, 21, 5 -->
+		<p class='arith-add'>{{ 2 + 3 }}</p>
+		<p class='arith-sub'>{{ 10 - 4 }}</p>
+		<p class='arith-mul'>{{ 3 * 7 }}</p>
+		<p class='arith-div'>{{ 20 / 4 }}</p>
+
+		<!-- Precedence: mul before add: expects 14 -->
+		<p class='arith-precedence'>{{ 2 + 3 * 4 }}</p>
+
+		<!-- Chained: expects 6 -->
+		<p class='arith-chained'>{{ 1 + 2 + 3 }}</p>
+
+		<!-- Decimal division: expects 3.5 -->
+		<p class='arith-decimal'>{{ 7 / 2 }}</p>
+
+		<!-- Arithmetic with variables: expects 100 -->
+		{% assign price = 25 %}
+		{% assign quantity = 4 %}
+		<p class='arith-vars'>{{ price * quantity }}</p>
+
+		<!-- Assign with arithmetic: expects 15 -->
+		{% assign total = 5 * 3 %}
+		<p class='arith-assign'>{{ total }}</p>
+
+		<!-- Arithmetic in condition: expects "big" -->
+		{% if 2 + 2 > 3 %}
+		<p class='arith-cond'>big</p>
+		{% endif %}
+
+		<!-- Unary minus: expects -5 -->
+		<p class='unary-neg'>{{ -5 }}</p>
+
+		<!-- Assign negative: expects -1 -->
+		{% assign neg = -1 %}
+		<p class='unary-assign-neg'>{{ neg }}</p>
+
+		<!-- Binary minus with unary minus: expects 13 -->
+		<p class='unary-double-neg'>{{ 10 - -3 }}</p>
+
+		<!-- Unary not with falsy: expects "shown" -->
+		{% assign hidden = false %}
+		{% if not hidden %}
+		<p class='unary-not-falsy'>shown</p>
+		{% endif %}
+
+		<!-- Unary not with truthy: expects nothing -->
+		{% if not user.isAdmin %}
+		<p class='unary-not-truthy'>should not appear</p>
+		{% endif %}
+
+		<!-- Double not: expects "yes" -->
+		{% if not not user.isLoggedIn %}
+		<p class='unary-not-double'>yes</p>
+		{% endif %}
+
+		<!-- Not with and: expects "ok" (not false and true → true and true) -->
+		{% assign flagA = false %}
+		{% assign flagB = true %}
+		{% if not flagA and flagB %}
+		<p class='unary-not-and'>ok</p>
+		{% endif %}
+	</section>
+
+	<!-- 16. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>

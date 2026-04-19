@@ -14,11 +14,11 @@ export type Cursor = {
 }
 
 export const createCursor = (input: string): Cursor => ({ input, index: 0})
-const isAlpha = (input: string) => /[A-Za-z_-]/.test(input)
-const isAlnum = (input: string) => /[A-Za-z0-9_-]/.test(input)
+const isAlpha = (input: string) => /[A-Za-z_]/.test(input)
+const isAlnum = (input: string) => /[A-Za-z0-9_]/.test(input)
 const isDigit = (input: string) => /[0-9]/.test(input)
 const keywords = new Set(TokenKeywordValues)
-const logicalOperators = new Set(['and', 'or', 'contains'])
+const logicalOperators = new Set(['and', 'or', 'contains', 'not'])
 
 function pushText (value: string, start: number, end: number): TokenText | undefined {
   if (value.length > 0) {
@@ -64,10 +64,10 @@ export function tokenizeInner (input: string, baseOffset = 0): InnerToken[] {
     if (index >= input.length) break
 
     if (isAlpha(peek(index))) {
-      let start = index
+      const start = index
       index++
 
-      while (index < input.length && isAlnum(peek(index))) {
+      while (index < input.length && (isAlnum(peek(index)) || (peek(index) === '-' && isAlnum(peek(index + 1))))) {
         index++
       }
 
@@ -123,7 +123,7 @@ export function tokenizeInner (input: string, baseOffset = 0): InnerToken[] {
     }
 
     if ('<>'.includes(peek(index)) || ('=!'.includes(peek(index)) && peek(index + 1) === '=')) {
-      let start = index
+      const start = index
       index++
 
       if (peek(start) === '=' && peek(index) === '=') {
@@ -220,6 +220,17 @@ export function tokenizeInner (input: string, baseOffset = 0): InnerToken[] {
       if (!terminated) {
         throw new ParserError('Unclosed string literal', baseOffset + index)
       }
+      continue
+    }
+
+    if ('+-*/'.includes(peek(index))) {
+      tokens.push({
+        type: 'Operator',
+        value: peek(index) as TokenOperator['value'],
+        start: baseOffset + index,
+        end: baseOffset + index + 1
+      })
+      index++
       continue
     }
 

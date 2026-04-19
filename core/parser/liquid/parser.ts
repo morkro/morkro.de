@@ -204,7 +204,7 @@ function parseWhenExpressions (innerTokens: InnerToken[], ctx: ParseContext): Ex
 }
 
 function parseComparisonExpression (cursor: CursorState,ctx: ParseContext): ParseExpressionResult {
-	let { expression: left, cursor: leftCursor } = parseExpression(cursor, ctx)
+	let { expression: left, cursor: leftCursor } = parseAdditiveExpression(cursor, ctx)
 	
   const currentToken = current(leftCursor)
 	if (currentToken.type !== 'Operator' || !comparisonOperators.has(currentToken.value)) {
@@ -214,7 +214,7 @@ function parseComparisonExpression (cursor: CursorState,ctx: ParseContext): Pars
 	const operator = currentToken.value
 	leftCursor = next(leftCursor)
 
-	const { expression: right, cursor: rightCursor } = parseExpression(leftCursor, ctx)
+	const { expression: right, cursor: rightCursor } = parseAdditiveExpression(leftCursor, ctx)
 	return {
 		expression: { type: 'Binary', left, right, operator },
 		cursor: rightCursor,
@@ -251,6 +251,55 @@ function parseAndExpression (cursor: CursorState, ctx: ParseContext): ParseExpre
 
 function parseOrExpression (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
 	return parseLeftAssociative(cursor, ctx, parseAndExpression, 'or')
+}
+
+function parseUnaryExpression(cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+  let _cursor = cursor
+  const token = current(_cursor)
+
+  if (token.type === 'Operator' && (token.value === 'not' || token.value === '-')) {
+    const operator = token.value as 'not' | '-'
+    _cursor = next(cursor)
+    const { expression: operand, cursor: operandCursor } = parseUnaryExpression(_cursor, ctx)
+    return {
+      expression: { type: 'Unary', operator, operand },
+      cursor: operandCursor
+    }
+  }
+
+  return parseExpression(_cursor, ctx)
+}
+
+function parseMultiplicativeExpression(cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+  let { expression: left, cursor: leftCursor } = parseUnaryExpression(cursor, ctx)
+
+  let currentToken = current(leftCursor)
+  while (currentToken.type === 'Operator' && (currentToken.value === '*' || currentToken.value === '/')) {
+    const operator = currentToken.value as '*' | '/'
+    leftCursor = next(leftCursor)
+    const { expression: right, cursor: rightCursor } = parseUnaryExpression(leftCursor, ctx)
+    left = { type: 'Binary', left, right, operator }
+    leftCursor = rightCursor
+    currentToken = current(leftCursor)
+  }
+
+  return { expression: left, cursor: leftCursor }
+}
+
+function parseAdditiveExpression(cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+  let { expression: left, cursor: leftCursor } = parseMultiplicativeExpression(cursor, ctx)
+
+  let currentToken = current(leftCursor)
+  while (currentToken.type === 'Operator' && (currentToken.value === '+' || currentToken.value === '-')) {
+    const operator = currentToken.value as '+' | '-'
+    leftCursor = next(leftCursor)
+    const { expression: right, cursor: rightCursor } = parseMultiplicativeExpression(leftCursor, ctx)
+    left = { type: 'Binary', left, right, operator }
+    leftCursor = rightCursor
+    currentToken = current(leftCursor)
+  }
+
+  return { expression: left, cursor: leftCursor }
 }
 
 function parseCondition (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
@@ -308,7 +357,7 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
     }
     cursor = next(cursor)
 
-    const { expression, cursor: newCursor } = parseExpression(cursor, ctx)
+    const { expression, cursor: newCursor } = parseAdditiveExpression(cursor, ctx)
     cursor = newCursor
     return {
       type: 'Assign',
@@ -389,7 +438,7 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
   // {% echo expression %}
   if (token.value === 'echo') {
     cursor = next(cursor)
-    const { expression } = parseExpression(cursor, ctx)
+    const { expression } = parseAdditiveExpression(cursor, ctx)
     return { type: 'Echo', expression }
   }
 
@@ -557,7 +606,7 @@ function parseNodes(
         index++
         break
       case 'Output': {
-        const { expression } = parseExpression({
+        const { expression } = parseAdditiveExpression({
           tokens: tokenizeInner(token.value, token.innerStart),
           index: 0
         }, ctx)

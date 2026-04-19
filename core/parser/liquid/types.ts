@@ -19,6 +19,11 @@ export type ExpressionAccess = {
   object: Expression,
   key: Expression,
 }
+export type ExpressionUnary = {
+  type: 'Unary',
+  operator: 'not' | '-',
+  operand: Expression,
+}
 
 export type Expression =
   | ExpressionVar
@@ -26,6 +31,7 @@ export type Expression =
   | ExpressionBinary
   | ExpressionRange
   | ExpressionAccess
+  | ExpressionUnary
 
 /**
  * Nodes
@@ -141,9 +147,14 @@ export const TokenOperatorValues = [
   '<',
   '>=',
   '<=',
+  '+',
+  '-',
+  '*',
+  '/',
   'and',
   'or',
   'contains',
+  'not'
 ] as const
 
 export const TokenPunctValues = [
