@@ -1,5 +1,5 @@
 import { copyFile, lstat, mkdir, readFile, readdir, writeFile } from "node:fs/promises"
-import { dirname, join, relative } from "node:path"
+import { dirname, extname, join, relative } from "node:path"
 import type { ParseExtension } from "#core/config.core.ts"
 import config from "#core/config.core.ts"
 import type { UserConfig } from "#core/config.user.ts"
@@ -16,9 +16,7 @@ type SourceFile = {
 
 type DiscoverOptions = {
   parse: ParseExtension[]
-  flatten: string[]
   skip: Set<string>
-  isFlattenDir?: boolean
 }
 
 type ProcessOptions = {
@@ -35,7 +33,7 @@ export async function discoverFiles(
 ): Promise<SourceFile[]> {
   const files: SourceFile[] = []
   const dir = await readdir(src)
-  const { parse, flatten, skip, isFlattenDir = false } = options
+  const { parse, skip } = options
 
   for (const entry of dir) {
     if (skip.has(entry)) {
@@ -55,20 +53,13 @@ export async function discoverFiles(
         continue
       }
 
-      const shouldFlatten = flatten.includes(entry) || isFlattenDir
-      const nested = await discoverFiles(srcPath, destPath, {
-        parse,
-        flatten,
-        skip,
-        isFlattenDir: shouldFlatten
-      })
-
+      const nested = await discoverFiles(srcPath, destPath, { parse, skip })
       files.push(...nested)
       continue
     }
 
     if (stats.isFile()) {
-      const extension = entry.split('.').pop() as ParseExtension | undefined
+      const extension = extname(entry).slice(1) as ParseExtension | undefined
       files.push({
         srcPath,
         destPath,

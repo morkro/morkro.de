@@ -88,7 +88,7 @@ From `eleventy.config.js`:
 | Registration in global data (`collections.posts` from `loadDataFiles()`) | Done |
 | Access via `collections.posts` in Liquid | Done |
 | Permalink URL from pattern (full Liquid/date filter semantics) | In progress — see TODOs in `core/data/posts.ts` |
-| Per-post output pages matching Eleventy permalinks | Not started (see section 6.4, build output parity) |
+| Per-post output pages matching Eleventy permalinks | Done (non-external posts, see section 6.4) |
 
 ---
 
@@ -210,7 +210,7 @@ Tokenizer per language:
 | ------- | ------ |
 | File discovery and processing | Done |
 | Layout system | Done |
-| Data file loading (`_data/` directory) | In progress |
+| Data file loading (`_data/` directory) | Done |
 | Custom data mapping (`customDataMapping` in `config.user.ts`: path string, or `{ path, values }` to expose only listed top-level keys from a JSON file) | Done |
 | Posts collection in global context (`collections.posts`) | Done |
 | Permalink handling | Not started |
@@ -307,10 +307,10 @@ Gaps:
 
 | Task | Status | File |
 | ---- | ------ | ---- |
-| Extract frontmatter step | Not started | `core/parser/index.ts:63` |
-| Extract output path resolution step | Not started | `core/parser/index.ts:73` |
-| Extract context creation step | Not started | `core/parser/index.ts:76` |
-| Extract layout resolution into its own step | Not started | `core/parser/index.ts:90` |
+| Extract frontmatter step | Done | `core/parser/index.ts:86` — `extractFrontmatter()` |
+| Extract output path resolution step | Done | `core/utils/path.ts` — `resolveOutput()` |
+| Extract context creation step | Done | `core/parser/index.ts:37` — `createPageContext()` |
+| Extract layout resolution into its own step | Done | `core/parser/index.ts:65` — `applyLayouts()` |
 | Define shared pipeline state type | Not started | `core/parser/index.ts` |
 
 ### 7.2 Architecture: Separate file discovery from processing in `traverseDir` — Done
@@ -321,8 +321,8 @@ The parser uses `as TokenIdent` / `as TokenKeyword` casts *before* the runtime t
 
 | Task | Status | File |
 | ---- | ------ | ---- |
-| `variable` cast in `parseIterationHeader` | Not started | `core/parser/liquid/parser.ts` |
-| `inKeyword` cast in `parseIterationHeader` | Not started | `core/parser/liquid/parser.ts` |
+| `variable` cast in `parseIterationHeader` | Done | `core/parser/liquid/parser.ts:542` — narrowed via type check |
+| `inKeyword` cast in `parseIterationHeader` | Done | `core/parser/liquid/parser.ts:553` — narrowed via type check |
 | `nameToken` cast in `capture` branch | Not started | `core/parser/liquid/parser.ts` |
 | `params` cast in for-loop param parsing | Not started | `core/parser/liquid/parser.ts` |
 | `param` cast in tablerow param parsing | Not started | `core/parser/liquid/parser.ts` |

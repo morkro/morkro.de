@@ -10,7 +10,7 @@ export function getFromObject(path: string[], object: Record<string, unknown>): 
     return object[first]
   }
   // if value is not an object, return undefined
-  if (typeof object[first] !== 'object') {
+  if (typeof object[first] !== 'object' || object[first] === null) {
     return undefined
   }
   

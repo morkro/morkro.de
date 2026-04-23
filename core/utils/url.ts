@@ -1,6 +1,9 @@
+import { relative, resolve } from 'node:path'
+import config from '#core/config.core.ts'
+
 export function toUrl (base: string, output: string): string {
-  const path = output
-    .replace(/^(?:.*[/\\])?\.build[/\\]?/, '') // remove .build from path
-    .replace(/\\/g, '/') // replace backslashes with forward slashes
-  return `${base.replace(/\/$/, '')}/${path.replace(/index\.html$/, '')}`
+  const relativeUrl = relative(resolve(config.directories.dest), output)
+    .replace(/\\/g, '/')
+    .replace(/index\.html$/, '')
+  return `${base.replace(/\/$/, '')}/${relativeUrl}`
 }

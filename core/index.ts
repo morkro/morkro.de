@@ -10,8 +10,6 @@ import { writePosts } from '#emitter/posts.ts'
 import { discoverFiles, processFiles } from '#emitter/traverse.ts'
 import { logSsg as log, perf } from '#utils/log.ts'
 
-const flattenDirectories = ['pages']
-
 async function build () {
   log('Building pages')
   const srcDir = resolve(config.directories.src)
@@ -46,7 +44,6 @@ async function build () {
 
   const files = await discoverFiles(srcDir, tmpDir, {
     parse: config.parser.parseExtensions,
-    flatten: flattenDirectories,
     skip: skipEntries,
   })
   await processFiles(files, {
@@ -73,7 +70,7 @@ async function build () {
 /**
  * Execute the build process
  */
-const isMainModule = import.meta.url.endsWith(process.argv[1])
+const isMainModule = import.meta.filename === resolve(process.argv[1])
 if (isMainModule) { 
   const buildStart = perf('Build duration')
   try {
