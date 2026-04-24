@@ -1,4 +1,20 @@
 /**
+ * Filters
+ */
+export type FilterArg = Expression
+
+export type Filter = {
+  name: string
+  args: FilterArg[]
+}
+
+export type ExpressionFilter = {
+  type: 'Filter',
+  input: Expression,
+  filters: Filter[],
+}
+
+/**
  * Expressions
  */
 export type ExpressionVar = { type: 'Var', path: string[] }
@@ -32,6 +48,7 @@ export type Expression =
   | ExpressionRange
   | ExpressionAccess
   | ExpressionUnary
+  | ExpressionFilter
 
 /**
  * Nodes

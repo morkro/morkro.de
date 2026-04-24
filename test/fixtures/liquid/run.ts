@@ -38,6 +38,7 @@ const compiled = await compile(
     data: new Map([...Object.entries(mockContext)]),
     baseUrl: 'https://morkro.de',
     shortCodes: userConfig.shortCodes ?? {},
+    filters: userConfig.filters ?? {},
     destDir: config.directories.temp
   })
 

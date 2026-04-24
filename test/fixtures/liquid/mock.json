@@ -52,5 +52,11 @@
 		[10, 20, 30],
 		[40, 50, 60]
 	],
-	"colors": ["red", "green", "blue"]
+	"colors": ["red", "green", "blue"],
+	"article": {
+		"date": "2026-04-24T12:00:00.000Z",
+		"title": "Hello World",
+		"keywords": ["html", "css", "javascript"],
+		"rawHtml": "<b>bold</b> & \"quoted\""
+	}
 }

@@ -1,7 +1,9 @@
+import type { FilterFn } from "#config.user";
 import config from "#core/config.core.ts";
 import { BreakSignal, ContinueSignal, ParserError } from "#parser/utils.ts";
 import { logParser } from "#utils/log.ts";
 import { getFromObject } from "#utils/object.ts";
+import { filterDate, filterJoin, filterPrepend, filterReplace } from "./filters.ts";
 import type { templateResolver } from "./resolver.ts";
 import type {
   Expression,
@@ -44,6 +46,14 @@ function resolveExpression (expression: Expression, localContext: RenderContext)
     if (object === null || object === undefined) return undefined
     const key = resolveExpression(expression.key, localContext)
     return (object as Record<string, unknown>)[String(key)]
+  }
+  if (expression.type === 'Filter') {
+    let value = resolveExpression(expression.input, localContext)
+    for (const filter of expression.filters) {
+      const args = filter.args.map(arg => resolveExpression(arg, localContext))
+      value = applyFilter(filter.name, value, args, localContext.__filters__ as Record<string, FilterFn>)
+    }
+    return value
   }
   return undefined
 }
@@ -131,6 +141,26 @@ function evaluateBinary (condition: ExpressionBinary, localContext: RenderContex
 	}
 }
 
+function applyFilter (name: string, input: unknown, args: unknown[], userFilters: Record<string, FilterFn>): unknown {
+  const userFilter = userFilters?.[name]
+  if (userFilter) {
+    return userFilter(input, ...args)
+  }
+
+  switch (name) {
+    case 'date':
+      return filterDate(input, args[0] as string)
+    case 'join':
+      return filterJoin(input, args[0] as string)
+    case 'replace':
+      return filterReplace(input, args[0] as string, args[1] as string)
+    case 'prepend':
+      return filterPrepend(input, args[0] as string)
+    default:
+      throw new ParserError(`Unknown filter: ${name}`, 0)
+  }
+}
+
 async function renderNodes(
   nodes: Node[],
   templateSource: string,
@@ -162,7 +192,10 @@ async function renderNodes(
           file = resolved
         }
 
-        const renderContext = { __shortCodes__: localContext.__shortCodes__ }
+        const renderContext: RenderContext = {
+          __shortCodes__: localContext.__shortCodes__ as Record<string, () => unknown>,
+          __filters__: localContext.__filters__ as Record<string, FilterFn>
+        }
         if (node.variables.length > 0) {
           for (const variable of node.variables) {
             renderContext[variable.name] = resolveExpression(variable.expression, localContext)

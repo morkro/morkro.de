@@ -36,7 +36,7 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 | Partials (render tag with variable passing) | Done |
 | Comments (inline #, comment/endcomment) | Done |
 | Raw blocks (raw/endraw) | Done |
-| Filters (pipe chains in output and assign) | Not started |
+| Filters (pipe chains in output, assign, and echo) | Done |
 | Whitespace control (`{{-`, `-}}`, `{%-`, `-%}`) | Not started |
 | Variable tags (increment/decrement, echo) | Done |
 | Iteration tags (cycle, tablerow/endtablerow with cols/limit/offset, tablerowloop) | Done |
@@ -63,16 +63,18 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 
 ### 1.4 Filters
 
-Required filters from `eleventy.config.js`:
+Built-in filters are implemented in `core/parser/liquid/filters.ts`. User-defined filters are registered via `filters` in `config.user.ts` and passed through the render context as `__filters__`.
+
+The `date` filter uses preset names (`year`, `full`, `rfc3339`, `datetime`) instead of strftime tokens. Templates have been updated to use these presets.
 
 | Filter | Status | Purpose |
 | ------ | ------ | ------- |
-| `dateToRFC3339` | Not started | Date to RFC3339 string |
-| `encodeXML` | Not started | XML entity escaping |
-| `join` | Not started | Array joining |
-| `replace` | Not started | String replacement |
-| `prepend` | Not started | String prefixing |
-| `date` | Not started | strftime-style formatting |
+| `date` | Done | Date formatting via presets (`year`, `full`, `rfc3339`, `datetime`) |
+| `join` | Done | Array joining |
+| `replace` | Done | String replacement (all occurrences) |
+| `prepend` | Done | String prefixing |
+| `encodeXML` | Done | XML entity escaping (user filter in `config.user.ts`) |
+| ~~`dateToRFC3339`~~ | Removed | Replaced by `date: "rfc3339"` preset |
 
 ### 1.5 Shortcodes — Done
 
@@ -391,8 +393,8 @@ CSS Parser (shared - build first)
 └── Parser
 
 Template Features
-├── Filters (6 functions)
-├── Shortcodes (registration + resolver)
+├── Filters (4 built-in + user registry) — Done
+├── Shortcodes (registration + resolver) — Done
 └── Collections (globbing + sorting; global `collections.posts` wired — permalink pages still open)
 
 Syntax Highlighting

@@ -762,7 +762,55 @@ tags:
 		{% endif %}
 	</section>
 
-	<!-- 16. FOOTER -->
+	<!-- 16. FILTERS -->
+	<section id='filters'>
+		<h2>Filter Tests</h2>
+
+		<!-- date filter: year preset — expects "2026" -->
+		<p class='filter-date-year'>{{ article.date | date: "year" }}</p>
+
+		<!-- date filter: full preset — expects day month year -->
+		<p class='filter-date-full'>{{ article.date | date: "full" }}</p>
+
+		<!-- date filter: rfc3339 preset — expects ISO string -->
+		<p class='filter-date-rfc'>{{ article.date | date: "rfc3339" }}</p>
+
+		<!-- date filter: datetime preset -->
+		<p class='filter-date-datetime'>{{ article.date | date: "datetime" }}</p>
+
+		<!-- join filter: expects "html,css,javascript" -->
+		<p class='filter-join'>{{ article.keywords | join: "," }}</p>
+
+		<!-- replace filter: expects "Hallo World" -->
+		<p class='filter-replace'>{{ article.title | replace: "Hello", "Hallo" }}</p>
+
+		<!-- prepend filter: expects "/blog/Hello World" -->
+		<p class='filter-prepend'>{{ article.title | prepend: "/blog/" }}</p>
+
+		<!-- assign with filter: expects "2026" -->
+		{% assign pubYear = article.date | date: "year" %}
+		<p class='filter-assign'>{{ pubYear }}</p>
+
+		<!-- chained: replace then prepend — expects "/blog/Hallo World" -->
+		<p class='filter-chain-two'>{{ article.title | replace: "Hello", "Hallo" | prepend: "/blog/" }}</p>
+
+		<!-- chained: join then replace — expects "html;css;javascript" -->
+		<p class='filter-chain-join-replace'>{{ article.keywords | join: "," | replace: ",", ";" }}</p>
+
+		<!-- chained: join then prepend — expects "Tags: html,css,javascript" -->
+		<p class='filter-chain-join-prepend'>{{ article.keywords | join: "," | prepend: "Tags: " }}</p>
+
+		<!-- echo with filter: expects "Hallo World" -->
+		<p class='filter-echo'>{% echo article.title | replace: "Hello", "Hallo" %}</p>
+
+		<!-- filter in condition: expects "year matches" -->
+		{% assign yr = article.date | date: "year" %}
+		{% if yr == '2026' %}
+		<p class='filter-cond'>year matches</p>
+		{% endif %}
+	</section>
+
+	<!-- 17. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>

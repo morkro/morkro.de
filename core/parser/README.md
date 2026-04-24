@@ -12,7 +12,7 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 | ---- | ----- |
 | **Template context** | Variables and values come from the host (e.g. `assign`, `render` bindings), not from anything defined inside this README. |
 | **Whitespace control** | `{{-` / `-}}` / `{%-` / `-%}` — not implemented. |
-| **Filters** | Pipe chains in `{{ … }}` and filters on the right-hand side of `assign` / `capture` — not implemented. |
+| **Filters** | Pipe chains in `{{ … }}`, `assign`, and `echo`. Built-in filters in `liquid/filters.ts`; user filters via `__filters__` in the render context. |
 | **`liquid` tag** | Multiple statements in one `{% liquid %}` block — not implemented. |
 
 ## Expressions
@@ -24,6 +24,7 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 | Range literals `(expr..expr)` (e.g. for `for`) | Done |
 | Bracket access (`x[0]`, `x["key"]`, `x[var]`) | Done |
 | Arithmetic (`+`, `-`, `*`, `/`), unary `not` | Done |
+| Filter chains (`expr \| filter: arg1, arg2`) | Done |
 
 ## Tags
 
@@ -53,7 +54,7 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 
 | Tag | Status |
 | --- | ------ |
-| `assign` | Done (expression only; no filters on the right-hand side) |
+| `assign` | Done (supports filters on the right-hand side) |
 | `capture` / `endcapture` | Done |
 | `increment` / `decrement` | Done |
 | `echo` | Done |
@@ -92,15 +93,23 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 
 ## Filters
 
-Built-in Liquid filters from the language (e.g. `upcase`, `split`, `default`, `truncate`) are **not** implemented unless added explicitly.
+Filters are parsed as pipe chains (`| filterName: arg1, arg2`) on expressions in `{{ … }}` output tags, `{% assign %}`, and `{% echo %}`. The AST represents them as `ExpressionFilter` nodes wrapping the input expression and a list of `Filter` entries.
 
-Filters needed for templates under `src/` (this site):
+At render time, user-defined filters (from `__filters__` in the context) are checked first. If no user filter matches, the built-in set in `liquid/filters.ts` is used. Unknown filter names throw at render time.
 
-| Filter | Purpose | Status |
-| ------ | ------- | ------ |
-| `date` | `strftime`-style formatting | Not implemented |
-| `dateToRFC3339` | Site timestamps | Not implemented |
-| `encodeXML` | Escaping for feeds/meta | Not implemented |
-| `join` | Join arrays (e.g. keywords) | Not implemented |
-| `replace` | String replace | Not implemented |
-| `prepend` | Prefix URLs with base URL | Not implemented |
+### Built-in filters
+
+| Filter | Purpose | Notes |
+| ------ | ------- | ----- |
+| `date` | Date formatting via named presets | Presets: `year`, `full`, `rfc3339`, `datetime`. Uses `Intl.DateTimeFormat` (locale `de-DE`) for `year`/`full`; manual formatting for `datetime`; `Date.toISOString()` for `rfc3339`. Accepts `Date`, numeric (epoch ms), or string input. |
+| `join` | Join array elements | `{{ arr \| join: "," }}` — passes through `String()` for non-array input |
+| `replace` | Replace all occurrences | `{{ str \| replace: "old", "new" }}` — uses `String.replaceAll()` |
+| `prepend` | Prefix a string | `{{ path \| prepend: "/base" }}` — no-op if already prefixed |
+
+### User-defined filters
+
+Registered in `config.user.ts` under `filters`. Each entry is a function `(input, ...args) => value`. Currently registered:
+
+| Filter | Purpose |
+| ------ | ------- |
+| `encodeXML` | XML entity escaping (`&`, `<`, `>`, `"`, `'`) |

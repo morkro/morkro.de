@@ -11,15 +11,17 @@ export type PassThroughCopy = {
   to: string
 }
 
+type ShortCodeFn = () => unknown
+export type FilterFn = (input: unknown, ...args: unknown[]) => unknown
+
 export type UserConfig = {
   baseUrl?: string 
   customDataMapping?: {
     [key: string]: string | CustomDataFields
   }
   passThroughCopy?: PassThroughCopy[]
-  shortCodes?: {
-    [key: string]: () => unknown
-  }
+  shortCodes?: Record<string, ShortCodeFn>
+  filters?: Record<string, FilterFn>
   collections?: {
     posts?: {
       sortBy: 'date' | 'title'
@@ -44,6 +46,16 @@ const config: UserConfig = {
   ],
   shortCodes: {
     'currentYear': () => new Date().getFullYear(),
+  },
+  filters: {
+    encodeXML (input: unknown) {
+      return (input as string)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;')
+    },
   },
   collections: {
     posts: {

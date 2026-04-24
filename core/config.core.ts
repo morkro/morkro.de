@@ -51,6 +51,7 @@ const config: CoreConfig = {
     '__shortCodes__',
     '__counters__',
     '__cycles__',
+    '__filters__',
   ]),
 }
 

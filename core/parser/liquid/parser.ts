@@ -2,6 +2,8 @@ import { ParserError } from '#parser/utils.ts'
 import { tokenize, tokenizeInner } from './tokenizer.ts'
 import type {
   Expression,
+  Filter,
+  FilterArg,
   InnerToken,
   Node,
   NodeCaseWhen,
@@ -253,7 +255,7 @@ function parseOrExpression (cursor: CursorState, ctx: ParseContext): ParseExpres
 	return parseLeftAssociative(cursor, ctx, parseAndExpression, 'or')
 }
 
-function parseUnaryExpression(cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+function parseUnaryExpression (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
   let _cursor = cursor
   const token = current(_cursor)
 
@@ -270,7 +272,7 @@ function parseUnaryExpression(cursor: CursorState, ctx: ParseContext): ParseExpr
   return parseExpression(_cursor, ctx)
 }
 
-function parseMultiplicativeExpression(cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+function parseMultiplicativeExpression (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
   let { expression: left, cursor: leftCursor } = parseUnaryExpression(cursor, ctx)
 
   let currentToken = current(leftCursor)
@@ -286,7 +288,7 @@ function parseMultiplicativeExpression(cursor: CursorState, ctx: ParseContext): 
   return { expression: left, cursor: leftCursor }
 }
 
-function parseAdditiveExpression(cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+function parseAdditiveExpression (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
   let { expression: left, cursor: leftCursor } = parseMultiplicativeExpression(cursor, ctx)
 
   let currentToken = current(leftCursor)
@@ -300,6 +302,58 @@ function parseAdditiveExpression(cursor: CursorState, ctx: ParseContext): ParseE
   }
 
   return { expression: left, cursor: leftCursor }
+}
+
+function parseFilterExpression (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
+  const { expression: input, cursor: expressionCursor } = parseOrExpression(cursor, ctx)
+  let _cursor = expressionCursor
+  const filters: Filter[] = []
+
+  while (current(_cursor).type === 'Punct' && (current(_cursor) as TokenPunct).value === '|') {
+    _cursor = next(_cursor)
+    
+    const filterNameToken = current(_cursor)
+    if (filterNameToken.type !== 'Ident') {
+      throw new ParserError(
+        `Expected filter name but got ${filterNameToken.type}`,
+        filterNameToken.start,
+        ctx.source,
+        ctx.filePath
+      )
+    }
+
+    const filterName = filterNameToken.value
+    _cursor = next(_cursor)
+
+    const filterArgs: FilterArg[] = []
+    // Check for colon after filter name
+    if (current(_cursor).type === 'Punct' && (current(_cursor) as TokenPunct).value === ':') {
+      _cursor = next(_cursor)
+
+      const { expression: firstArg, cursor: argCursor } = parseOrExpression(_cursor, ctx)
+      filterArgs.push(firstArg)
+      _cursor = argCursor
+
+      // Parse additional arguments
+      while (current(_cursor).type === 'Punct' && (current(_cursor) as TokenPunct).value === ',') {
+        _cursor = next(_cursor)
+        const { expression: arg, cursor: nextArgCursor } = parseOrExpression(_cursor, ctx)
+        filterArgs.push(arg)
+        _cursor = nextArgCursor
+      }
+    }
+
+    filters.push({ name: filterName, args: filterArgs })
+  }
+
+  if (filters.length === 0) {
+    return { expression: input, cursor: _cursor }
+  }
+
+  return {
+    expression: { type: 'Filter', input, filters },
+    cursor: _cursor,
+  }
 }
 
 function parseCondition (cursor: CursorState, ctx: ParseContext): ParseExpressionResult {
@@ -357,7 +411,7 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
     }
     cursor = next(cursor)
 
-    const { expression, cursor: newCursor } = parseAdditiveExpression(cursor, ctx)
+    const { expression, cursor: newCursor } = parseFilterExpression(cursor, ctx)
     cursor = newCursor
     return {
       type: 'Assign',
@@ -438,7 +492,7 @@ function parseTag (tokens: InnerToken[], ctx: ParseContext): Node {
   // {% echo expression %}
   if (token.value === 'echo') {
     cursor = next(cursor)
-    const { expression } = parseAdditiveExpression(cursor, ctx)
+    const { expression } = parseFilterExpression(cursor, ctx)
     return { type: 'Echo', expression }
   }
 
@@ -606,7 +660,7 @@ function parseNodes(
         index++
         break
       case 'Output': {
-        const { expression } = parseAdditiveExpression({
+        const { expression } = parseFilterExpression({
           tokens: tokenizeInner(token.value, token.innerStart),
           index: 0
         }, ctx)

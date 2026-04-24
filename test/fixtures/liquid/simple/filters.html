@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<h1>Filter Tests</h1>
+
+	<p>Date year: {{ page.date | date: "year" }}</p>
+	<p>Date full: {{ page.date | date: "full" }}</p>
+	<p>Date rfc3339: {{ page.date | date: "rfc3339" }}</p>
+
+	{% assign year = page.date | date: "year" %}
+	<p>Assigned year: {{ year }}</p>
+
+	<p>Encoded: {{ page.rawHtml | encodeXML }}</p>
+
+	<p>Chained: {{ page.name | upcase | prepend: "Hello " }}</p>
+</body>
+</html>

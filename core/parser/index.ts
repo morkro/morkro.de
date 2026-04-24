@@ -1,3 +1,4 @@
+import type { FilterFn } from '#config.user'
 import type { DataFileMap } from '#core/data/types.ts'
 import { extractFrontmatter } from '#parser/frontmatter/index.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
@@ -21,7 +22,9 @@ type CompilerOptions = {
   data: DataFileMap
   baseUrl: string
   shortCodes: Record<string, () => unknown>
+  filters: Record<string, FilterFn>
   destDir: string
+  pageData?: Record<string, unknown>
 }
 
 export type BuildContext = Record<string, unknown>
@@ -39,7 +42,8 @@ export function createPageContext (
   input: string,
   output: string,
   baseUrl: string,
-  frontmatter: Record<string, unknown>
+  frontmatter: Record<string, unknown>,
+  pageData?: Record<string, unknown>
 ): PageContext {
   const core = Object.fromEntries(global.entries()) as BuildContext
 
@@ -56,7 +60,8 @@ export function createPageContext (
   const context = { ...core, ...frontmatter, page: {
     inputPath: input,
     outputPath: output,
-    url: toUrl(baseUrl, output)
+    url: toUrl(baseUrl, output),
+    ...pageData
   }}
   log(JSON.stringify(context, null, 2), { lvl: 'debug' })
   return context
@@ -91,8 +96,10 @@ export async function compile (file: string, path: string, options: CompilerOpti
     path,
     outputPath,
     options.baseUrl,
-    frontmatter)
+    frontmatter,
+    options.pageData)
   localContext.__shortCodes__ = options.shortCodes
+  localContext.__filters__ = options.filters
 
   const lpStart = perf('Parsing Liquid')
   const ast = parseLiquid(body, path)

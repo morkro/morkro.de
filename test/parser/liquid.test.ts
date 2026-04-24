@@ -7,6 +7,7 @@ import { ParserError } from '#parser/utils.ts'
 import type {
 	Expression,
 	ExpressionBinary,
+	ExpressionFilter,
 	ExpressionUnary,
 	Node,
 	NodeAssign,
@@ -1422,5 +1423,216 @@ describe('renderLiquid: unary not', () => {
 			{ a: true, b: false }
 		)
 		assert.strictEqual(result, 'no')
+	})
+})
+
+describe('parseLiquid: filters', () => {
+	it('parses single filter without arguments', () => {
+		const body = parse('{{ title | upcase }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionFilter
+		assert.strictEqual(expr.type, 'Filter')
+		assert.deepStrictEqual(expr.input, { type: 'Var', path: ['title'] })
+		assert.strictEqual(expr.filters.length, 1)
+		assert.strictEqual(expr.filters[0].name, 'upcase')
+		assert.deepStrictEqual(expr.filters[0].args, [])
+	})
+
+	it('parses filter with one argument', () => {
+		const body = parse('{{ page.date | date: "full" }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionFilter
+		assert.strictEqual(expr.type, 'Filter')
+		assert.deepStrictEqual(expr.input, { type: 'Var', path: ['page', 'date'] })
+		assert.strictEqual(expr.filters[0].name, 'date')
+		assert.strictEqual(expr.filters[0].args.length, 1)
+		assert.deepStrictEqual(expr.filters[0].args[0], { type: 'Literal', value: 'full' })
+	})
+
+	it('parses filter with multiple arguments', () => {
+		const body = parse('{{ text | replace: "a", "b" }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionFilter
+		assert.strictEqual(expr.filters[0].name, 'replace')
+		assert.strictEqual(expr.filters[0].args.length, 2)
+		assert.deepStrictEqual(expr.filters[0].args[0], { type: 'Literal', value: 'a' })
+		assert.deepStrictEqual(expr.filters[0].args[1], { type: 'Literal', value: 'b' })
+	})
+
+	it('parses chained filters', () => {
+		const body = parse('{{ title | upcase | prepend: "PREFIX" }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionFilter
+		assert.strictEqual(expr.filters.length, 2)
+		assert.strictEqual(expr.filters[0].name, 'upcase')
+		assert.deepStrictEqual(expr.filters[0].args, [])
+		assert.strictEqual(expr.filters[1].name, 'prepend')
+		assert.strictEqual(expr.filters[1].args.length, 1)
+	})
+
+	it('parses filter on string literal', () => {
+		const body = parse('{{ "hello" | upcase }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionFilter
+		assert.strictEqual(expr.type, 'Filter')
+		assert.deepStrictEqual(expr.input, { type: 'Literal', value: 'hello' })
+	})
+
+	it('parses filter on number literal', () => {
+		const body = parse('{{ 42 | times: 2 }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionFilter
+		assert.deepStrictEqual(expr.input, { type: 'Literal', value: 42 })
+		assert.strictEqual(expr.filters[0].name, 'times')
+	})
+
+	it('parses filter with variable argument', () => {
+		const body = parse('{{ title | prepend: baseUrl }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionFilter
+		assert.deepStrictEqual(expr.filters[0].args[0], { type: 'Var', path: ['baseUrl'] })
+	})
+
+	it('parses filter in assign', () => {
+		const body = parse('{% assign year = page.date | date: "year" %}')
+		const node = body[0] as NodeAssign
+		const expr = node.expression as ExpressionFilter
+		assert.strictEqual(expr.type, 'Filter')
+		assert.deepStrictEqual(expr.input, { type: 'Var', path: ['page', 'date'] })
+		assert.strictEqual(expr.filters[0].name, 'date')
+	})
+
+	it('parses filter in echo', () => {
+		const body = parse('{% echo title | upcase %}')
+		const node = body[0] as NodeEcho
+		const expr = node.expression as ExpressionFilter
+		assert.strictEqual(expr.type, 'Filter')
+		assert.strictEqual(expr.filters[0].name, 'upcase')
+	})
+
+	it('returns plain expression when no filter present', () => {
+		const body = parse('{{ title }}')
+		const node = body[0] as NodeOutput
+		assert.strictEqual(node.expression.type, 'Var')
+	})
+
+	it('throws on missing filter name after pipe', () => {
+		assert.throws(() => parse('{{ title | }}'), ParserError)
+	})
+
+	it('parses three chained filters with mixed args', () => {
+		const body = parse('{{ text | replace: "x", "y" | upcase | prepend: "/" }}')
+		const node = body[0] as NodeOutput
+		const expr = node.expression as ExpressionFilter
+		assert.strictEqual(expr.filters.length, 3)
+		assert.strictEqual(expr.filters[0].name, 'replace')
+		assert.strictEqual(expr.filters[0].args.length, 2)
+		assert.strictEqual(expr.filters[1].name, 'upcase')
+		assert.strictEqual(expr.filters[1].args.length, 0)
+		assert.strictEqual(expr.filters[2].name, 'prepend')
+		assert.strictEqual(expr.filters[2].args.length, 1)
+	})
+})
+
+describe('renderLiquid: filters', () => {
+	it('renders built-in date filter with "year" preset', async () => {
+		const result = await renderTemplate(
+			'{{ myDate | date: "year" }}',
+			{ myDate: new Date(2026, 3, 24) }
+		)
+		assert.strictEqual(result, '2026')
+	})
+
+	it('renders built-in date filter with "rfc3339" preset', async () => {
+		const result = await renderTemplate(
+			'{{ myDate | date: "rfc3339" }}',
+			{ myDate: new Date('2026-04-24T12:00:00Z') }
+		)
+		assert.strictEqual(result, '2026-04-24T12:00:00.000Z')
+	})
+
+	it('renders built-in date filter with string input', async () => {
+		const result = await renderTemplate(
+			'{{ myDate | date: "year" }}',
+			{ myDate: '2025-01-15' }
+		)
+		assert.strictEqual(result, '2025')
+	})
+
+	it('renders chained filters left to right', async () => {
+		const result = await renderTemplate(
+			'{{ title | upcase }}',
+			{ title: 'hello', __filters__: { upcase: (v: unknown) => String(v).toUpperCase() } }
+		)
+		assert.strictEqual(result, 'HELLO')
+	})
+
+	it('renders user-defined filter', async () => {
+		const result = await renderTemplate(
+			'{{ name | shout }}',
+			{ name: 'world', __filters__: { shout: (v: unknown) => `${v}!!!` } }
+		)
+		assert.strictEqual(result, 'world!!!')
+	})
+
+	it('renders user-defined filter with arguments', async () => {
+		const result = await renderTemplate(
+			'{{ text | wrap: "<b>", "</b>" }}',
+			{
+				text: 'bold',
+				__filters__: {
+					wrap: (v: unknown, open: unknown, close: unknown) => `${open}${v}${close}`
+				}
+			}
+		)
+		assert.strictEqual(result, '<b>bold</b>')
+	})
+
+	it('renders user filter overriding built-in', async () => {
+		const result = await renderTemplate(
+			'{{ myDate | date: "year" }}',
+			{
+				myDate: new Date(2026, 0, 1),
+				__filters__: { date: () => 'custom' }
+			}
+		)
+		assert.strictEqual(result, 'custom')
+	})
+
+	it('renders filter in assign', async () => {
+		const result = await renderTemplate(
+			'{% assign year = myDate | date: "year" %}The year is {{ year }}',
+			{ myDate: new Date(2026, 3, 24) }
+		)
+		assert.strictEqual(result, 'The year is 2026')
+	})
+
+	it('throws on unknown filter', async () => {
+		await assert.rejects(
+			() => renderTemplate('{{ title | nonexistent }}', { title: 'hi' }),
+			ParserError
+		)
+	})
+
+	it('renders multiple chained filters', async () => {
+		const result = await renderTemplate(
+			'{{ name | upcase | prepend: "Hi " }}',
+			{
+				name: 'world',
+				__filters__: {
+					upcase: (v: unknown) => String(v).toUpperCase(),
+					prepend: (v: unknown, prefix: unknown) => `${prefix}${v}`
+				}
+			}
+		)
+		assert.strictEqual(result, 'Hi WORLD')
+	})
+
+	it('renders filter on literal value', async () => {
+		const result = await renderTemplate(
+			'{{ "hello" | upcase }}',
+			{ __filters__: { upcase: (v: unknown) => String(v).toUpperCase() } }
+		)
+		assert.strictEqual(result, 'HELLO')
 	})
 })

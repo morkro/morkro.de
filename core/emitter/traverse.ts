@@ -93,6 +93,7 @@ async function processSingleFile(file: SourceFile, options: ProcessOptions) {
       data: options.dataFiles,
       baseUrl: options.userConfig?.baseUrl ?? '',
       shortCodes: options.userConfig?.shortCodes ?? {},
+      filters: options.userConfig?.filters ?? {},
       destDir: options.destRoot
     })
     await mkdir(dirname(outputPath), { recursive: true })

@@ -28,7 +28,9 @@ export async function writePosts (
         data: options.dataFiles,
         baseUrl: options.userConfig?.baseUrl ?? '',
         shortCodes: options.userConfig?.shortCodes ?? {},
-        destDir
+        filters: options.userConfig?.filters ?? {},
+        destDir,
+        pageData: { date: post.date }
       })
       
       await mkdir(dirname(output), { recursive: true })
