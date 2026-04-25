@@ -1,6 +1,6 @@
 # AGENT.md
 
-This file provides guidance to Claude Code when working with this repository.
+This file provides guidance to AI coding assistants when working with this repository.
 
 ## Project Overview
 
@@ -28,8 +28,8 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
    - ~~Implement render tag with variable passing~~ (done)
    - ~~Implement variable output with dot-notation~~ (done)
    - ~~Implement for loops~~ (done)
-   - Collections for posts: partial — `collections.posts` is loaded from `_posts/` via `core/data/posts.ts` and merged in `loadDataFiles()`; per-post HTML output, full permalink handling, and Eleventy-shaped collection APIs are still open
-   - Implement filters (dateToRFC3339, encodeXML, etc.)
+   - Collections for posts: partial — `collections.posts` is loaded from `src/_posts/` via `core/data/posts.ts`, merged in `loadDataFiles()`, and each post is written to HTML by `core/emitter/posts.ts`. `userConfig.collections.posts.sortBy` / `sortOrder` are defined in `config.user.ts` but not yet applied when building the collection; `createPostUrl()` in `posts.ts` only substitutes a subset of permalink patterns (see TODO there). Eleventy-shaped collection APIs beyond `collections.posts` are still open.
+   - ~~Implement filters~~ (done — built-ins in [`core/parser/liquid/filters.ts`](core/parser/liquid/filters.ts); user filters in [`core/config.user.ts`](core/config.user.ts) `filters`, e.g. `encodeXML`. Eleventy `dateToRFC3339` → `| date: 'rfc3339'`.)
    - ~~Implement shortcodes system (currentYear, etc.)~~ (done — `ShortCode` node type, registry in `config.user.ts`, resolved at render time)
    - ~~Implement layout system~~ (done — `layoutResolver` in `resolver.ts`, nested chains via frontmatter `layout` key, content injection via `{{ content }}`)
    - Test with all pages and posts
@@ -200,7 +200,7 @@ npm run lint           # Lint JS and CSS via Biome
 
 ### Custom SSG
 ```bash
-npm run clean:build    # Remove build/temp artifacts (see scripts/clean-artifacts.ts)
+npm run clean:build    # Remove `.build/`, `.tmp/`, and `_site/` (see scripts/clean-artifacts.ts)
 npm run build:ssg      # Build site once (node core/index.ts)
 npm run start:ssg      # Rebuild on change + serve .build/ (node --watch --env-file=.env core/index.ts --serve)
 npm run test:liquid    # Dev tool: parse test fixture, output AST + rendered HTML to .tmp/
@@ -214,7 +214,7 @@ node --test test/path/to/file.test.ts  # Run a single test file
 ```
 src/                      # Source files
   _data/                 # JSON/JS data files (instagram.json, projects.json, etc.)
-  _includes/             # Reusable components (skipped in output)
+  _includes/             # Reusable partials (`.liquid` and `.html`; skipped in output)
   _layouts/              # Page layouts (skipped in output)
   _posts/                # Blog posts (skipped in output)
   pages/                 # Public pages (home, resume, is, writes, etc.)
@@ -225,26 +225,34 @@ _site/                   # Eleventy build output (git-ignored)
 .build/                  # Custom SSG build output (git-ignored)
 .tmp/                    # Temporary files for dev/debug (AST dumps, rendered output)
 core/                    # Build system core
-  index.ts              # Main build orchestration
+  index.ts              # Main build orchestration (discover → process → writePosts → swap dest)
   data/
-    index.ts            # loadDataFiles: _data/, customDataMapping (+ optional key pick), collections.posts
+    index.ts            # loadDataFiles: _data/, customDataMapping (+ optional field pick), collections.posts
     loader.ts           # loadFromDir, loadFromFile
-    posts.ts            # loadPosts from _posts/, sort, URL helpers
+    posts.ts            # loadPosts from _posts/, URL helpers (permalink pattern partial); no sort yet
     types.ts            # DataFileMap and related types
+  emitter/
+    traverse.ts         # discoverFiles, processFiles (orchestrates compile + emit)
+    copy.ts             # pass-through copy helper
+    posts.ts            # write compiled post HTML into dest
   server.ts             # Static HTTP server for .build/
   config.core.ts        # Directory & extension configuration (import #config)
-  config.user.ts        # User overrides: customDataMapping, collections, baseUrl, shortCodes (import #config.user)
+  config.user.ts        # User overrides: customDataMapping, passThroughCopy, collections, baseUrl, shortCodes, filters (import #config.user)
   parser/
     index.ts            # Parsing pipeline entry point (compile, createPageContext)
+    README.md           # Liquid/frontmatter feature matrix vs Shopify Liquid
     utils.ts            # Shared parser helpers (indent, quotes; used by frontmatter + liquid)
     frontmatter/
+      index.ts          # Frontmatter module barrel
       parser.ts         # Frontmatter parser (YAML-like subset)
     liquid/
       parser.ts         # Liquid AST parser (tokenize → parse → Template)
       tokenizer.ts      # Liquid tokenizer (raw text → Token[])
       renderer.ts       # Liquid AST renderer (Template → string)
       resolver.ts       # Template file resolver for render includes and layout resolution
+      filters.ts        # Built-in Liquid filters (date presets, join, replace, prepend)
       types.ts          # Token, Node, Expression, Template type definitions
+      utils.ts          # Liquid-specific helpers
   utils/
     fs.ts               # File system helpers (loadFile, ensureExtension)
     json.ts             # JSON parsing
@@ -253,12 +261,15 @@ core/                    # Build system core
     object.ts           # Object access helpers (getFromObject)
     path.ts             # Output path helpers
     url.ts              # URL helpers for page context
+    html.ts             # e.g. escapeXML
 test/
   parser/
     liquid.test.ts      # Liquid parser/renderer tests
     frontmatter.test.ts # Frontmatter parser tests
+    filters.test.ts     # Built-in and user filter behavior
+    utils.test.ts       # Parser utils tests
   fixtures/liquid/      # Liquid test fixtures (dev.html, mock.json, run.ts, simple/, complex/, includes/)
-  utils/                # Utility tests (json, mime-types, object)
+  utils/                # Utility tests (json, mime-types, object, path, url, fs)
 ```
 
 ### Global data (`loadDataFiles`)
@@ -266,7 +277,7 @@ test/
 [`core/data/index.ts`](core/data/index.ts) builds the global data map used at render time:
 
 1. **Directory data** — JSON files under `src/_data/` (via `loadFromDir`).
-2. **Custom file map** — Optional `customDataMapping` in [`core/config.user.ts`](core/config.user.ts). Each key names a data entry; the value is either a path string to a JSON file (the whole parsed object is stored under that key) or `{ path, values }`, where `values` is a list of **top-level** keys to keep from that file (e.g. `version` and `author` from `package.json`). Omitted keys are not copied into the map.
+2. **Custom file map** — Optional `customDataMapping` in [`core/config.user.ts`](core/config.user.ts). Each key names a data entry; the value is either a path string to a JSON file (the whole parsed object is stored under that key) or `{ path, includeFields }`, where `includeFields` is a list of **top-level** keys to keep from that file (e.g. `version` and `author` from `package.json`). Omitted keys are not copied into the map.
 3. **Collections** — When posts exist, `collections` is set with `{ posts }` from [`core/data/posts.ts`](core/data/posts.ts).
 
 ### Current Eleventy Features to Replicate
@@ -287,8 +298,8 @@ test/
    - Bundle plugin for asset management
 
 4. **Filters**
-   - `dateToRFC3339`: Convert dates to RFC3339 format
-   - `encodeXML`: Escape XML special characters
+   - `dateToRFC3339`: Convert dates to RFC3339 format (custom SSG: built-in `| date: 'rfc3339'`)
+   - `encodeXML`: Escape XML special characters (custom SSG: user filter in `config.user.ts`)
 
 5. **Shortcodes**
    - `currentYear`: Returns current year
@@ -332,21 +343,15 @@ isolated scope containing only the variables explicitly passed at the call site.
 The renderer cache stores parsed ASTs (Template), not rendered output, so the same
 include can be rendered multiple times with different variables.
 
-Several `src/_includes/` files still need updating to work with isolated scope — they
-currently reference variables that are not passed explicitly:
-- `page-footer.liquid`: needs `site.email`, `socialnetworks.*`, `pkg.version`
-- `page-scripts.liquid`: needs `pkg.version`, `site.timestamp`
-- `menu.liquid`: needs `title` (only `location` is passed today)
-- `meta-head.liquid`: needs `site.*`, `page.*`, `pkg.*`, `eleventy.*`, `keywords`, `pageClass`
+Layouts pass explicit variables into partials that need them: [`src/_layouts/default.liquid`](src/_layouts/default.liquid) passes flattened names into `page-footer` (e.g. `site_email`, `socialnetworks_*`, `pkg_version`); [`src/_layouts/meta.liquid`](src/_layouts/meta.liquid) passes objects into `meta-head` and `pkg_version` / `site_timestamp` into `page-scripts`. `menu` receives `title` (and `location`) from callers.
 
-Keys such as `pkg.version` can be present in global data when listed under `customDataMapping` (e.g. selected fields from `package.json`); isolated `render` still requires passing them into each include at the call site.
+Partials such as `logo`, `page-top-left-bg`, `iconset`, `world`, and `article-outdated-warning` use only static markup or variables supplied at the `{% render %}` call site (e.g. `asLink` for `logo`). Any new include must follow the same rule: under isolated `render`, only passed bindings and literals are in scope.
 
-**TODO:** Update every `{% render %}` call site for these includes to pass all required
-variables explicitly.
+Global data keys such as `pkg` still come from `customDataMapping`; they are not visible inside a `render` partial unless the parent template passes them (or passes derived flat fields).
 
 **Includes Directory Name Mismatch**
 
-The source files use `src/_includes/` (with underscore), but `core/config.ts` defines
+The source files use `src/_includes/` (with underscore), but [`core/config.core.ts`](core/config.core.ts) defines
 `DIRECTORIES.INTERNAL.INCLUDES` as `'includes'` (no underscore). The test fixtures
 match the config (`test/fixtures/liquid/includes/`). The resolver resolves the includes
 path relative to the parent file's directory. This mismatch will need reconciliation
@@ -358,23 +363,25 @@ when the SSG starts processing actual source files — either rename `src/_inclu
 "imports": {
   "#config": "./core/config.core.ts",
   "#config.user": "./core/config.user.ts",
+  "#emitter/*": "./core/emitter/*",
   "#parser/*": "./core/parser/*",
   "#utils/*": "./core/utils/*",
   "#core/*": "./core/*"
 }
 ```
+(From [`package.json`](package.json); keep in sync when adding aliases.)
 
 ## Code Standards
 
 ### Critical Rules
-- **No third-party dependencies**: Build everything from scratch (learning goal)
+- **No third-party dependencies** (SSG goal): The custom build under `core/` uses only Node built-ins; the repo still ships Eleventy, PostCSS, etc. for the legacy production path until migration completes.
 - **ES modules only**: Use native `import`/`export`
-- **No semicolons**: Project convention
-- **Tabs for indentation**: Already configured in biome.json
-- **Single quotes for strings**: Already configured in biome.json
+- **Semicolons**: Biome uses `"semicolons": "asNeeded"` (omit where ASI is safe; project style leans minimal)
+- **Tabs for indentation**: Configured in biome.json
+- **Single quotes for strings**: Configured in biome.json
 - **Latest Node.js APIs**: Use modern native features
 - **Node.js 25.1.0**: Pinned via `.nvmrc`
-- **`tsconfig.json`**: Minimal `compilerOptions` (e.g. `"lib": ["esnext"]`) for editor and tooling; entrypoints run with `node` as in `package.json` (e.g. `node core/index.ts`)
+- **TypeScript entrypoints**: There is no `tsconfig.json` in the repo; scripts invoke `node` on `.ts` files directly (Node’s native TypeScript execution / type stripping). Editors infer types from imports and `@types/node`.
 
 ### TypeScript
 - Strong typing: Avoid `any`, prefer `unknown`
@@ -446,7 +453,7 @@ When replacing eleventy-plugin-syntaxhighlight:
 
 Custom format: `Year.Month.Commits.Type`
 - Types: `M1` (Major), `M2` (Minor), `P0` (Patch)
-- Example: `25.03.24.P0`
+- Example: `26.04.59.M2` (see `version` in [`package.json`](package.json))
 - Update in package.json
 
 ## Communication Style
@@ -473,7 +480,7 @@ Custom format: `Year.Month.Commits.Type`
 
 ### Build Output
 - Eleventy outputs to `_site/`
-- Custom SSG outputs to `.build/` (configured in `core/config.ts` as `DEST`)
+- Custom SSG outputs to `.build/` (`directories.dest` in [`core/config.core.ts`](core/config.core.ts))
 - `.tmp/` used for debug output (AST dumps, rendered HTML) during development
 - Must match exact structure for deployment
 - statichost.yml for hosting configuration
