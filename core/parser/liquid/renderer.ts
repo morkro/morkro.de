@@ -122,6 +122,9 @@ function evaluateBinary (condition: ExpressionBinary, localContext: RenderContex
 		}
     case '+': {
       const { left, right } = operands()
+      if (typeof left !== 'number' || typeof right !== 'number') {
+        return String(left) + String(right)
+      }
       return Number(left) + Number(right)
     }
     case '-': {
