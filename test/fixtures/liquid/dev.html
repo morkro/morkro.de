@@ -695,7 +695,177 @@ tags:
 		{% endraw %}
 	</section>
 
-	<!-- 15. ARITHMETIC & UNARY -->
+	<!-- 15. LIQUID TAG -->
+	<section id='liquid-tag'>
+		<h2>Liquid Tag Tests</h2>
+
+		<!-- Basic: single assign + echo on separate lines — expects 'Hello from liquid' -->
+		<div class='liquid-basic'>
+			{% liquid
+				assign liquidGreeting = 'Hello from liquid'
+				echo liquidGreeting
+			%}
+		</div>
+
+		<!-- Multiple statements: expects 'alpha beta' -->
+		<div class='liquid-multi'>
+			{% liquid
+				assign first = 'alpha'
+				assign second = 'beta'
+				echo first
+				echo ' '
+				echo second
+			%}
+		</div>
+
+		<!-- Comment lines (#) inside liquid are skipped — expects 'x=42' -->
+		<div class='liquid-comments'>
+			{% liquid
+				# this line is a comment and should be skipped
+				assign liqX = 42
+				# another comment
+				echo 'x='
+				echo liqX
+			%}
+		</div>
+
+		<!-- if/else/endif inside liquid — expects 'is admin' -->
+		<div class='liquid-if'>
+			{% liquid
+				if user.isAdmin
+					echo 'is admin'
+				else
+					echo 'not admin'
+				endif
+			%}
+		</div>
+
+		<!-- unless/endunless inside liquid — expects 'not editor' -->
+		<div class='liquid-unless'>
+			{% liquid
+				unless user.isEditor
+					echo 'not editor'
+				endunless
+			%}
+		</div>
+
+		<!-- for/endfor inside liquid — expects 'html,css,javascript,' -->
+		<div class='liquid-for'>
+			{% liquid
+				for kw in article.keywords
+					echo kw
+					echo ','
+				endfor
+			%}
+		</div>
+
+		<!-- nested if inside for inside liquid — expects 'Home found' -->
+		<div class='liquid-nested'>
+			{% liquid
+				for link in navLinks
+					if link.url == '/'
+						echo 'Home found'
+					endif
+				endfor
+			%}
+		</div>
+
+		<!-- case/when inside liquid (caseDemo.kind is beta) — expects 'Kind is beta' -->
+		<div class='liquid-case'>
+			{% liquid
+				case caseDemo.kind
+				when 'beta'
+					echo 'Kind is beta'
+				when 'gamma'
+					echo 'Kind is gamma'
+				else
+					echo 'unknown'
+				endcase
+			%}
+		</div>
+
+		<!-- capture inside liquid, then output — expects 'captured: My Test Site' -->
+		<div class='liquid-capture'>
+			{% liquid
+				capture liqCaptured
+					echo 'captured: '
+					echo site.title
+				endcapture
+			%}
+			<p>{{ liqCaptured }}</p>
+		</div>
+
+		<!-- echo with filter chain inside liquid — expects '/blog/Hello World' -->
+		<div class='liquid-echo-filter'>
+			{% liquid
+				echo article.title | prepend: '/blog/'
+			%}
+		</div>
+
+		<!-- assign with filter inside liquid, output later — expects '2026' -->
+		<div class='liquid-assign-filter'>
+			{% liquid
+				assign liqYear = article.date | date: 'year'
+			%}
+			<p>{{ liqYear }}</p>
+		</div>
+
+		<!-- increment inside liquid — expects '012' -->
+		<div class='liquid-increment'>
+			{% liquid
+				increment liqCounter
+				increment liqCounter
+				increment liqCounter
+			%}
+		</div>
+
+		<!-- cycle inside liquid — expects 'onetwoonetwo' -->
+		<div class='liquid-cycle'>
+			{% liquid
+				cycle 'one', 'two'
+				cycle 'one', 'two'
+				cycle 'one', 'two'
+				cycle 'one', 'two'
+			%}
+		</div>
+
+		<!-- arithmetic with assign + echo — expects '100' -->
+		<div class='liquid-arith'>
+			{% liquid
+				assign liqA = 25
+				assign liqB = 4
+				assign liqProduct = liqA * liqB
+				echo liqProduct
+			%}
+		</div>
+
+		<!-- for with break inside liquid — expects 'html,' (breaks at 'css') -->
+		<div class='liquid-for-break'>
+			{% liquid
+				for kw in article.keywords
+					if kw == 'css'
+						break
+					endif
+					echo kw
+					echo ','
+				endfor
+			%}
+		</div>
+
+		<!-- empty liquid block — expects nothing -->
+		<div class='liquid-empty'>
+			{% liquid
+			%}
+		</div>
+
+		<!-- liquid sets a variable, used outside the block — expects 'shared from liquid' -->
+		{% liquid
+			assign liqShared = 'shared from liquid'
+		%}
+		<p class='liquid-shared'>{{ liqShared }}</p>
+	</section>
+
+	<!-- 16. ARITHMETIC & UNARY -->
 	<section id='arithmetic'>
 		<h2>Arithmetic & Unary Tests</h2>
 
@@ -762,7 +932,7 @@ tags:
 		{% endif %}
 	</section>
 
-	<!-- 16. FILTERS -->
+	<!-- 17. FILTERS -->
 	<section id='filters'>
 		<h2>Filter Tests</h2>
 
@@ -810,7 +980,7 @@ tags:
 		{% endif %}
 	</section>
 
-	<!-- 17. FOOTER -->
+	<!-- 18. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>

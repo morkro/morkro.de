@@ -669,6 +669,39 @@ function parseNodes(
         break
       }
       case 'Tag': {
+        const trimmedValue = token.value.trimStart()
+        const isLiquidBlock = trimmedValue === 'liquid'
+          || trimmedValue.startsWith('liquid\n')
+          || trimmedValue.startsWith('liquid\r\n')
+
+        if (isLiquidBlock) {
+          const firstLine = token.value.indexOf('\n')
+          // Empty liquid block
+          if (firstLine === -1) {
+            index++
+            continue
+          }
+
+          const rawBody = token.value.slice(firstLine + 1)
+          const lines = rawBody
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line.length > 0 && !line.startsWith('#'))
+
+          const syntheticTokens: Token[] = lines.map(line => ({
+            type: 'Tag',
+            value: line,
+            start: token.start,
+            end: token.end,
+            innerStart: token.innerStart,
+          }))
+
+          const { nodes: liquidNodes } = parseNodes(syntheticTokens, 0, ctx)
+          nodes.push(...liquidNodes)
+          index++
+          continue
+        }
+
         const innerTokens = tokenizeInner(token.value, token.innerStart)
         const firstToken = innerTokens[0]
         const isToken = (name: TokenKeyword['value']) =>

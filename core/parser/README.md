@@ -13,7 +13,7 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 | **Template context** | Variables and values come from the host (e.g. `assign`, `render` bindings), not from anything defined inside this README. |
 | **Whitespace control** | `{{-` / `-}}` / `{%-` / `-%}` — not implemented. |
 | **Filters** | Pipe chains in `{{ … }}`, `assign`, and `echo`. Built-in filters in `liquid/filters.ts`; user filters via `__filters__` in the render context. |
-| **`liquid` tag** | Multiple statements in one `{% liquid %}` block — not implemented. |
+| **`liquid` tag** | Multiple statements in one `{% liquid %}` block, one statement per line; `#`-prefixed lines are ignored. Block constructs (`if`/`for`/`case`/`capture`/etc.) are supported by desugaring each line into a synthetic tag. |
 
 ## Expressions
 
@@ -80,7 +80,7 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 | `#` (inline comment in `{% %}`) | Done |
 | `comment` / `endcomment` | Done |
 | `raw` / `endraw` | Done |
-| `liquid` | Not implemented |
+| `liquid` | Done |
 
 ## Operators (conditions)
 

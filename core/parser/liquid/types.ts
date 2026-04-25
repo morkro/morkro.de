@@ -155,6 +155,7 @@ export const TokenKeywordValues = [
   'cycle',
   'tablerow',
   'endtablerow',
+  'liquid'
 ] as const
 
 export const TokenOperatorValues = [
