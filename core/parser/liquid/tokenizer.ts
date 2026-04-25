@@ -27,7 +27,14 @@ function pushText (value: string, start: number, end: number): TokenText | undef
   return undefined
 }
 
-function findEndrawTag(input: string, fromIndex: number): number {
+type EndrawMatch = {
+  openIndex: number
+  closeIndex: number
+  trimLeft: boolean
+  trimRight: boolean
+}
+
+function findEndrawTag(input: string, fromIndex: number): EndrawMatch {
 	let index = fromIndex
 	while (index < input.length) {
 		const open = input.indexOf('{%', index)
@@ -40,13 +47,19 @@ function findEndrawTag(input: string, fromIndex: number): number {
 			throw new ParserError('Unclosed tag inside raw search', fromIndex)
 		}
 
-		const tagInner = input.slice(open + 2, close).trim()
+    const trimLeft = input[open + 2] === '-'
+    const trimRight = input[close - 1] === '-'
+    const innerStart = open + 2 + (trimLeft ? 1 : 0)
+    const innerEnd = trimRight ? close - 1 : close
+		const tagInner = input.slice(innerStart, innerEnd).trim()
+
 		if (tagInner === 'endraw') {
-			return open
+			return { openIndex: open, closeIndex: close + 2, trimLeft, trimRight }
 		}
 
 		index = close + 2
 	}
+
 	throw new ParserError('Unclosed raw block', fromIndex)
 }
 
@@ -268,9 +281,34 @@ export function tokenizeInner (input: string, baseOffset = 0): InnerToken[] {
 }
 
 export function tokenize(input: string): Token[] {
-  let cursor: Cursor = createCursor(input)
   const tokens: Token[] = []
+  let cursor: Cursor = createCursor(input)
+  let trimNextText = false
   
+  const pushTextSlice = (value: string, start: number, end: number) => {
+    let trimmed = value
+    if (trimNextText) {
+      trimmed = trimmed.replace(/^\s+/, '')
+      trimNextText = false
+    }
+    const text = pushText(trimmed, start, end)
+    if (text) {
+      tokens.push(text)
+    }
+  }
+
+  const trimPrevText = () => {
+    const last = tokens[tokens.length - 1]
+    if (!last || last.type !== 'Text') return
+
+    const trimmed = last.value.replace(/\s+$/, '')
+    if (trimmed.length === 0) {
+      tokens.pop()
+    } else {
+      tokens[tokens.length - 1] = { ...last, value: trimmed }
+    }
+  }
+
   while (cursor.index < input.length) {
     const nextOutput = input.indexOf('{{', cursor.index)
     const nextTag = input.indexOf('{%', cursor.index)
@@ -283,29 +321,30 @@ export function tokenize(input: string): Token[] {
         : Math.min(nextOutput, nextTag)
 
     if (next === -1) {
-      const text = pushText(input.slice(cursor.index), cursor.index, input.length)
-      if (text) {
-        tokens.push(text)
-      }
+      pushTextSlice(input.slice(cursor.index), cursor.index, input.length)
       break
     }
 
-    const text = pushText(input.slice(cursor.index, next), cursor.index, next)
-    if (text) {
-      tokens.push(text)
-    }
+    pushTextSlice(input.slice(cursor.index, next), cursor.index, next)
     cursor = { input, index: next }
 
     if (input.startsWith("{{", cursor.index)) {
       const start = cursor.index
-      cursor = { input, index: start + 2 }
+      const trimLeft = input[start + 2] === '-'
+      const innerOffsetStart = start + 2 + (trimLeft ? 1 : 0)
+      cursor = { input, index: innerOffsetStart }
 
       const end = input.indexOf("}}", cursor.index)
       if (end === -1) {
         throw new ParserError('Unclosed output', start)
       }
 
-      const inner = input.slice(cursor.index, end)
+      const trimRight = input[end - 1] === '-'
+      const innerEnd = trimRight ? end - 1 : end
+      const inner = input.slice(cursor.index, innerEnd)
+
+      if (trimLeft) trimPrevText()
+
       tokens.push({
         type: 'Output',
         value: inner.trim(),
@@ -313,6 +352,8 @@ export function tokenize(input: string): Token[] {
         end: end + 2,
         innerStart: cursor.index + getIndentWidth(inner),
       })
+
+      if (trimRight) trimNextText = true
       cursor = { input, index: end + 2 }
 
       continue
@@ -320,26 +361,31 @@ export function tokenize(input: string): Token[] {
 
     if (input.startsWith('{%', cursor.index)) {
       const start = cursor.index
-      cursor = { input, index: start + 2 }
+      const trimLeft = input[start + 2] === '-'
+      const innerOffsetStart = start + 2 + (trimLeft ? 1 : 0)
+      cursor = { input, index: innerOffsetStart }
       
       const end = input.indexOf('%}', cursor.index)
       if (end === -1) {
         throw new ParserError('Unclosed tag', start)
       }
       
-      const inner = input.slice(cursor.index, end)
+      const trimRight = input[end - 1] === '-'
+      const innerEnd = trimRight ? end - 1 : end
+      const inner = input.slice(cursor.index, innerEnd)
       if (inner.includes('{%') || inner.includes('{{')) {
         throw new ParserError('Unclosed tag', start)
       }
 
+      if (trimLeft) trimPrevText()
 
       if (inner.trim() === 'raw') {
         const afterOpenTag = end + 2
-        const endrawTag = findEndrawTag(input, afterOpenTag)
-        const literal = input.slice(afterOpenTag, endrawTag)
-        const afterEndrawTag = input.indexOf('%}', endrawTag + 2) + 2
+        const endrawMatch = findEndrawTag(input, afterOpenTag)
+        let literal = input.slice(afterOpenTag, endrawMatch.openIndex)
+        if (trimRight) literal = literal.replace(/^\s+/, '')
+        if (endrawMatch.trimLeft) literal = literal.replace(/\s+$/, '')
         
-        cursor = { input, index: start + 2 }
         tokens.push({
           type: 'Tag',
           value: 'raw',
@@ -351,22 +397,25 @@ export function tokenize(input: string): Token[] {
           type: 'Text',
           value: literal,
           start: afterOpenTag,
-          end: endrawTag,
+          end: endrawMatch.openIndex,
         })
         tokens.push({
           type: 'Tag',
           value: 'endraw',
-          start: endrawTag,
-          end: afterEndrawTag,
-          innerStart: endrawTag + 2,
+          start: endrawMatch.openIndex,
+          end: endrawMatch.closeIndex,
+          innerStart: endrawMatch.openIndex + 2,
         })
-        cursor = { input, index: afterEndrawTag }
+
+        if (endrawMatch.trimRight) trimNextText = true
+        cursor = { input, index: endrawMatch.closeIndex }
 
         continue
       }
       
       // Ignore Liquid comments
       if (inner.startsWith('#')) {
+        if (trimRight) trimNextText = true
         cursor = { input, index: end + 2 }
         continue
       }
@@ -378,6 +427,8 @@ export function tokenize(input: string): Token[] {
         end: end + 2,
         innerStart: cursor.index + getIndentWidth(inner),
       })
+
+      if (trimRight) trimNextText = true
       cursor = { input, index: end + 2 }
     } 
   }

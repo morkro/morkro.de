@@ -11,7 +11,7 @@ Shared helpers used by the frontmatter parser and Liquid (indent width, quote st
 | Area | Notes |
 | ---- | ----- |
 | **Template context** | Variables and values come from the host (e.g. `assign`, `render` bindings), not from anything defined inside this README. |
-| **Whitespace control** | `{{-` / `-}}` / `{%-` / `-%}` — not implemented. |
+| **Whitespace control** | `{{-` / `-}}` / `{%-` / `-%}` — strips whitespace on the side of the dash. Handled in `liquid/tokenizer.ts`; the AST is unaffected (adjacent `Text` tokens are trimmed in place). |
 | **Filters** | Pipe chains in `{{ … }}`, `assign`, and `echo`. Built-in filters in `liquid/filters.ts`; user filters via `__filters__` in the render context. |
 | **`liquid` tag** | Multiple statements in one `{% liquid %}` block, one statement per line; `#`-prefixed lines are ignored. Block constructs (`if`/`for`/`case`/`capture`/etc.) are supported by desugaring each line into a synthetic tag. |
 

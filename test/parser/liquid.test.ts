@@ -1395,10 +1395,10 @@ describe('renderLiquid: unary not', () => {
 
 	it('renders not with comparison (not binds tighter)', async () => {
 		const result = await renderTemplate(
-			'{% if not active == true %}shown{% else %}hidden{% endif %}',
-			{ active: false }
+			'{% if not active > 5 %}shown{% else %}hidden{% endif %}',
+			{ active: 0 }
 		)
-		assert.strictEqual(result, 'shown')
+		assert.strictEqual(result, 'hidden')
 	})
 
 	it('renders double not as identity', async () => {
@@ -1634,5 +1634,120 @@ describe('renderLiquid: filters', () => {
 			{ __filters__: { upcase: (v: unknown) => String(v).toUpperCase() } }
 		)
 		assert.strictEqual(result, 'HELLO')
+	})
+})
+
+describe('parseLiquid: whitespace control', () => {
+	it('trims trailing whitespace from preceding text with {{-', () => {
+		const body = parse('hello   {{- name }}')
+		assert.strictEqual(body.length, 2)
+		assert.strictEqual((body[0] as NodeText).value, 'hello')
+		assert.strictEqual(body[1].type, 'Output')
+	})
+
+	it('trims leading whitespace from following text with -}}', () => {
+		const body = parse('{{ name -}}   world')
+		assert.strictEqual(body.length, 2)
+		assert.strictEqual(body[0].type, 'Output')
+		assert.strictEqual((body[1] as NodeText).value, 'world')
+	})
+
+	it('trims both sides with {{- ... -}}', () => {
+		const body = parse('A   {{- name -}}\n   B')
+		assert.strictEqual((body[0] as NodeText).value, 'A')
+		assert.strictEqual((body[body.length - 1] as NodeText).value, 'B')
+	})
+
+	it('trims trailing whitespace from preceding text with {%-', () => {
+		const body = parse('intro\n\n{%- assign x = 1 %}rest')
+		assert.strictEqual((body[0] as NodeText).value, 'intro')
+		assert.strictEqual(body[1].type, 'Assign')
+	})
+
+	it('trims leading whitespace from following text with -%}', () => {
+		const body = parse('{% assign x = 1 -%}\n\n   rest')
+		assert.strictEqual(body[0].type, 'Assign')
+		assert.strictEqual((body[1] as NodeText).value, 'rest')
+	})
+
+	it('trims across newlines and tabs around tags', () => {
+		const body = parse('x\n\t  {%- assign y = 1 -%}\n\n  z')
+		assert.strictEqual((body[0] as NodeText).value, 'x')
+		assert.strictEqual(body[1].type, 'Assign')
+		assert.strictEqual((body[body.length - 1] as NodeText).value, 'z')
+	})
+
+	it('drops the previous Text token when it becomes fully empty', () => {
+		const body = parse('   {%- assign x = 1 %}rest')
+		assert.strictEqual(body.length, 2)
+		assert.strictEqual(body[0].type, 'Assign')
+		assert.strictEqual((body[1] as NodeText).value, 'rest')
+	})
+
+	it('does not strip non-whitespace characters adjacent to a tag', () => {
+		const body = parse('abc{%- assign x = 1 -%}def')
+		assert.strictEqual((body[0] as NodeText).value, 'abc')
+		assert.strictEqual(body[1].type, 'Assign')
+		assert.strictEqual((body[body.length - 1] as NodeText).value, 'def')
+	})
+
+	it('parses both sides of an if block with whitespace control', () => {
+		const body = parse('A\n   {%- if x -%}\n   B\n   {%- endif -%}\n   C')
+		assert.strictEqual((body[0] as NodeText).value, 'A')
+		const ifNode = body[1] as NodeIf
+		assert.strictEqual(ifNode.type, 'If')
+		assert.strictEqual((ifNode.body[0] as NodeText).value, 'B')
+		assert.strictEqual((body[body.length - 1] as NodeText).value, 'C')
+	})
+
+	it('preserves dash-stripped raw content boundaries', () => {
+		const body = parse('a   {%- raw -%}\n   {{ keep }}\n   {%- endraw -%}   b')
+		const raw = body.find(n => n.type === 'Raw') as NodeRaw
+		const text = raw.body[0] as NodeText
+		assert.strictEqual(text.value, '{{ keep }}')
+		assert.strictEqual((body[0] as NodeText).value, 'a')
+		assert.strictEqual((body[body.length - 1] as NodeText).value, 'b')
+	})
+
+	it('keeps raw content untouched without whitespace control', () => {
+		const body = parse('a   {% raw %}\n   {{ keep }}\n   {% endraw %}   b')
+		const raw = body.find(n => n.type === 'Raw') as NodeRaw
+		const text = raw.body[0] as NodeText
+		assert.strictEqual(text.value, '\n   {{ keep }}\n   ')
+	})
+
+	it('propagates right-trim across an inline comment tag', () => {
+		const body = parse('a{%# note -%}\n   b')
+		assert.strictEqual((body[0] as NodeText).value, 'a')
+		assert.strictEqual((body[1] as NodeText).value, 'b')
+	})
+})
+
+describe('renderLiquid: whitespace control', () => {
+	it('eliminates the newline after a control tag', async () => {
+		const result = await renderTemplate(
+			'{%- assign greeting = "hi" -%}\n<p>{{ greeting }}</p>'
+		)
+		assert.strictEqual(result, '<p>hi</p>')
+	})
+
+	it('strips leading and trailing whitespace around an output tag', async () => {
+		const result = await renderTemplate('hello   {{- name -}}   world', { name: 'x' })
+		assert.strictEqual(result, 'helloxworld')
+	})
+
+	it('compacts a multi-line if block', async () => {
+		const result = await renderTemplate(
+			'A\n   {%- if x -%}\n   B\n   {%- endif -%}\n   C',
+			{ x: true }
+		)
+		assert.strictEqual(result, 'ABC')
+	})
+
+	it('keeps raw literal contents intact when surrounded by trim markers', async () => {
+		const result = await renderTemplate(
+			'a   {%- raw -%}\n   {{ keep }}\n   {%- endraw -%}   b'
+		)
+		assert.strictEqual(result, 'a{{ keep }}b')
 	})
 })

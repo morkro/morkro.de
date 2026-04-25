@@ -980,7 +980,80 @@ tags:
 		{% endif %}
 	</section>
 
-	<!-- 18. FOOTER -->
+	<!-- 18. WHITESPACE CONTROL -->
+	<section id='whitespace-control'>
+		<h2>Whitespace Control Tests</h2>
+
+		<!-- Left-trim on output: leading spaces collapse, expects "beforeMy Test Site" -->
+		<p class='ws-output-left'>before   {{- site.title }}</p>
+
+		<!-- Right-trim on output: trailing spaces collapse, expects "My Test Siteafter" -->
+		<p class='ws-output-right'>{{ site.title -}}   after</p>
+
+		<!-- Both sides on output: expects "startMy Test Siteend" -->
+		<p class='ws-output-both'>start   {{- site.title -}}   end</p>
+
+		<!-- Tag right-trim: assign followed by newline+indent should not leak whitespace -->
+		<div class='ws-tag-right'>
+			{%- assign greeting = 'Hello from trim' -%}
+			<p>{{ greeting }}</p>
+		</div>
+
+		<!-- Block with trims on every boundary: branches compact to a single token -->
+		<div class='ws-tag-block'>
+			start
+			{%- if user.isAdmin -%}
+				{{ site.title }}
+			{%- else -%}
+				guest
+			{%- endif -%}
+			end
+		</div>
+
+		<!-- For loop with trims: expects "[red][green][blue]" on a single line -->
+		<div class='ws-for-trim'>
+			{%- for color in colors -%}
+				[{{ color }}]
+			{%- endfor -%}
+		</div>
+
+		<!-- Right-trim eats only whitespace, not adjacent literal characters: expects "X1Y" -->
+		<p class='ws-no-eat-text'>{%- assign one = 1 -%}X{{ one }}Y</p>
+
+		<!-- Left-trim only: right side keeps its literal spaces, expects "aMy Test Site   b" -->
+		<p class='ws-left-only'>a   {{- site.title }}   b</p>
+
+		<!-- Right-trim only: left side keeps its literal spaces, expects "a   My Test Siteb" -->
+		<p class='ws-right-only'>a   {{ site.title -}}   b</p>
+
+		<!-- Raw block with trims: surrounding whitespace inside raw is stripped at boundaries -->
+		<div class='ws-raw'>
+			a   {%- raw -%}
+				{{ literal_kept }}
+			{%- endraw -%}   b
+		</div>
+
+		<!-- Raw block without trims: whitespace inside raw is preserved verbatim -->
+		<pre class='ws-raw-untouched'>{% raw %}
+   {{ kept_as_is }}
+{% endraw %}</pre>
+
+		<!-- Right-trim propagates across an inline-comment tag: expects "xy" -->
+		<p class='ws-comment'>x{%# this comment goes away -%}
+			y</p>
+
+		<!-- Trims around a liquid block: expects "red,green,blue," with no surrounding whitespace -->
+		<div class='ws-liquid'>
+			{%- liquid
+				for color in colors
+					echo color
+					echo ','
+				endfor
+			-%}
+		</div>
+	</section>
+
+	<!-- 19. FOOTER -->
 	<footer>
 		{% if site.footer.enabled %}
 		<p>{{site.footer.text}}</p>
