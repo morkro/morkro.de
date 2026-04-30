@@ -49,12 +49,6 @@ function encodeXML (input) {
 const config: UserConfig = {
   debugMode: process.env.DEBUG === 'true',
   baseUrl: 'https://morkro.de',
-  customDataMapping: {
-    'pkg': {
-      path: './package.json',
-      includeFields: ['version', 'author'],
-    },
-  },
   passThroughCopy: [
     { from: 'src/assets', to: 'assets', },
     { from: 'src/scripts', to: 'assets/scripts', },
