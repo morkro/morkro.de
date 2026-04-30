@@ -1,54 +1,43 @@
 import { stderr } from 'node:process'
 import { styleText } from 'node:util'
 
-type LogDomain = 'parser' | 'server' | 'test' | 'emitter' | 'data'
-type LogLevel = 'debug' | 'info' | 'error' | 'warn'
+type LogMeta = Record<string, unknown>
 
-export type LogConfig = {
-  lvl?: LogLevel
-  d?: LogDomain
-  type?: 'group'
-}
-
-export const logGroupEnd = console.groupEnd
-
-/**
- * Usage:
- * log('Hello, world!', { lvl: 'info', d: 'parser' })
- */
-export const log = (message: string, config: LogConfig): void => {
+export function logger (label: string) {
   const now = new Date().toLocaleDateString('de-DE',
     { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-  const { lvl = 'info', d = 'emitter', type } = config
-  const domain = styleText(['inverse'], ` ${d.toUpperCase()} `)
-  const logger = type === 'group' ? console.group : console.log
-  
-  const syntax = (_lvl: string) => `[${now}]${domain}[${_lvl}] ${message}`
 
-  if (lvl === 'debug') {
-    if (process.env.DEBUG === 'true') {
-      logger(syntax(styleText(['bold'], 'debug')))
+  const syntax = (_lvl: string, message: string, meta?: LogMeta) => {
+    let msg = `[${now}] ${_lvl} (${label}): ${message}`
+    if (meta && Object.keys(meta).length > 0) {
+      msg += `\n${JSON.stringify(meta, null, 2)}`
     }
-  } else if (lvl === 'info') {
-    logger(syntax(styleText(['blue', 'bold'], 'info')))
-  } else if (lvl === 'warn') {
-    logger(syntax(styleText(['yellow', 'bold'], 'warn')))
-  } else if (lvl === 'error') {
-    console.error(syntax(styleText(['red', 'bold'], 'error', { stream: stderr })))
+    return msg
+  }
+  
+  return {
+    debug (msg: string, meta?: LogMeta) {
+      console.debug(
+        syntax(
+          styleText(['bold'], 'debug'), msg, meta))
+    },
+    info (msg: string, meta?: LogMeta) {
+      console.info(
+        syntax(
+          styleText(['blue', 'bold'], 'info'), msg, meta))
+    },
+    warn (msg: string, meta?: LogMeta) {
+      console.warn(
+        syntax(
+          styleText(['yellow', 'bold'], 'warn'), msg, meta))
+    },
+    error (msg: string, meta?: LogMeta) {
+      console.error(
+        syntax(
+          styleText(['red', 'bold'], 'error', { stream: stderr }), msg, meta))
+    }
   }
 }
-
-export const logParser = (message: string, config: LogConfig = { lvl: 'info' }): void =>
-  log(message, { ...config, d: 'parser' })
-
-export const logServer = (message: string, config: LogConfig = { lvl: 'info' }): void =>
-  log(message, { ...config, d: 'server' })
-
-export const logTest = (message: string, config: LogConfig = { lvl: 'info' }): void =>
-  log(message, { ...config, d: 'test' })
-
-export const logSsg = (message: string, config: LogConfig = { lvl: 'info',}): void =>
-  log(message, { ...config, d: 'emitter' })
 
 /**
  * Usage:
@@ -58,10 +47,11 @@ export const logSsg = (message: string, config: LogConfig = { lvl: 'info',}): vo
  */
 export function perf (label: string): { end: () => void } {
   const now = performance.now()
+  const _logger = logger('Perf')
   return {
     end () {
       const duration = (performance.now() - now).toFixed(2)
-      log(`${label}: ${duration}ms`, { lvl: 'debug' })
+      _logger.debug(`${label} in ${duration}ms`)
     }
   }
 }

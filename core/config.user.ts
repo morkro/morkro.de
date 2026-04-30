@@ -15,6 +15,7 @@ type ShortCodeFn = () => unknown
 export type FilterFn = (input: unknown, ...args: unknown[]) => unknown
 
 export type UserConfig = {
+  debugMode?: boolean
   baseUrl?: string 
   customDataMapping?: {
     [key: string]: string | CustomDataFields
@@ -26,13 +27,27 @@ export type UserConfig = {
     posts?: {
       sortBy: 'date' | 'title'
       sortOrder: 'asc' | 'desc'
-      layout: string
+      layout?: string
       permalink: string
     }
   }
 }
 
+function currentYear () {
+  return new Date().getFullYear()
+}
+
+function encodeXML (input) {
+  return (input as string)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+}
+
 const config: UserConfig = {
+  debugMode: process.env.DEBUG === 'true',
   baseUrl: 'https://morkro.de',
   customDataMapping: {
     'pkg': {
@@ -45,24 +60,16 @@ const config: UserConfig = {
     { from: 'src/scripts', to: 'assets/scripts', },
   ],
   shortCodes: {
-    'currentYear': () => new Date().getFullYear(),
+    currentYear,
   },
   filters: {
-    encodeXML (input: unknown) {
-      return (input as string)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&apos;')
-    },
+    encodeXML,
   },
   collections: {
     posts: {
       sortBy: 'date',
       sortOrder: 'desc',
-      layout: 'post',
-      permalink: `/writes/{{ page.date | date: '%Y/' }}/{{ page.fileSlug }}/`
+      permalink: `/writes/{{ page.date | date: 'year' }}/{{ page.slug }}/`
     }
   }
 }

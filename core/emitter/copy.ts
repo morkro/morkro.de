@@ -1,11 +1,13 @@
 import { copyFile, lstat, mkdir, readdir } from "node:fs/promises"
 import { dirname, join } from "node:path"
-import { log } from "#utils/log.ts"
+import { logger } from "#utils/log.ts"
+
+const log = logger('Emitter')
 
 export async function copyRecursive (src: string, dest: string): Promise<boolean> {
   const stats = await lstat(src)
   if (stats.isSymbolicLink()) {
-    log(`Skipping symbolic link "${src}"`, { lvl: 'debug' })
+    log.debug(`Skipping symbolic link "${src}"`)
     return true
   }
 
@@ -14,7 +16,7 @@ export async function copyRecursive (src: string, dest: string): Promise<boolean
       await mkdir(dirname(dest), { recursive: true })
       await copyFile(src, dest)
     } catch (error) {
-      log(`Failed to copy file "${src}" to "${dest}" with error: ${error}`, { lvl: 'error' })
+      log.error(`Failed to copy file "${src}" to "${dest}" with error: ${error}`)
       return false
     }
     return true
@@ -28,7 +30,7 @@ export async function copyRecursive (src: string, dest: string): Promise<boolean
       }
       return true
     } catch (error) {
-      log(`Failed to copy directory "${src}" to "${dest}" with error: ${error}`, { lvl: 'error' })
+      log.error(`Failed to copy directory "${src}" to "${dest}" with error: ${error}`)
       return false
     }
   }

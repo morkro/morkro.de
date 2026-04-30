@@ -6,14 +6,16 @@ import { compile } from "#parser/index.ts"
 import type { RenderContext } from "#parser/liquid/renderer.ts"
 import { loadFile } from "#utils/fs.ts"
 import { parseJSON } from "#utils/json.ts"
-import { log } from "#utils/log.ts"
+import { logger } from "#utils/log.ts"
+
+const log = logger('Liquid')
 
 async function cleanup () {
   try {
     await rm(resolve(config.directories.temp), { recursive: true })
   } catch (error) {
     if (error.code !== 'ENOENT') {
-      log(`Failed to cleanup temporary directory: ${error}`, { lvl: 'warn' })
+      log.warn(`Failed to cleanup temporary directory: ${error}`)
     }
   }
 

@@ -38,7 +38,7 @@ export async function layoutResolver (name: string, cache: Map<string, Layout>):
 }
 
 export async function templateResolver (parentPath: string, file: string): Promise<Template> {
-	const globalIncludes = resolve(cwd(), config.directories.src, '_includes')
+	const globalIncludes = resolve(cwd(), config.directories.src, config.directories.internal.includes)
 	const localIncludes = resolve(dirname(parentPath), config.directories.internal.includes)
 	const searchRoots = [globalIncludes, localIncludes]
 	const errors: unknown[] = []

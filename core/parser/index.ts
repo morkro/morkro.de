@@ -1,3 +1,4 @@
+import { relative } from 'node:path'
 import type { FilterFn } from '#config.user'
 import type { DataFileMap } from '#core/data/types.ts'
 import { extractFrontmatter } from '#parser/frontmatter/index.ts'
@@ -5,9 +6,11 @@ import { parseLiquid } from '#parser/liquid/parser.ts'
 import { type RenderContext, render } from '#parser/liquid/renderer.ts'
 import { layoutResolver, templateResolver } from '#parser/liquid/resolver.ts'
 import type { Layout, Template } from '#parser/liquid/types.ts'
-import { log, logParser, perf } from '#utils/log.ts'
+import { logger, perf } from '#utils/log.ts'
 import { resolveOutput } from '#utils/path.ts'
 import { toUrl } from '#utils/url.ts'
+
+const log = logger('Parser')
 
 const layoutCache = new Map<string, Layout>()
 
@@ -50,10 +53,7 @@ export function createPageContext (
   // Check if any page variables would be overwritten by frontmatter data
   for (const key of Object.keys(frontmatter)) {
     if (key in core) {
-      logParser(
-        `Frontmatter key "${key}" overwrites core variable "${key}"`,
-        { lvl: 'warn' }
-      )
+      log.warn(`Frontmatter key "${key}" overwrites core variable "${key}"`)
     }
   }
 
@@ -63,7 +63,6 @@ export function createPageContext (
     url: toUrl(baseUrl, output),
     ...pageData
   }}
-  log(JSON.stringify(context, null, 2), { lvl: 'debug' })
   return context
 }
 
@@ -100,8 +99,9 @@ export async function compile (file: string, path: string, options: CompilerOpti
     options.pageData)
   localContext.__shortCodes__ = options.shortCodes
   localContext.__filters__ = options.filters
-
-  const lpStart = perf('Parsing Liquid')
+  
+  const relativePath = relative(options.destDir, outputPath)
+  const lpStart = perf(`Parsing Liquid (${relativePath})`)
   const ast = parseLiquid(body, path)
   lpStart.end()
   

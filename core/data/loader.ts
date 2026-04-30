@@ -2,8 +2,10 @@ import { access, readFile, readdir } from 'node:fs/promises'
 import { basename, extname, resolve } from 'node:path'
 import config from '#core/config.core.ts'
 import { parseJSON } from '#utils/json.ts'
-import { logSsg as log } from '#utils/log.ts'
+import { logger } from '#utils/log.ts'
 import type { DataFileMap } from './types.ts'
+
+const log = logger('Data')
 
 async function readOrImport (filePath: string): Promise<unknown> {
   const ext = extname(filePath)
@@ -14,7 +16,7 @@ async function readOrImport (filePath: string): Promise<unknown> {
     }
     if (ext === '.js') {
       // Logging JS files specifically since they shouldn't be trusted
-      log(`Importing JavaScript file: ${filePath}`, { lvl: 'debug', d: 'data' })
+      log.debug(`Importing JavaScript file: ${filePath}`)
       const javascript = await import(filePath)
       return javascript.default
     }
@@ -22,11 +24,11 @@ async function readOrImport (filePath: string): Promise<unknown> {
       const markdown = await readFile(filePath, 'utf-8')
       return markdown
     }
-    log(`Unsupported file extension '${ext}' for file '${filePath}'`, { lvl: 'error', d: 'data' })
+    log.error(`Unsupported file extension '${ext}' for file '${filePath}'`)
     return null
   } catch (error) {
     if (error instanceof Error && (error as NodeJS.ErrnoException).code === 'ENOENT') {
-      log(`File not found: ${filePath}`, { lvl: 'warn', d: 'data' })
+      log.warn(`File not found: ${filePath}`)
       return null
     }
     throw new Error(`Failed to import data file '${filePath}'`, { cause: error })
@@ -41,7 +43,7 @@ export async function loadFromDir (dir: DirectoryType): Promise<DataFileMap> {
   try {
     await access(directory)
   } catch {
-    log(`Data directory '${directory}' not found`, { lvl: 'error', d: 'data' })
+    log.error(`Data directory '${directory}' not found`)
     return map
   }
 

@@ -2,6 +2,9 @@ import { join } from 'node:path'
 import config from '#core/config.core.ts'
 import type { UserConfig } from '#core/config.user.ts'
 import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
+import { applyFilter } from '#parser/liquid/filters.ts'
+import { stripQuotes } from '#parser/utils.ts'
+import { getFromObject } from '#utils/object.ts'
 import { loadFromDir } from './loader.ts'
 
 export type Post = {
@@ -13,6 +16,13 @@ export type Post = {
   external?: {
     host: string
     url: string
+  }
+}
+
+type PermalinkContext = {
+  page: {
+    date: Date
+    slug: string
   }
 }
 
@@ -36,7 +46,7 @@ function parseFilename(filename: string): { date: Date, slug: string } {
   }
 }
 
-function createPost(data: string, filename: string): Post {
+function createPostData(data: string, filename: string): Post {
   const fm = parseFrontmatter(data)
 
   if (typeof fm.title !== 'string') {
@@ -62,11 +72,33 @@ function createPost(data: string, filename: string): Post {
   }
 }
 
-function createPostUrl (meta: { date: Date, slug: string }, pattern: string): string {
-  // TODO: This needs proper parsing of the pattern
-  return pattern
-    .replace(`{{ page.date | date: '%Y/' }}`, new Date(meta.date).getFullYear().toString())
-    .replace('{{ page.fileSlug }}', meta.slug)
+function evalPermalinkExpression (expression: string, context: PermalinkContext, userConfig?: UserConfig): string {
+  const parts = expression.split('|').map(part => part.trim())
+  const base = parts.shift()
+  if (!base) throw new Error(`Invalid permalink expression: ${expression}`)
+
+  let value = getFromObject(base.split('.').map(part => part.trim()), context)
+
+  for (const part of parts) {
+    const match = part.match(/^(\w+)(?::(.*))?$/)
+    if (!match) {
+      throw new Error('Empty permalink filter expression')
+    }
+    const args = match[2]
+      ? match[2].split(',').map(arg => stripQuotes(arg.trim()))
+      : []
+    value = applyFilter(match[1], value, args, userConfig?.filters ?? {})
+  }
+
+  return value as string
+}
+
+function createPostUrl (context: PermalinkContext, pattern: string, userConfig?: UserConfig): string {
+  const resolved = pattern.replace(/\{\{\s*([^}]+?)\s*\}\}/g, (_, expression) => 
+    evalPermalinkExpression(expression, context, userConfig))
+  const normalised = resolved.replace(/\/{2,}/g, '/')
+
+  return normalised.startsWith('/') ? normalised : `/${normalised}`
 }
 
 export async function loadPosts(userConfig?: UserConfig): Promise<CollectionPost[]> {
@@ -78,7 +110,7 @@ export async function loadPosts(userConfig?: UserConfig): Promise<CollectionPost
     const raw = value as unknown as string
     const content = removeFrontmatter(raw).trim()
     const meta = parseFilename(filename)
-    const post = createPost(raw, filename)
+    const post = createPostData(raw, filename)
     const srcPath = join(
       config.directories.src,
       config.directories.internal.posts,
@@ -88,15 +120,25 @@ export async function loadPosts(userConfig?: UserConfig): Promise<CollectionPost
     posts.push({
       data: post,
       url: !post.external && userConfig?.collections?.posts?.permalink
-        ? createPostUrl(meta, userConfig?.collections?.posts?.permalink)
+        ? createPostUrl({ page: meta }, userConfig?.collections?.posts?.permalink, userConfig)
         : post.external?.url
           ? undefined
-          : `/${config.directories.posts}/${meta.date.getFullYear()}/${meta.slug}`,
+          : `/posts/${meta.date.getFullYear()}/${meta.slug}`,
       date: meta.date,
       content: content ? content : undefined,
       meta: { raw, srcPath }
     })
   } 
+
+  const { sortBy, sortOrder } = userConfig?.collections?.posts ?? {}
+  const direction = sortOrder === 'asc' ? 1 : -1
+
+  posts.sort((a, b) => {
+    if (sortBy === 'title') {
+      return a.data.title.localeCompare(b.data.title) * direction
+    }
+    return (a.date.getTime() - b.date.getTime()) * direction
+  })
 
   return posts
 }

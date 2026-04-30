@@ -4,7 +4,9 @@ import type { UserConfig } from "#config.user"
 import type { CollectionPost } from "#core/data/posts.ts"
 import type { DataFileMap } from "#core/data/types.ts"
 import { compile } from "#parser/index.ts"
-import { log } from "#utils/log.ts"
+import { logger } from "#utils/log.ts"
+
+const log = logger('Emitter')
 
 type WritePostOptions = {
   dataFiles: DataFileMap
@@ -34,7 +36,7 @@ export async function writePosts (
       })
       
       await mkdir(dirname(output), { recursive: true })
-      log(`Writing post "${post.data.title}" at "${post.url}"`, { lvl: 'debug' })
+      log.debug(`Writing post "${post.data.title}" at "${post.url}"`)
       await writeFile(output, rendered)
     } catch (error) {
       errors.push({ name: post.data.title, error })
@@ -42,10 +44,10 @@ export async function writePosts (
   }
 
   if (errors.length > 0) {
-    log(`Failed to write ${errors.length} posts`, { lvl: 'error' })
+    log.error(`Failed to write ${errors.length} posts`)
 
     for (const { name, error } of errors) {
-      log(`Failed to write post "${name}": ${error}`, { lvl: 'error' })
+      log.error(`Failed to write post "${name}": ${error}`)
     }
     
     throw new Error(`${errors.length} post(s) failed to compile`)

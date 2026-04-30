@@ -22,26 +22,7 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 
 **Documentation:** `[core/parser/README.md](core/parser/README.md)`
 
-### 1.1 Liquid Parser
-
-
-| Feature                                                                           | Status      |
-| --------------------------------------------------------------------------------- | ----------- |
-| Tokenizer (raw text → tokens)                                                     | Done        |
-| Parser (tokens → AST)                                                             | Done        |
-| Renderer (AST → HTML)                                                             | Done        |
-| Template file resolver for includes                                               | Done        |
-| Control flow (if/elsif/else, unless, case/when)                                   | Done        |
-| Iteration (for/endfor with forloop, limit, offset, reversed)                      | Done        |
-| Variables (assign, capture, dot-notation access)                                  | Done        |
-| Partials (render tag with variable passing)                                       | Done        |
-| Comments (inline #, comment/endcomment)                                           | Done        |
-| Raw blocks (raw/endraw)                                                           | Done        |
-| Filters (pipe chains in output, assign, and echo)                                 | Done        |
-| Whitespace control (`{{-`, `-}}`, `{%-`, `-%}`)                                   | Done        |
-| Variable tags (increment/decrement, echo)                                         | Done        |
-| Iteration tags (cycle, tablerow/endtablerow with cols/limit/offset, tablerowloop) | Done        |
-
+### 1.1 Liquid Parser — Done
 
 ### 1.2 Frontmatter Parser
 
@@ -67,40 +48,11 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 | Integration with frontmatter  | Not started |
 
 
-### 1.4 Filters
-
-Built-in filters are implemented in `core/parser/liquid/filters.ts`. User-defined filters are registered via `filters` in `config.user.ts` and passed through the render context as `__filters__`.
-
-The `date` filter uses preset names (`year`, `full`, `rfc3339`, `datetime`) instead of strftime tokens. Templates have been updated to use these presets.
-
-
-| Filter              | Status  | Purpose                                                             |
-| ------------------- | ------- | ------------------------------------------------------------------- |
-| `date`              | Done    | Date formatting via presets (`year`, `full`, `rfc3339`, `datetime`) |
-| `join`              | Done    | Array joining                                                       |
-| `replace`           | Done    | String replacement (all occurrences)                                |
-| `prepend`           | Done    | String prefixing                                                    |
-| `encodeXML`         | Done    | XML entity escaping (user filter in `config.user.ts`)               |
-| ~~`dateToRFC3339`~~ | Removed | Replaced by `date: "rfc3339"` preset                                |
-
+### 1.4 Filters — Done
 
 ### 1.5 Shortcodes — Done
 
-### 1.6 Collections
-
-From `eleventy.config.js`:
-
-
-| Feature                                                                  | Status                                          |
-| ------------------------------------------------------------------------ | ----------------------------------------------- |
-| Discover files under `_posts/` (via data loader)                         | Done                                            |
-| Metadata extraction from frontmatter                                     | Done                                            |
-| Sorting (`collections.posts.sortBy` / `sortOrder` in `config.user.ts`) | Not started — options exist; `loadPosts()` does not sort yet |
-| Registration in global data (`collections.posts` from `loadDataFiles()`) | Done                                            |
-| Access via `collections.posts` in Liquid                                 | Done                                            |
-| Permalink URL from pattern (full Liquid/date filter semantics)           | In progress — see TODOs in `core/data/posts.ts` |
-| Per-post output pages matching Eleventy permalinks                       | Done (non-external posts, see section 6.4)      |
-
+### 1.6 Collections — Done
 
 ---
 
@@ -232,21 +184,7 @@ Tokenizer per language:
 
 ## 5. Build System
 
-### 5.1 Core Build Pipeline
-
-**Documentation:** `[core/index.ts](core/index.ts)`
-
-
-| Feature                                                                                                                                                 | Status      |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| File discovery and processing                                                                                                                           | Done        |
-| Layout system                                                                                                                                           | Done        |
-| Data file loading (`_data/` directory)                                                                                                                  | Done        |
-| Custom data mapping (`customDataMapping` in `config.user.ts`: path string, or `{ path, includeFields }` to expose only listed top-level keys from a JSON file) | Done        |
-| Posts collection in global context (`collections.posts`)                                                                                                | Done        |
-| Permalink handling                                                                                                                                      | In progress — `createPostUrl()` in `core/data/posts.ts` handles a subset of patterns; full Liquid/date semantics still open |
-| Asset copying (passthrough)                                                                                                                             | Done        |
-
+### 5.1 Core Build Pipeline — Done
 
 ### 5.2 File Watcher
 
@@ -294,7 +232,7 @@ From `eleventy.config.js`:
 
 ### 6.2 Directory Name Resolution
 
-**Issue:** `src/_includes/` vs `directories.internal.includes` (`'includes'`) in [`core/config.core.ts`](core/config.core.ts)
+**Issue:** `src/_includes/` vs `directories.internal.includes` (`'includes'`) in `[core/config.core.ts](core/config.core.ts)`
 
 
 | Task                                                                                | Status      |
@@ -401,14 +339,7 @@ The parser uses `as TokenIdent` / `as TokenKeyword` casts *before* the runtime t
 | Add `NaN` guard after parsing year/month/day | Not started | `core/data/posts.ts:31` |
 
 
-### 7.7 Performance: Optimise for-loop param application order
-
-`core/parser/liquid/renderer.ts:227` — `toReversed()`, `slice(offset)`, `slice(0, limit)` each create a new array. Applying offset/limit first (smaller array) then reversing reduces allocations for large collections.
-
-
-| Task                                                 | Status      | File                                 |
-| ---------------------------------------------------- | ----------- | ------------------------------------ |
-| Reorder param application: offset → limit → reversed | Not started | `core/parser/liquid/renderer.ts:226` |
+### 7.7 Performance: Optimise for-loop param application order — Done
 
 
 ### 7.8 Test Coverage: Add tests for untested modules

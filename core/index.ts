@@ -8,10 +8,12 @@ import { startServer } from '#core/server.ts'
 import { copyRecursive } from '#emitter/copy.ts'
 import { writePosts } from '#emitter/posts.ts'
 import { discoverFiles, processFiles } from '#emitter/traverse.ts'
-import { logSsg as log, perf } from '#utils/log.ts'
+import { logger, perf } from '#utils/log.ts'
+
+const log = logger('Build')
 
 async function build () {
-  log('Building pages')
+  log.info('Building pages')
   const srcDir = resolve(config.directories.src)
   const destDir = resolve(config.directories.dest)
 
@@ -26,7 +28,6 @@ async function build () {
     for (const entry of userConfig.passThroughCopy) {
       const src = resolve(entry.from)
       const dest = resolve(tmpDir, entry.to)
-      log(`Copying "${src}" to "${dest}"`, { lvl: 'debug' })
 
       if (await copyRecursive(src, dest)) {
         skipEntries.add(relative(srcDir, src).split('/')[0])
@@ -36,6 +37,7 @@ async function build () {
 
   /** Debug only */
   if (process.env.DEBUG) {
+    log.debug('Writing data files to temporary directory')
     await mkdir(resolve(config.directories.temp), { recursive: true })
     await writeFile(
       resolve(config.directories.temp, 'context.json'), 
@@ -64,7 +66,7 @@ async function build () {
   await rename(tmpDir, destDir)
   try { await rm(oldDest, { recursive: true }) } catch {}
 
-  log('✔ Build complete')
+  log.info('✔ Build complete')
 }
 
 /**
@@ -76,7 +78,7 @@ if (isMainModule) {
   try {
     await build()
   } catch (error) {
-    log(`Build failed: ${error}`, { lvl: 'error' })
+    log.error(`Build failed: ${error}`)
     process.exit(1)
   } finally {
     buildStart.end()

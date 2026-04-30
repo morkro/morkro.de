@@ -1,3 +1,4 @@
+import type { FilterFn } from "#config.user";
 import { ParserError } from "#parser/utils.ts";
 
 const datePresets = {
@@ -41,4 +42,24 @@ export function filterReplace (input: unknown, search: string, replace: string):
 
 export function filterPrepend (input: unknown, prefix: string): string {
   return String(input).startsWith(prefix) ? String(input) : prefix + String(input)
+}
+
+export function applyFilter (name: string, input: unknown, args: unknown[], userFilters: Record<string, FilterFn>): unknown {
+  const userFilter = userFilters?.[name]
+  if (userFilter) {
+    return userFilter(input, ...args)
+  }
+
+  switch (name) {
+    case 'date':
+      return filterDate(input, args[0] as string)
+    case 'join':
+      return filterJoin(input, args[0] as string)
+    case 'replace':
+      return filterReplace(input, args[0] as string, args[1] as string)
+    case 'prepend':
+      return filterPrepend(input, args[0] as string)
+    default:
+      throw new ParserError(`Unknown filter: ${name}`, 0)
+  }
 }

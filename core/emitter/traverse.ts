@@ -5,8 +5,9 @@ import config from "#core/config.core.ts"
 import type { UserConfig } from "#core/config.user.ts"
 import type { DataFileMap } from "#core/data/types.ts"
 import { compile } from "#parser/index.ts"
-import { log } from "#utils/log.ts"
-import { logGroupEnd } from "#utils/log.ts"
+import { logger } from "#utils/log.ts"
+
+const log = logger('Emitter')
 
 type SourceFile = {
   srcPath: string
@@ -37,7 +38,7 @@ export async function discoverFiles(
 
   for (const entry of dir) {
     if (skip.has(entry)) {
-      log(`Skipping entry "${entry}"`, { lvl: 'debug', d: 'emitter' })
+      log.debug(`Skipping entry "${entry}"`)
       continue
     }
 
@@ -49,7 +50,7 @@ export async function discoverFiles(
     
     if (stats.isDirectory()) {
       if (entry.startsWith('_')) {
-        log(`Skipping directory "${entry}"`, { lvl: 'debug', d: 'emitter' })
+        log.debug(`Skipping directory "${entry}"`)
         continue
       }
 
@@ -85,7 +86,7 @@ export async function processFiles (files: SourceFile[], options: ProcessOptions
 
 async function processSingleFile(file: SourceFile, options: ProcessOptions) {
   const fileName = relative(config.directories.src, file.srcPath)
-  log(`Processing file "${fileName}"`, { type: 'group' })
+  log.debug(`Processing file "${fileName}"`)
 
   if (file.action === 'compile') {
     const raw = await readFile(file.srcPath, 'utf-8')
@@ -102,6 +103,4 @@ async function processSingleFile(file: SourceFile, options: ProcessOptions) {
     await mkdir(dirname(file.destPath), { recursive: true })
     await copyFile(file.srcPath, file.destPath)
   }
-
-  logGroupEnd()
 }

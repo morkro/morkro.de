@@ -1,9 +1,9 @@
 import type { FilterFn } from "#config.user";
 import config from "#core/config.core.ts";
 import { BreakSignal, ContinueSignal, ParserError } from "#parser/utils.ts";
-import { logParser } from "#utils/log.ts";
+import { logger } from "#utils/log.ts";
 import { getFromObject } from "#utils/object.ts";
-import { filterDate, filterJoin, filterPrepend, filterReplace } from "./filters.ts";
+import { applyFilter } from "./filters.ts";
 import type { templateResolver } from "./resolver.ts";
 import type {
   Expression,
@@ -13,6 +13,8 @@ import type {
   TableRowLoopContext,
   Template
 } from "./types.ts";
+
+const log = logger('Parser')
 
 export type RenderContext = Record<string, unknown>
 
@@ -144,26 +146,6 @@ function evaluateBinary (condition: ExpressionBinary, localContext: RenderContex
 	}
 }
 
-function applyFilter (name: string, input: unknown, args: unknown[], userFilters: Record<string, FilterFn>): unknown {
-  const userFilter = userFilters?.[name]
-  if (userFilter) {
-    return userFilter(input, ...args)
-  }
-
-  switch (name) {
-    case 'date':
-      return filterDate(input, args[0] as string)
-    case 'join':
-      return filterJoin(input, args[0] as string)
-    case 'replace':
-      return filterReplace(input, args[0] as string, args[1] as string)
-    case 'prepend':
-      return filterPrepend(input, args[0] as string)
-    default:
-      throw new ParserError(`Unknown filter: ${name}`, 0)
-  }
-}
-
 async function renderNodes(
   nodes: Node[],
   templateSource: string,
@@ -217,7 +199,7 @@ async function renderNodes(
       }
       case 'Assign':
         if (config.reservedKeys.has(node.name)) {
-          logParser(`Cannot assign to reserved key: ${node.name}`, { lvl: 'error' })
+          log.error(`Cannot assign to reserved key: ${node.name}`)
           break
         }
         localContext[node.name] = resolveExpression(node.expression, localContext)
@@ -297,9 +279,8 @@ async function renderNodes(
         let collection = rawCollection as unknown[]
         if (!Array.isArray(collection)) {
           const colName = getCollectionName(node.collection)
-          logParser(
-            `Expected array but got ${typeof rawCollection} for collection "${colName}" in ${templateSource}`,
-            { lvl: 'error' }
+          log.error(
+            `Expected array but got ${typeof rawCollection} for collection "${colName}" in ${templateSource}`
           )
           collection = []
         }
@@ -317,9 +298,9 @@ async function renderNodes(
         } else {
           let _collection = collection
           for (const param of node.params ?? []) {
-            if (param.type === 'reversed') _collection = _collection.toReversed()
             if (param.type === 'offset') _collection = _collection.slice(param.value)
             if (param.type === 'limit') _collection = _collection.slice(0, param.value)
+            if (param.type === 'reversed') _collection = _collection.toReversed()
           }
 
           for (let i = 0; i < _collection.length; i++) {
@@ -373,7 +354,7 @@ async function renderNodes(
         const shortCodes = localContext.__shortCodes__ as Record<string, () => unknown>
         const fn = shortCodes?.[node.name]
         if (!fn || typeof fn !== 'function') {
-          logParser(`Unknown shortcode: ${node.name}`, { lvl: 'error' })
+          log.error(`Unknown shortcode: ${node.name}`)
           break
         }
         result.push(String(fn()))
@@ -415,9 +396,8 @@ async function renderNodes(
         let collection = rawCollection as unknown[]
         if (!Array.isArray(collection)) {
           const colName = getCollectionName(node.collection)
-          logParser(
-            `Expected array but got ${typeof rawCollection} for collection "${colName}" in ${templateSource}`,
-            { lvl: 'error' }
+          log.error(
+            `Expected array but got ${typeof rawCollection} for collection "${colName}" in ${templateSource}`
           )
           collection = []
         }
@@ -473,7 +453,7 @@ async function renderNodes(
         break
       }
       case 'Unknown': {
-        logParser(`Unknown tag: ${node.name}`, { lvl: 'warn' })
+        log.warn(`Unknown tag: ${node.name}`)
         break
       }
     }
