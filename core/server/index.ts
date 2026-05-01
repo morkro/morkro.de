@@ -4,6 +4,7 @@ import { extname, join, resolve, sep } from 'node:path'
 import config from '#core/config.core.ts'
 import { logger } from '#utils/log.ts'
 import { getMimeType, isTextFile } from '#utils/mime-types.ts'
+import { handleWSUpgrade } from './livereload.ts'
 
 const log = logger('Server')
 
@@ -63,12 +64,20 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
   /** In case I ever do port forwarding */
   res.setHeader('X-Content-Type-Options', 'nosniff')
   res.setHeader('X-Frame-Options', 'DENY')
-  res.end(file)
+  res.end(body)
 }
 
 export function startServer (port = 8080): void {
   const host = 'localhost'
   const server = createServer(handleRequest)
+
+  server.on('upgrade', (request, socket, head) => {
+    if (request.url === '/__livereload') {
+      handleWSUpgrade(request, socket, head)
+    } else {
+      socket.destroy()
+    }
+  })
 
   server.listen(port, host, () => {
     log.info(`Server is running on http://${host}:${port}`)

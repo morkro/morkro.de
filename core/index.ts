@@ -4,10 +4,12 @@ import config from '#core/config.core.ts'
 import userConfig from '#core/config.user.ts'
 import { loadDataFiles } from '#core/data/index.ts'
 import type { CollectionPost } from '#core/data/posts.ts'
-import { startServer } from '#core/server.ts'
+import { startServer } from '#core/server/index.ts'
 import { copyRecursive } from '#emitter/copy.ts'
 import { writePosts } from '#emitter/posts.ts'
 import { discoverFiles, processFiles } from '#emitter/traverse.ts'
+import { broadcastReload } from '#server/livereload.ts'
+import { startWatcher } from '#server/watcher.ts'
 import { logger, perf } from '#utils/log.ts'
 
 const log = logger('Build')
@@ -52,7 +54,7 @@ async function build () {
     dataFiles,
     userConfig,
     destRoot: tmpDir,
-    concurrency: config.parser.concurrency
+    concurrency: config.parser.concurrency,
   })
 
   const collections = dataFiles.get('collections') as { posts: CollectionPost[] } | undefined
@@ -83,8 +85,17 @@ if (isMainModule) {
   } finally {
     buildStart.end()
   }
-
+  
   if (process.argv.includes('--serve')) {
     startServer()
+    broadcastReload()
+    const watcher = startWatcher(async () => {
+      await build()
+      broadcastReload()
+    })
+    process.on('SIGINT', () => {
+      watcher?.stop()
+      process.exit(0)
+    })
   }
 }

@@ -40,8 +40,10 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
    - Build syntax highlighting for code blocks
    - Asset bundling/optimization
 
-4. **Phase 4 - Developer Experience** (Polish)
-   - Dev server with live reload/watch mode
+4. **Phase 4 - Developer Experience** (Polish) ← partial
+   - ~~Dev server + live reload for SSG~~ — Script **`npm run start:ssg`**: `node --watch --env-file=.env core/index.ts --serve` restarts the process when **`core/`** (loaded module graph) changes; first run **`build()`** then [`core/server/index.ts`](core/server/index.ts) serves **`.build/`**.
+   - [`core/server/watcher.ts`](core/server/watcher.ts): **`fs.watch`** on **`src/`** (recursive), 150 ms debounce, coalesced **`schedule()`** so rebuilds do not overlap; on success **`broadcastReload()`** from [`core/server/livereload.ts`](core/server/livereload.ts).
+   - Livereload: HTTP **`upgrade`** on **`/__livereload`**, RFC 6455 handshake, text frames to connected tabs; HTML injection when **`userConfig.debugMode`** (`DEBUG=true` in `.env` → [`core/config.user.ts`](core/config.user.ts)) in [`core/emitter/traverse.ts`](core/emitter/traverse.ts) and [`core/emitter/posts.ts`](core/emitter/posts.ts). **`SIGINT`**: close FS watcher via [`core/index.ts`](core/index.ts).
    - Better error messages and debugging
    - Performance optimizations
    - Build time reporting

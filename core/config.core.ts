@@ -4,6 +4,11 @@
 export type ParseExtension = 'html' | 'txt' | 'xml' | 'liquid' | 'md'
 
 export interface CoreConfig {
+  livereload: {
+    // This is the GUID for the WebSocket protocol based on the RFC 6455 specification
+    // https://datatracker.ietf.org/doc/html/rfc6455#section-4.1
+    wsGuid: '258EAFA5-E914-47DA-95CA-C5AB0DC85B11'
+  }
   directories: {
     src: string
     temp: string
@@ -25,6 +30,9 @@ export interface CoreConfig {
 }
 
 const config: CoreConfig = {
+  livereload: {
+    wsGuid: '258EAFA5-E914-47DA-95CA-C5AB0DC85B11',
+  },
   directories: {
     src: 'src',
     temp: '.tmp',

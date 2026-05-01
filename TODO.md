@@ -186,30 +186,33 @@ Tokenizer per language:
 
 ### 5.1 Core Build Pipeline — Done
 
-### 5.2 File Watcher
+### 5.2 File Watcher — Done (SSG `src/`)
+
+Phase 4 - Developer Experience. **`npm run start:ssg`** uses **`node --watch`** on the entry file so edits under **`core/`** (the loaded module graph) restart the whole process; **`src/`** changes are handled in-process (see below).
+
+
+| Feature                                       | Status                                                                 |
+| --------------------------------------------- | ---------------------------------------------------------------------- |
+| File system monitoring (`src/`, recursive)   | Done — [`core/server/watcher.ts`](core/server/watcher.ts)              |
+| Debounced change detection                    | Done — 150 ms debounce before scheduling a rebuild                       |
+| Serialized / coalesced rebuilds             | Done — `schedule()` runs at most one build at a time; `shouldRunAgain` |
+| Rebuild + livereload broadcast                | Done — wired from [`core/index.ts`](core/index.ts)                     |
+| Watch targets outside `src/` (e.g. PostCSS) | Not started — site CSS still uses separate `watch:css` / Eleventy flow |
+
+
+### 5.3 Dev Server — Done (static + livereload)
 
 Phase 4 - Developer Experience
 
 
-| Feature                        | Status      |
-| ------------------------------ | ----------- |
-| File system monitoring         | Not started |
-| Change detection               | Not started |
-| Rebuild triggering             | Not started |
-| Watch targets (css/, scripts/) | Not started |
-
-
-### 5.3 Dev Server
-
-Phase 4 - Developer Experience
-
-
-| Feature                                      | Status                                                       |
-| -------------------------------------------- | ------------------------------------------------------------ |
-| HTTP server (static files from build output) | Done — `core/server.ts`                                      |
-| File serving                                 | Done                                                         |
-| Error page handling                          | In progress — serves `404.html` when present, else plain 404 |
-| Live reload/WebSocket                        | Not started                                                  |
+| Feature                                      | Status                                                                                                                                        |
+| -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| HTTP server (static files from build output) | Done — [`core/server/index.ts`](core/server/index.ts)                                                                                       |
+| File serving                                 | Done — `Content-Length` + `res.end(body)`                                                                                                     |
+| Error page handling                          | In progress — serves `404.html` when present, else plain 404                                                                                  |
+| WebSocket upgrade (`/__livereload`)          | Done — [`core/server/livereload.ts`](core/server/livereload.ts) (`handleWSUpgrade`, RFC 6455 accept, `broadcastReload` text frames)            |
+| HTML injection (dev pages + posts)           | Done when `userConfig.debugMode` — [`core/emitter/traverse.ts`](core/emitter/traverse.ts), [`core/emitter/posts.ts`](core/emitter/posts.ts); set `DEBUG=true` in `.env` |
+| FS watcher shutdown on SIGINT                | Done — [`core/index.ts`](core/index.ts) calls `watcher?.stop()`                                                                               |
 
 
 ### 5.4 Asset Management
@@ -354,7 +357,9 @@ The parser and utility modules are well covered. The integration layer (build, t
 | `core/data/index.ts` (data merging, `pickValues`)   | Medium | Not started |
 | `core/emitter/traverse.ts` (file processing)        | High   | Not started |
 | `core/emitter/posts.ts` (post compilation)          | Medium | Not started |
-| `core/server.ts` (request handling, 404 paths)      | Medium | Not started |
+| `core/server/index.ts` (request handling, 404, upgrade) | Medium | Not started |
+| `core/server/livereload.ts` (WS handshake, broadcast) | Medium | Not started |
+| `core/server/watcher.ts` (debounce, coalesced queue)  | Low    | Not started |
 
 
 ---
@@ -395,5 +400,11 @@ Markdown Processing
     ├── Tokenizer
     ├── Parser
     └── HTML Renderer
+
+Dev (SSG — `start:ssg`)
+├── `core/index.ts` (`--serve`: server + watcher + broadcast)
+├── `core/server/index.ts` (static HTTP, `upgrade` → livereload)
+├── `core/server/watcher.ts` (`src/` fs.watch, debounce, coalesced rebuild queue)
+└── `core/server/livereload.ts` (inject script when `debugMode`, WS clients, `broadcastReload`)
 ```
 
