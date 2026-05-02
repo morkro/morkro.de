@@ -47,7 +47,7 @@ function encodeXML (input) {
 }
 
 const config: UserConfig = {
-  debugMode: process.env.DEBUG === 'true',
+  debugMode: process.env.DEBUG === 'true' && process.env.NODE_ENV !== 'production',
   baseUrl: 'https://morkro.de',
   passThroughCopy: [
     { from: 'src/assets', to: 'assets', },

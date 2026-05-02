@@ -1,10 +1,9 @@
-import { mkdir, writeFile } from "node:fs/promises"
-import { dirname, extname, join } from "node:path"
+import { join } from "node:path"
 import type { UserConfig } from "#config.user"
 import type { CollectionPost } from "#core/data/posts.ts"
 import type { DataFileMap } from "#core/data/types.ts"
+import { writeEmittedFile } from "#emitter/output.ts"
 import { compile } from "#parser/index.ts"
-import { injectLivereloadScript } from "#server/livereload.ts"
 import { logger } from "#utils/log.ts"
 
 const log = logger('Emitter')
@@ -35,17 +34,9 @@ export async function writePosts (
         destDir,
         pageData: { date: post.date }
       })
-      let _rendered = rendered
-      
-      await mkdir(dirname(output), { recursive: true })
-
-      // inject livereload script into HTML
-      if (options.userConfig?.debugMode && extname(output) === '.html') {
-        _rendered = injectLivereloadScript(_rendered)
-      }
-
-      log.debug(`Writing post "${post.data.title}" at "${post.url}"`)
-      await writeFile(output, _rendered)
+      await writeEmittedFile(rendered, output, {
+        userConfig: options.userConfig
+      })
     } catch (error) {
       errors.push({ name: post.data.title, error })
     }

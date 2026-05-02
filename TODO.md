@@ -186,34 +186,9 @@ Tokenizer per language:
 
 ### 5.1 Core Build Pipeline — Done
 
-### 5.2 File Watcher — Done (SSG `src/`)
+### 5.2 File Watcher — Done
 
-Phase 4 - Developer Experience. **`npm run start:ssg`** uses **`node --watch`** on the entry file so edits under **`core/`** (the loaded module graph) restart the whole process; **`src/`** changes are handled in-process (see below).
-
-
-| Feature                                       | Status                                                                 |
-| --------------------------------------------- | ---------------------------------------------------------------------- |
-| File system monitoring (`src/`, recursive)   | Done — [`core/server/watcher.ts`](core/server/watcher.ts)              |
-| Debounced change detection                    | Done — 150 ms debounce before scheduling a rebuild                       |
-| Serialized / coalesced rebuilds             | Done — `schedule()` runs at most one build at a time; `shouldRunAgain` |
-| Rebuild + livereload broadcast                | Done — wired from [`core/index.ts`](core/index.ts)                     |
-| Watch targets outside `src/` (e.g. PostCSS) | Not started — site CSS still uses separate `watch:css` / Eleventy flow |
-
-
-### 5.3 Dev Server — Done (static + livereload)
-
-Phase 4 - Developer Experience
-
-
-| Feature                                      | Status                                                                                                                                        |
-| -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| HTTP server (static files from build output) | Done — [`core/server/index.ts`](core/server/index.ts)                                                                                       |
-| File serving                                 | Done — `Content-Length` + `res.end(body)`                                                                                                     |
-| Error page handling                          | In progress — serves `404.html` when present, else plain 404                                                                                  |
-| WebSocket upgrade (`/__livereload`)          | Done — [`core/server/livereload.ts`](core/server/livereload.ts) (`handleWSUpgrade`, RFC 6455 accept, `broadcastReload` text frames)            |
-| HTML injection (dev pages + posts)           | Done when `userConfig.debugMode` — [`core/emitter/traverse.ts`](core/emitter/traverse.ts), [`core/emitter/posts.ts`](core/emitter/posts.ts); set `DEBUG=true` in `.env` |
-| FS watcher shutdown on SIGINT                | Done — [`core/index.ts`](core/index.ts) calls `watcher?.stop()`                                                                               |
-
+### 5.3 Dev Server — Done
 
 ### 5.4 Asset Management
 
@@ -288,19 +263,7 @@ Gaps:
 
 ## 7. Code Quality & Architecture
 
-### 7.1 Architecture: Split `compile()` into a pipeline
-
-`core/parser/index.ts` — `compile()` handles frontmatter extraction, output path resolution, context creation, Liquid parsing, rendering, and layout resolution in one function. Before adding markdown or HTML minification (Phase 3), decompose into composable pipeline steps so new processing stages can be inserted without growing the function further.
-
-
-| Task                                        | Status      | File                                               |
-| ------------------------------------------- | ----------- | -------------------------------------------------- |
-| Extract frontmatter step                    | Done        | `core/parser/index.ts:86` — `extractFrontmatter()` |
-| Extract output path resolution step         | Done        | `core/utils/path.ts` — `resolveOutput()`           |
-| Extract context creation step               | Done        | `core/parser/index.ts:37` — `createPageContext()`  |
-| Extract layout resolution into its own step | Done        | `core/parser/index.ts:65` — `applyLayouts()`       |
-| Define shared pipeline state type           | Not started | `core/parser/index.ts`                             |
-
+### 7.1 Architecture: Split `compile()` into a pipeline — Done
 
 ### 7.2 Architecture: Separate file discovery from processing in `traverseDir` — Done
 

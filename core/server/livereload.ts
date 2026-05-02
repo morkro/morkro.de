@@ -11,7 +11,7 @@ const livereloadScript = `
   <script>
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
     const socket = new WebSocket(\`\${protocol}//\${window.location.host}\/__livereload\`)
-    socket.onmessage = (message) => {
+    socket.onmessage = () => {
       window.location.reload()
     }
   </script>
@@ -25,11 +25,11 @@ export function injectLivereloadScript(file: string): string {
  * Broadcast a reload message to all connected clients
  */
 export function broadcastReload () {
-  const payload = Buffer.from('reload', 'utf-8')
-  const frame = Buffer.alloc(2 + payload.length)
-  frame[0] = 0x80 | 0x1
-  frame[1] = payload.length
-  payload.copy(frame, 2)
+  const payload = Buffer.from('reload', 'utf-8') // text frame body; client reloads on any message
+  const frame = Buffer.alloc(2 + payload.length) // RFC 6455 base frame header (2 B) + payload
+  frame[0] = 0x80 | 0x1 // FIN bit set, opcode 1 = text frame
+  frame[1] = payload.length // unmasked length (must be ≤125 for this 2-byte header form)
+  payload.copy(frame, 2) // copy payload immediately after the header bytes
   for (const client of clients) {
     try {
       client.write(frame)

@@ -14,9 +14,12 @@ export function logger (label: string) {
     }
     return msg
   }
-  
+
+  const isDebug = process.env.DEBUG === 'true'
+
   return {
     debug (msg: string, meta?: LogMeta) {
+      if (!isDebug) return
       console.debug(
         syntax(
           styleText(['bold'], 'debug'), msg, meta))

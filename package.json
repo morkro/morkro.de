@@ -1,6 +1,6 @@
 {
   "name": "morkro.de",
-  "version": "26.05.63.M1",
+  "version": "26.05.64.M1",
   "description": "Website of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
@@ -11,6 +11,7 @@
     "#emitter/*": "./core/emitter/*",
     "#parser/*": "./core/parser/*",
     "#server/*": "./core/server/*",
+    "#transforms/*": "./core/transforms/*",
     "#utils/*": "./core/utils/*",
     "#core/*": "./core/*"
   },

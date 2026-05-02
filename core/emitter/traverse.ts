@@ -1,10 +1,10 @@
-import { copyFile, lstat, mkdir, readFile, readdir, writeFile } from "node:fs/promises"
+import { copyFile, lstat, mkdir, readFile, readdir } from "node:fs/promises"
 import { dirname, extname, join, relative } from "node:path"
 import config, { type ParseExtension } from "#core/config.core.ts"
 import type { UserConfig } from "#core/config.user.ts"
 import type { DataFileMap } from "#core/data/types.ts"
+import { writeEmittedFile } from "#emitter/output.ts"
 import { compile } from "#parser/index.ts"
-import { injectLivereloadScript } from "#server/livereload.ts"
 import { logger } from "#utils/log.ts"
 
 const log = logger('Emitter')
@@ -97,16 +97,9 @@ async function processSingleFile(file: SourceFile, options: ProcessOptions) {
       filters: options.userConfig?.filters ?? {},
       destDir: options.destRoot
     })
-    let _rendered = rendered
-
-    await mkdir(dirname(outputPath), { recursive: true })
-
-    // inject livereload script into HTML
-    if (options.userConfig?.debugMode && extname(outputPath) === '.html') {
-      _rendered = injectLivereloadScript(_rendered)
-    }
-
-    await writeFile(outputPath, _rendered)
+    await writeEmittedFile(rendered, outputPath, {
+      userConfig: options.userConfig
+    })
   } else {
     await mkdir(dirname(file.destPath), { recursive: true })
     await copyFile(file.srcPath, file.destPath)
