@@ -77,10 +77,12 @@ async function build () {
 const isMainModule = import.meta.filename === resolve(process.argv[1])
 if (isMainModule) { 
   const buildStart = perf('Build duration')
+  log.info(`Build settings NODE_ENV=${process.env.NODE_ENV}, DEBUG=${process.env.DEBUG}`)
+  
   try {
     await build()
   } catch (error) {
-    log.error(`Build failed: ${error}`)
+    log.error(error)
     process.exit(1)
   } finally {
     buildStart.end()
@@ -89,6 +91,7 @@ if (isMainModule) {
   if (process.argv.includes('--serve')) {
     startServer()
     broadcastReload()
+
     const watcher = startWatcher(async () => {
       await build()
       broadcastReload()

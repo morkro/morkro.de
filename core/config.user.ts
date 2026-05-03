@@ -16,6 +16,8 @@ export type FilterFn = (input: unknown, ...args: unknown[]) => unknown
 
 export type UserConfig = {
   debugMode?: boolean
+  devMode?: boolean
+  prodMode?: boolean
   baseUrl?: string 
   customDataMapping?: {
     [key: string]: string | CustomDataFields
@@ -47,7 +49,9 @@ function encodeXML (input) {
 }
 
 const config: UserConfig = {
-  debugMode: process.env.DEBUG === 'true' && process.env.NODE_ENV !== 'production',
+  debugMode: process.env.DEBUG === 'true',
+  devMode: process.env.NODE_ENV === 'development',
+  prodMode: process.env.NODE_ENV === 'production',
   baseUrl: 'https://morkro.de',
   passThroughCopy: [
     { from: 'src/assets', to: 'assets', },

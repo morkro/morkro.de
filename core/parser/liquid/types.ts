@@ -229,7 +229,17 @@ export type Template = {
 
 export type Layout = {
   type: 'Layout',
+  meta: TemplateMeta
   template: Template,
   frontmatter: Record<string, unknown>,
-  meta: TemplateMeta
+}
+
+export type FullPage = {
+  type: 'FullPage',
+  template: Template,
+  layouts: {
+    name: string,
+    template: Template,
+    sourcePath: string
+  }[],
 }

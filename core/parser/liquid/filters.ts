@@ -44,6 +44,10 @@ export function filterPrepend (input: unknown, prefix: string): string {
   return String(input).startsWith(prefix) ? String(input) : prefix + String(input)
 }
 
+export function filterAppend (input: unknown, suffix: string): string {
+  return String(input).endsWith(suffix) ? String(input) : String(input) + suffix
+}
+
 export function applyFilter (name: string, input: unknown, args: unknown[], userFilters: Record<string, FilterFn>): unknown {
   const userFilter = userFilters?.[name]
   if (userFilter) {
@@ -59,6 +63,8 @@ export function applyFilter (name: string, input: unknown, args: unknown[], user
       return filterReplace(input, args[0] as string, args[1] as string)
     case 'prepend':
       return filterPrepend(input, args[0] as string)
+    case 'append':
+      return filterAppend(input, args[0] as string)
     default:
       throw new ParserError(`Unknown filter: ${name}`, 0)
   }

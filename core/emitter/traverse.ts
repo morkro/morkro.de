@@ -1,10 +1,11 @@
 import { copyFile, lstat, mkdir, readFile, readdir } from "node:fs/promises"
 import { dirname, extname, join, relative } from "node:path"
-import config, { type ParseExtension } from "#core/config.core.ts"
+import config, { type ParseExtension } from "#config"
 import type { UserConfig } from "#core/config.user.ts"
 import type { DataFileMap } from "#core/data/types.ts"
 import { writeEmittedFile } from "#emitter/output.ts"
 import { compile } from "#parser/index.ts"
+import { writeTempAst } from "#utils/fs.ts"
 import { logger } from "#utils/log.ts"
 
 const log = logger('Emitter')
@@ -90,7 +91,7 @@ async function processSingleFile(file: SourceFile, options: ProcessOptions) {
 
   if (file.action === 'compile') {
     const raw = await readFile(file.srcPath, 'utf-8')
-    const { rendered, outputPath } = await compile(raw, file.srcPath, {
+    const { rendered, outputPath, fullPageAst, frontmatter } = await compile(raw, file.srcPath, {
       data: options.dataFiles,
       baseUrl: options.userConfig?.baseUrl ?? '',
       shortCodes: options.userConfig?.shortCodes ?? {},
@@ -100,6 +101,10 @@ async function processSingleFile(file: SourceFile, options: ProcessOptions) {
     await writeEmittedFile(rendered, outputPath, {
       userConfig: options.userConfig
     })
+
+    if (options.userConfig?.debugMode) {
+      await writeTempAst(fullPageAst, frontmatter, fileName)
+    }
   } else {
     await mkdir(dirname(file.destPath), { recursive: true })
     await copyFile(file.srcPath, file.destPath)

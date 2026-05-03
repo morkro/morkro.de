@@ -1,10 +1,12 @@
+{% if title %}
+  {% assign title = title | append: ' | ' | append: site.author %}
+{% else %}
+  {% assign title = site.author %}
+{% endif %}
+
 <head>
   <title>
-    {% if title %}
-      {{ title }} | {{ site.author }}
-    {% else %}
-      {{ site.author }}
-    {% endif %}
+    {{- title -}}
   </title>
   <meta charset="utf-8" />
   <meta name="robots" content="index,follow" />
@@ -24,7 +26,7 @@
   <link
     rel="alternate"
     type="application/rss+xml"
-    title="{{ title }} RSS"
+    title="{{- title }} RSS"
     href="/feed.xml" />
 
     <!-- Open Graph data -->

@@ -4,6 +4,7 @@ import type { CollectionPost } from "#core/data/posts.ts"
 import type { DataFileMap } from "#core/data/types.ts"
 import { writeEmittedFile } from "#emitter/output.ts"
 import { compile } from "#parser/index.ts"
+import { writeTempAst } from "#utils/fs.ts"
 import { logger } from "#utils/log.ts"
 
 const log = logger('Emitter')
@@ -26,7 +27,7 @@ export async function writePosts (
     const output = join(destDir, post.url, 'index.html')
 
     try {
-      const { rendered } = await compile(post.meta.raw, post.meta.srcPath, {
+      const { rendered, fullPageAst, frontmatter } = await compile(post.meta.raw, post.meta.srcPath, {
         data: options.dataFiles,
         baseUrl: options.userConfig?.baseUrl ?? '',
         shortCodes: options.userConfig?.shortCodes ?? {},
@@ -37,6 +38,10 @@ export async function writePosts (
       await writeEmittedFile(rendered, output, {
         userConfig: options.userConfig
       })
+
+      if (options.userConfig?.debugMode) {
+        await writeTempAst(fullPageAst, frontmatter, post.meta.srcPath)
+      }
     } catch (error) {
       errors.push({ name: post.data.title, error })
     }

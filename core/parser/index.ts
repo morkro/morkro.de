@@ -5,7 +5,7 @@ import { extractFrontmatter } from '#parser/frontmatter/index.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
 import { type RenderContext, render } from '#parser/liquid/renderer.ts'
 import { layoutResolver, templateResolver } from '#parser/liquid/resolver.ts'
-import type { Layout, Template } from '#parser/liquid/types.ts'
+import type { FullPage, Layout, Template } from '#parser/liquid/types.ts'
 import { logger, perf } from '#utils/log.ts'
 import { resolveOutput } from '#utils/path.ts'
 import { toUrl } from '#utils/url.ts'
@@ -16,6 +16,7 @@ const layoutCache = new Map<string, Layout>()
 
 type Compiled = {
   ast: Template
+  fullPageAst: FullPage
   frontmatter: Record<string, unknown>
   rendered: string
   outputPath: string
@@ -28,6 +29,12 @@ type CompilerOptions = {
   filters: Record<string, FilterFn>
   destDir: string
   pageData?: Record<string, unknown>
+}
+
+type LayoutChain = {
+  name: string,
+  template: Template,
+  sourcePath: string
 }
 
 export type BuildContext = Record<string, unknown>
@@ -70,19 +77,27 @@ async function applyLayouts (
   source: string,
   layoutName: string | undefined,
   context: RenderContext
-): Promise<string> {
+): Promise<{ html: string, layoutChain: LayoutChain[] }> {
   let result = source
   let currentLayout = layoutName
+  const layoutChain: LayoutChain[] = []
 
   while (currentLayout) {
     const layout = await layoutResolver(currentLayout, layoutCache)
     const layoutContext = Object.create(context)
+
+    layoutChain.push({
+      name: currentLayout,
+      template: layout.template,
+      sourcePath: layout.meta.source
+    })
+
     layoutContext.content = result
     result = await render(layout.template, layoutContext, templateResolver)
     currentLayout = layout.frontmatter.layout as string | undefined
   }
 
-  return result
+  return { html: result, layoutChain }
 }
 
 export async function compile (file: string, path: string, options: CompilerOptions): Promise<Compiled> {
@@ -107,9 +122,17 @@ export async function compile (file: string, path: string, options: CompilerOpti
   
   const rlStart = perf('Rendering Liquid')
   const rendered = await render(ast, localContext, templateResolver)
-  const final = await applyLayouts(rendered, frontmatter.layout as string | undefined, localContext)
+  const { html, layoutChain } = await applyLayouts(
+    rendered,
+    frontmatter.layout as string | undefined,
+    localContext)
+  const fullPageAst = {
+    type: 'FullPage',
+    layouts: layoutChain,
+    template: ast
+  } satisfies FullPage
   rlStart.end()
 
   compileStart.end()
-  return { ast, frontmatter, rendered: final, outputPath }
+  return { ast, fullPageAst, frontmatter, rendered: html, outputPath }
 }

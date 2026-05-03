@@ -32,11 +32,11 @@ const emitProfiles = new Map<string, EmitProfile>([
 export function finishEmitFile (body: string, outputPath: string, ctx: EmitContext) {
   const profile = emitProfiles.get(extname(outputPath))
   if (!profile) {
-    log.debug(`No emit profile found for file "${outputPath}"`)
+    log.debug(`No emit profile found for file "${extname(outputPath)}"`)
     return body
   }
 
-  const env = ctx.userConfig?.debugMode ? profile.dev : profile.prod
+  const env = ctx.userConfig?.devMode ? profile.dev : profile.prod
   return env.reduce(
     (body, transform) => transform(body, outputPath, ctx),
     body

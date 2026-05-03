@@ -47,7 +47,7 @@ const compiled = await compile(
 // write AST
 await writeFile(
   join(config.directories.temp, 'ast.json'), 
-  JSON.stringify(compiled.ast, null, 2),
+  JSON.stringify(compiled.fullPageAst, null, 2),
   'utf-8')
 
 // write rendered
