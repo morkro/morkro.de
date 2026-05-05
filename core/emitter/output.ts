@@ -3,7 +3,7 @@ import { dirname, extname } from "node:path"
 import type { UserConfig } from "#config.user"
 import { injectLivereloadScript } from "#server/livereload.ts"
 import { minifyHtml } from "#transforms/minify-html.ts"
-import { logger } from "#utils/log.ts"
+import { logger, perf } from "#utils/log.ts"
 
 const log = logger('Emitter')
 
@@ -45,8 +45,8 @@ export function finishEmitFile (body: string, outputPath: string, ctx: EmitConte
 
 export async function writeEmittedFile (body: string, outputPath: string, ctx: EmitContext): Promise<void> {
   await mkdir(dirname(outputPath), { recursive: true })
-  await writeFile(
-    outputPath,
-    finishEmitFile(body, outputPath, ctx)
-  )
+  const transformPerf = perf(`Transforming file "${extname(outputPath)}"`)
+  const file = finishEmitFile(body, outputPath, ctx)
+  transformPerf.end()
+  await writeFile(outputPath, file)
 }

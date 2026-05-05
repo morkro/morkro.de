@@ -1,8 +1,4 @@
-import { writeFile } from 'node:fs/promises'
-import { join } from 'node:path'
 import { styleText } from 'node:util'
-import coreConfig from '#config'
-import type { Template } from './liquid/types'
 
 export function stripQuotes(raw: string) {
 	return raw.trim().replace(/^(['"])(.*)\1$/, '$2')
