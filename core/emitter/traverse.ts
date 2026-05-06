@@ -1,9 +1,9 @@
-import { copyFile, lstat, mkdir, readFile, readdir } from "node:fs/promises"
-import { dirname, extname, join, relative } from "node:path"
+import { lstat, readFile, readdir } from "node:fs/promises"
+import { extname, join, relative } from "node:path"
 import config, { type ParseExtension } from "#config"
 import type { UserConfig } from "#core/config.user.ts"
 import type { DataFileMap } from "#core/data/types.ts"
-import { writeEmittedFile } from "#emitter/output.ts"
+import { emitStaticFile, writeBuildArtifact } from "#emitter/output.ts"
 import { compile } from "#parser/index.ts"
 import { writeTempAst } from "#utils/fs.ts"
 import { logger } from "#utils/log.ts"
@@ -98,7 +98,7 @@ async function processSingleFile(file: SourceFile, options: ProcessOptions) {
       filters: options.userConfig?.filters ?? {},
       destDir: options.destRoot
     })
-    await writeEmittedFile(rendered, outputPath, {
+    await writeBuildArtifact(rendered, outputPath, {
       userConfig: options.userConfig
     })
 
@@ -106,7 +106,8 @@ async function processSingleFile(file: SourceFile, options: ProcessOptions) {
       await writeTempAst(fullPageAst, frontmatter, fileName)
     }
   } else {
-    await mkdir(dirname(file.destPath), { recursive: true })
-    await copyFile(file.srcPath, file.destPath)
+    await emitStaticFile(file.srcPath, file.destPath, {
+      userConfig: options.userConfig
+    })
   }
 }

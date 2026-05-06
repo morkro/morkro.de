@@ -1,9 +1,9 @@
-import { mkdir, writeFile } from "node:fs/promises"
+import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises"
 import { dirname, extname } from "node:path"
 import type { UserConfig } from "#config.user"
 import { injectLivereloadScript } from "#server/livereload.ts"
-import { minifyHtml } from "#transforms/minify-html.ts"
 import { logger, perf } from "#utils/log.ts"
+import { deepMergeMap } from "#utils/object.ts"
 
 const log = logger('Emitter')
 
@@ -17,36 +17,59 @@ export type EmitBody = (
   ctx: EmitContext
 ) => string
 
-type EmitProfile = {
-  prod: EmitBody[]
-  dev: EmitBody[]
+export type EmitProfile = {
+  prod?: EmitBody[]
+  dev?: EmitBody[]
 }
 
-const emitProfiles = new Map<string, EmitProfile>([
+const defaultEmitProfiles = new Map<string, EmitProfile>([
   ['.html', {
-    prod: [(body, outputPath, ctx) => minifyHtml(body)],
     dev: [(body, outputPath, ctx) => injectLivereloadScript(body)]
   }]
 ])
 
-export function finishEmitFile (body: string, outputPath: string, ctx: EmitContext) {
-  const profile = emitProfiles.get(extname(outputPath))
+function getMergedProfiles(ctx: EmitContext) {
+  const userProfiles = ctx.userConfig?.artifactTransforms ?? new Map([])
+  return deepMergeMap(defaultEmitProfiles, userProfiles,
+    (baseProfile, overProfile) => ({
+      dev: [...(baseProfile?.dev ?? []), ...(overProfile?.dev ?? [])],
+	    prod: [...(baseProfile?.prod ?? []), ...(overProfile?.prod ?? [])],
+    }))
+}
+
+export function applyEmitTransforms (body: string, outputPath: string, ctx: EmitContext) {
+  const transforms = getMergedProfiles(ctx)
+  const profile = transforms.get(extname(outputPath))
   if (!profile) {
     log.debug(`No emit profile found for file "${extname(outputPath)}"`)
     return body
   }
 
-  const env = ctx.userConfig?.devMode ? profile.dev : profile.prod
+  const env = (ctx.userConfig?.devMode ? profile.dev : profile.prod) ?? []
   return env.reduce(
     (body, transform) => transform(body, outputPath, ctx),
     body
   )
 }
 
-export async function writeEmittedFile (body: string, outputPath: string, ctx: EmitContext): Promise<void> {
+export async function emitStaticFile (srcPath: string, destPath: string, ctx: EmitContext) {
+  await mkdir(dirname(destPath), { recursive: true })
+  const transforms = getMergedProfiles(ctx)
+  
+  if (transforms.has(extname(destPath))) {
+    const file = await readFile(srcPath, 'utf-8')
+    const output = applyEmitTransforms(file, destPath, ctx)
+    await writeFile(destPath, output, 'utf-8')
+    return
+  }
+
+  await copyFile(srcPath, destPath)
+}
+
+export async function writeBuildArtifact (body: string, outputPath: string, ctx: EmitContext): Promise<void> {
   await mkdir(dirname(outputPath), { recursive: true })
   const transformPerf = perf(`Transforming file "${extname(outputPath)}"`)
-  const file = finishEmitFile(body, outputPath, ctx)
+  const file = applyEmitTransforms(body, outputPath, ctx)
   transformPerf.end()
-  await writeFile(outputPath, file)
+  await writeFile(outputPath, file, 'utf-8')
 }

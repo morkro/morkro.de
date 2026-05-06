@@ -2,7 +2,7 @@ import { join } from "node:path"
 import type { UserConfig } from "#config.user"
 import type { CollectionPost } from "#core/data/posts.ts"
 import type { DataFileMap } from "#core/data/types.ts"
-import { writeEmittedFile } from "#emitter/output.ts"
+import { writeBuildArtifact } from "#emitter/output.ts"
 import { compile } from "#parser/index.ts"
 import { writeTempAst } from "#utils/fs.ts"
 import { logger } from "#utils/log.ts"
@@ -35,7 +35,7 @@ export async function writePosts (
         destDir,
         pageData: { date: post.date }
       })
-      await writeEmittedFile(rendered, output, {
+      await writeBuildArtifact(rendered, output, {
         userConfig: options.userConfig
       })
 

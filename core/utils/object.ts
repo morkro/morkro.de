@@ -16,3 +16,20 @@ export function getFromObject(path: string[], object: Record<string, unknown>): 
   
   return getFromObject(rest, object[first] as Record<string, unknown>)
 }
+
+export function deepMergeMap<K, V> (
+  base: Map<K, V>,
+  over: Map<K, V>,
+  mergeFn: (baseVal: V | undefined, overVal: V | undefined, key: K) => V
+): Map<K, V> {
+  const map = new Map<K, V>()
+  const keys = new Set([...base.keys(), ...over.keys()])
+
+  for (const key of keys) {
+    const baseValue = base.get(key)
+    const overValue = over.get(key)
+    map.set(key, mergeFn(baseValue, overValue, key))
+  }
+
+  return map
+}

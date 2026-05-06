@@ -23,7 +23,6 @@ export interface CoreConfig {
   }
   parser: {
     parseExtensions: ParseExtension[]
-    parseLiquidExtensions: ParseExtension[]
     concurrency: number
   }
   reservedKeys: Set<string>
@@ -47,7 +46,6 @@ const config: CoreConfig = {
   },
   parser: {
     parseExtensions: ['html', 'txt', 'xml', 'liquid', 'md'],
-    parseLiquidExtensions: ['html', 'liquid'],
     concurrency: 8,
   },
   reservedKeys: new Set([

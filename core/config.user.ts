@@ -1,3 +1,6 @@
+import type { EmitProfile } from "#emitter/output.ts"
+import { minifyHtml } from "#transforms/minify-html.ts"
+
 /**
  * User configuration
  */
@@ -22,6 +25,7 @@ export type UserConfig = {
   customDataMapping?: {
     [key: string]: string | CustomDataFields
   }
+  artifactTransforms?: Map<string, EmitProfile>
   passThroughCopy?: PassThroughCopy[]
   shortCodes?: Record<string, ShortCodeFn>
   filters?: Record<string, FilterFn>
@@ -57,6 +61,11 @@ const config: UserConfig = {
     { from: 'src/assets', to: 'assets', },
     { from: 'src/scripts', to: 'assets/scripts', },
   ],
+  artifactTransforms: new Map([
+    ['.html', {
+      prod: [(body, outputPath, ctx) => minifyHtml(body)],
+    }]
+  ]),
   shortCodes: {
     currentYear,
   },
