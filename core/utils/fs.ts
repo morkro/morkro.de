@@ -9,7 +9,7 @@ export async function loadFile(path: string, fileName: string): Promise<string> 
   const resolvedPath = resolve(resolvedBase, fileName)
 
   if (resolvedPath !== resolvedBase && !resolvedPath.startsWith(normalisedBase)) {
-    throw new Error(`Requested file (${resolvedPath}) is not within src/ directory`)
+    throw new Error(`Requested file (${resolvedPath}) is not within ${path}/ directory`)
   }
 
   try {

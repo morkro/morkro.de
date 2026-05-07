@@ -1,10 +1,11 @@
 import { lstat, readFile, readdir } from "node:fs/promises"
-import { extname, join, relative } from "node:path"
+import { extname, join, relative, resolve } from "node:path"
 import config, { type ParseExtension } from "#config"
 import type { UserConfig } from "#core/config.user.ts"
 import type { DataFileMap } from "#core/data/types.ts"
 import { emitStaticFile, writeBuildArtifact } from "#emitter/output.ts"
 import { compile } from "#parser/index.ts"
+import { bundleCssImports } from "#transforms/css-imports.ts"
 import { writeTempAst } from "#utils/fs.ts"
 import { logger } from "#utils/log.ts"
 
@@ -106,6 +107,16 @@ async function processSingleFile(file: SourceFile, options: ProcessOptions) {
       await writeTempAst(fullPageAst, frontmatter, fileName)
     }
   } else {
+    if (extname(file.srcPath) === '.css') {
+      const css = await readFile(file.srcPath, 'utf-8')
+      const srcRoot = resolve(config.directories.src)
+      const bundled = await bundleCssImports(css, file.srcPath, srcRoot)
+      await writeBuildArtifact(bundled, file.destPath, {
+        userConfig: options.userConfig
+      })
+      return
+    }
+
     await emitStaticFile(file.srcPath, file.destPath, {
       userConfig: options.userConfig
     })
