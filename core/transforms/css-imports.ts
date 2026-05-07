@@ -161,7 +161,7 @@ function applyImportQualifier(css: string, qualifier: string): string {
   return wrappedCss
 }
 
-async function loadImportFile(filePath: string, src: string, stack: Set<string>): Promise<string> {
+async function loadImportFile(filePath: string, input: string, stack: Set<string>): Promise<string> {
   if (stack.has(filePath)) {
     const chain = [...stack, filePath].join(' -> ')
 		throw new Error(`Circular CSS @import detected: ${chain}`)
@@ -169,9 +169,9 @@ async function loadImportFile(filePath: string, src: string, stack: Set<string>)
 
   stack.add(filePath)
   try {
-    const fileName = relative(src, filePath)
-    const content = await loadFile(src, fileName)
-    return await walkCssImports(content, filePath, src, stack)
+    const fileName = relative(input, filePath)
+    const content = await loadFile(input, fileName)
+    return await walkCssImports(content, filePath, input, stack)
   } finally {
     stack.delete(filePath)
   }
@@ -180,7 +180,7 @@ async function loadImportFile(filePath: string, src: string, stack: Set<string>)
 async function walkCssImports (
   css: string,
   filePath: string,
-  src: string,
+  input: string,
   stack: Set<string>
 ): Promise<string> {
   const statements = getImportStatements(css)
@@ -203,11 +203,11 @@ async function walkCssImports (
     }
 
     const resolvedPath = resolve(dirname(filePath), statement.specifier)
-    if (!resolvedPath.startsWith(src + sep)) {
-      throw new Error(`CSS import "${statement.specifier}" in "${filePath}" escapes source root "${src}"`)
+    if (!resolvedPath.startsWith(input + sep)) {
+      throw new Error(`CSS import "${statement.specifier}" in "${filePath}" escapes source root "${input}"`)
     }
 
-    const importContent = await loadImportFile(resolvedPath, src, stack)
+    const importContent = await loadImportFile(resolvedPath, input, stack)
     const qualifierContent = statement.qualifier.trim().length > 0
       ? applyImportQualifier(importContent, statement.qualifier)
       : importContent
@@ -222,11 +222,11 @@ async function walkCssImports (
 export async function bundleCssImports (
   css: string,
   filePath: string,
-  src: string
+  input: string
 ): Promise<string> {
-  if (!filePath.startsWith(src + sep)) {
-    throw new Error(`File path "${filePath}" is not within the source directory "${src}"`)
+  if (!filePath.startsWith(input + sep)) {
+    throw new Error(`File path "${filePath}" is not within the source directory "${input}"`)
   }
   
-  return await walkCssImports(css, filePath, src, new Set<string>())
+  return await walkCssImports(css, filePath, input, new Set<string>())
 }

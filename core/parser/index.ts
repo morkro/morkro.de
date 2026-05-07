@@ -27,7 +27,7 @@ type CompilerOptions = {
   baseUrl: string
   shortCodes: Record<string, () => unknown>
   filters: Record<string, FilterFn>
-  destDir: string
+  outputRoot: string
   pageData?: Record<string, unknown>
 }
 
@@ -103,7 +103,7 @@ async function applyLayouts (
 export async function compile (file: string, path: string, options: CompilerOptions): Promise<Compiled> {
   const compileStart = perf('Total compiling')
   const { frontmatter, body } = extractFrontmatter(file)
-  const outputPath = resolveOutput(path, options.destDir, frontmatter.permalink as string)
+  const outputPath = resolveOutput(path, options.outputRoot, frontmatter.permalink as string)
   
   const localContext = createPageContext(
     options.data,
@@ -115,7 +115,7 @@ export async function compile (file: string, path: string, options: CompilerOpti
   localContext.__shortCodes__ = options.shortCodes
   localContext.__filters__ = options.filters
   
-  const relativePath = relative(options.destDir, outputPath)
+  const relativePath = relative(options.outputRoot, outputPath)
   const lpStart = perf(`Parsing Liquid (${relativePath})`)
   const ast = parseLiquid(body, path)
   lpStart.end()

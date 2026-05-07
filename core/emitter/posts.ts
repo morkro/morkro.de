@@ -16,7 +16,7 @@ type WritePostOptions = {
 
 export async function writePosts (
   posts: CollectionPost[],
-  destDir: string,
+  outputRoot: string,
   options: WritePostOptions
 ): Promise<void> {
   const errors: { name: string, error: unknown }[] = []
@@ -24,15 +24,15 @@ export async function writePosts (
   for (const post of posts) {
     if (!post.meta.raw || !post.url || post.data.external) continue
 
-    const output = join(destDir, post.url, 'index.html')
+    const output = join(outputRoot, post.url, 'index.html')
 
     try {
-      const { rendered, fullPageAst, frontmatter } = await compile(post.meta.raw, post.meta.srcPath, {
+      const { rendered, fullPageAst, frontmatter } = await compile(post.meta.raw, post.meta.inputPath, {
         data: options.dataFiles,
         baseUrl: options.userConfig?.baseUrl ?? '',
         shortCodes: options.userConfig?.shortCodes ?? {},
         filters: options.userConfig?.filters ?? {},
-        destDir,
+        outputRoot,
         pageData: { date: post.date }
       })
       await writeBuildArtifact(rendered, output, {
@@ -40,7 +40,7 @@ export async function writePosts (
       })
 
       if (options.userConfig?.debugMode) {
-        await writeTempAst(fullPageAst, frontmatter, post.meta.srcPath)
+        await writeTempAst(fullPageAst, frontmatter, post.meta.inputPath)
       }
     } catch (error) {
       errors.push({ name: post.data.title, error })

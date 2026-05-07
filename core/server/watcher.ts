@@ -41,19 +41,19 @@ function debounce (callback: () => void, delayMs: number): () => void {
 }
 
 export function startWatcher (onRebuild: () => Promise<void>) {
-  const srcDir = resolve(config.directories.input)
+  const inputRoot = resolve(config.directories.input)
   const tick = debounce(() => {
     void schedule(onRebuild)
   }, 150)
-
+    
   try {
-    const watcher = watch(srcDir, { recursive: true }, async (_, filename) => {
+    const watcher = watch(inputRoot, { recursive: true }, async (_, filename) => {
       if (filename === null) return
       tick()
     })
     return { stop: () => { watcher.close() } }
   } catch (error) {
-    log.error(`Could not watch "${srcDir}": ${String(error)}`)
+    log.error(`Could not watch "${inputRoot}": ${String(error)}`)
     return undefined
   }
 }

@@ -52,18 +52,18 @@ export function applyEmitTransforms (body: string, outputPath: string, ctx: Emit
   )
 }
 
-export async function emitStaticFile (srcPath: string, destPath: string, ctx: EmitContext) {
-  await mkdir(dirname(destPath), { recursive: true })
+export async function emitStaticFile (inputPath: string, outputPath: string, ctx: EmitContext) {
+  await mkdir(dirname(outputPath), { recursive: true })
   const transforms = getMergedProfiles(ctx)
   
-  if (transforms.has(extname(destPath))) {
-    const file = await readFile(srcPath, 'utf-8')
-    const output = applyEmitTransforms(file, destPath, ctx)
-    await writeFile(destPath, output, 'utf-8')
+  if (transforms.has(extname(outputPath))) {
+    const file = await readFile(inputPath, 'utf-8')
+    const output = applyEmitTransforms(file, outputPath, ctx)
+    await writeFile(outputPath, output, 'utf-8')
     return
   }
 
-  await copyFile(srcPath, destPath)
+  await copyFile(inputPath, outputPath)
 }
 
 export async function writeBuildArtifact (body: string, outputPath: string, ctx: EmitContext): Promise<void> {

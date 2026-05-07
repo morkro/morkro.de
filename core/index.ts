@@ -16,11 +16,11 @@ const log = logger('Build')
 
 async function build () {
   log.info('Building pages')
-  const srcDir = resolve(config.directories.input)
-  const destDir = resolve(config.directories.output)
+  const inputDir = resolve(config.directories.input)
+  const outputDir = resolve(config.directories.output)
 
   // Create a temporary directory to store the build files
-  const tmpDir = `${destDir}.tmp.${Date.now()}`
+  const tmpDir = `${outputDir}.tmp.${Date.now()}`
   await mkdir(tmpDir, { recursive: true })
 
   const dataFiles = await loadDataFiles(userConfig)
@@ -28,11 +28,11 @@ async function build () {
 
   if (userConfig?.passThroughCopy) {
     for (const entry of userConfig.passThroughCopy) {
-      const src = resolve(entry.from)
-      const dest = resolve(tmpDir, entry.to)
+      const input = resolve(entry.from)
+      const output = resolve(tmpDir, entry.to)
 
-      if (await copyRecursive(src, dest)) {
-        skipEntries.add(relative(srcDir, src).split('/')[0])
+      if (await copyRecursive(input, output)) {
+        skipEntries.add(relative(inputDir, input).split('/')[0])
       }
     }
   }
@@ -46,14 +46,14 @@ async function build () {
         JSON.stringify(Object.fromEntries(dataFiles.entries()), null, 2))
   }
 
-  const files = await discoverFiles(srcDir, tmpDir, {
+  const files = await discoverFiles(inputDir, tmpDir, {
     parse: config.parser.parseExtensions,
     skip: skipEntries,
   })
   await processFiles(files, {
     dataFiles,
     userConfig,
-    destRoot: tmpDir,
+    outputRoot: tmpDir,
     concurrency: config.parser.concurrency,
   })
 
@@ -63,10 +63,10 @@ async function build () {
   }
 
   // Swap tmp with old
-  const oldDest = `${destDir}.old`
-  try { await rename(destDir, oldDest) } catch {}
-  await rename(tmpDir, destDir)
-  try { await rm(oldDest, { recursive: true }) } catch {}
+  const oldOutput = `${outputDir}.old`
+  try { await rename(outputDir, oldOutput) } catch {}
+  await rename(tmpDir, outputDir)
+  try { await rm(oldOutput, { recursive: true }) } catch {}
 
   log.info('✔ Build complete')
 }

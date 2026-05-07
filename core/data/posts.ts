@@ -33,7 +33,7 @@ export type CollectionPost = {
   content?: string
   meta: {
     raw: string
-    srcPath: string
+    inputPath: string
   }
 }
 
@@ -111,7 +111,7 @@ export async function loadPosts(userConfig?: UserConfig): Promise<CollectionPost
     const content = removeFrontmatter(raw).trim()
     const meta = parseFilename(filename)
     const post = createPostData(raw, filename)
-    const srcPath = join(
+    const inputPath = join(
       config.directories.input,
       config.directories.internal.posts,
       filename
@@ -126,7 +126,7 @@ export async function loadPosts(userConfig?: UserConfig): Promise<CollectionPost
           : `/posts/${meta.date.getFullYear()}/${meta.slug}`,
       date: meta.date,
       content: content ? content : undefined,
-      meta: { raw, srcPath }
+      meta: { raw, inputPath }
     })
   } 
 

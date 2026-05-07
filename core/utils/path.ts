@@ -24,17 +24,17 @@ export function ensureOutputPath (fileName: string, buildRoot: string, permalink
   return join(buildRoot, path.slice(1))
 }
 
-export function resolveOutput (filePath: string, destDir: string, permalink?: string): string {
-  const srcRoot = resolve(config.directories.input)
-  let srcRelative = relative(srcRoot, resolve(filePath))
+export function resolveOutput (filePath: string, outputRoot: string, permalink?: string): string {
+  const inputRoot = resolve(config.directories.input)
+  let inputRelative = relative(inputRoot, resolve(filePath))
 
   // if there is no permalink, we need to remove the pages directory from the path
   if (!permalink || typeof permalink !== 'string') {
     const prefix = `${config.directories.pages}/`
-    if (srcRelative.startsWith(prefix)) {
-      srcRelative = srcRelative.slice(prefix.length)
+    if (inputRelative.startsWith(prefix)) {
+      inputRelative = inputRelative.slice(prefix.length)
     }
   }
 
-  return ensureOutputPath(srcRelative, destDir, permalink)
+  return ensureOutputPath(inputRelative, outputRoot, permalink)
 }
