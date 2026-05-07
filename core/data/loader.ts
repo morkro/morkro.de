@@ -38,7 +38,7 @@ async function readOrImport (filePath: string): Promise<unknown> {
 type DirectoryType = typeof config.directories.internal[keyof typeof config.directories.internal]
 export async function loadFromDir (dir: DirectoryType): Promise<DataFileMap> {
   const map: DataFileMap = new Map()
-  const directory = resolve(config.directories.src, dir)
+  const directory = resolve(config.directories.input, dir)
   
   try {
     await access(directory)

@@ -112,7 +112,7 @@ export async function loadPosts(userConfig?: UserConfig): Promise<CollectionPost
     const meta = parseFilename(filename)
     const post = createPostData(raw, filename)
     const srcPath = join(
-      config.directories.src,
+      config.directories.input,
       config.directories.internal.posts,
       filename
     )

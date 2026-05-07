@@ -19,7 +19,7 @@ export async function layoutResolver (name: string, cache: Map<string, Layout>):
   if (cache.has(name)) return Promise.resolve(cache.get(name) as Layout)
 
 	const fileName = name.endsWith('.liquid') ? name : `${name}.liquid`
-	const dir = resolve(cwd(), config.directories.src, config.directories.internal.layouts)
+	const dir = resolve(cwd(), config.directories.input, config.directories.internal.layouts)
 	const source = await loadFile(dir, fileName)
 	const frontmatter = parseFrontmatter(source)
 	const body = removeFrontmatter(source)
@@ -38,7 +38,7 @@ export async function layoutResolver (name: string, cache: Map<string, Layout>):
 }
 
 export async function templateResolver (parentPath: string, file: string): Promise<Template> {
-	const globalIncludes = resolve(cwd(), config.directories.src, config.directories.internal.includes)
+	const globalIncludes = resolve(cwd(), config.directories.input, config.directories.internal.includes)
 	const localIncludes = resolve(dirname(parentPath), config.directories.internal.includes)
 	const searchRoots = [globalIncludes, localIncludes]
 	const errors: unknown[] = []

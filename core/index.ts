@@ -16,8 +16,8 @@ const log = logger('Build')
 
 async function build () {
   log.info('Building pages')
-  const srcDir = resolve(config.directories.src)
-  const destDir = resolve(config.directories.dest)
+  const srcDir = resolve(config.directories.input)
+  const destDir = resolve(config.directories.output)
 
   // Create a temporary directory to store the build files
   const tmpDir = `${destDir}.tmp.${Date.now()}`

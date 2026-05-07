@@ -87,7 +87,7 @@ export async function processFiles (files: SourceFile[], options: ProcessOptions
 }
 
 async function processSingleFile(file: SourceFile, options: ProcessOptions) {
-  const fileName = relative(config.directories.src, file.srcPath)
+  const fileName = relative(config.directories.input, file.srcPath)
   log.debug(`Processing file "${fileName}"`)
 
   if (file.action === 'compile') {
@@ -109,7 +109,7 @@ async function processSingleFile(file: SourceFile, options: ProcessOptions) {
   } else {
     if (extname(file.srcPath) === '.css') {
       const css = await readFile(file.srcPath, 'utf-8')
-      const srcRoot = resolve(config.directories.src)
+      const srcRoot = resolve(config.directories.input)
       const bundled = await bundleCssImports(css, file.srcPath, srcRoot)
       await writeBuildArtifact(bundled, file.destPath, {
         userConfig: options.userConfig

@@ -25,7 +25,7 @@ export function ensureOutputPath (fileName: string, buildRoot: string, permalink
 }
 
 export function resolveOutput (filePath: string, destDir: string, permalink?: string): string {
-  const srcRoot = resolve(config.directories.src)
+  const srcRoot = resolve(config.directories.input)
   let srcRelative = relative(srcRoot, resolve(filePath))
 
   // if there is no permalink, we need to remove the pages directory from the path

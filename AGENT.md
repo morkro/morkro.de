@@ -482,7 +482,7 @@ Custom format: `Year.Month.Commits.Type`
 
 ### Build Output
 - Eleventy outputs to `_site/`
-- Custom SSG outputs to `.build/` (`directories.dest` in [`core/config.core.ts`](core/config.core.ts))
+- Custom SSG outputs to `.build/` (`directories.output` in [`core/config.core.ts`](core/config.core.ts))
 - `.tmp/` used for debug output (AST dumps, rendered HTML) during development
 - Must match exact structure for deployment
 - statichost.yml for hosting configuration

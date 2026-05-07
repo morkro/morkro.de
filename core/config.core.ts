@@ -10,9 +10,9 @@ export interface CoreConfig {
     wsGuid: '258EAFA5-E914-47DA-95CA-C5AB0DC85B11'
   }
   directories: {
-    src: string
+    input: string
+    output: string
     temp: string
-    dest: string
     pages: string
     internal: {
       data: string
@@ -33,9 +33,9 @@ const config: CoreConfig = {
     wsGuid: '258EAFA5-E914-47DA-95CA-C5AB0DC85B11',
   },
   directories: {
-    src: 'src',
+    input: 'src',
+    output: '.build',
     temp: '.tmp',
-    dest: '.build',
     pages: 'pages',
     internal: {
       data: '_data',

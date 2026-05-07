@@ -41,7 +41,7 @@ function debounce (callback: () => void, delayMs: number): () => void {
 }
 
 export function startWatcher (onRebuild: () => Promise<void>) {
-  const srcDir = resolve(config.directories.src)
+  const srcDir = resolve(config.directories.input)
   const tick = debounce(() => {
     void schedule(onRebuild)
   }, 150)

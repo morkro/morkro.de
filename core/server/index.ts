@@ -15,8 +15,8 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
   const url = new URL(req.url ?? '/', `http://${req.headers.host}`)
   const urlPath = url.pathname.replace(/^\//, '')
   const filePath = hasExtension(urlPath) ? urlPath : join(urlPath, 'index.html')
-  const resolvedBase = resolve(config.directories.dest)
-  const resolvedPath = resolve(config.directories.dest, filePath)
+  const resolvedBase = resolve(config.directories.output)
+  const resolvedPath = resolve(config.directories.output, filePath)
   const normalisedBase = resolvedBase + sep
   
   // secure exit if the file is not in the build directory
@@ -45,7 +45,7 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
     // lets see if the there is a custom "404.html" file and serve that instead
     try {
       file = await readFile(resolve(resolvedBase, '404.html'), 'utf-8')
-      log.debug(`Served file: "${config.directories.dest}/404.html"`)
+      log.debug(`Served file: "${config.directories.output}/404.html"`)
       contentType = getMimeType('html')
     } catch {
       log.debug('No custom 404 file found, serving default 404')
