@@ -1,25 +1,19 @@
-import { lstat, readFile, readdir } from "node:fs/promises"
-import { extname, join, relative, resolve } from "node:path"
-import config, { type ParseExtension } from "#config"
+import { lstat, readdir } from "node:fs/promises"
+import { join, relative, resolve } from "node:path"
 import type { UserConfig } from "#core/config.user.ts"
 import type { DataFileMap } from "#core/data/types.ts"
 import { emitStaticFile, writeBuildArtifact } from "#emitter/output.ts"
-import { compile } from "#parser/index.ts"
-import { bundleCssImports } from "#transforms/css-imports.ts"
 import { writeTempAst } from "#utils/fs.ts"
 import { logger } from "#utils/log.ts"
+import { defaultEngines, resolveEngine } from "#core/engines/registry.ts"
+import type { BuildEngine } from "#core/engines/types.ts"
+import config from "#config"
 
 const log = logger('Emitter')
 
-type SourceFile = {
+type BuildItem = {
   inputPath: string
   outputPath: string
-  action: 'compile' | 'copy'
-}
-
-type DiscoverOptions = {
-  parse: ParseExtension[]
-  skip: Set<string>
 }
 
 type ProcessOptions = {
@@ -32,14 +26,13 @@ type ProcessOptions = {
 export async function discoverFiles(
   input: string,
   output: string,
-  options: DiscoverOptions
-): Promise<SourceFile[]> {
-  const files: SourceFile[] = []
+  options: { skip: Set<string> }
+): Promise<BuildItem[]> {
+  const files: BuildItem[] = []
   const dir = await readdir(input)
-  const { parse, skip } = options
 
   for (const entry of dir) {
-    if (skip.has(entry)) {
+    if (options.skip.has(entry)) {
       log.debug(`Skipping entry "${entry}"`)
       continue
     }
@@ -56,69 +49,68 @@ export async function discoverFiles(
         continue
       }
 
-      const nested = await discoverFiles(inputPath, outputPath, { parse, skip })
+      const nested = await discoverFiles(inputPath, outputPath, { skip: options.skip })
       files.push(...nested)
       continue
     }
 
     if (stats.isFile()) {
-      const extension = extname(entry).slice(1) as ParseExtension | undefined
-      files.push({
-        inputPath,
-        outputPath,
-        action: extension && parse.includes(extension) ? 'compile' : 'copy'
-      })
+      files.push({ inputPath, outputPath })
     }
   }
 
   return files
 }
 
-export async function processFiles (files: SourceFile[], options: ProcessOptions) {
+export async function processFiles (
+  files: BuildItem[],
+  engines: BuildEngine[] = defaultEngines,
+  options: ProcessOptions
+) {
   const queue = Array.from(files)
   const workers = Array.from({ length: options.concurrency }, async () => {
     while (queue.length > 0) {
       const file = queue.shift()
       if (!file) break
-      await processSingleFile(file, options)
+      await processSingleFile(file, engines, options)
     }
   })
   await Promise.all(workers)
 }
 
-async function processSingleFile(file: SourceFile, options: ProcessOptions) {
+async function processSingleFile(file: BuildItem, engines: BuildEngine[], options: ProcessOptions) {
   const fileName = relative(config.directories.input, file.inputPath)
+  const engine = resolveEngine(engines, file.inputPath)
   log.debug(`Processing file "${fileName}"`)
 
-  if (file.action === 'compile') {
-    const raw = await readFile(file.inputPath, 'utf-8')
-    const { rendered, outputPath, fullPageAst, frontmatter } = await compile(raw, file.inputPath, {
-      data: options.dataFiles,
-      baseUrl: options.userConfig?.baseUrl ?? '',
-      shortCodes: options.userConfig?.shortCodes ?? {},
-      filters: options.userConfig?.filters ?? {},
-      outputRoot: options.outputRoot
-    })
-    await writeBuildArtifact(rendered, outputPath, {
+  if (engine) {
+    const { body, outputPath, debug } = await engine.run(
+      file.inputPath,
+      file.outputPath,
+      {
+        dataFiles: options.dataFiles,
+        userConfig: options.userConfig,
+        outputRoot: options.outputRoot,
+        inputRoot: resolve(config.directories.input)
+      }
+		)
+
+    await writeBuildArtifact(body, outputPath, {
       userConfig: options.userConfig
     })
 
-    if (options.userConfig?.debugMode) {
-      await writeTempAst(fullPageAst, frontmatter, fileName)
-    }
-  } else {
-    if (extname(file.inputPath) === '.css') {
-      const css = await readFile(file.inputPath, 'utf-8')
-      const inputRoot = resolve(config.directories.input)
-      const bundled = await bundleCssImports(css, file.inputPath, inputRoot)
-      await writeBuildArtifact(bundled, file.outputPath, {
-        userConfig: options.userConfig
-      })
-      return
+    if (options.userConfig?.debugMode && debug) {
+      await writeTempAst(
+        debug.fullPageAst,
+        debug.frontmatter,
+        debug.relativeFilename
+      )
     }
 
-    await emitStaticFile(file.inputPath, file.outputPath, {
-      userConfig: options.userConfig
-    })
+    return
   }
+
+  await emitStaticFile(file.inputPath, file.outputPath, {
+    userConfig: options.userConfig
+  })
 }

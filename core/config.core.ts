@@ -1,7 +1,7 @@
 /**
  * System configuration
  */
-export type ParseExtension = 'html' | 'txt' | 'xml' | 'liquid' | 'md'
+export type ParseExtension = '.html' | '.txt' | '.xml' | '.liquid' | '.md'
 
 export interface CoreConfig {
   livereload: {
@@ -45,7 +45,7 @@ const config: CoreConfig = {
     }
   },
   parser: {
-    parseExtensions: ['html', 'txt', 'xml', 'liquid', 'md'],
+    parseExtensions: ['.html', '.txt', '.xml', '.liquid', '.md'],
     concurrency: 8,
   },
   reservedKeys: new Set([

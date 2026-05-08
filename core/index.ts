@@ -11,6 +11,7 @@ import { discoverFiles, processFiles } from '#emitter/traverse.ts'
 import { broadcastReload } from '#server/livereload.ts'
 import { startWatcher } from '#server/watcher.ts'
 import { logger, perf } from '#utils/log.ts'
+import { defaultEngines } from "#core/engines/registry.ts"
 
 const log = logger('Build')
 
@@ -47,10 +48,9 @@ async function build () {
   }
 
   const files = await discoverFiles(inputDir, tmpDir, {
-    parse: config.parser.parseExtensions,
     skip: skipEntries,
   })
-  await processFiles(files, {
+  await processFiles(files, defaultEngines, {
     dataFiles,
     userConfig,
     outputRoot: tmpDir,
