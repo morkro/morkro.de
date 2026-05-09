@@ -1,5 +1,6 @@
-import { dirname, relative, resolve, sep } from "node:path";
+import { dirname, relative } from "node:path";
 import { loadFile } from "#utils/fs.ts";
+import { resolveWithin } from "#utils/path-resolve.ts";
 
 const cssImportRuleRegex = /@import\s+(?:url\(\s*)?(?:"([^"]+)"|'([^']+)'|([^'")\s;]+))\s*\)?\s*([^;]*);/g
 const cssExternalUrlRegex = /^(?:[a-z]+:)?\/\//i
@@ -202,11 +203,7 @@ async function walkCssImports (
       continue
     }
 
-    const resolvedPath = resolve(dirname(filePath), statement.specifier)
-    if (!resolvedPath.startsWith(input + sep)) {
-      throw new Error(`CSS import "${statement.specifier}" in "${filePath}" escapes source root "${input}"`)
-    }
-
+    const resolvedPath = resolveWithin(dirname(filePath), statement.specifier)
     const importContent = await loadImportFile(resolvedPath, input, stack)
     const qualifierContent = statement.qualifier.trim().length > 0
       ? applyImportQualifier(importContent, statement.qualifier)
@@ -224,9 +221,6 @@ export async function bundleCssImports (
   filePath: string,
   input: string
 ): Promise<string> {
-  if (!filePath.startsWith(input + sep)) {
-    throw new Error(`File path "${filePath}" is not within the source directory "${input}"`)
-  }
-  
-  return await walkCssImports(css, filePath, input, new Set<string>())
+  const resolvedPath = resolveWithin(input, filePath)
+  return await walkCssImports(css, resolvedPath, input, new Set<string>())
 }

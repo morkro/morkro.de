@@ -48,10 +48,10 @@ export async function writePosts (
   }
 
   if (errors.length > 0) {
-    log.error(`Failed to write ${errors.length} posts`)
+    log.error('Failed to write posts', { errors: errors.length })
 
     for (const { name, error } of errors) {
-      log.error(`Failed to write post "${name}": ${error}`)
+      log.error('Failed to write post', { name, error })
     }
     
     throw new Error(`${errors.length} post(s) failed to compile`)

@@ -1,5 +1,5 @@
 import { relative } from 'node:path'
-import type { FilterFn } from '#config.user'
+import type { RenderServices } from '#core/config.core.ts'
 import type { DataFileMap } from '#core/data/types.ts'
 import { extractFrontmatter } from '#parser/frontmatter/index.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
@@ -25,8 +25,8 @@ type Compiled = {
 type CompilerOptions = {
   data: DataFileMap
   baseUrl: string
-  shortCodes: Record<string, () => unknown>
-  filters: Record<string, FilterFn>
+  shortCodes: RenderServices["__shortCodes__"]
+  filters: RenderServices["__filters__"]
   outputRoot: string
   pageData?: Record<string, unknown>
 }

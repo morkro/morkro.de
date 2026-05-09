@@ -1,5 +1,4 @@
-import type { FilterFn } from "#config.user";
-import config from "#core/config.core.ts";
+import config, { type RenderServices } from "#core/config.core.ts";
 import { BreakSignal, ContinueSignal, ParserError } from "#parser/utils.ts";
 import { logger } from "#utils/log.ts";
 import { getFromObject } from "#utils/object.ts";
@@ -53,7 +52,7 @@ function resolveExpression (expression: Expression, localContext: RenderContext)
     let value = resolveExpression(expression.input, localContext)
     for (const filter of expression.filters) {
       const args = filter.args.map(arg => resolveExpression(arg, localContext))
-      value = applyFilter(filter.name, value, args, localContext.__filters__ as Record<string, FilterFn>)
+      value = applyFilter(filter.name, value, args, localContext.__filters__ as RenderServices["__filters__"])
     }
     return value
   }
@@ -178,8 +177,8 @@ async function renderNodes(
         }
 
         const renderContext: RenderContext = {
-          __shortCodes__: localContext.__shortCodes__ as Record<string, () => unknown>,
-          __filters__: localContext.__filters__ as Record<string, FilterFn>
+          __shortCodes__: localContext.__shortCodes__ as RenderServices["__shortCodes__"],
+          __filters__: localContext.__filters__ as RenderServices["__filters__"]
         }
         if (node.variables.length > 0) {
           for (const variable of node.variables) {
@@ -198,8 +197,11 @@ async function renderNodes(
         break
       }
       case 'Assign':
-        if (config.reservedKeys.has(node.name)) {
-          log.error(`Cannot assign to reserved key: ${node.name}`)
+        if (config.reservedKeys.has(node.name as keyof RenderServices)) {
+          log.error('Cannot assign to reserved key', {
+            name: node.name,
+            templateSource,
+          })
           break
         }
         localContext[node.name] = resolveExpression(node.expression, localContext)
@@ -279,9 +281,11 @@ async function renderNodes(
         let collection = rawCollection as unknown[]
         if (!Array.isArray(collection)) {
           const colName = getCollectionName(node.collection)
-          log.error(
-            `Expected array but got ${typeof rawCollection} for collection "${colName}" in ${templateSource}`
-          )
+          log.error('Expected array but got', {
+            type: typeof rawCollection,
+            collection: colName,
+            templateSource,
+          })
           collection = []
         }
 
@@ -351,10 +355,13 @@ async function renderNodes(
         ))
         break
       case 'ShortCode': {
-        const shortCodes = localContext.__shortCodes__ as Record<string, () => unknown>
+        const shortCodes = localContext.__shortCodes__ as RenderServices["__shortCodes__"]
         const fn = shortCodes?.[node.name]
         if (!fn || typeof fn !== 'function') {
-          log.error(`Unknown shortcode: ${node.name}`)
+          log.error('Unknown shortcode', {
+            name: node.name,
+            templateSource,
+          })
           break
         }
         result.push(String(fn()))
@@ -396,9 +403,11 @@ async function renderNodes(
         let collection = rawCollection as unknown[]
         if (!Array.isArray(collection)) {
           const colName = getCollectionName(node.collection)
-          log.error(
-            `Expected array but got ${typeof rawCollection} for collection "${colName}" in ${templateSource}`
-          )
+          log.error('Expected array but got', {
+            type: typeof rawCollection,
+            collection: colName,
+            templateSource,
+          })
           collection = []
         }
 
@@ -453,7 +462,7 @@ async function renderNodes(
         break
       }
       case 'Unknown': {
-        log.warn(`Unknown tag: ${node.name}`)
+        log.warn(`Unknown tag: ${node.name}`, { templateSource })
         break
       }
     }

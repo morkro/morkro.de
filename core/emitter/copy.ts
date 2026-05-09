@@ -16,7 +16,7 @@ export async function copyRecursive (input: string, output: string): Promise<boo
       await mkdir(dirname(output), { recursive: true })
       await copyFile(input, output)
     } catch (error) {
-      log.error(`Failed to copy file "${input}" to "${output}" with error: ${error}`)
+      log.error('Failed to copy file', { error, input, output })
       return false
     }
     return true
@@ -26,11 +26,15 @@ export async function copyRecursive (input: string, output: string): Promise<boo
     try {
       const files = await readdir(input)
       for (const file of files) {
-        await copyRecursive(join(input, file), join(output, file))
+        const result = await copyRecursive(join(input, file), join(output, file))
+        // if any file fails to copy, return false
+        if (!result) {
+          return false
+        }
       }
       return true
     } catch (error) {
-      log.error(`Failed to copy directory "${input}" to "${output}" with error: ${error}`)
+      log.error('Failed to copy directory', { error, input, output })
       return false
     }
   }

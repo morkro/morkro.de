@@ -15,6 +15,17 @@ import { defaultEngines } from "#core/engines/registry.ts"
 
 const log = logger('Build')
 
+async function safeRename(from: string, to: string) {
+	try {
+		await rename(from, to)
+	} catch (error) {
+		if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      return
+    }
+		throw new Error(`Failed to rename "${from}" -> "${to}"`, { cause: error })
+	}
+}
+
 async function build () {
   log.info('Building pages')
   const inputDir = resolve(config.directories.input)
@@ -39,7 +50,7 @@ async function build () {
   }
 
   /** Debug only */
-  if (process.env.DEBUG) {
+  if (userConfig.debugMode) {
     log.debug('Writing data files to temporary directory')
     await mkdir(resolve(config.directories.temp), { recursive: true })
     await writeFile(
@@ -64,7 +75,7 @@ async function build () {
 
   // Swap tmp with old
   const oldOutput = `${outputDir}.old`
-  try { await rename(outputDir, oldOutput) } catch {}
+  await safeRename(outputDir, oldOutput)
   await rename(tmpDir, outputDir)
   try { await rm(oldOutput, { recursive: true }) } catch {}
 
@@ -82,7 +93,7 @@ if (isMainModule) {
   try {
     await build()
   } catch (error) {
-    log.error(error)
+    log.error('Build failed', { error })
     process.exit(1)
   } finally {
     buildStart.end()

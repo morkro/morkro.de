@@ -3,6 +3,18 @@
  */
 export type ParseExtension = '.html' | '.txt' | '.xml' | '.liquid' | '.md'
 
+export type ShortCodeFn = () => string
+export type FilterFn = (input: string, ...args: string[]) => string
+export type RenderServices = {
+  page: Record<string, unknown>
+  content: Record<string, unknown>
+  collections: Record<string, unknown>
+  __shortCodes__: Record<string, ShortCodeFn>
+  __filters__: Record<string, FilterFn>
+  __counters__: Map<string, number>
+  __cycles__: Map<string, number>
+}
+
 export interface CoreConfig {
   livereload: {
     // This is the GUID for the WebSocket protocol based on the RFC 6455 specification
@@ -25,7 +37,7 @@ export interface CoreConfig {
     parseExtensions: ParseExtension[]
     concurrency: number
   }
-  reservedKeys: Set<string>
+  reservedKeys: Set<keyof RenderServices>
 }
 
 const config: CoreConfig = {

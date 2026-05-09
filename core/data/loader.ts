@@ -24,11 +24,14 @@ async function readOrImport (filePath: string): Promise<unknown> {
       const markdown = await readFile(filePath, 'utf-8')
       return markdown
     }
-    log.error(`Unsupported file extension '${ext}' for file '${filePath}'`)
+    log.error(`Unsupported file extension '${ext}' for file '${filePath}'`, {
+      filePath,
+      ext
+    })
     return null
   } catch (error) {
     if (error instanceof Error && (error as NodeJS.ErrnoException).code === 'ENOENT') {
-      log.warn(`File not found: ${filePath}`)
+      log.error(`File not found: ${filePath}`, { filePath, error })
       return null
     }
     throw new Error(`Failed to import data file '${filePath}'`, { cause: error })
@@ -42,8 +45,8 @@ export async function loadFromDir (dir: DirectoryType): Promise<DataFileMap> {
   
   try {
     await access(directory)
-  } catch {
-    log.error(`Data directory '${directory}' not found`)
+  } catch (error) {
+    log.error('Data directory not found', { error, directory, args: { dir } })
     return map
   }
 

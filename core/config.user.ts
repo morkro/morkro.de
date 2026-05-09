@@ -1,5 +1,7 @@
 import type { EmitProfile } from "#emitter/output.ts"
 import { minifyHtml } from "#transforms/minify-html.ts"
+import { escapeXML } from "#utils/html.ts"
+import type { ShortCodeFn, FilterFn } from "#core/config.core.ts"
 
 /**
  * User configuration
@@ -13,9 +15,6 @@ export type PassThroughCopy = {
   from: string
   to: string
 }
-
-type ShortCodeFn = () => unknown
-export type FilterFn = (input: unknown, ...args: unknown[]) => unknown
 
 export type UserConfig = {
   debugMode?: boolean
@@ -40,16 +39,7 @@ export type UserConfig = {
 }
 
 function currentYear () {
-  return new Date().getFullYear()
-}
-
-function encodeXML (input) {
-  return (input as string)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
+  return new Date().getFullYear().toString()
 }
 
 const config: UserConfig = {
@@ -70,7 +60,7 @@ const config: UserConfig = {
     currentYear,
   },
   filters: {
-    encodeXML,
+    encodeXML: escapeXML,
   },
   collections: {
     posts: {

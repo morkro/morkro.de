@@ -3,12 +3,27 @@ import { styleText } from 'node:util'
 
 type LogMeta = Record<string, unknown>
 
-export function logger (label: string) {
-  const now = new Date().toLocaleDateString('de-DE',
-    { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+function normaliseError (error: unknown) {
+  if (error instanceof Error) {
+    return {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+      cause: error.cause,
+    }
+  }
+  return { value: String(error) }
+}
 
+const timestamp = () => new Date().toLocaleDateString('de-DE', {
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+})
+
+export function logger (label: string) {
   const syntax = (_lvl: string, message: string, meta?: LogMeta) => {
-    let msg = `[${now}] ${_lvl} (${label}): ${message}`
+    let msg = `[${timestamp()}] ${_lvl} (${label}): ${message}`
     if (meta && Object.keys(meta).length > 0) {
       msg += `\n${JSON.stringify(meta, null, 2)}`
     }
@@ -35,7 +50,10 @@ export function logger (label: string) {
     error (msg: string, meta?: LogMeta) {
       console.error(
         syntax(
-          styleText(['red', 'bold'], 'error', { stream: stderr }), msg, meta))
+          styleText(['red', 'bold'], 'error', { stream: stderr }),
+          msg,
+          { ...meta, error: normaliseError(meta?.error) }
+        ))
     }
   }
 }

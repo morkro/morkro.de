@@ -35,7 +35,7 @@ export function broadcastReload () {
       client.write(frame)
     } catch (error) {
       clients.delete(client)
-      log.error(`Error broadcasting reload message to client: ${String(error)}`)
+      log.error('Error broadcasting reload message to client', { error })
     }
   }
 }
@@ -68,6 +68,6 @@ export function handleWSUpgrade (req: IncomingMessage, socket: Duplex, head: Buf
   })
   socket.on('error', (error) => {
     clients.delete(socket)
-    log.error(`WebSocket error: ${String(error)}`)
+    log.error('WebSocket error', { error })
   })
 }

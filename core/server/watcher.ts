@@ -23,7 +23,7 @@ async function schedule (onRebuild: () => Promise<void>) {
       await onRebuild()
     } while (shouldRunAgain)
   } catch (error) {
-    log.error(`Rebuild after src change failed: ${error}`)
+    log.error('Rebuild after src change failed', { error })
   } finally {
     isRunning = false
   }
@@ -53,7 +53,7 @@ export function startWatcher (onRebuild: () => Promise<void>) {
     })
     return { stop: () => { watcher.close() } }
   } catch (error) {
-    log.error(`Could not watch "${inputRoot}": ${String(error)}`)
+    log.error('Could not watch input root', { error, inputRoot })
     return undefined
   }
 }
