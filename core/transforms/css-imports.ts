@@ -171,7 +171,7 @@ async function loadImportFile(filePath: string, input: string, stack: Set<string
   stack.add(filePath)
   try {
     const fileName = relative(input, filePath)
-    const content = await loadFile(input, fileName)
+    const content = await loadFile<string>(input, fileName)
     return await walkCssImports(content, filePath, input, stack)
   } finally {
     stack.delete(filePath)

@@ -45,11 +45,11 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
     try {
       file = await loadFile(config.directories.output, '404.html')
       log.debug(`Served file: "${config.directories.output}/404.html"`)
-      contentType = getMimeType('html')
+      contentType = getMimeType('.html')
     } catch {
       log.warn('No custom 404 file found, serving default 404')
       file = '404 Not Found'
-      contentType = getMimeType('txt')
+      contentType = getMimeType('.txt')
     }
     
     res.statusCode = 404

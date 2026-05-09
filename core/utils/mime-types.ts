@@ -25,7 +25,9 @@ const MIME_MAP = new Map<string, string>([
   ['.otf', 'font/otf'],
 ])
 
-export function getMimeType(extension = ''): string {
+export function getMimeType(ext = ''): string {
+  let extension = ext
+  if (!extension.startsWith('.')) extension = '.' + extension
   const mime = MIME_MAP.get(extension.toLowerCase()) ?? 'text/plain'
   return TEXT_PREFIXES.some(prefix => mime.startsWith(prefix))
     ? `${mime}${UTF8}`

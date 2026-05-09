@@ -12,7 +12,7 @@ export function createSiteTemplateEngine(): BuildEngine {
     canRun: (inputPath) => templateExtensions.has(extname(inputPath) as ParseExtension),
     async run(inputPath, _, ctx) {
       const relativeFileName = relative(config.directories.input, inputPath)
-      const raw = await loadFile(dirname(inputPath), basename(inputPath))
+      const raw = await loadFile<string>(dirname(inputPath), basename(inputPath))
       const { rendered, outputPath, fullPageAst, frontmatter } = await compile(raw, inputPath, {
         data: ctx.dataFiles,
         baseUrl: ctx.userConfig?.baseUrl ?? '',

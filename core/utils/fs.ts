@@ -4,13 +4,13 @@ import config from '#config'
 import type { FullPage } from '#parser/liquid/types.ts'
 import { resolveWithin } from './path-resolve.ts'
 
-export async function loadFile(path: string, fileName: string, encoding?: BufferEncoding | null) {
+export async function loadFile<T extends string | Buffer>(path: string, fileName: string, encoding?: BufferEncoding | null): Promise<T> {
   const fullPath = resolveWithin(path, fileName)
   try {
     if (encoding === null) {
-      return await readFile(fullPath)
+      return await readFile(fullPath) as T
     }
-    return await readFile(fullPath, { encoding: encoding ?? 'utf-8' })
+    return await readFile(fullPath, { encoding: encoding ?? 'utf-8' }) as T
   } catch (error) {
     throw new Error(`Failed to load file at ${fullPath}`, { cause: error })
   }

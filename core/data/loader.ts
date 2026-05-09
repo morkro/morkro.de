@@ -12,7 +12,7 @@ async function readOrImport (filePath: string): Promise<unknown> {
   const ext = extname(filePath)
   try {
     if (ext === '.json') {
-      const json = await loadFile(dirname(filePath), basename(filePath))
+      const json = await loadFile<string>(dirname(filePath), basename(filePath))
       return parseJSON(json, filePath)
     }
     if (ext === '.js') {

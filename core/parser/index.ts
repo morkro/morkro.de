@@ -9,6 +9,7 @@ import type { FullPage, Layout, Template } from '#parser/liquid/types.ts'
 import { logger, perf } from '#utils/log.ts'
 import { resolveOutput } from '#utils/path.ts'
 import { toUrl } from '#utils/url.ts'
+import config from '#config'
 
 const log = logger('Parser')
 
@@ -83,7 +84,11 @@ async function applyLayouts (
   const layoutChain: LayoutChain[] = []
 
   while (currentLayout) {
-    const layout = await layoutResolver(currentLayout, layoutCache)
+    const layout = await layoutResolver(currentLayout, layoutCache, {
+      inputRoot: config.directories.input,
+      includesDir: config.directories.internal.includes,
+      layoutsDir: config.directories.internal.layouts
+    })
     const layoutContext = Object.create(context)
 
     layoutChain.push({

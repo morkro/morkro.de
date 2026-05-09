@@ -1,11 +1,16 @@
 import { dirname, resolve } from 'node:path'
-import { cwd } from 'node:process'
 import config from '#config'
 import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { stripQuotes } from '#parser/utils.ts'
 import { loadFile } from '#utils/fs.ts'
 import { parseLiquid } from './parser.ts'
 import type { Layout, Template } from './types.ts'
+
+type ResolveContext = {
+	inputRoot: string
+	includesDir: string
+	layoutsDir: string
+}
 
 function derivePartialFileNames (file: string): string[] {
 	const base = stripQuotes(file)
@@ -15,12 +20,12 @@ function derivePartialFileNames (file: string): string[] {
 	return [`${base}.liquid`, `${base}.html`]
 }
 
-export async function layoutResolver (name: string, cache: Map<string, Layout>): Promise<Layout> {
+export async function layoutResolver (name: string, cache: Map<string, Layout>, ctx: ResolveContext): Promise<Layout> {
   if (cache.has(name)) return Promise.resolve(cache.get(name) as Layout)
 
 	const fileName = name.endsWith('.liquid') ? name : `${name}.liquid`
-	const dir = resolve(cwd(), config.directories.input, config.directories.internal.layouts)
-	const source = await loadFile(dir, fileName)
+	const dir = resolve(ctx.inputRoot, ctx.layoutsDir)
+	const source = await loadFile<string>(dir, fileName)
 	const frontmatter = parseFrontmatter(source)
 	const body = removeFrontmatter(source)
 	const path = resolve(dir, fileName)
@@ -37,8 +42,8 @@ export async function layoutResolver (name: string, cache: Map<string, Layout>):
 	return layout
 }
 
-export async function templateResolver (parentPath: string, file: string): Promise<Template> {
-	const globalIncludes = resolve(cwd(), config.directories.input, config.directories.internal.includes)
+export async function templateResolver (parentPath: string, file: string, ctx: ResolveContext): Promise<Template> {
+	const globalIncludes = resolve(ctx.inputRoot, ctx.includesDir)
 	const localIncludes = resolve(dirname(parentPath), config.directories.internal.includes)
 	const searchRoots = [globalIncludes, localIncludes]
 	const errors: unknown[] = []
@@ -46,7 +51,7 @@ export async function templateResolver (parentPath: string, file: string): Promi
 	for (const root of searchRoots) {
 		for (const fileName of derivePartialFileNames(file)) {
 			try {
-				const content = await loadFile(root, fileName)
+				const content = await loadFile<string>(root, fileName)
 				const fullPath = resolve(root, fileName)
 				return parseLiquid(content, fullPath)
 			} catch (error) {

@@ -171,7 +171,11 @@ async function renderNodes(
             ?? { type: 'Template', body: [], meta: { source: templateSource } }
           )
         } else {
-          const resolved = await resolver(templateSource, node.file)
+          const resolved = await resolver(templateSource, node.file, {
+            inputRoot: config.directories.input,
+            includesDir: config.directories.internal.includes,
+            layoutsDir: config.directories.internal.layouts
+          })
           renderCache.set(node.file, resolved)
           file = resolved
         }

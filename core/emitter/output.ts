@@ -58,7 +58,7 @@ export async function emitStaticFile (inputPath: string, outputPath: string, ctx
   const transforms = getMergedProfiles(ctx)
   
   if (transforms.has(extname(outputPath))) {
-    const file = await loadFile(dirname(inputPath), basename(inputPath))
+    const file = await loadFile<string>(dirname(inputPath), basename(inputPath))
     const output = applyEmitTransforms(file, outputPath, ctx)
     await writeFile(outputPath, output, 'utf-8')
     return
