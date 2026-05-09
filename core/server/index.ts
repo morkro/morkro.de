@@ -4,7 +4,7 @@ import { extname } from 'node:path'
 import config from '#core/config.core.ts'
 import { logger } from '#utils/log.ts'
 import { getMimeType, isTextFile } from '#utils/mime-types.ts'
-import { handleWSUpgrade } from './livereload.ts'
+import { handleWSUpgrade } from '#transforms/livereload.ts'
 import { resolveWithin } from '#utils/path-resolve.ts'
 
 const log = logger('Server')

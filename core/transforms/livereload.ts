@@ -5,7 +5,7 @@ import config from "#core/config.core.ts"
 import { logger } from "#utils/log.ts"
 
 const clients = new Set<Duplex>()
-const log = logger('Server')
+const log = logger('Livereload')
 
 const livereloadScript = `
   <script>

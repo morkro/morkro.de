@@ -8,7 +8,7 @@ import { startServer } from '#core/server/index.ts'
 import { copyRecursive } from '#emitter/copy.ts'
 import { writePosts } from '#emitter/posts.ts'
 import { discoverFiles, processFiles } from '#emitter/traverse.ts'
-import { broadcastReload } from '#server/livereload.ts'
+import { broadcastReload } from '#transforms/livereload.ts'
 import { startWatcher } from '#server/watcher.ts'
 import { logger, perf } from '#utils/log.ts'
 import { defaultEngines } from "#core/engines/registry.ts"

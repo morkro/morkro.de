@@ -1,7 +1,7 @@
 import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises"
 import { dirname, extname } from "node:path"
 import type { UserConfig } from "#config.user"
-import { injectLivereloadScript } from "#server/livereload.ts"
+import { injectLivereloadScript } from "#transforms/livereload.ts"
 import { logger, perf } from "#utils/log.ts"
 import { deepMergeMap } from "#utils/object.ts"
 
