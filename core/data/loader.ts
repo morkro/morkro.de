@@ -1,9 +1,10 @@
-import { access, readFile, readdir } from 'node:fs/promises'
-import { basename, extname, resolve } from 'node:path'
-import config from '#config'
+import { access, readdir } from 'node:fs/promises'
+import { basename, dirname, extname, resolve } from 'node:path'
+import config from '#core/config.core.ts'
 import { parseJSON } from '#utils/json.ts'
 import { logger } from '#utils/log.ts'
 import type { DataFileMap } from './types.ts'
+import { loadFile } from '#core/utils/fs.ts'
 
 const log = logger('Data')
 
@@ -11,7 +12,7 @@ async function readOrImport (filePath: string): Promise<unknown> {
   const ext = extname(filePath)
   try {
     if (ext === '.json') {
-      const json = await readFile(filePath, 'utf-8')
+      const json = await loadFile(dirname(filePath), basename(filePath))
       return parseJSON(json, filePath)
     }
     if (ext === '.js') {
@@ -21,7 +22,7 @@ async function readOrImport (filePath: string): Promise<unknown> {
       return javascript.default
     }
     if (ext === '.md') {
-      const markdown = await readFile(filePath, 'utf-8')
+      const markdown = await loadFile(dirname(filePath), basename(filePath))
       return markdown
     }
     log.error(`Unsupported file extension '${ext}' for file '${filePath}'`, {

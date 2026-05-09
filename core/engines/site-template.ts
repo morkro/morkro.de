@@ -1,7 +1,7 @@
-import { extname, relative } from 'node:path';
-import { readFile } from 'node:fs/promises';
+import { basename, dirname, extname, relative } from 'node:path';
 import config, { type ParseExtension } from '#config';
 import { compile } from '#parser/index.ts';
+import { loadFile } from '#utils/fs.ts';
 import type { BuildEngine } from './types.ts';
 
 const templateExtensions = new Set<ParseExtension>(config.parser.parseExtensions)
@@ -12,7 +12,7 @@ export function createSiteTemplateEngine(): BuildEngine {
     canRun: (inputPath) => templateExtensions.has(extname(inputPath) as ParseExtension),
     async run(inputPath, _, ctx) {
       const relativeFileName = relative(config.directories.input, inputPath)
-      const raw = await readFile(inputPath, 'utf-8')
+      const raw = await loadFile(dirname(inputPath), basename(inputPath))
       const { rendered, outputPath, fullPageAst, frontmatter } = await compile(raw, inputPath, {
         data: ctx.dataFiles,
         baseUrl: ctx.userConfig?.baseUrl ?? '',

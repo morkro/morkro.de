@@ -76,8 +76,13 @@ async function build () {
   // Swap tmp with old
   const oldOutput = `${outputDir}.old`
   await safeRename(outputDir, oldOutput)
-  await rename(tmpDir, outputDir)
-  try { await rm(oldOutput, { recursive: true }) } catch {}
+  await safeRename(tmpDir, outputDir)
+  try {
+    await rm(oldOutput, { recursive: true })
+  } catch (error) {
+    log.error('Failed to remove old output directory', { error, oldOutput })
+    process.exit(1)
+  }
 
   log.info('✔ Build complete')
 }
@@ -100,15 +105,15 @@ if (isMainModule) {
   }
   
   if (process.argv.includes('--serve')) {
-    startServer()
+    const server = startServer()
     broadcastReload()
-
     const watcher = startWatcher(async () => {
       await build()
       broadcastReload()
     })
-    process.on('SIGINT', () => {
-      watcher?.stop()
+    process.on('SIGINT', async () => {
+      await server.stop()
+      watcher.stop()
       process.exit(0)
     })
   }

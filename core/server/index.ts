@@ -1,30 +1,41 @@
-import { readFile } from 'node:fs/promises'
+import { stat } from 'node:fs/promises'
 import { type IncomingMessage, type ServerResponse, createServer } from 'node:http'
-import { extname } from 'node:path'
+import { basename, dirname, extname, join } from 'node:path'
 import config from '#config'
 import { logger } from '#utils/log.ts'
 import { getMimeType, isTextFile } from '#utils/mime-types.ts'
 import { handleWSUpgrade } from '#transforms/livereload.ts'
 import { resolveWithin } from '#utils/path-resolve.ts'
+import { loadFile } from '#core/utils/fs.ts'
 
 const log = logger('Server')
 
 // dynamically loads the static files from the ".build/" directory
 async function handleRequest (req: IncomingMessage, res: ServerResponse): Promise<void> {
   const url = new URL(req.url ?? '/', `http://${req.headers.host}`)
-  const urlPath = url.pathname.replace(/^\//, '')
-  const filePath = resolveWithin(config.directories.output, urlPath)
+  let urlPath = url.pathname.replace(/^\//, '')
+  let filePath = resolveWithin(config.directories.output, urlPath)
+
+  try {
+    const stats = await stat(filePath)
+    if (stats.isDirectory()) {
+      urlPath = join(urlPath, 'index.html')
+      filePath = resolveWithin(config.directories.output, urlPath)
+    }
+  } catch {}
   
   const extension = extname(filePath)
   let contentType = getMimeType(extension)
   let file: string | Buffer = ''
 
   log.debug(`Requested url: "${url}"`)
-
+  
   try {
-    file = await readFile(filePath, {
-      encoding: isTextFile(extension) ? 'utf-8' : undefined
-    })
+    file = await loadFile(
+      dirname(filePath),
+      basename(filePath),
+      isTextFile(extension) ? 'utf-8' : null
+    )
     log.debug(`Served file: "${filePath}"`)
     res.statusCode = 200
   } catch (error) {
@@ -32,7 +43,7 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
     
     // lets see if the there is a custom "404.html" file and serve that instead
     try {
-      file = await readFile(resolveWithin(config.directories.output, '404.html'), 'utf-8')
+      file = await loadFile(config.directories.output, '404.html')
       log.debug(`Served file: "${config.directories.output}/404.html"`)
       contentType = getMimeType('html')
     } catch {
@@ -55,7 +66,7 @@ async function handleRequest (req: IncomingMessage, res: ServerResponse): Promis
   res.end(body)
 }
 
-export function startServer (port = 8080): void {
+export function startServer (port = 8080): { stop: () => Promise<void> } {
   const host = 'localhost'
   const server = createServer(handleRequest)
 
@@ -70,4 +81,9 @@ export function startServer (port = 8080): void {
   server.listen(port, host, () => {
     log.info(`Server is running on http://${host}:${port}`)
   })
+
+  return {
+    stop: () => new Promise((resolve, reject) =>
+      server.close((error) => error ? reject(error) : resolve()))
+  }
 }

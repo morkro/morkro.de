@@ -58,6 +58,6 @@ export function startWatcher (onRebuild: () => Promise<void>) {
     return { stop: () => { fsWatcher.close() } }
   } catch (error) {
     log.error('Could not watch input root', { error, inputRoot })
-    return undefined
+    return { stop: () => void 0 }
   }
 }

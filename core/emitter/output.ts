@@ -1,9 +1,10 @@
-import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises'
-import { dirname, extname } from 'node:path'
+import { copyFile, mkdir, writeFile } from 'node:fs/promises'
+import { basename, dirname, extname } from 'node:path'
 import type { UserConfig } from '#config.user'
 import { injectLivereloadScript } from '#transforms/livereload.ts'
 import { logger, perf } from '#utils/log.ts'
 import { deepMergeMap } from '#utils/object.ts'
+import { loadFile } from '#utils/fs.ts'
 
 const log = logger('Emitter')
 
@@ -57,7 +58,7 @@ export async function emitStaticFile (inputPath: string, outputPath: string, ctx
   const transforms = getMergedProfiles(ctx)
   
   if (transforms.has(extname(outputPath))) {
-    const file = await readFile(inputPath, 'utf-8')
+    const file = await loadFile(dirname(inputPath), basename(inputPath))
     const output = applyEmitTransforms(file, outputPath, ctx)
     await writeFile(outputPath, output, 'utf-8')
     return
