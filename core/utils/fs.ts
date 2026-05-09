@@ -1,8 +1,8 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import { basename, extname, join } from 'node:path'
+import config from '#config'
 import type { FullPage } from '#parser/liquid/types.ts'
 import { resolveWithin } from './path-resolve.ts'
-import config from '#config'
 
 export async function loadFile(path: string, fileName: string): Promise<string> {
   const fullPath = resolveWithin(path, fileName)

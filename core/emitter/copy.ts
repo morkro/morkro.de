@@ -1,6 +1,6 @@
-import { copyFile, lstat, mkdir, readdir } from "node:fs/promises"
-import { dirname, join } from "node:path"
-import { logger } from "#utils/log.ts"
+import { copyFile, lstat, mkdir, readdir } from 'node:fs/promises'
+import { dirname, join } from 'node:path'
+import { logger } from '#utils/log.ts'
 
 const log = logger('Emitter')
 

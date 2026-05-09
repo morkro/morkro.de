@@ -1,4 +1,4 @@
-import { coerceValue, getIndentWidth, stripQuotes } from "#parser/utils.ts"
+import { coerceValue, getIndentWidth, stripQuotes } from '#parser/utils.ts'
 
 const FRONTMATTER_REGEX = /^---\r?\n([\s\S]*?)\r?\n---/
 const YAML_LINE_REGEX = /^\s*-\s+(.*)$/

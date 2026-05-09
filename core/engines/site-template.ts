@@ -1,8 +1,8 @@
-import config, { type ParseExtension } from "#config";
-import { extname, relative } from "node:path";
-import type { BuildEngine } from "./types.ts";
-import { readFile } from "node:fs/promises";
-import { compile } from "#parser/index.ts";
+import { extname, relative } from 'node:path';
+import { readFile } from 'node:fs/promises';
+import config, { type ParseExtension } from '#config';
+import { compile } from '#parser/index.ts';
+import type { BuildEngine } from './types.ts';
 
 const templateExtensions = new Set<ParseExtension>(config.parser.parseExtensions)
 

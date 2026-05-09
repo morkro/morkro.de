@@ -1,7 +1,7 @@
 import { mkdir, rm, writeFile } from "node:fs/promises"
 import { join, resolve } from "node:path"
-import config from "#core/config.core.ts"
-import userConfig from "#core/config.user.ts"
+import config from '#config'
+import userConfig from '#config.user'
 import { compile } from "#parser/index.ts"
 import type { RenderContext } from "#parser/liquid/renderer.ts"
 import { loadFile } from "#utils/fs.ts"

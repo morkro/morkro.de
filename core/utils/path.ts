@@ -1,5 +1,5 @@
 import { basename, dirname, extname, join, relative, resolve } from 'node:path'
-import config from '#core/config.core.ts'
+import config from '#config'
 
 export function ensureOutputPath (fileName: string, buildRoot: string, permalink?: string): string {
   const htmlName = `${basename(fileName, extname(fileName))}.html`

@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { type IncomingMessage, type ServerResponse, createServer } from 'node:http'
 import { extname } from 'node:path'
-import config from '#core/config.core.ts'
+import config from '#config'
 import { logger } from '#utils/log.ts'
 import { getMimeType, isTextFile } from '#utils/mime-types.ts'
 import { handleWSUpgrade } from '#transforms/livereload.ts'

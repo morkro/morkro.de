@@ -1,8 +1,8 @@
-import { createHash } from "node:crypto"
-import type { IncomingMessage } from "node:http"
-import type { Duplex } from "node:stream"
-import config from "#core/config.core.ts"
-import { logger } from "#utils/log.ts"
+import { createHash } from 'node:crypto'
+import type { IncomingMessage } from 'node:http'
+import type { Duplex } from 'node:stream'
+import config from '#config'
+import { logger } from '#utils/log.ts'
 
 const clients = new Set<Duplex>()
 const log = logger('Livereload')

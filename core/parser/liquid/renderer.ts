@@ -1,4 +1,4 @@
-import config, { type RenderServices } from "#core/config.core.ts";
+import config, { type RenderServices } from '#config';
 import { BreakSignal, ContinueSignal, ParserError } from "#parser/utils.ts";
 import { logger } from "#utils/log.ts";
 import { getFromObject } from "#utils/object.ts";

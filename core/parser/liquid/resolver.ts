@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'node:path'
 import { cwd } from 'node:process'
-import config from '#core/config.core.ts'
+import config from '#config'
 import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { stripQuotes } from '#parser/utils.ts'
 import { loadFile } from '#utils/fs.ts'

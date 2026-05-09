@@ -1,4 +1,4 @@
-import { resolve, sep } from "node:path"
+import { resolve, sep } from 'node:path'
 
 export function resolveWithin (basePath: string, requestedPath: string) {
   const resolvedBase = resolve(basePath)

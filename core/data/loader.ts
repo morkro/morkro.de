@@ -1,6 +1,6 @@
 import { access, readFile, readdir } from 'node:fs/promises'
 import { basename, extname, resolve } from 'node:path'
-import config from '#core/config.core.ts'
+import config from '#config'
 import { parseJSON } from '#utils/json.ts'
 import { logger } from '#utils/log.ts'
 import type { DataFileMap } from './types.ts'

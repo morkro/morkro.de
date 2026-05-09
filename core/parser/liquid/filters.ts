@@ -1,5 +1,5 @@
-import type { FilterFn } from "#config.user";
-import { ParserError } from "#parser/utils.ts";
+import type { FilterFn } from '#config';
+import { ParserError } from '#parser/utils.ts';
 
 const datePresets = {
   rfc3339: 'iso',

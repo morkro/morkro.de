@@ -1,6 +1,6 @@
-import { createCssEngine } from "./css.ts";
-import { createSiteTemplateEngine } from "./site-template.ts";
-import type { BuildEngine } from "./types.ts";
+import { createCssEngine } from './css.ts';
+import { createSiteTemplateEngine } from './site-template.ts';
+import type { BuildEngine } from './types.ts';
 
 export const defaultEngines: BuildEngine[] = [
   createSiteTemplateEngine(),

@@ -1,6 +1,6 @@
-import { dirname, relative } from "node:path";
-import { loadFile } from "#utils/fs.ts";
-import { resolveWithin } from "#utils/path-resolve.ts";
+import { dirname, relative } from 'node:path';
+import { loadFile } from '#utils/fs.ts';
+import { resolveWithin } from '#utils/path-resolve.ts';
 
 const cssImportRuleRegex = /@import\s+(?:url\(\s*)?(?:"([^"]+)"|'([^']+)'|([^'")\s;]+))\s*\)?\s*([^;]*);/g
 const cssExternalUrlRegex = /^(?:[a-z]+:)?\/\//i

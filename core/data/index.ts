@@ -1,5 +1,5 @@
-import config from '#core/config.core.ts'
-import type { UserConfig } from '#core/config.user.ts'
+import config from '#config'
+import type { UserConfig } from '#config.user'
 import { loadFromDir, loadFromFile } from './loader.ts'
 import { loadPosts } from './posts.ts'
 import type { DataFileMap } from './types.ts'

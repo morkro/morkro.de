@@ -1,7 +1,7 @@
-import { watch } from "node:fs"
-import { resolve } from "node:path"
-import config from "#core/config.core.ts"
-import { logger } from "#utils/log.ts"
+import { watch } from 'node:fs'
+import { resolve } from 'node:path'
+import config from '#config'
+import { logger } from '#utils/log.ts'
 
 const log = logger('Server')
 

@@ -1,7 +1,7 @@
-import type { EmitProfile } from "#emitter/output.ts"
-import { minifyHtml } from "#transforms/minify-html.ts"
-import { escapeXML } from "#utils/html.ts"
-import type { ShortCodeFn, FilterFn } from "#core/config.core.ts"
+import type { ShortCodeFn, FilterFn } from '#config'
+import type { EmitProfile } from '#emitter/output.ts'
+import { minifyHtml } from '#transforms/minify-html.ts'
+import { escapeXML } from '#utils/html.ts'
 
 /**
  * User configuration

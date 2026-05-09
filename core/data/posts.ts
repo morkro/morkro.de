@@ -1,6 +1,6 @@
 import { join } from 'node:path'
-import config from '#core/config.core.ts'
-import type { UserConfig } from '#core/config.user.ts'
+import config from '#config'
+import type { UserConfig } from '#config.user'
 import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { applyFilter } from '#parser/liquid/filters.ts'
 import { stripQuotes } from '#parser/utils.ts'

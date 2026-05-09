@@ -1,13 +1,13 @@
-import { lstat, readdir } from "node:fs/promises"
+import { lstat, readdir } from 'node:fs/promises'
 import { join, relative, resolve } from "node:path"
-import type { UserConfig } from "#core/config.user.ts"
-import type { DataFileMap } from "#core/data/types.ts"
-import { emitStaticFile, writeBuildArtifact } from "#emitter/output.ts"
-import { writeTempAst } from "#utils/fs.ts"
-import { logger } from "#utils/log.ts"
-import { defaultEngines, resolveEngine } from "#core/engines/registry.ts"
-import type { BuildEngine } from "#core/engines/types.ts"
-import config from "#config"
+import config from '#config'
+import type { UserConfig } from '#config.user'
+import type { DataFileMap } from '#data/types.ts'
+import { emitStaticFile, writeBuildArtifact } from '#emitter/output.ts'
+import { writeTempAst } from '#utils/fs.ts'
+import { logger } from '#utils/log.ts'
+import { defaultEngines, resolveEngine } from '#engines/registry.ts'
+import type { BuildEngine } from '#engines/types.ts'
 
 const log = logger('Emitter')
 
