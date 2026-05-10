@@ -1,5 +1,5 @@
 import type { UserConfig } from '#config.user'
-import type { DataFileMap } from '#data/types.ts'
+import type { DataFileMap } from '#data/index.ts'
 import type { FullPage } from '#parser/liquid/types.ts'
 
 export type EngineContext = {

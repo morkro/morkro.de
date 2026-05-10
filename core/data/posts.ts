@@ -6,6 +6,7 @@ import { applyFilter } from '#parser/liquid/filters.ts'
 import { stripQuotes } from '#parser/utils.ts'
 import { getFromObject } from '#utils/object.ts'
 import { loadFromDir } from './loader.ts'
+import type { DataFileMap } from './index.ts'
 
 export type Post = {
   title: string
@@ -99,6 +100,16 @@ function createPostUrl (context: PermalinkContext, pattern: string, userConfig?:
   const normalised = resolved.replace(/\/{2,}/g, '/')
 
   return normalised.startsWith('/') ? normalised : `/${normalised}`
+}
+
+export function getCollections (data: DataFileMap) {
+  const value = data.get('collections')
+	if (!value || typeof value !== 'object') return undefined
+	
+  const posts = (value as { posts?: unknown }).posts
+	if (!Array.isArray(posts)) return undefined
+	
+  return { posts: posts as CollectionPost[] }
 }
 
 export async function loadPosts(userConfig?: UserConfig): Promise<CollectionPost[]> {

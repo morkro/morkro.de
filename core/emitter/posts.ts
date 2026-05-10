@@ -1,7 +1,7 @@
 import { join } from 'node:path'
 import type { UserConfig } from '#config.user'
 import type { CollectionPost } from '#data/posts.ts'
-import type { DataFileMap } from '#data/types.ts'
+import type { DataFileMap } from '#data/index.ts'
 import { writeBuildArtifact } from "#emitter/output.ts"
 import { compile } from '#parser/index.ts'
 import { writeTempAst } from '#utils/fs.ts'

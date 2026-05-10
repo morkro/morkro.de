@@ -17,7 +17,7 @@ export function getFromObject(path: string[], object: Record<string, unknown>): 
   return getFromObject(rest, object[first] as Record<string, unknown>)
 }
 
-export function deepMergeMap<K, V> (
+export function mergeMapValues<K, V> (
   base: Map<K, V>,
   over: Map<K, V>,
   mergeFn: (baseVal: V | undefined, overVal: V | undefined, key: K) => V

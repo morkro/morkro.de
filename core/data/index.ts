@@ -2,7 +2,8 @@ import config from '#config'
 import type { UserConfig } from '#config.user'
 import { loadFromDir, loadFromFile } from './loader.ts'
 import { loadPosts } from './posts.ts'
-import type { DataFileMap } from './types.ts'
+
+export type DataFileMap = Map<string, unknown>
 
 function pickValues(
   source: Record<string, unknown>,
@@ -41,7 +42,7 @@ export async function loadDataFiles(userConfig?: UserConfig): Promise<DataFileMa
 
 		const file = await loadFromFile(paths)
 		for (const [key, raw] of file) {
-			data.set(key, pickValues(raw, getByKey.get(key)))
+			data.set(key, pickValues(raw as Record<string, unknown>, getByKey.get(key)))
 		}
 	}
 

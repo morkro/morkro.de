@@ -3,7 +3,7 @@ import { basename, dirname, extname, resolve } from 'node:path'
 import config from '#core/config.core.ts'
 import { parseJSON } from '#utils/json.ts'
 import { logger } from '#utils/log.ts'
-import type { DataFileMap } from './types.ts'
+import type { DataFileMap } from '#data/index.ts'
 import { loadFile } from '#core/utils/fs.ts'
 
 const log = logger('Data')

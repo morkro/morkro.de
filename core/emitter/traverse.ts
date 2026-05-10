@@ -2,7 +2,7 @@ import { lstat, readdir } from 'node:fs/promises'
 import { join, relative, resolve } from "node:path"
 import config from '#config'
 import type { UserConfig } from '#config.user'
-import type { DataFileMap } from '#data/types.ts'
+import type { DataFileMap } from '#data/index.ts'
 import { emitStaticFile, writeBuildArtifact } from '#emitter/output.ts'
 import { writeTempAst } from '#utils/fs.ts'
 import { logger } from '#utils/log.ts'

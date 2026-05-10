@@ -3,7 +3,7 @@ import { basename, dirname, extname } from 'node:path'
 import type { UserConfig } from '#config.user'
 import { injectLivereloadScript } from '#transforms/livereload.ts'
 import { logger, perf } from '#utils/log.ts'
-import { deepMergeMap } from '#utils/object.ts'
+import { mergeMapValues } from '#utils/object.ts'
 import { loadFile } from '#utils/fs.ts'
 
 const log = logger('Emitter')
@@ -31,7 +31,7 @@ const defaultEmitProfiles = new Map<string, EmitProfile>([
 
 function getMergedProfiles(ctx: EmitContext) {
   const userProfiles = ctx.userConfig?.artifactTransforms ?? new Map([])
-  return deepMergeMap(defaultEmitProfiles, userProfiles,
+  return mergeMapValues(defaultEmitProfiles, userProfiles,
     (baseProfile, overProfile) => ({
       dev: [...(baseProfile?.dev ?? []), ...(overProfile?.dev ?? [])],
 	    prod: [...(baseProfile?.prod ?? []), ...(overProfile?.prod ?? [])],

@@ -3,7 +3,7 @@ import { relative, resolve } from 'node:path'
 import config from '#config'
 import userConfig from '#config.user'
 import { loadDataFiles } from '#core/data/index.ts'
-import type { CollectionPost } from '#core/data/posts.ts'
+import { getCollections } from '#core/data/posts.ts'
 import { startServer } from '#core/server/index.ts'
 import { copyRecursive } from '#emitter/copy.ts'
 import { writePosts } from '#emitter/posts.ts'
@@ -69,8 +69,8 @@ async function build () {
     concurrency: config.parser.concurrency,
   })
 
-  const collections = dataFiles.get('collections') as { posts: CollectionPost[] } | undefined
-  if (collections?.posts) {
+  const collections = getCollections(dataFiles)
+  if (collections?.posts && collections.posts.length > 0) {
     await writePosts(collections.posts, tmpDir, { dataFiles, userConfig })
   }
 

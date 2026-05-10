@@ -1,6 +1,6 @@
 import { relative } from 'node:path'
 import type { RenderServices } from '#config'
-import type { DataFileMap } from '#data/types.ts'
+import type { DataFileMap } from '#data/index.ts'
 import { extractFrontmatter } from '#parser/frontmatter/index.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
 import { type RenderContext, render } from '#parser/liquid/renderer.ts'

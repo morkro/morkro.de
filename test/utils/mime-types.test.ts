@@ -28,6 +28,18 @@ describe('getMimeType function', () => {
     assert.equal(getMimeType(), 'text/plain; charset=utf-8')
     assert.equal(getMimeType(undefined), 'text/plain; charset=utf-8')
   })
+
+  it('should add a dot to the extension if it is not present', () => {
+    assert.equal(getMimeType('html'), 'text/html; charset=utf-8')
+    assert.equal(getMimeType('css'), 'text/css; charset=utf-8')
+    assert.equal(getMimeType('js'), 'application/javascript; charset=utf-8')
+    assert.equal(getMimeType('json'), 'application/json; charset=utf-8')
+    assert.equal(getMimeType('txt'), 'text/plain; charset=utf-8')
+    assert.equal(getMimeType('svg'), 'image/svg+xml')
+    assert.equal(getMimeType('png'), 'image/png')
+    assert.equal(getMimeType('jpg'), 'image/jpeg')
+    assert.equal(getMimeType('jpeg'), 'image/jpeg')
+  })
 })
 
 describe('isTextFile function', () => {

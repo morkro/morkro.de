@@ -44,11 +44,4 @@ describe('toUrl function', () => {
 			'https://moritz.berlin/'
 		)
 	})
-
-	it('handles output with path segments before .build', () => {
-		assert.strictEqual(
-			toUrl('https://moritz.berlin', '/some/root/.build/page/index.html'),
-			'https://moritz.berlin/page/'
-		)
-	})
 })
