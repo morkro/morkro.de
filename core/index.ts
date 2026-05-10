@@ -7,24 +7,14 @@ import { getCollections } from '#core/data/posts.ts'
 import { startServer } from '#core/server/index.ts'
 import { copyRecursive } from '#emitter/copy.ts'
 import { writePosts } from '#emitter/posts.ts'
+import { defaultEngines } from "#engines/registry.ts"
 import { discoverFiles, processFiles } from '#emitter/traverse.ts'
 import { broadcastReload } from '#transforms/livereload.ts'
 import { startWatcher } from '#server/watcher.ts'
 import { logger, perf } from '#utils/log.ts'
-import { defaultEngines } from "#core/engines/registry.ts"
+import { safeRename } from '#utils/fs.ts'
 
 const log = logger('Build')
-
-async function safeRename(from: string, to: string) {
-	try {
-		await rename(from, to)
-	} catch (error) {
-		if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-      return
-    }
-		throw new Error(`Failed to rename "${from}" -> "${to}"`, { cause: error })
-	}
-}
 
 async function build () {
   log.info('Building pages')
@@ -60,7 +50,7 @@ async function build () {
   }
 
   const files = await discoverFiles(inputDir, tmpDir, {
-    skip: skipEntries,
+    skip: new Set([...skipEntries, ...config.directories.internal]),
   })
   await processFiles(files, defaultEngines, {
     dataFiles,

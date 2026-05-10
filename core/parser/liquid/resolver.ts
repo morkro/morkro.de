@@ -1,5 +1,5 @@
 import { dirname, resolve } from 'node:path'
-import config from '#config'
+import config, { type InternalDirectory } from '#config'
 import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { stripQuotes } from '#parser/utils.ts'
 import { loadFile } from '#utils/fs.ts'
@@ -8,8 +8,8 @@ import type { Layout, Template } from './types.ts'
 
 type ResolveContext = {
 	inputRoot: string
-	includesDir: string
-	layoutsDir: string
+	includesDir: InternalDirectory
+	layoutsDir: InternalDirectory
 }
 
 function derivePartialFileNames (file: string): string[] {
@@ -44,7 +44,7 @@ export async function layoutResolver (name: string, cache: Map<string, Layout>, 
 
 export async function templateResolver (parentPath: string, file: string, ctx: ResolveContext): Promise<Template> {
 	const globalIncludes = resolve(ctx.inputRoot, ctx.includesDir)
-	const localIncludes = resolve(dirname(parentPath), config.directories.internal.includes)
+	const localIncludes = resolve(dirname(parentPath), 'internal')
 	const searchRoots = [globalIncludes, localIncludes]
 	const errors: unknown[] = []
 

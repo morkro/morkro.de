@@ -86,8 +86,8 @@ async function applyLayouts (
   while (currentLayout) {
     const layout = await layoutResolver(currentLayout, layoutCache, {
       inputRoot: config.directories.input,
-      includesDir: config.directories.internal.includes,
-      layoutsDir: config.directories.internal.layouts
+      includesDir: 'includes',
+      layoutsDir: 'layouts'
     })
     const layoutContext = Object.create(context)
 

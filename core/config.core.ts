@@ -15,6 +15,13 @@ export type RenderServices = {
   __cycles__: Map<string, number>
 }
 
+export type InternalDirectory =
+  | 'data' 
+  | 'includes' 
+  | 'layouts' 
+  | 'posts' 
+  | 'drafts'
+
 export interface CoreConfig {
   livereload: {
     // This is the GUID for the WebSocket protocol based on the RFC 6455 specification
@@ -26,12 +33,7 @@ export interface CoreConfig {
     output: string
     temp: string
     pages: string
-    internal: {
-      data: string
-      includes: string
-      layouts: string
-      posts: string
-    }
+    internal: Set<InternalDirectory>
   }
   parser: {
     parseExtensions: ParseExtension[]
@@ -49,12 +51,13 @@ const config: CoreConfig = {
     output: '.build',
     temp: '.tmp',
     pages: 'pages',
-    internal: {
-      data: '_data',
-      includes: '_includes',
-      layouts: '_layouts',
-      posts: '_posts',
-    }
+    internal: new Set([
+      'data',
+      'includes',
+      'layouts',
+      'posts',
+      'drafts',
+    ])
   },
   parser: {
     parseExtensions: ['.html', '.txt', '.xml', '.liquid', '.md'],

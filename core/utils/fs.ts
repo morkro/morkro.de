@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises'
+import { readFile, rename, writeFile } from 'node:fs/promises'
 import { basename, extname, join } from 'node:path'
 import config from '#config'
 import type { FullPage } from '#parser/liquid/types.ts'
@@ -28,4 +28,15 @@ export async function writeTempAst(
     join(config.directories.temp, `${slug}.ast.json`),
     JSON.stringify(ast, null, 2),
     'utf-8')
+}
+
+export async function safeRename(from: string, to: string) {
+	try {
+		await rename(from, to)
+	} catch (error) {
+		if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      return
+    }
+		throw new Error(`Failed to rename "${from}" -> "${to}"`, { cause: error })
+	}
 }

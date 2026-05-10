@@ -173,8 +173,8 @@ async function renderNodes(
         } else {
           const resolved = await resolver(templateSource, node.file, {
             inputRoot: config.directories.input,
-            includesDir: config.directories.internal.includes,
-            layoutsDir: config.directories.internal.layouts
+            includesDir: 'includes',
+            layoutsDir: 'layouts'
           })
           renderCache.set(node.file, resolved)
           file = resolved

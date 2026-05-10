@@ -113,7 +113,7 @@ export function getCollections (data: DataFileMap) {
 }
 
 export async function loadPosts(userConfig?: UserConfig): Promise<CollectionPost[]> {
-  const data = await loadFromDir(config.directories.internal.posts)
+  const data = await loadFromDir('posts')
   const posts: CollectionPost[] = []
 
   for (const [filename, value] of data.entries()) {
@@ -122,11 +122,7 @@ export async function loadPosts(userConfig?: UserConfig): Promise<CollectionPost
     const content = removeFrontmatter(raw).trim()
     const meta = parseFilename(filename)
     const post = createPostData(raw, filename)
-    const inputPath = join(
-      config.directories.input,
-      config.directories.internal.posts,
-      filename
-    )
+    const inputPath = join(config.directories.input, 'posts', filename)
 
     posts.push({
       data: post,

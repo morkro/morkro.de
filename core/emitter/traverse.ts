@@ -44,12 +44,11 @@ export async function discoverFiles(
     if (stats.isSymbolicLink()) continue
     
     if (stats.isDirectory()) {
-      if (entry.startsWith('_')) {
-        log.debug(`Skipping directory "${entry}"`)
-        continue
-      }
-
-      const nested = await discoverFiles(inputPath, outputPath, { skip: options.skip })
+      const nested = await discoverFiles(
+        inputPath,
+        outputPath,
+        { skip: options.skip }
+      )
       files.push(...nested)
       continue
     }

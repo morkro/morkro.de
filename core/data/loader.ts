@@ -1,6 +1,6 @@
 import { access, readdir } from 'node:fs/promises'
 import { basename, dirname, extname, resolve } from 'node:path'
-import config from '#core/config.core.ts'
+import config, { type InternalDirectory } from '#core/config.core.ts'
 import { parseJSON } from '#utils/json.ts'
 import { logger } from '#utils/log.ts'
 import type { DataFileMap } from '#data/index.ts'
@@ -39,8 +39,7 @@ async function readOrImport (filePath: string): Promise<unknown> {
   }
 }
 
-type DirectoryType = typeof config.directories.internal[keyof typeof config.directories.internal]
-export async function loadFromDir (dir: DirectoryType): Promise<DataFileMap> {
+export async function loadFromDir (dir: InternalDirectory): Promise<DataFileMap> {
   const map: DataFileMap = new Map()
   const directory = resolve(config.directories.input, dir)
   
