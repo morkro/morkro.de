@@ -22,13 +22,15 @@ export function createSiteTemplateEngine(): BuildEngine {
       })
 
       return {
-        body: rendered,
-        outputPath,
-        debug: {
-          fullPageAst,
-          frontmatter,
-          relativeFilename: relativeFileName
-        }
+        artifacts: [{
+          body: rendered,
+          outputPath,
+          debug: {
+            fullPageAst,
+            frontmatter,
+            relativeFilename: relativeFileName
+          }
+        }]
       }
     }
   }

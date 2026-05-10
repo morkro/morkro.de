@@ -9,7 +9,7 @@ export type EngineContext = {
   inputRoot: string
 }
 
-export type EngineOutput = {
+export type EngineArtifact = {
   body: string
   outputPath: string
   debug?: {
@@ -17,6 +17,10 @@ export type EngineOutput = {
     frontmatter: Record<string, unknown>
     relativeFilename: string
   }
+}
+
+export type EngineOutput = {
+	artifacts: EngineArtifact[]
 }
 
 export type BuildEngine = {

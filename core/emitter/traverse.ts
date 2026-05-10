@@ -84,7 +84,7 @@ async function processSingleFile(file: BuildItem, engines: BuildEngine[], option
   log.debug(`Processing file "${fileName}"`)
 
   if (engine) {
-    const { body, outputPath, debug } = await engine.run(
+    const { artifacts } = await engine.run(
       file.inputPath,
       file.outputPath,
       {
@@ -95,16 +95,18 @@ async function processSingleFile(file: BuildItem, engines: BuildEngine[], option
       }
 		)
 
-    await writeBuildArtifact(body, outputPath, {
-      userConfig: options.userConfig
-    })
+    for (const artifact of artifacts) {
+      await writeBuildArtifact(artifact.body, artifact.outputPath, {
+        userConfig: options.userConfig
+      })
 
-    if (options.userConfig?.debugMode && debug) {
-      await writeTempAst(
-        debug.fullPageAst,
-        debug.frontmatter,
-        debug.relativeFilename
-      )
+      if (options.userConfig?.debugMode && artifact.debug) {
+        await writeTempAst(
+          artifact.debug.fullPageAst,
+          artifact.debug.frontmatter,
+          artifact.debug.relativeFilename
+        )
+      }
     }
 
     return

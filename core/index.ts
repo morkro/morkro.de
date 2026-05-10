@@ -43,8 +43,9 @@ async function build () {
       const input = resolve(entry.from)
       const output = resolve(tmpDir, entry.to)
 
-      if (await copyRecursive(input, output)) {
-        skipEntries.add(relative(inputDir, input).split('/')[0])
+      const result = await copyRecursive(input, output)
+      if (result.ok) {
+        skipEntries.add(relative(inputDir, result.inputPath).split('/')[0])
       }
     }
   }
