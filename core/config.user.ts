@@ -16,6 +16,13 @@ export type PassThroughCopy = {
   to: string
 }
 
+export type CollectionSource = {
+  input: string
+  permalink: string
+  sortBy: 'date' | 'title'
+  sortOrder: 'asc' | 'desc'
+}
+
 export type UserConfig = {
   debugMode?: boolean
   devMode?: boolean
@@ -28,14 +35,7 @@ export type UserConfig = {
   passThroughCopy?: PassThroughCopy[]
   shortCodes?: Record<string, ShortCodeFn>
   filters?: Record<string, FilterFn>
-  collections?: {
-    posts?: {
-      sortBy: 'date' | 'title'
-      sortOrder: 'asc' | 'desc'
-      layout?: string
-      permalink: string
-    }
-  }
+  collections?: Map<string, CollectionSource>
 }
 
 function currentYear () {
@@ -62,13 +62,14 @@ const config: UserConfig = {
   filters: {
     encodeXML: escapeXML,
   },
-  collections: {
-    posts: {
+  collections: new Map([
+    ['posts', {
+      input: 'posts',
       sortBy: 'date',
       sortOrder: 'desc',
       permalink: `/writes/{{ page.date | date: 'year' }}/{{ page.slug }}/`
-    }
-  }
+    }]
+  ])
 }
 
 export default config

@@ -1,7 +1,6 @@
-import config from '#config'
 import type { UserConfig } from '#config.user'
+import { loadCollection } from './collections.ts'
 import { loadFromDir, loadFromFile } from './loader.ts'
-import { loadPosts } from './posts.ts'
 
 export type DataFileMap = Map<string, unknown>
 
@@ -46,10 +45,17 @@ export async function loadDataFiles(userConfig?: UserConfig): Promise<DataFileMa
 		}
 	}
 
-	const posts = await loadPosts(userConfig)
-	if (posts?.length > 0) {
-		data.set('collections', { posts })
+	const collections: Record<string, unknown> = {}
+	for (const [name, spec] of userConfig?.collections ?? new Map([])) {
+		const collection = await loadCollection(name, spec, userConfig)
+		if (collection) {
+			collections[name] = collection
+		}
 	}
 
+	if (Object.keys(collections).length > 0) {
+		data.set('collections', collections)
+	}
+	
 	return data
 }

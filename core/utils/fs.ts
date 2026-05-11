@@ -1,4 +1,4 @@
-import { readFile, rename, writeFile } from 'node:fs/promises'
+import { readFile, readdir, rename, rm, stat, writeFile } from 'node:fs/promises'
 import { basename, extname, join } from 'node:path'
 import config from '#config'
 import type { FullPage } from '#parser/liquid/types.ts'
@@ -39,4 +39,39 @@ export async function safeRename(from: string, to: string) {
     }
 		throw new Error(`Failed to rename "${from}" -> "${to}"`, { cause: error })
 	}
+}
+
+export async function swapDirectories(from: string, to: string) {
+  const oldOutput = `${to}.old`
+  await safeRename(to, oldOutput)
+  await safeRename(from, to)
+  await rm(oldOutput, { recursive: true })
+}
+
+export async function walkFiles (
+  input :string,
+  options: { skip: Set<string> },
+  onFile: (inputPath: string) => Promise<void>
+) {
+  for (const file of await readdir(input)) {
+    if (options.skip.has(file)) {
+      continue
+    }
+
+    const inputPath = join(input, file)
+    const stats = await stat(inputPath)
+
+    if (stats.isSymbolicLink()) {
+      continue
+    }
+
+    if (stats.isDirectory()) {
+      await walkFiles(inputPath, options, onFile)
+      continue
+    }
+    
+    if (stats.isFile()) {
+      await onFile(inputPath)
+    }
+  }
 }

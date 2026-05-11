@@ -19,7 +19,6 @@ export type InternalDirectory =
   | 'data' 
   | 'includes' 
   | 'layouts' 
-  | 'posts' 
   | 'drafts'
 
 export interface CoreConfig {
@@ -55,7 +54,6 @@ const config: CoreConfig = {
       'data',
       'includes',
       'layouts',
-      'posts',
       'drafts',
     ])
   },
