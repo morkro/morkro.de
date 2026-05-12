@@ -1,10 +1,12 @@
-import { join } from 'node:path'
+import { resolve } from 'node:path'
 import config from '#config'
 import type { CollectionSource, UserConfig } from '#config.user'
+import type { CollectionMatch } from '#emitter/traverse.ts'
 import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { applyFilter } from '#parser/liquid/filters.ts'
 import { stripQuotes } from '#parser/utils.ts'
 import { getFromObject } from '#utils/object.ts'
+import type { DataFileMap } from './index.ts'
 import { loadFromDir } from "./loader.ts"
 
 export type CollectionEntry = {
@@ -87,13 +89,13 @@ export async function loadCollection(
   userConfig?: UserConfig,
 ): Promise<CollectionEntry[]> {
   const entries: CollectionEntry[] = []
-  const data = await loadFromDir(spec.input)
+  const data = await loadFromDir(spec.input, { keepExtension: true })
   
   for (const [filename, value] of data.entries()) {
     const raw = value as unknown as string
     const content = removeFrontmatter(raw).trim()
     const meta = parseFilename(filename)
-    const inputPath = join(config.directories.input, spec.input, filename)
+    const inputPath = resolve(config.directories.input, spec.input, filename)
 
     entries.push({
       date: meta.date,
@@ -121,4 +123,24 @@ export async function loadCollection(
   })
 
   return entries
+}
+
+export function getCollections (
+	dataFiles: DataFileMap
+): Record<string, CollectionEntry[]> {
+	return (dataFiles.get('collections') as Record<string, CollectionEntry[]>) ?? {}
+}
+
+export function indexCollections (dataFiles: DataFileMap): Map<string, CollectionMatch> {
+  const index = new Map<string, CollectionMatch>()
+  const collections = getCollections(dataFiles)
+  if (!collections || Object.keys(collections).length === 0) return index
+
+  for (const [name, collection] of Object.entries(collections)) {
+    for (const entry of collection) {
+      index.set(entry.meta.inputPath, { name, entry })
+    }
+  }
+
+  return index
 }

@@ -1,6 +1,7 @@
 import { relative, resolve } from "node:path"
 import config from '#config'
 import type { UserConfig } from '#config.user'
+import type { CollectionEntry } from "#data/collections.ts"
 import type { DataFileMap } from '#data/index.ts'
 import { emitStaticFile, writeBuildArtifact } from '#emitter/output.ts'
 import { resolveEngine } from '#engines/registry.ts'
@@ -10,9 +11,15 @@ import { logger } from '#utils/log.ts'
 
 const log = logger('Emitter')
 
-type BuildItem = {
+export type CollectionMatch = {
+  name: string
+  entry: CollectionEntry
+}
+
+export type BuildItem = {
   inputPath: string
   outputPath: string
+  collection?: CollectionMatch
 }
 
 type ProcessOptions = {
@@ -51,7 +58,8 @@ async function processSingleFile(file: BuildItem, engines: BuildEngine[], option
         dataFiles: options.dataFiles,
         userConfig: options.userConfig,
         outputRoot: options.outputRoot,
-        inputRoot: resolve(config.directories.input)
+        inputRoot: resolve(config.directories.input),
+        collection: file.collection
       }
 		)
 

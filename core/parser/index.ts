@@ -1,5 +1,6 @@
 import { relative } from 'node:path'
 import type { RenderServices } from '#config'
+import config from '#config'
 import type { DataFileMap } from '#data/index.ts'
 import { extractFrontmatter } from '#parser/frontmatter/index.ts'
 import { parseLiquid } from '#parser/liquid/parser.ts'
@@ -9,7 +10,6 @@ import type { FullPage, Layout, Template } from '#parser/liquid/types.ts'
 import { logger, perf } from '#utils/log.ts'
 import { resolveOutput } from '#utils/path.ts'
 import { toUrl } from '#utils/url.ts'
-import config from '#config'
 
 const log = logger('Parser')
 
@@ -28,8 +28,9 @@ type CompilerOptions = {
   baseUrl: string
   shortCodes: RenderServices["__shortCodes__"]
   filters: RenderServices["__filters__"]
-  outputRoot: string
   pageData?: Record<string, unknown>
+  outputRoot: string
+  outputPath?: string
 }
 
 type LayoutChain = {
@@ -108,7 +109,7 @@ async function applyLayouts (
 export async function compile (file: string, path: string, options: CompilerOptions): Promise<Compiled> {
   const compileStart = perf('Total compiling')
   const { frontmatter, body } = extractFrontmatter(file)
-  const outputPath = resolveOutput(path, options.outputRoot, frontmatter.permalink as string)
+  const outputPath = options.outputPath ?? resolveOutput(path, options.outputRoot, frontmatter.permalink as string)
   
   const localContext = createPageContext(
     options.data,

@@ -10,25 +10,27 @@ export function createSiteTemplateEngine(): BuildEngine {
   return {
     id: 'site-template',
     canRun: (inputPath) => templateExtensions.has(extname(inputPath) as ParseExtension),
-    async run(inputPath, _, ctx) {
-      const relativeFileName = relative(config.directories.input, inputPath)
+    async run(inputPath, outputPath, ctx) {
+      const relativeFilename = relative(config.directories.input, inputPath)
       const raw = await loadFile<string>(dirname(inputPath), basename(inputPath))
-      const { rendered, outputPath, fullPageAst, frontmatter } = await compile(raw, inputPath, {
+      const { rendered, outputPath: resolvedOutputPath, fullPageAst, frontmatter } = await compile(raw, inputPath, {
         data: ctx.dataFiles,
         baseUrl: ctx.userConfig?.baseUrl ?? '',
         shortCodes: ctx.userConfig?.shortCodes ?? {},
         filters: ctx.userConfig?.filters ?? {},
-        outputRoot: ctx.outputRoot
+        outputRoot: ctx.outputRoot,
+        outputPath: ctx.collection ? outputPath : undefined,
+        pageData: ctx.collection ? { date: ctx.collection.entry.date } : undefined,
       })
 
       return {
         artifacts: [{
           body: rendered,
-          outputPath,
+          outputPath: resolvedOutputPath,
           debug: {
             fullPageAst,
             frontmatter,
-            relativeFilename: relativeFileName
+            relativeFilename
           }
         }]
       }

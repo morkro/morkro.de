@@ -1,5 +1,6 @@
 import type { UserConfig } from '#config.user'
 import type { DataFileMap } from '#data/index.ts'
+import type { CollectionMatch } from '#emitter/traverse.ts'
 import type { FullPage } from '#parser/liquid/types.ts'
 
 export type EngineContext = {
@@ -7,6 +8,7 @@ export type EngineContext = {
   userConfig?: UserConfig
   outputRoot: string
   inputRoot: string
+  collection?: CollectionMatch
 }
 
 export type EngineArtifact = {

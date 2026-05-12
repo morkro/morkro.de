@@ -40,7 +40,10 @@ async function readOrImport (filePath: string): Promise<unknown> {
   }
 }
 
-export async function loadFromDir (dir: string): Promise<DataFileMap> {
+export async function loadFromDir (
+  dir: string,
+  options: { keepExtension?: boolean } = {}
+): Promise<DataFileMap> {
   const map: DataFileMap = new Map()
   const directory = resolveWithin(config.directories.input, dir)
   
@@ -54,10 +57,10 @@ export async function loadFromDir (dir: string): Promise<DataFileMap> {
   const files = await readdir(directory)
 
   for (const file of files) {
-    const name = basename(file, extname(file))
+    const key = options.keepExtension ? file : basename(file, extname(file))
     const data = await readOrImport(resolve(directory, file))
     if (data) {
-      map.set(name, data as Record<string, unknown>)
+      map.set(key, data as Record<string, unknown>)
     }
   }
 

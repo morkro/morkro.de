@@ -35,5 +35,6 @@ export async function writeCollection(
     }
   } catch (error) {
     log.error('Failed to write collection', { name, error })
+    throw error
   }
 }

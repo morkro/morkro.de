@@ -1,3 +1,6 @@
+import { mkdir, writeFile } from 'node:fs/promises'
+import { join, resolve } from 'node:path'
+import config from '#config'
 import type { UserConfig } from '#config.user'
 import { loadCollection } from './collections.ts'
 import { loadFromDir, loadFromFile } from './loader.ts'
@@ -48,7 +51,7 @@ export async function loadDataFiles(userConfig?: UserConfig): Promise<DataFileMa
 	const collections: Record<string, unknown> = {}
 	for (const [name, spec] of userConfig?.collections ?? new Map([])) {
 		const collection = await loadCollection(name, spec, userConfig)
-		if (collection) {
+		if (collection.length > 0) {
 			collections[name] = collection
 		}
 	}
@@ -58,4 +61,13 @@ export async function loadDataFiles(userConfig?: UserConfig): Promise<DataFileMa
 	}
 	
 	return data
+}
+	
+export async function writeDataFilesDump (dataFiles: DataFileMap, fileName: string) {
+	await mkdir(resolve(config.directories.temp), { recursive: true })
+	await writeFile(
+		join(resolve(config.directories.temp), fileName),
+		JSON.stringify(Object.fromEntries(dataFiles.entries()), null, 2),
+		'utf-8'
+	)
 }

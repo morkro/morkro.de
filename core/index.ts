@@ -1,11 +1,11 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import { join, relative, resolve } from 'node:path'
 import config from '#config'
-import userConfig, { type UserConfig } from '#config.user'
-import { loadDataFiles } from '#data/index.ts'
-import { writeCollection } from '#emitter/collections.ts'
-import { copyRecursive } from '#emitter/copy.ts'
-import { processFiles } from '#emitter/traverse.ts'
+import userConfig from '#config.user'
+import { indexCollections } from '#data/collections.ts'
+import { loadDataFiles, writeDataFilesDump } from '#data/index.ts'
+import { getPassthrough, resolvePassthrough } from '#emitter/passthrough.ts'
+import { type BuildItem, processFiles } from '#emitter/traverse.ts'
 import { defaultEngines } from "#engines/registry.ts"
 import { startServer } from '#server/index.ts'
 import { startWatcher } from '#server/watcher.ts'
@@ -15,35 +15,6 @@ import { logger, perf } from '#utils/log.ts'
 
 const log = logger('Build')
 
-async function getSkipEntries (
-  input: string,
-  output: string,
-  userConfig: UserConfig
-): Promise<Set<string>> {
-  const entries = new Set<string>(config.directories.internal)
-
-  if (userConfig?.passThroughCopy) {
-    for (const entry of userConfig.passThroughCopy) {
-      const from = resolve(entry.from)
-      const to = resolve(output, entry.to)
-
-      // TODO: This is a side-effect and should be moved to a separate function
-      const result = await copyRecursive(from, to)
-      if (result.ok) {
-        entries.add(relative(input, result.inputPath).split('/')[0])
-      }
-    }
-  }
-
-  if (userConfig?.collections) {
-    for (const [_, spec] of userConfig.collections) {
-      entries.add(spec.input)
-    }
-  }
-
-  return entries
-}
-
 async function build () {
   log.info('Building pages')
   const inputDir = resolve(config.directories.input)
@@ -51,22 +22,23 @@ async function build () {
   const tmpDir = `${outputDir}.tmp.${Date.now()}`
   await mkdir(tmpDir, { recursive: true })
 
-  const skip = await getSkipEntries(inputDir, tmpDir, userConfig)
   const dataFiles = await loadDataFiles(userConfig)
-
-  /** Debug only */
   if (userConfig.debugMode) {
-    log.debug('Writing data files to temporary directory')
-    await mkdir(resolve(config.directories.temp), { recursive: true })
-    await writeFile(
-      resolve(config.directories.temp, 'context.json'), 
-        JSON.stringify(Object.fromEntries(dataFiles.entries()), null, 2))
+    await writeDataFilesDump(dataFiles, 'data.json')
   }
 
-  const files: { inputPath: string, outputPath: string }[] = []
-  await walkFiles(inputDir, { skip }, async (inputPath) => {
-    const outputPath = join(tmpDir, relative(inputDir, inputPath))
-    files.push({ inputPath, outputPath })
+  const files: BuildItem[] = []
+  const collectionIndex = indexCollections(dataFiles)
+  const passthrough = getPassthrough(tmpDir, userConfig.passThroughCopy)
+
+  await walkFiles(inputDir, { skip: config.directories.internal }, async (inputPath) => {
+    const collection = collectionIndex.get(inputPath)
+    const outputPath = collection
+      ? join(tmpDir, collection.entry.url ?? '', 'index.html')
+      : resolvePassthrough(inputPath, passthrough)
+        ?? join(tmpDir, relative(inputDir, inputPath))
+
+    files.push({ inputPath, outputPath, collection })
   })
 
   await processFiles(files, defaultEngines, {
@@ -75,23 +47,6 @@ async function build () {
     outputRoot: tmpDir,
     concurrency: config.parser.concurrency,
   })
-
-  const collections = dataFiles.get('collections')
-  if (collections && Object.keys(collections).length > 0) {
-    for (const [name, collection] of Object.entries(collections)) {
-      if (!collection || !Array.isArray(collection)) {
-        continue
-      }
-      for (const entry of collection) {
-        await writeCollection(
-          name,
-          entry,
-          tmpDir,
-          { dataFiles, userConfig }
-        )
-      }
-    }
-  }
 
   try {
     await swapDirectories(tmpDir, outputDir)
