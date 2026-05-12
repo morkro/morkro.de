@@ -1,6 +1,7 @@
 import { readFile, readdir, rename, rm, stat, writeFile } from 'node:fs/promises'
 import { basename, extname, join } from 'node:path'
 import config from '#config'
+import type { InternalDirectory } from '#config'
 import type { FullPage } from '#parser/liquid/types.ts'
 import { resolveWithin } from './path-resolve.ts'
 
@@ -50,11 +51,11 @@ export async function swapDirectories(from: string, to: string) {
 
 export async function walkFiles (
   input :string,
-  options: { skip: Set<string> },
+  options: { skip: Set<InternalDirectory> },
   onFile: (inputPath: string) => Promise<void>
 ) {
   for (const file of await readdir(input)) {
-    if (options.skip.has(file)) {
+    if (options.skip.has(file as InternalDirectory)) {
       continue
     }
 

@@ -1,14 +1,15 @@
 {
   "name": "morkro.de",
-  "version": "26.05.81.M1",
+  "version": "26.05.82.P0",
   "description": "Website of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
   "type": "module",
   "imports": {
-    "#core/*": "./core/*",
-    "#config": "./core/config.core.ts",
+    "#commands/*": "./core/commands/*",
     "#config.user": "./core/config.user.ts",
+    "#config": "./core/config.core.ts",
+    "#core/*": "./core/*",
     "#data/*": "./core/data/*",
     "#emitter/*": "./core/emitter/*",
     "#engines/*": "./core/engines/*",
