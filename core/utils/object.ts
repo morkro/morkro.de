@@ -1,20 +1,18 @@
 export function getFromObject(path: string[], object: Record<string, unknown>): unknown {
   const [first, ...rest] = path
 
-  // if value doesn't exist
   if (object[first] === undefined) {
-    return undefined
-  }
+		return undefined
+	}
   // if value is the last in the path
   if (rest.length === 0) {
     return object[first]
   }
-  // if value is not an object, return undefined
-  if (typeof object[first] !== 'object' || object[first] === null) {
-    return undefined
-  }
-  
-  return getFromObject(rest, object[first] as Record<string, unknown>)
+  if (!isRecord(object[first])) {
+		return undefined
+	}
+
+  return getFromObject(rest, object[first])
 }
 
 export function mergeMapValues<K, V> (
@@ -32,4 +30,16 @@ export function mergeMapValues<K, V> (
   }
 
   return map
+}
+
+export function isRecord (value: unknown): value is Record<string, unknown> {
+  return (
+    typeof value === 'object'
+    && value !== null
+    && !Array.isArray(value)
+  )
+}
+
+export function isObject (value: unknown): value is Record<string, unknown> | unknown[] {
+	return typeof value === 'object' && value !== null
 }

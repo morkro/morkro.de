@@ -2,6 +2,7 @@ import { access, readdir } from 'node:fs/promises'
 import { basename, dirname, extname, resolve } from 'node:path'
 import config from '#config'
 import { loadFile } from '#core/utils/fs.ts'
+import { isObject } from '#core/utils/object.ts'
 import type { DataFileMap } from '#data/index.ts'
 import { parseJSON } from '#utils/json.ts'
 import { logger } from '#utils/log.ts'
@@ -40,12 +41,18 @@ async function readOrImport (filePath: string): Promise<unknown> {
   }
 }
 
+type LoadFromDirOptions = {
+  keepExtension?: boolean
+  validate?: (value: unknown) => boolean
+}
+
 export async function loadFromDir (
   dir: string,
-  options: { keepExtension?: boolean } = {}
+  options: LoadFromDirOptions = {}
 ): Promise<DataFileMap> {
   const map: DataFileMap = new Map()
   const directory = resolveWithin(config.directories.input, dir)
+  const validate = options.validate ?? isObject
   
   try {
     await access(directory)
@@ -59,8 +66,8 @@ export async function loadFromDir (
   for (const file of files) {
     const key = options.keepExtension ? file : basename(file, extname(file))
     const data = await readOrImport(resolve(directory, file))
-    if (data) {
-      map.set(key, data as Record<string, unknown>)
+    if (validate(data)) {
+      map.set(key, data)
     }
   }
 
@@ -72,8 +79,8 @@ export async function loadFromFile(customMap: Record<string, string>): Promise<D
 
   for (const [key, value] of Object.entries(customMap)) {
     const data = await readOrImport(value)
-    if (data) {
-      map.set(key, data as Record<string, unknown>)
+    if (isObject(data)) {
+      map.set(key, data)
     }
   }
 

@@ -1,7 +1,9 @@
-import type { ShortCodeFn, FilterFn } from '#config'
+import type { FilterFn, ShortCodeFn } from '#config'
 import type { EmitProfile } from '#emitter/output.ts'
-import { minifyHtml } from '#transforms/minify-html.ts'
-import { escapeXML } from '#utils/html.ts'
+import { logger } from '#utils/log.ts'
+import { resolveWithin } from '#utils/path-resolve.ts'
+
+const log = logger('UserConfig')
 
 /**
  * User configuration
@@ -38,38 +40,13 @@ export type UserConfig = {
   collections?: Map<string, CollectionSource>
 }
 
-function currentYear () {
-  return new Date().getFullYear().toString()
+export async function getUserConfig (): Promise<UserConfig> {
+  try {
+    return await import(
+      resolveWithin(process.cwd(), './site.config.ts')
+    ).then(module => module.default)
+  } catch (error) {
+    log.error('Failed to import user config', { error })
+    throw error
+  }
 }
-
-const config: UserConfig = {
-  debugMode: process.env.DEBUG === 'true',
-  devMode: process.env.NODE_ENV === 'development',
-  prodMode: process.env.NODE_ENV === 'production',
-  baseUrl: 'https://morkro.de',
-  passThroughCopy: [
-    { from: 'src/assets', to: 'assets', },
-    { from: 'src/scripts', to: 'assets/scripts', },
-  ],
-  artifactTransforms: new Map([
-    ['.html', {
-      prod: [(body, outputPath, ctx) => minifyHtml(body)],
-    }]
-  ]),
-  shortCodes: {
-    currentYear,
-  },
-  filters: {
-    encodeXML: escapeXML,
-  },
-  collections: new Map([
-    ['posts', {
-      input: 'posts',
-      sortBy: 'date',
-      sortOrder: 'desc',
-      permalink: `/writes/{{ page.date | date: 'year' }}/{{ page.slug }}/`
-    }]
-  ])
-}
-
-export default config

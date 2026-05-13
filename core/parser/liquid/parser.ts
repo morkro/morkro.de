@@ -788,7 +788,7 @@ function parseNodes(
           let stopped = stoppedAt
           let cursor = endIndex
           let tagTokens = stoppedAtTokens
-          let whens: NodeCaseWhen[] = []
+          const whens: NodeCaseWhen[] = []
 
           while (stopped === 'when') {
             if (tagTokens === undefined) {

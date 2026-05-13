@@ -2,10 +2,18 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import config from '#config'
 import type { UserConfig } from '#config.user'
+import { logger } from '#utils/log.ts'
+import { isRecord } from '#utils/object.ts'
 import { loadCollection } from './collections.ts'
 import { loadFromDir, loadFromFile } from './loader.ts'
 
 export type DataFileMap = Map<string, unknown>
+
+const log = logger('Data')
+
+export function getRawData (map: DataFileMap, key: string): unknown {
+  return map.get(key)
+}
 
 function pickValues(
   source: Record<string, unknown>,
@@ -44,7 +52,16 @@ export async function loadDataFiles(userConfig?: UserConfig): Promise<DataFileMa
 
 		const file = await loadFromFile(paths)
 		for (const [key, raw] of file) {
-			data.set(key, pickValues(raw as Record<string, unknown>, getByKey.get(key)))
+			if (isRecord(raw)) {
+				data.set(key, pickValues(raw, getByKey.get(key)))
+				continue
+			}
+			if (Array.isArray(raw)) {
+				if (getByKey.get(key)?.length) {
+					log.warn('"customData.includeFields" is ignored for arrays', { key })
+				}
+				data.set(key, raw)
+			}
 		}
 	}
 

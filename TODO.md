@@ -4,18 +4,6 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 
 **Status:** Done | In progress | Not started | Blocked
 
-## Table of Contents
-
-1. [Template System](#1-template-system)
-2. [HTML Processing](#2-html-processing)
-3. [CSS Processing](#3-css-processing)
-4. [Syntax Highlighting](#4-syntax-highlighting)
-5. [Build System](#5-build-system)
-6. [Migration Tasks](#6-migration-tasks)
-7. [Code Quality & Architecture](#7-code-quality--architecture)
-8. [Component Dependency Tree](#component-dependency-tree)
-9. [Build Order Recommendation](#build-order-recommendation)
-
 ---
 
 ## 1. Template System
@@ -32,10 +20,10 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 | Delimited frontmatter (`---` … `---`), flat keys, YAML-style comments (`#`)                   | Done        |
 | Indented blocks: nested maps (e.g. `external:` with child keys), list-style arrays (`- item`) | In progress |
 | Full YAML 1.x spec compliance                                                                 | Not started |
-| Parity with Eleventy / gray-matter for every edge case in `_posts/*.md`                       | In progress |
+| Cover every frontmatter shape in `_posts/*.md` (and fixtures) without silent mis-parse       | In progress |
 
 
-**Remaining gaps:** `parseFrontmatter` in `core/parser/frontmatter/parser.ts` is a custom YAML-like subset (indent walks, list vs map blocks), not a full YAML implementation. Validate remaining posts against the Eleventy build; extend the parser or document unsupported syntax as needed.
+**Remaining gaps:** `parseFrontmatter` in `core/parser/frontmatter/parser.ts` is a custom YAML-like subset (indent walks, list vs map blocks), not a full YAML implementation. Exercise against all `_posts/*.md` (and fixtures); extend the parser or document unsupported syntax as needed.
 
 ### 1.3 Markdown Parser
 
@@ -101,15 +89,15 @@ From `eleventy.config.js` (production only). **Requires:** HTML Parser
 
 ### 3.2 CSS @import Resolver
 
-From `eleventy.config.js` (via `postcss-import`). **Requires:** CSS Parser
+From `eleventy.config.js` (via `postcss-import`).
 
 
 | Feature                                  | Status      |
 | ---------------------------------------- | ----------- |
-| File path resolution (relative/absolute) | Not started |
-| Import inlining (recursive)              | Not started |
-| Circular dependency detection            | Not started |
-| Integration with build pipeline          | Not started |
+| File path resolution (relative/absolute) | Done |
+| Import inlining (recursive)              | Done |
+| Circular dependency detection            | Done |
+| Integration with build pipeline          | Done |
 
 
 ### 3.3 CSS Minifier
@@ -208,16 +196,9 @@ From `eleventy.config.js`:
 
 ### 6.1 Template Updates — Done
 
-### 6.2 Directory Name Resolution
+### 6.2 Directory Name Resolution — Done
 
-**Issue:** `src/_includes/` vs `directories.internal.includes` (`'includes'`) in `[core/config.core.ts](core/config.core.ts)`
-
-
-| Task                                                                                | Status      |
-| ----------------------------------------------------------------------------------- | ----------- |
-| Decide: rename `src/_includes/` → `src/includes/` OR update config to `'_includes'` | Not started |
-| Update resolver if needed                                                           | Not started |
-| Verify test fixtures match                                                          | Not started |
+`src/includes/` matches `directories.internal.includes` (`'includes'`) in `[core/config.core.ts](core/config.core.ts)`; resolver and fixtures use the same name.
 
 
 ### 6.3 Dependency Removal
@@ -234,29 +215,6 @@ From `eleventy.config.js`:
 | Remove `cross-env`                                | Blocked |
 | Update package.json scripts                       | Blocked |
 | Archive `eleventy.config.js` for reference        | Blocked |
-
-
-### 6.4 Build output parity (`_site` vs `.build`)
-
-Append a row when you re-run the comparison (`find _site -type f | wc -l` and `find .build -type f | wc -l`).
-
-
-| Date       | `_site` files | `.build` files | Notes                                                                                                                                                                                   |
-| ---------- | ------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-03-30 | ~95           | ~88            | Same passthrough assets (fonts, images, certifications, favicon, CSS tree, top-level pages, `feed.xml`, `humans.txt`)                                                                   |
-| 2026-04-13 | 95            | 90             | `_site` built from `343c380` (last Eleventy-compatible commit). Gap is 5 external post pages. Script path resolved. Eleventy build broken on current HEAD (render syntax incompatible). |
-
-
-Gaps:
-
-
-| Gap                                     | Notes                                                                                                                                                                                                                                                                                           | Status      |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| External post pages (5 files)           | SSG skips posts with `external:` frontmatter (`core/emitter/posts.ts:27`). Eleventy generates a local page for each. All five are 2016 guest articles on SitePoint. Decide: emit a redirect/stub page, or skip intentionally.                                                                   | Not started |
-| HTML minification                       | `.build` output is unminified (e.g. `index.html`: 785 lines / 35 KB vs Eleventy's single-line / 32 KB). Phase 3 task.                                                                                                                                                                           | Not started |
-| Eleventy build broken on current source | Render syntax change in `759bfd3` (`{% render world.html %}` → `{% render "world.html" %}`) is incompatible with Eleventy's LiquidJS. Expected during migration — future comparisons require building Eleventy from a prior commit or the comparison becomes obsolete once migration completes. | Expected    |
-| Script output path                      | `_site` exposes JS at `assets/scripts/*.js`. `.build` writes `scripts/*.js` at the output root — templates and passthrough must agree so `src` in HTML matches deployment                                                                                                                       | Done        |
-| Individual post HTML (non-external)     | `_site` has one page per post under `writes/:year/:slug/index.html`. `.build` now emits the two 2015 posts correctly. Only the five external posts differ (see row above).                                                                                                                      | Done        |
 
 
 ---
@@ -283,21 +241,11 @@ The parser uses `as TokenIdent` / `as TokenKeyword` casts *before* the runtime t
 
 ### 7.4 Type Safety: Narrow catch-block errors — Done
 
-### 7.5 Type Safety: Replace `as Record<string, unknown>` casts in data loader
-
-`loadFromDir` and `loadFromFile` cast `readOrImport` results with `as Record<string, unknown>`. Add a type guard (`isRecord`) so malformed data (arrays, primitives) is caught instead of silently accepted.
-
-
-| Task                      | Status      | File                     |
-| ------------------------- | ----------- | ------------------------ |
-| Add `isRecord` type guard | Not started | `core/data/loader.ts`    |
-| Apply in `loadFromDir`    | Not started | `core/data/loader.ts:54` |
-| Apply in `loadFromFile`   | Not started | `core/data/loader.ts:67` |
-
+### 7.5 Type Safety: Replace `as Record<string, unknown>` casts in data loader — Done
 
 ### 7.6 Robustness: Validate `parseFilename` date parts
 
-`core/data/posts.ts:30` — `parseFilename` splits the filename and maps to `Number`. If a filename doesn't follow `YYYY-MM-DD-slug`, the date parts are `NaN` and `new Date(NaN, NaN, NaN)` silently propagates an Invalid Date.
+`core/data/collections.ts:30` — `parseFilename` splits the filename and maps to `Number`. If a filename doesn't follow `YYYY-MM-DD-slug`, the date parts are `NaN` and `new Date(NaN, NaN, NaN)` silently propagates an Invalid Date.
 
 
 | Task                                         | Status      | File                    |
@@ -327,47 +275,110 @@ The parser and utility modules are well covered. The integration layer (build, t
 
 ---
 
-## Component Dependency Tree
+## 8. Core refactor backlog
 
+Ongoing `core/` improvements that are not full migration milestones. Pick in rough priority order; gate risky parser work with the **testing matrix** at the end of this section. Earlier milestones (path resolve, `loadFile`, livereload in transforms, single walk + engines for posts, passthrough routing, `core/commands/build.ts` + `serve.ts`, thin `core/index.ts`, `getCollections` / `indexCollections`, `core/emitter/passthrough.ts`, removal of `copy.ts` / `writeCollection`) are done and not listed here.
+
+Overlaps with [§7](#7-code-quality--architecture): loader/collections typing (7.5) aligns with items **2** and **3** below — one boundary design can satisfy several rows.
+
+### 8.1 Parser: control flow, scope, spans, registry
+
+**Where:** `core/parser/liquid/renderer.ts`, `parser.ts`, `types.ts`, `utils.ts`, `test/parser/`.
+
+
+| Track                         | Status      | Notes                                                                                                                                 |
+| ----------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Return-based loop control     | Not started | Replace `BreakSignal` / `ContinueSignal` throws for normal loop flow where practical.                                                 |
+| Scope semantics               | Not started | Loop `Object.create` vs Liquid expectations — document and align with tests.                                                          |
+| Source spans on AST nodes     | Not started | High-value nodes need stable spans for diagnostics.                                                                                   |
+| Extract `parseNodes` branches | Not started | Large branch in `parser.ts` — extract tag handlers when adding more tags.                                                             |
+
+**Exit:** No throw-based loop control for normal flow; assignment semantics documented and tested; high-value nodes carry spans.
+
+### 8.2 Loader: discriminated results
+
+**Where:** `core/data/loader.ts` (`readOrImport`, `loadFromDir`, `loadFromFile`), `core/data/index.ts` (callers).
+
+
+| Track                                      | Status      | Notes                                                                                    |
+| ------------------------------------------ | ----------- | ---------------------------------------------------------------------------------------- |
+| `{ ok: true, value } \| { ok: false, … }` | Not started | Replace loose `unknown` + downstream casts at boundaries; callers pattern-match.          |
+
+**Exit:** No silent `null` + cast chains. Complements §7.5 (`isRecord` / malformed data) — decide whether both apply or one subsumes the other.
+
+### 8.3 Stronger typing for global data / collections
+
+**Where:** `core/data/index.ts` (`DataFileMap`), `core/data/collections.ts` (`getCollections` may still use a cast).
+
+
+| Track                                   | Status      | Notes                                                                                               |
+| --------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------- |
+| Narrow `DataFileMap` / facade for picks | Not started | Discriminated keys or small facade so `'collections'` reads without `as` at the call site.          |
+
+**Exit:** No `as Record<string, CollectionEntry[]>` on production paths (or isolated to one boundary guard).
+
+### 8.4 DevEx: correlation + log labels
+
+**Where:** `core/utils/log.ts`, logger callsites across build / emitter / parser.
+
+
+| Track                         | Status      | Notes                                                         |
+| ----------------------------- | ----------- | ------------------------------------------------------------- |
+| `operationId` per build       | Not started | Hierarchical labels (`emitter.output`, `parser.render`) meta. |
+
+**Exit:** Grep logs by one id for a full build story.
+
+### 8.5 Utilities: path normalisation + shared walker
+
+**Where:** `core/data/collections.ts` (permalink / URL helpers), `core/utils/path.ts`, `core/utils/fs.ts` (`walkFiles`).
+
+
+| Track                         | Status      | Notes                                                         |
+| ----------------------------- | ----------- | ------------------------------------------------------------- |
+| Unify slash + site-path rules | Not started | e.g. `normaliseSitePath`; one place for public URL segments.  |
+| Shared directory walker       | Not started | Optional if copy and discover diverge again.                  |
+
+### 8.6 Transforms layout (optional)
+
+**Where:** `core/transforms/` (livereload, minify, css-imports). **Only** if it reduces mental load: input vs output transform folders or renames.
+
+### 8.7 Guardrails
+
+**What:** Lint / import rules (e.g. `core/emitter` must not import `core/server`) if the codebase grows; optional `scripts/verify-parser-readme.ts` drift check against `core/parser/README.md`.
+
+### 8.8 Livereload testability (optional)
+
+**Where:** `core/transforms/livereload.ts`. Refactor module-global WebSocket / client set only if multi-instance or unit tests without globals are needed.
+
+### 8.9 Engines: passthrough as last-resort engine (optional)
+
+**Where:** `core/engines/registry.ts`, `core/emitter/traverse.ts`. Register `passthrough` with `canRun: () => true` last so `processSingleFile` has no `else` — cosmetic consistency.
+
+### 8.10 Architecture (current)
+
+```mermaid
+flowchart TD
+	entry[indexTs] --> buildCmd[commands/build]
+	buildCmd --> data[dataIndex]
+	buildCmd --> walk[walkFiles]
+	walk --> process[emitter/processFiles]
+	process --> engines[enginesRegistry]
+	engines --> emit[emitterOutput]
+	entry --> serveCmd[commands/serve]
+	serveCmd --> server[serverIndex]
+	serveCmd --> watch[serverWatcher]
+	watch --> buildCmd
+	server --> lr[transformsLivereload]
+	emit --> lr
 ```
-HTML Minifier
-└── HTML Parser
-    ├── Tokenizer
-    └── Parser
 
-CSS Processing
-├── CSS @import Resolver (most critical)
-│   └── CSS Parser
-├── CSS Minifier
-│   └── CSS Parser
-└── CSS Autoprefixer (optional)
-    └── CSS Parser
+Collections are indexed in `core/data/collections.ts` and matched during the same walk; posts compile through `site-template` like other template extensions.
 
-CSS Parser (shared - build first)
-├── Tokenizer
-└── Parser
+### 8.11 Testing matrix (refactor / parser gates)
 
-Template Features
-├── Filters (4 built-in + user registry) — Done
-├── Shortcodes (registration + resolver) — Done
-└── Collections (`collections.posts` wired; per-post HTML via `core/emitter/posts.ts` — collection sort not in loader yet; permalink pattern parsing partial — see `core/data/posts.ts`)
+- **Regression:** Spot-check representative pages + posts HTML after parser or pipeline edits (no legacy output baseline required).
+- **Parser:** `for` + assign, `break` / `continue`, nested `if` / `for`, unknown filter / shortcode errors.
+- **Runtime:** Dev server serves `.build`, path traversal blocked, livereload upgrade + reload.
+- **Data:** Missing `src/data`, bad JSON, `customDataMapping` field pick.
 
-Syntax Highlighting
-├── Code Block Detector
-└── Syntax Highlighter
-    ├── Language Grammars
-    └── HTML Generator
-
-Markdown Processing
-└── Markdown Parser
-    ├── Tokenizer
-    ├── Parser
-    └── HTML Renderer
-
-Dev (SSG — `start:ssg`)
-├── `core/index.ts` (`--serve`: server + watcher + broadcast)
-├── `core/server/index.ts` (static HTTP, `upgrade` → livereload)
-├── `core/server/watcher.ts` (`src/` fs.watch, debounce, coalesced rebuild queue)
-└── `core/server/livereload.ts` (inject script when `debugMode`, WS clients, `broadcastReload`)
-```
-
+Shrink or delete §8 subsections when done so this file stays honest.

@@ -51,6 +51,13 @@ function getImportStatements(css: string): CssImportDeclaration[] {
   const maskedCss = maskBlockComments(css)
   cssImportRuleRegex.lastIndex = 0
 
+  /**
+   * match[0] = the entire match
+   * match[1] = the quoted specifier, e.g. "globals/system.css"
+   * match[2] = the unquoted specifier, e.g. "globals/system.css"
+   * match[3] = the unquoted specifier, e.g. "globals/system.css"
+   * match[4] = the qualifier, e.g. "layer(globals)"
+   */
   let match = cssImportRuleRegex.exec(maskedCss)
   while (match) {
     const specifier = match[1] ?? match[2] ?? match[3]
@@ -59,7 +66,7 @@ function getImportStatements(css: string): CssImportDeclaration[] {
         start: match.index,
         end: match.index + match[0].length,
         specifier,
-        qualifier: match[3] ?? '',
+        qualifier: (match[4] ?? '').trim(),
         raw: match[0],
       })
     }

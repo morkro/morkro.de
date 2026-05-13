@@ -1,4 +1,4 @@
-import { resolve } from 'node:path'
+import { basename, extname, resolve } from 'node:path'
 import config from '#config'
 import type { CollectionSource, UserConfig } from '#config.user'
 import type { CollectionMatch } from '#emitter/traverse.ts'
@@ -41,7 +41,7 @@ function parseFilename(filename: string): { date: Date, slug: string } {
     date: year && month && day
       ? new Date(Date.UTC(year, month - 1, day))
       : new Date(),
-    slug: slug.replace(/\.md$/, ''),
+    slug: basename(slug, extname(slug)),
   }
 }
 
@@ -89,7 +89,10 @@ export async function loadCollection(
   userConfig?: UserConfig,
 ): Promise<CollectionEntry[]> {
   const entries: CollectionEntry[] = []
-  const data = await loadFromDir(spec.input, { keepExtension: true })
+  const data = await loadFromDir(spec.input, {
+    keepExtension: true,
+    validate: (value) => typeof value === 'string' && value.length > 0
+  })
   
   for (const [filename, value] of data.entries()) {
     const raw = value as unknown as string
@@ -128,7 +131,9 @@ export async function loadCollection(
 export function getCollections (
 	dataFiles: DataFileMap
 ): Record<string, CollectionEntry[]> {
-	return (dataFiles.get('collections') as Record<string, CollectionEntry[]>) ?? {}
+  const value = dataFiles.get('collections')
+  if (typeof value !== 'object' || value === null) return {}
+  return value as Record<string, CollectionEntry[]>
 }
 
 export function indexCollections (dataFiles: DataFileMap): Map<string, CollectionMatch> {
