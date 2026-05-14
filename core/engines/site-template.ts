@@ -1,15 +1,15 @@
 import { basename, dirname, extname, relative } from 'node:path';
-import config, { type ParseExtension } from '#config';
-import { compile } from '#parser/index.ts';
+import config from '#config';
+import { compile } from '#core/parser/compile.ts';
 import { loadFile } from '#utils/fs.ts';
 import type { BuildEngine } from './types.ts';
 
-const templateExtensions = new Set<ParseExtension>(config.parser.parseExtensions)
+const templateExtensions = new Set(['.html', '.xml', '.liquid', '.md'])
 
 export function createSiteTemplateEngine(): BuildEngine {
   return {
     id: 'site-template',
-    canRun: (inputPath) => templateExtensions.has(extname(inputPath) as ParseExtension),
+    canRun: (inputPath) => templateExtensions.has(extname(inputPath)),
     async run(inputPath, outputPath, ctx) {
       const relativeFilename = relative(config.directories.input, inputPath)
       const raw = await loadFile<string>(dirname(inputPath), basename(inputPath))

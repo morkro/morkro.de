@@ -3,7 +3,7 @@ import type { UserConfig } from '#config.user'
 import type { CollectionEntry } from '#data/collections.ts'
 import type { DataFileMap } from "#data/index.ts"
 import { writeBuildArtifact } from '#emitter/output.ts'
-import { compile } from '#parser/index.ts'
+import { compile } from '#parser/compile.ts'
 import { writeTempAst } from '#utils/fs.ts'
 import { logger } from '#utils/log.ts'
 

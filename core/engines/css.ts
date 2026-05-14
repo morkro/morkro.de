@@ -1,7 +1,7 @@
 import { basename, dirname, extname } from 'node:path'
-import { bundleCssImports } from '#transforms/css-imports.ts'
-import { type BuildEngine } from './types.ts'
 import { loadFile } from '#core/utils/fs.ts'
+import { bundleCssImports } from '#transforms/css-imports.ts'
+import type { BuildEngine } from './types.ts'
 
 export function createCssEngine(): BuildEngine {
   return {

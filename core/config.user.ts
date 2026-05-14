@@ -1,13 +1,10 @@
 import type { FilterFn, ShortCodeFn } from '#config'
 import type { EmitProfile } from '#emitter/output.ts'
 import { logger } from '#utils/log.ts'
-import { resolveWithin } from '#utils/path-resolve.ts'
+import { resolveWithin } from '#utils/path.ts'
 
 const log = logger('UserConfig')
 
-/**
- * User configuration
- */
 export type CustomDataFields = {
   path: string
   includeFields: string[]

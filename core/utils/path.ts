@@ -1,4 +1,4 @@
-import { basename, dirname, extname, join, relative, resolve } from 'node:path'
+import { basename, dirname, extname, join, relative, resolve, sep } from 'node:path'
 import config from '#config'
 
 export function ensureOutputPath (fileName: string, buildRoot: string, permalink?: string): string {
@@ -37,4 +37,16 @@ export function resolveOutput (filePath: string, outputRoot: string, permalink?:
   }
 
   return ensureOutputPath(inputRelative, outputRoot, permalink)
+}
+
+export function resolveWithin (basePath: string, requestedPath: string) {
+  const resolvedBase = resolve(basePath)
+  const resolvedPath = resolve(resolvedBase, requestedPath)
+  const normalisedBase = resolvedBase + sep
+
+  if (resolvedPath !== resolvedBase && !resolvedPath.startsWith(normalisedBase)) {
+    throw new Error(`Path escapes base directory: ${requestedPath}`)
+  }
+
+  return resolvedPath
 }

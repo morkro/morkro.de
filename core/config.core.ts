@@ -1,8 +1,6 @@
 /**
  * System configuration
  */
-export type ParseExtension = '.html' | '.txt' | '.xml' | '.liquid' | '.md'
-
 export type ShortCodeFn = () => string
 export type FilterFn = (input: string, ...args: string[]) => string
 export type RenderServices = {
@@ -35,7 +33,6 @@ export interface CoreConfig {
     internal: Set<InternalDirectory>
   }
   parser: {
-    parseExtensions: ParseExtension[]
     concurrency: number
   }
   reservedKeys: Set<keyof RenderServices>
@@ -58,7 +55,6 @@ const config: CoreConfig = {
     ])
   },
   parser: {
-    parseExtensions: ['.html', '.txt', '.xml', '.liquid', '.md'],
     concurrency: 8,
   },
   reservedKeys: new Set([

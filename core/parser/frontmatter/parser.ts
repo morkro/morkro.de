@@ -8,8 +8,6 @@ export type Cursor = {
 	index: number
 }
 
-export const createCursor = (lines: readonly string[]): Cursor => ({ lines, index: 0 })
-
 type WalkStep = {
 	cursor: Cursor
 	line?: { raw: string; trimmed: string }
@@ -143,7 +141,7 @@ export function parseFrontmatter(content: string): Record<string, PotentialFMVal
 	}
 
 	const lines = inner.split('\n')
-	let cursor = createCursor(lines)
+	let cursor = { lines, index: 0 }
 
 	while (cursor.index < lines.length) {
 		const raw = lines[cursor.index]

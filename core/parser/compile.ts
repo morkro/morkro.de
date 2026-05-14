@@ -1,4 +1,4 @@
-import { relative } from 'node:path'
+import { extname, relative } from 'node:path'
 import type { RenderServices } from '#config'
 import config from '#config'
 import type { DataFileMap } from '#data/index.ts'
@@ -7,6 +7,8 @@ import { parseLiquid } from '#parser/liquid/parser.ts'
 import { type RenderContext, render } from '#parser/liquid/renderer.ts'
 import { layoutResolver, templateResolver } from '#parser/liquid/resolver.ts'
 import type { FullPage, Layout, Template } from '#parser/liquid/types.ts'
+import { parseMarkdown } from '#parser/markdown/parser.ts'
+import { renderMarkdown } from '#parser/markdown/renderer.ts'
 import { logger, perf } from '#utils/log.ts'
 import { resolveOutput } from '#utils/path.ts'
 import { toUrl } from '#utils/url.ts'
@@ -121,9 +123,14 @@ export async function compile (file: string, path: string, options: CompilerOpti
   localContext.__shortCodes__ = options.shortCodes
   localContext.__filters__ = options.filters
   
+  const bodyForLiquid =
+    extname(path).toLowerCase() === '.md'
+      ? renderMarkdown(parseMarkdown(body, path).body)
+      : body
+
   const relativePath = relative(options.outputRoot, outputPath)
   const lpStart = perf(`Parsing Liquid (${relativePath})`)
-  const ast = parseLiquid(body, path)
+  const ast = parseLiquid(bodyForLiquid, path)
   lpStart.end()
   
   const rlStart = perf('Rendering Liquid')

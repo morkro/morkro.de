@@ -13,7 +13,6 @@ export type Cursor = {
   readonly index: number
 }
 
-export const createCursor = (input: string): Cursor => ({ input, index: 0})
 const isAlpha = (input: string) => /[A-Za-z_]/.test(input)
 const isAlnum = (input: string) => /[A-Za-z0-9_]/.test(input)
 const isDigit = (input: string) => /[0-9]/.test(input)
@@ -282,7 +281,7 @@ export function tokenizeInner (input: string, baseOffset = 0): InnerToken[] {
 
 export function tokenize(input: string): Token[] {
   const tokens: Token[] = []
-  let cursor: Cursor = createCursor(input)
+  let cursor: Cursor = { input, index: 0 }
   let trimNextText = false
   
   const pushTextSlice = (value: string, start: number, end: number) => {

@@ -6,7 +6,7 @@ import { isObject } from '#core/utils/object.ts'
 import type { DataFileMap } from '#data/index.ts'
 import { parseJSON } from '#utils/json.ts'
 import { logger } from '#utils/log.ts'
-import { resolveWithin } from '#utils/path-resolve.ts'
+import { resolveWithin } from '#utils/path.ts'
 
 const log = logger('Data')
 

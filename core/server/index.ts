@@ -2,11 +2,11 @@ import { stat } from 'node:fs/promises'
 import { type IncomingMessage, type ServerResponse, createServer } from 'node:http'
 import { basename, dirname, extname, join } from 'node:path'
 import config from '#config'
+import { loadFile } from '#core/utils/fs.ts'
+import { handleWSUpgrade } from '#transforms/livereload.ts'
 import { logger } from '#utils/log.ts'
 import { getMimeType, isTextFile } from '#utils/mime-types.ts'
-import { handleWSUpgrade } from '#transforms/livereload.ts'
-import { resolveWithin } from '#utils/path-resolve.ts'
-import { loadFile } from '#core/utils/fs.ts'
+import { resolveWithin } from '#utils/path.ts'
 
 const log = logger('Server')
 

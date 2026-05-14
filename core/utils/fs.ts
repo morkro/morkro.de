@@ -3,7 +3,7 @@ import { basename, extname, join } from 'node:path'
 import config from '#config'
 import type { InternalDirectory } from '#config'
 import type { FullPage } from '#parser/liquid/types.ts'
-import { resolveWithin } from './path-resolve.ts'
+import { resolveWithin } from './path.ts'
 
 export async function loadFile<T extends string | Buffer>(path: string, fileName: string, encoding?: BufferEncoding | null): Promise<T> {
   const fullPath = resolveWithin(path, fileName)
