@@ -1,13 +1,19 @@
 import { escapeXML } from '#utils/html.ts'
-import type { Token, TokenList, TokenTable, TokenTableCell } from './types.ts'
+import type {
+  InlineToken,
+  Token,
+  TokenList,
+  TokenTable,
+  TokenTableCell,
+} from './types.ts'
 
 function renderList (list: TokenList): string {
   const tag = list.kind === 'Ordered' ? 'ol' : 'ul'
   const items = list.items.map(item => {
-    const children = item.children?.map(renderList).join('') ?? null
+    const children = item.children?.map(renderList).join('') ?? ''
     const inner = escapeXML(item.text)
     if (item.type === 'Checkbox') {
-      return `<li><input type="checkbox" ${item.checked ? 'checked' : ''}>${inner}</li>`
+      return `<li><input type="checkbox"${item.checked ? ' checked' : ''}>${inner}${children}</li>`
     }
     return `<li>${inner}${children}</li>`
   })
@@ -31,28 +37,36 @@ function renderTable (table: TokenTable): string {
   return `<table>${head}${body}</table>`
 }
 
+function renderInline (tokens: InlineToken[]): string {
+  return tokens.map(token => {
+    switch (token.type) {
+      case 'Text':
+        return escapeXML(token.text)
+      case 'Link':
+        return `<a href="${token.url}">${escapeXML(token.text)}</a>`
+      case 'Image': {
+        const title = token.text.length > 0 ? ` title="${escapeXML(token.text)}"` : ''
+        return `<img src="${token.src}" alt="${escapeXML(token.alt)}"${title}>`
+      }
+      case 'Break':
+        return '<br>'
+    }
+  }).join('')
+}
+
 export function renderMarkdown (tokens: Token[]): string {
   const result: string[] = []
 
   for (const token of tokens) {
     switch (token.type) {
       case 'Heading':
-        result.push(`<h${token.level}>${escapeXML(token.text)}</h${token.level}>`)
+        result.push(`<h${token.level}>${renderInline(token.inline)}</h${token.level}>`)
         break
       case 'Paragraph':
-        result.push(`<p>${escapeXML(token.text)}</p>`)
+        result.push(`<p>${renderInline(token.inline)}</p>`)
         break
       case 'Line':
         result.push('<hr>')
-        break
-      case 'Break':
-        result.push('<br>')
-        break
-      case 'Link':
-        result.push(`<a href="${token.url}">${escapeXML(token.text)}</a>`)
-        break
-      case 'Image':
-        result.push(`<img src="${token.src}" alt="${escapeXML(token.alt)}" title="${escapeXML(token.text)}">`)
         break
       case 'Code':{
         result.push(`<pre><code class="language-${token.language ? token.language : 'txt'}">${token.text}</code></pre>`)

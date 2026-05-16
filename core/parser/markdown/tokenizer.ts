@@ -1,6 +1,8 @@
+import { ParserError } from '#parser/utils.ts'
 import type {
+  BlockToken,
+  InlineToken,
   TableAlign,
-  Token,
   TokenCheckbox,
   TokenHeadingLevel,
   TokenList,
@@ -13,11 +15,15 @@ export type Cursor = {
   index: number
 }
 
+const headingRegex = /^(#{1,6})\s+(.*)$/d
 const unorderedRegex = /^( *)([*+-])\s+(.*)$/
 const orderedRegex = /^( *)(\d+)\.\s+(.*)$/
 const checkboxRegex = /^\[( |x|X)\]\s+(.*)$/
 const blockquoteRegex = /^>\s?/
 const tableSeparatorCellRegex = /^:?-+:?$/
+const inlineImageRegex = /!\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]*)")?\)/y
+const inlineLinkRegex = /\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]*)")?\)/y
+const inlineBreakRegex = /  \n/y
 
 function readLine (input: string, index: number) {
   const newline = input.indexOf('\n', index)
@@ -122,8 +128,107 @@ function parseTableAlign (cell: string): TableAlign {
   return null
 }
 
-export function tokenize(input: string): Token[] {
-  const tokens: Token[] = []
+function tokenizeInner (text: string, baseOffset = 0): InlineToken[] {
+  const tokens: InlineToken[] = []
+  let buffer = ''
+  let bufferStart = 0
+  let index = 0
+
+  const flushText = (end: number) => {
+    if (buffer.length === 0) return
+
+    tokens.push({
+      type: 'Text',
+      text: buffer,
+      start: baseOffset + bufferStart,
+      end: baseOffset + end
+    })
+
+    buffer = ''
+  }
+
+  while (index < text.length) {
+    /**
+     * Markdown inline image: ![Alt text](image.jpg)
+     */
+    inlineImageRegex.lastIndex = index
+    const imageMatch = inlineImageRegex.exec(text)
+    if (imageMatch) {
+      flushText(index)
+      const [full, alt, src, title] = imageMatch
+
+      tokens.push({
+        type: 'Image',
+        text: title ?? '',
+        alt,
+        src,
+        start: baseOffset + index,
+        end: baseOffset + index + full.length
+      })
+
+      index += full.length
+      bufferStart = index
+      continue
+    }
+
+    /** 
+     * Markdown inline link: [Link text](https://example.com)
+     */
+    inlineLinkRegex.lastIndex = index
+    const linkMatch = inlineLinkRegex.exec(text)
+    if (linkMatch) {
+      flushText(index)
+      const [full, linkText, url] = linkMatch
+      
+      tokens.push({
+        type: 'Link',
+        text: linkText,
+        url,
+        start: baseOffset + index,
+        end: baseOffset + index + full.length
+      })
+
+      index += full.length
+      bufferStart = index
+      continue
+    }
+
+    /**
+     * Markdown inline break
+     */
+    inlineBreakRegex.lastIndex = index
+    const breakMatch = inlineBreakRegex.exec(text)
+    if (breakMatch) {
+      flushText(index)
+
+      tokens.push({
+        type: 'Break',
+        start: baseOffset + index,
+        end: baseOffset + index + 3
+      })
+
+      index += 3
+      bufferStart = index
+      continue
+    }
+
+    /**
+     * Markdown inline text
+     */
+    if (buffer.length === 0) {
+      bufferStart = index
+    }
+
+    buffer += text[index]
+    index++
+  }
+
+  flushText(index)
+  return tokens
+}
+
+export function tokenize(input: string): BlockToken[] {
+  const tokens: BlockToken[] = []
   const cursor: Cursor = { input, index: 0 }
   let pStart = -1
   let paragraphs:string[] = []
@@ -135,7 +240,7 @@ export function tokenize(input: string): Token[] {
     if (text.length > 0) {
       tokens.push({
         type: 'Paragraph',
-        text,
+        inline: tokenizeInner(text, pStart),
         start: pStart,
         end
       })
@@ -151,14 +256,21 @@ export function tokenize(input: string): Token[] {
     /**
      * Markdown heading: # Heading
      */
-    const isHeading = /^(#{1,6})\s+(.*)$/.exec(line)
-    if (isHeading) {
+    const headingMatch = headingRegex.exec(line)
+    if (headingMatch) {
       flushParagraph(cursor.index)
+
+      if (!headingMatch.indices) {
+        throw new ParserError('Heading match indices are required', headingMatch.index)
+      }
+
+      const [textStart] = headingMatch.indices[2]
+      const headingText = headingMatch[2].trimEnd()
 
       tokens.push({
         type: 'Heading',
-        level: isHeading[1].length as TokenHeadingLevel,
-        text: isHeading[2].trimEnd(),
+        level: headingMatch[1].length as TokenHeadingLevel,
+        inline: tokenizeInner(headingText, cursor.index + textStart),
         start: cursor.index,
         end: outerAfter
       })

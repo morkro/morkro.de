@@ -6,6 +6,13 @@ export type TokenHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
 export type TokenHeading = {
   type: 'Heading',
   level: TokenHeadingLevel,
+  inline: InlineToken[],
+  start: number,
+  end: number
+}
+
+export type TokenText = {
+  type: 'Text',
   text: string,
   start: number,
   end: number
@@ -13,7 +20,7 @@ export type TokenHeading = {
 
 export type TokenParagraph = {
   type: 'Paragraph',
-  text: string,
+  inline: InlineToken[],
   start: number,
   end: number
 }
@@ -107,20 +114,22 @@ export type TokenTableCell = {
   end: number
 }
 
-export type Token =
-  | TokenHeading
-  | TokenParagraph
+export type InlineToken =
+  | TokenText
   | TokenLink
   | TokenImage
   | TokenBreak
+
+export type BlockToken =
+  | TokenHeading
+  | TokenParagraph
   | TokenLine
   | TokenCode
   | TokenBlockquote
   | TokenList
-  | TokenListItem
-  | TokenCheckbox
   | TokenTable
-  | TokenTableCell
+
+export type Token = InlineToken | BlockToken
 
 /**
  * Template
@@ -132,5 +141,5 @@ type TemplateMeta = {
 export type Template = {
   type: 'Template',
   meta: TemplateMeta
-  body: Token[]
+  body: BlockToken[]
 }
