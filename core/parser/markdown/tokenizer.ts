@@ -15,6 +15,10 @@ export type Cursor = {
   index: number
 }
 
+/**
+ * y flag is used to enable sticky matching
+ * d flag is used to enable dotall matching
+ */
 const headingRegex = /^(#{1,6})\s+(.*)$/d
 const unorderedRegex = /^( *)([*+-])\s+(.*)$/
 const orderedRegex = /^( *)(\d+)\.\s+(.*)$/
@@ -24,6 +28,17 @@ const tableSeparatorCellRegex = /^:?-+:?$/
 const inlineImageRegex = /!\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]*)")?\)/y
 const inlineLinkRegex = /\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]*)")?\)/y
 const inlineBreakRegex = /  \n/y
+const inlineCodeRegex = /`([^`\n]+)`/y
+const boldStarRegex = /\*\*([\s\S]+?)\*\*/y
+const boldUnderscoreRegex = /__([\s\S]+?)__/y
+const italicStarRegex = /\*([\s\S]+?)\*/y
+const italicUnderscoreRegex = /_([\s\S]+?)_/y
+const strikethroughRegex = /~~([\s\S]+?)~~/y
+
+function matchSticky (regex: RegExp, text: string, index: number): RegExpExecArray | null {
+  regex.lastIndex = index
+  return regex.exec(text)
+}
 
 function readLine (input: string, index: number) {
   const newline = input.indexOf('\n', index)
@@ -73,11 +88,16 @@ function parseList (input: string, index: number): { list: TokenList, after: num
     if (lineKind !== kind) break
 
     const itemText = match[3]
+    const itemTextStart = scan + match[0].length - itemText.length
+
     const checkbox = checkboxRegex.exec(itemText)
     if (checkbox) {
+      const checkboxText = checkbox[2]
+      const checkboxTextStart = itemTextStart + (checkbox[0].length - checkbox[2].length)
+
       items.push({
         type: 'Checkbox',
-        text: checkbox[2].trimEnd(),
+        inline: tokenizeInner(checkboxText.trimEnd(), checkboxTextStart),
         checked: checkbox[1] === 'x' || checkbox[1] === 'X',
         start: scan,
         end: after
@@ -85,7 +105,7 @@ function parseList (input: string, index: number): { list: TokenList, after: num
     } else {
       items.push({
         type: 'ListItem',
-        text: itemText.trimEnd(),
+        inline: tokenizeInner(itemText.trimEnd(), itemTextStart),
         start: scan,
         end: after
       })
@@ -151,8 +171,7 @@ function tokenizeInner (text: string, baseOffset = 0): InlineToken[] {
     /**
      * Markdown inline image: ![Alt text](image.jpg)
      */
-    inlineImageRegex.lastIndex = index
-    const imageMatch = inlineImageRegex.exec(text)
+    const imageMatch = matchSticky(inlineImageRegex, text, index)
     if (imageMatch) {
       flushText(index)
       const [full, alt, src, title] = imageMatch
@@ -174,15 +193,14 @@ function tokenizeInner (text: string, baseOffset = 0): InlineToken[] {
     /** 
      * Markdown inline link: [Link text](https://example.com)
      */
-    inlineLinkRegex.lastIndex = index
-    const linkMatch = inlineLinkRegex.exec(text)
+    const linkMatch = matchSticky(inlineLinkRegex, text, index)
     if (linkMatch) {
       flushText(index)
       const [full, linkText, url] = linkMatch
       
       tokens.push({
         type: 'Link',
-        text: linkText,
+        inline: tokenizeInner(linkText, baseOffset + index + 1),
         url,
         start: baseOffset + index,
         end: baseOffset + index + full.length
@@ -196,8 +214,7 @@ function tokenizeInner (text: string, baseOffset = 0): InlineToken[] {
     /**
      * Markdown inline break
      */
-    inlineBreakRegex.lastIndex = index
-    const breakMatch = inlineBreakRegex.exec(text)
+    const breakMatch = matchSticky(inlineBreakRegex, text, index)
     if (breakMatch) {
       flushText(index)
 
@@ -208,6 +225,94 @@ function tokenizeInner (text: string, baseOffset = 0): InlineToken[] {
       })
 
       index += 3
+      bufferStart = index
+      continue
+    }
+
+    /**
+     * Markdown inline code: `Inline code`
+     */
+    const inlineCodeMatch = matchSticky(inlineCodeRegex, text, index)
+    if (inlineCodeMatch) {
+      flushText(index)
+
+      const [full, body] = inlineCodeMatch
+
+      tokens.push({
+        type: 'InlineCode',
+        text: body.trim(),
+        start: baseOffset + index,
+        end: baseOffset + index + full.length
+      })
+
+      index += full.length
+      bufferStart = index
+      continue
+    }
+
+    /**
+     * Markdown bold: **Bold text** or __Bold text__
+     */
+    const boldStarMatch = matchSticky(boldStarRegex, text, index)
+    const boldUnderscoreMatch = matchSticky(boldUnderscoreRegex, text, index)
+    const boldMatch = boldStarMatch ?? boldUnderscoreMatch
+    if (boldMatch) {
+      flushText(index)
+
+      const [full, body] = boldMatch
+
+      tokens.push({
+        type: 'Bold',
+        inline: tokenizeInner(body, baseOffset + index + 2),
+        start: baseOffset + index,
+        end: baseOffset + index + full.length
+      })
+
+      index += full.length
+      bufferStart = index
+      continue
+    }
+
+    /**
+     * Markdown italic: *Italic text* or _Italic text_
+     */
+    const italicStarMatch = matchSticky(italicStarRegex, text, index)
+    const italicUnderscoreMatch = matchSticky(italicUnderscoreRegex, text, index)
+    const italicMatch = italicStarMatch ?? italicUnderscoreMatch
+    if (italicMatch) {
+      flushText(index)
+
+      const [full, body] = italicMatch
+
+      tokens.push({
+        type: 'Italic',
+        inline: tokenizeInner(body, baseOffset + index + 1),
+        start: baseOffset + index,
+        end: baseOffset + index + full.length
+      })
+
+      index += full.length
+      bufferStart = index
+      continue
+    }
+
+    /**
+     * Markdown strikethrough: ~~Strikethrough text~~
+     */
+    const strikethroughMatch = matchSticky(strikethroughRegex, text, index)
+    if (strikethroughMatch) {
+      flushText(index)
+
+      const [full, body] = strikethroughMatch
+
+      tokens.push({
+        type: 'Strikethrough',
+        inline: tokenizeInner(body, baseOffset + index + 2),
+        start: baseOffset + index,
+        end: baseOffset + index + full.length
+      })
+
+      index += full.length
       bufferStart = index
       continue
     }
@@ -371,7 +476,7 @@ export function tokenize(input: string): BlockToken[] {
 
       tokens.push({
         type: 'Blockquote',
-        text: quoteLines.join('\n'),
+        inline: tokenizeInner(quoteLines.join('\n'), start),
         start,
         end: blockEnd
       })
@@ -399,7 +504,7 @@ export function tokenize(input: string): BlockToken[] {
         const headers: TokenTableCell[] = headerCells.map((text, index) => ({
           type: 'TableCell',
           header: true,
-          text,
+          inline: tokenizeInner(text, cursor.index),
           align: align[index] ?? null,
           start: cursor.index,
           end: outerAfter
@@ -419,7 +524,7 @@ export function tokenize(input: string): BlockToken[] {
           rows.push(cells.map((text, index) => ({
             type: 'TableCell',
             header: false,
-            text,
+            inline: tokenizeInner(text, scan),
             align: align[index] ?? null,
             start: scan,
             end: innerAfter

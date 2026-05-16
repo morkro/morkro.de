@@ -27,7 +27,7 @@ export type TokenParagraph = {
 
 export type TokenLink = {
   type: 'Link',
-  text: string,
+  inline: InlineToken[],
   url: string,
   start: number,
   end: number
@@ -64,7 +64,7 @@ export type TokenCode = {
 
 export type TokenBlockquote = {
   type: 'Blockquote',
-  text: string,
+  inline: InlineToken[],
   start: number,
   end: number
 }
@@ -80,14 +80,14 @@ export type TokenList = {
 export type TokenListItem = {
   type: 'ListItem',
   children?: TokenList[],
-  text: string,
+  inline: InlineToken[],
   start: number,
   end: number
 }
 
 export type TokenCheckbox = {
   type: 'Checkbox',
-  text: string,
+  inline: InlineToken[],
   children?: TokenList[],
   checked: boolean,
   start: number,
@@ -108,14 +108,46 @@ export type TokenTable = {
 export type TokenTableCell = {
   type: 'TableCell',
   header: boolean,
-  text: string,
+  inline: InlineToken[],
   align: TableAlign,
+  start: number,
+  end: number
+}
+
+export type TokenBold = {
+  type: 'Bold',
+  inline: InlineToken[],
+  start: number,
+  end: number
+}
+
+export type TokenItalic = {
+  type: 'Italic',
+  inline: InlineToken[],
+  start: number,
+  end: number
+}
+
+export type TokenStrikethrough = {
+  type: 'Strikethrough',
+  inline: InlineToken[],
+  start: number,
+  end: number
+}
+
+export type TokenInlineCode = {
+  type: 'InlineCode',
+  text: string,
   start: number,
   end: number
 }
 
 export type InlineToken =
   | TokenText
+  | TokenBold
+  | TokenItalic
+  | TokenStrikethrough
+  | TokenInlineCode
   | TokenLink
   | TokenImage
   | TokenBreak

@@ -11,7 +11,7 @@ function renderList (list: TokenList): string {
   const tag = list.kind === 'Ordered' ? 'ol' : 'ul'
   const items = list.items.map(item => {
     const children = item.children?.map(renderList).join('') ?? ''
-    const inner = escapeXML(item.text)
+    const inner = renderInline(item.inline)
     if (item.type === 'Checkbox') {
       return `<li><input type="checkbox"${item.checked ? ' checked' : ''}>${inner}${children}</li>`
     }
@@ -24,7 +24,7 @@ function renderList (list: TokenList): string {
 function renderTableCell (cell: TokenTableCell): string {
   const tag = cell.header ? 'th' : 'td'
   const align = cell.align ? ` style="text-align:${cell.align};"` : ''
-  return `<${tag}${align}>${escapeXML(cell.text)}</${tag}>`
+  return `<${tag}${align}>${renderInline(cell.inline)}</${tag}>`
 }
 
 function renderTable (table: TokenTable): string {
@@ -43,13 +43,21 @@ function renderInline (tokens: InlineToken[]): string {
       case 'Text':
         return escapeXML(token.text)
       case 'Link':
-        return `<a href="${token.url}">${escapeXML(token.text)}</a>`
+        return `<a href="${token.url}">${renderInline(token.inline)}</a>`
       case 'Image': {
         const title = token.text.length > 0 ? ` title="${escapeXML(token.text)}"` : ''
         return `<img src="${token.src}" alt="${escapeXML(token.alt)}"${title}>`
       }
       case 'Break':
         return '<br>'
+      case 'Bold':
+        return `<strong>${renderInline(token.inline)}</strong>`
+      case 'Italic':
+        return `<em>${renderInline(token.inline)}</em>`
+      case 'Strikethrough':
+        return `<del>${renderInline(token.inline)}</del>`
+      case 'InlineCode':
+        return `<code>${escapeXML(token.text)}</code>`
     }
   }).join('')
 }
@@ -72,7 +80,7 @@ export function renderMarkdown (tokens: Token[]): string {
         result.push(`<pre><code class="language-${token.language ? token.language : 'txt'}">${token.text}</code></pre>`)
         break}
       case 'Blockquote':
-        result.push(`<blockquote>${escapeXML(token.text)}</blockquote>`)
+        result.push(`<blockquote>${renderInline(token.inline)}</blockquote>`)
         break
       case 'List':
         result.push(renderList(token))
