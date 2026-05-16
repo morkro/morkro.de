@@ -83,7 +83,9 @@ export function startServer (port = 8080): { stop: () => Promise<void> } {
   })
 
   return {
-    stop: () => new Promise((resolve, reject) =>
-      server.close((error) => error ? reject(error) : resolve()))
+    stop: () => new Promise((resolve, reject) => {
+      server.close((error) => error ? reject(error) : resolve())
+      server.closeAllConnections()
+    })
   }
 }

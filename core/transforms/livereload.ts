@@ -46,6 +46,13 @@ function acceptWSKey (secWSKey: string): string {
     .digest('base64')
 }
 
+export function closeAllClients () {
+  for (const client of clients) {
+    client.destroy()
+  }
+  clients.clear()
+}
+
 export function handleWSUpgrade (req: IncomingMessage, socket: Duplex, head: Buffer) {
   const secWSKey = req.headers['sec-websocket-key']
   if (!secWSKey || typeof secWSKey !== 'string') {
