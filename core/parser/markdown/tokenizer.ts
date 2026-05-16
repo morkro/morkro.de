@@ -1,9 +1,11 @@
 import type {
+  TableAlign,
   Token,
   TokenCheckbox,
   TokenHeadingLevel,
   TokenList,
   TokenListItem,
+  TokenTableCell,
 } from './types.ts'
 
 export type Cursor = {
@@ -15,6 +17,7 @@ const unorderedRegex = /^( *)([*+-])\s+(.*)$/
 const orderedRegex = /^( *)(\d+)\.\s+(.*)$/
 const checkboxRegex = /^\[( |x|X)\]\s+(.*)$/
 const blockquoteRegex = /^>\s?/
+const tableSeparatorCellRegex = /^:?-+:?$/
 
 function readLine (input: string, index: number) {
   const newline = input.indexOf('\n', index)
@@ -96,6 +99,27 @@ function parseList (input: string, index: number): { list: TokenList, after: num
     },
     after: scan
   }
+}
+
+function splitTableRow (line: string): string[] {
+  return line
+    .trim()
+    .replace(/^\|/, '')
+    .replace(/\|$/, '')
+    .split('|')
+    .map(cell => cell.trim())
+}
+
+function parseTableAlign (cell: string): TableAlign {
+  if (!tableSeparatorCellRegex.test(cell)) return null
+  
+  const left = cell.startsWith(':')
+  const right = cell.endsWith(':')
+
+  if (left && right) return 'center'
+  if (left) return 'left'
+  if (right) return 'right'
+  return null
 }
 
 export function tokenize(input: string): Token[] {
@@ -242,6 +266,69 @@ export function tokenize(input: string): Token[] {
 
       cursor.index = scan
       continue
+    }
+
+    /**
+     * Markdown table: | Header | Header |
+     */
+    if (line.includes('|')) {
+      const { line: maybeSeparator, after: afterSeparator } = readLine(input, outerAfter)
+      const separatorCells = splitTableRow(maybeSeparator)
+      const isSeparator =
+        separatorCells.length > 0 &&
+        separatorCells.every(cell => tableSeparatorCellRegex.test(cell))
+
+      if (isSeparator) {
+        flushParagraph(cursor.index)
+
+        const start = cursor.index
+        const headerCells = splitTableRow(line)
+        const align = separatorCells.map(parseTableAlign)
+        const headers: TokenTableCell[] = headerCells.map((text, index) => ({
+          type: 'TableCell',
+          header: true,
+          text,
+          align: align[index] ?? null,
+          start: cursor.index,
+          end: outerAfter
+        }))
+
+        const rows: TokenTableCell[][] = []
+        let scan = afterSeparator
+        let tableEnd = afterSeparator
+
+        while (scan < input.length) {
+          const { line: maybeRow, after: innerAfter } = readLine(input, scan)
+          if (maybeRow.trim() === '' || !maybeRow.includes('|')) {
+            break
+          }
+
+          const cells = splitTableRow(maybeRow)
+          rows.push(cells.map((text, index) => ({
+            type: 'TableCell',
+            header: false,
+            text,
+            align: align[index] ?? null,
+            start: scan,
+            end: innerAfter
+          })))
+
+          scan = innerAfter
+          tableEnd = innerAfter
+        }
+
+        tokens.push({
+          type: 'Table',
+          headers,
+          rows,
+          align,
+          start,
+          end: tableEnd
+        })
+        
+        cursor.index = scan
+        continue
+      }
     }
 
     if (line.trim() === '') {

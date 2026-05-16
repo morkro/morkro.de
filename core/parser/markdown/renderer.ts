@@ -1,5 +1,5 @@
 import { escapeXML } from '#utils/html.ts'
-import type { Token, TokenList } from './types.ts'
+import type { Token, TokenList, TokenTable, TokenTableCell } from './types.ts'
 
 function renderList (list: TokenList): string {
   const tag = list.kind === 'Ordered' ? 'ol' : 'ul'
@@ -13,6 +13,22 @@ function renderList (list: TokenList): string {
   })
 
   return `<${tag}>${items.join('')}</${tag}>`
+}
+
+function renderTableCell (cell: TokenTableCell): string {
+  const tag = cell.header ? 'th' : 'td'
+  const align = cell.align ? ` style="text-align:${cell.align};"` : ''
+  return `<${tag}${align}>${escapeXML(cell.text)}</${tag}>`
+}
+
+function renderTable (table: TokenTable): string {
+  const head = `<thead><tr>${
+    table.headers.map(renderTableCell).join('')
+  }</tr></thead>`
+  const body = `<tbody>${
+    table.rows.map(row => `<tr>${row.map(renderTableCell).join('')}</tr>`).join('')
+  }</tbody>`
+  return `<table>${head}${body}</table>`
 }
 
 export function renderMarkdown (tokens: Token[]): string {
@@ -46,6 +62,9 @@ export function renderMarkdown (tokens: Token[]): string {
         break
       case 'List':
         result.push(renderList(token))
+        break
+      case 'Table':
+        result.push(renderTable(token))
         break
     }
   }

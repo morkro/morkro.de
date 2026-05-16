@@ -87,7 +87,7 @@ export type TokenCheckbox = {
   end: number
 }
 
-type TableAlign = 'left' | 'center' | 'right' | null
+export type TableAlign = 'left' | 'center' | 'right' | null
 
 export type TokenTable = {
   type: 'Table',
