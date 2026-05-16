@@ -1,5 +1,19 @@
 import { escapeXML } from '#utils/html.ts'
-import type { Token } from './types.ts'
+import type { Token, TokenList } from './types.ts'
+
+function renderList (list: TokenList): string {
+  const tag = list.kind === 'Ordered' ? 'ol' : 'ul'
+  const items = list.items.map(item => {
+    const children = item.children?.map(renderList).join('') ?? null
+    const inner = escapeXML(item.text)
+    if (item.type === 'Checkbox') {
+      return `<li><input type="checkbox" ${item.checked ? 'checked' : ''}>${inner}</li>`
+    }
+    return `<li>${inner}${children}</li>`
+  })
+
+  return `<${tag}>${items.join('')}</${tag}>`
+}
 
 export function renderMarkdown (tokens: Token[]): string {
   const result: string[] = []
@@ -24,20 +38,15 @@ export function renderMarkdown (tokens: Token[]): string {
       case 'Image':
         result.push(`<img src="${token.src}" alt="${escapeXML(token.alt)}" title="${escapeXML(token.text)}">`)
         break
-      case 'Checkbox':
-        result.push(`<input type="checkbox" ${token.checked ? 'checked' : ''}>`)
-        break
-      case 'Code':
-        result.push(`<pre><code class="language-${token.language}">${token.text}</code></pre>`)
-        break
+      case 'Code':{
+        result.push(`<pre><code class="language-${token.language ? token.language : 'txt'}">${token.text}</code></pre>`)
+        break}
       case 'Blockquote':
         result.push(`<blockquote>${escapeXML(token.text)}</blockquote>`)
         break
-      case 'List': {
-        const listKind = token.kind === 'Ordered' ? 'ol' : 'ul'
-        result.push(`<${listKind}>${token.items.map(item => `<li>${escapeXML(item.text)}</li>`).join('')}</${listKind}>`)
+      case 'List':
+        result.push(renderList(token))
         break
-      }
     }
   }
 

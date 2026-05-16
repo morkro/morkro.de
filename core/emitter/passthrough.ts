@@ -1,5 +1,5 @@
-import { join, relative, resolve } from "node:path"
-import type { PassThroughCopy } from "#config.user"
+import { join, relative, resolve } from 'node:path'
+import type { PassThroughCopy } from '#config.user'
 
 export type PassthroughRoot = {
 	from: string

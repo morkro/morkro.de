@@ -1,7 +1,7 @@
 /**
  * Tokens
  */
-type TokenHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
+export type TokenHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
 
 export type TokenHeading = {
   type: 'Heading',
@@ -47,14 +47,6 @@ export type TokenLine = {
   end: number
 }
 
-export type TokenCheckbox = {
-  type: 'Checkbox',
-  text: string,
-  checked: boolean,
-  start: number,
-  end: number
-}
-
 export type TokenCode = {
   type: 'Code',
   text: string,
@@ -73,14 +65,24 @@ export type TokenBlockquote = {
 export type TokenList = {
   type: 'List',
   kind: 'Ordered' | 'Unordered',
-  items: TokenListItem[],
+  items: (TokenListItem | TokenCheckbox)[],
   start: number,
   end: number
 }
 
 export type TokenListItem = {
   type: 'ListItem',
+  children?: TokenList[],
   text: string,
+  start: number,
+  end: number
+}
+
+export type TokenCheckbox = {
+  type: 'Checkbox',
+  text: string,
+  children?: TokenList[],
+  checked: boolean,
   start: number,
   end: number
 }
@@ -112,11 +114,11 @@ export type Token =
   | TokenImage
   | TokenBreak
   | TokenLine
-  | TokenCheckbox
   | TokenCode
   | TokenBlockquote
   | TokenList
   | TokenListItem
+  | TokenCheckbox
   | TokenTable
   | TokenTableCell
 

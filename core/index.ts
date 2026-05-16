@@ -14,7 +14,7 @@ const isMainModule = import.meta.filename === resolve(process.argv[1])
 if (isMainModule) { 
   const buildStart = perf('Build duration')
   log.info(`Build settings NODE_ENV=${process.env.NODE_ENV}, DEBUG=${process.env.DEBUG}`)
-  const userConfig = await getUserConfig()
+  const userConfig = await getUserConfig() ?? {}
   
   try {
     await build(config, userConfig)
