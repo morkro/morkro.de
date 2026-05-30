@@ -1,4 +1,13 @@
 import { ParserError } from '#parser/utils.ts'
+import {
+  htmlCdataRegex,
+  htmlCloseTagRegex,
+  htmlCommentRegex,
+  htmlDeclRegex, 
+  htmlOpenTagRegex,
+  htmlProcInstRegex,
+  knownHtmlBlockTags
+} from './html.ts'
 import type {
   BlockToken,
   InlineToken,
@@ -9,35 +18,31 @@ import type {
   TokenListItem,
   TokenTableCell,
 } from './types.ts'
+import {
+  autolinkEmailRegex,
+  autolinkUriRegex,
+  blockquoteRegex,
+  boldStarRegex,
+  boldUnderscoreRegex,
+  checkboxRegex,
+  headingRegex,
+  inlineBreakRegex,
+  inlineCodeRegex,
+  inlineImageRegex,
+  inlineLinkRegex,
+  isAsciiPunct,
+  italicStarRegex,
+  italicUnderscoreRegex,
+  matchSticky,
+  orderedRegex,
+  strikethroughRegex,
+  tableSeparatorCellRegex,
+  unorderedRegex,
+} from './utils.ts'
 
 export type Cursor = {
   readonly input: string
   index: number
-}
-
-/**
- * y flag is used to enable sticky matching
- * d flag is used to enable dotall matching
- */
-const headingRegex = /^(#{1,6})\s+(.*)$/d
-const unorderedRegex = /^( *)([*+-])\s+(.*)$/
-const orderedRegex = /^( *)(\d+)\.\s+(.*)$/
-const checkboxRegex = /^\[( |x|X)\]\s+(.*)$/
-const blockquoteRegex = /^>\s?/
-const tableSeparatorCellRegex = /^:?-+:?$/
-const inlineImageRegex = /!\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]*)")?\)/y
-const inlineLinkRegex = /\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]*)")?\)/y
-const inlineBreakRegex = /  \n/y
-const inlineCodeRegex = /`([^`\n]+)`/y
-const boldStarRegex = /\*\*([\s\S]+?)\*\*/y
-const boldUnderscoreRegex = /__([\s\S]+?)__/y
-const italicStarRegex = /\*([\s\S]+?)\*/y
-const italicUnderscoreRegex = /_([\s\S]+?)_/y
-const strikethroughRegex = /~~([\s\S]+?)~~/y
-
-function matchSticky (regex: RegExp, text: string, index: number): RegExpExecArray | null {
-  regex.lastIndex = index
-  return regex.exec(text)
 }
 
 function readLine (input: string, index: number) {
@@ -169,6 +174,68 @@ function tokenizeInner (text: string, baseOffset = 0): InlineToken[] {
 
   while (index < text.length) {
     /**
+     * Backslack escaped character
+     */
+    const isEscaped = text[index] === '\\' && index + 1 < text.length && isAsciiPunct(text[index + 1])
+    if (isEscaped) {
+      if (buffer.length === 0) {
+        bufferStart = index
+      }
+      buffer += text[index + 1]
+      index += 2
+      continue
+    }
+
+    /**
+     * Backslack escaped newline
+     */
+    const isEscapedNewline = text[index] === '\\' && text[index + 1] === '\n'
+    if (isEscapedNewline) {
+      flushText(index)
+      
+      tokens.push({
+        type: 'Break',
+        start: baseOffset + index,
+        end: baseOffset + index + 2
+      })
+
+      index += 2
+      bufferStart = index
+      continue
+    }
+
+    /**
+     * Autolink email and URI: <user@example.com> or <https://example.com>
+     */
+    const autolinkUriMatch = matchSticky(autolinkUriRegex, text, index)
+    const autolinkEmailMatch = !autolinkUriMatch && matchSticky(autolinkEmailRegex, text, index)
+    const autolinkMatch = autolinkUriMatch ?? autolinkEmailMatch
+    if (autolinkMatch) {
+      flushText(index)
+      const [full, body] = autolinkMatch
+      const url = autolinkUriMatch ? body : `mailto:${body}`
+      const start = baseOffset + index
+      const end = start + full.length
+
+      tokens.push({
+        type: 'Link',
+        inline: [{
+          type: 'Text',
+          text: body,
+          start: start + 1,
+          end: end - 1
+        }],
+        url,
+        start,
+        end
+      })
+
+      index += full.length
+      bufferStart = index
+      continue
+    }
+
+    /**
      * Markdown inline image: ![Alt text](image.jpg)
      */
     const imageMatch = matchSticky(inlineImageRegex, text, index)
@@ -225,6 +292,33 @@ function tokenizeInner (text: string, baseOffset = 0): InlineToken[] {
       })
 
       index += 3
+      bufferStart = index
+      continue
+    }
+
+    /**
+     * Markdown inline HTML: <div>HTML content</div>
+     */
+    const htmlInlineMatch = 
+      matchSticky(htmlOpenTagRegex, text, index) ??
+      matchSticky(htmlCloseTagRegex, text, index) ??
+      matchSticky(htmlCommentRegex, text, index) ??
+      matchSticky(htmlCdataRegex, text, index) ??
+      matchSticky(htmlDeclRegex, text, index) ??
+      matchSticky(htmlProcInstRegex, text, index)
+
+    if (htmlInlineMatch) {
+      flushText(index)
+      const [raw] = htmlInlineMatch
+
+      tokens.push({
+        type: 'HtmlInline',
+        raw,
+        start: baseOffset + index,
+        end: baseOffset + index + raw.length
+      })
+
+      index += raw.length
       bufferStart = index
       continue
     }
@@ -477,6 +571,41 @@ export function tokenize(input: string): BlockToken[] {
       tokens.push({
         type: 'Blockquote',
         inline: tokenizeInner(quoteLines.join('\n'), start),
+        start,
+        end: blockEnd
+      })
+
+      cursor.index = scan
+      continue
+    }
+
+    /**
+     * Markdown block HTML: <section>HTML content</section>
+     */
+    const htmlBlockOpen = /^<\/?([a-zA-Z][a-zA-Z0-9-]*)(?:\s|\/?>|$)/
+    const htmlMatch = htmlBlockOpen.exec(line)
+    if (htmlMatch && knownHtmlBlockTags.has(htmlMatch[1].toLowerCase())) {
+      flushParagraph(cursor.index)
+
+      const start = cursor.index
+      const htmlLines: string[] = []
+      let scan = outerAfter
+      let blockEnd = outerAfter
+
+      while (scan < input.length) {
+        const { line: next, after: innerAfter } = readLine(input, scan)
+        if (next.trim() === '') {
+          blockEnd = scan
+          break
+        }
+        htmlLines.push(next)
+        scan = innerAfter
+        blockEnd = innerAfter
+      }
+
+      tokens.push({
+        type: 'HtmlBlock',
+        raw: htmlLines.join('\n'),
         start,
         end: blockEnd
       })

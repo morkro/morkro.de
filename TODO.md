@@ -10,8 +10,6 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 
 **Documentation:** `[core/parser/README.md](core/parser/README.md)`
 
-### 1.1 Liquid Parser — Done
-
 ### 1.2 Frontmatter Parser
 
 
@@ -34,13 +32,6 @@ Project plan for migrating to a custom SSG with zero third-party dependencies (e
 | Parser (tokens → AST)         | Not started |
 | HTML renderer (AST → HTML)    | Not started |
 | Integration with frontmatter  | Not started |
-
-
-### 1.4 Filters — Done
-
-### 1.5 Shortcodes — Done
-
-### 1.6 Collections — Done
 
 ---
 
@@ -85,20 +76,6 @@ From `eleventy.config.js` (production only). **Requires:** HTML Parser
 | Tokenizer (CSS text → tokens) | Not started |
 | Parser (tokens → AST)         | Not started |
 | AST traversal utilities       | Not started |
-
-
-### 3.2 CSS @import Resolver
-
-From `eleventy.config.js` (via `postcss-import`).
-
-
-| Feature                                  | Status      |
-| ---------------------------------------- | ----------- |
-| File path resolution (relative/absolute) | Done |
-| Import inlining (recursive)              | Done |
-| Circular dependency detection            | Done |
-| Integration with build pipeline          | Done |
-
 
 ### 3.3 CSS Minifier
 
@@ -172,12 +149,6 @@ Tokenizer per language:
 
 ## 5. Build System
 
-### 5.1 Core Build Pipeline — Done
-
-### 5.2 File Watcher — Done
-
-### 5.3 Dev Server — Done
-
 ### 5.4 Asset Management
 
 From `eleventy.config.js`:
@@ -193,13 +164,6 @@ From `eleventy.config.js`:
 ---
 
 ## 6. Migration Tasks
-
-### 6.1 Template Updates — Done
-
-### 6.2 Directory Name Resolution — Done
-
-`src/includes/` matches `directories.internal.includes` (`'includes'`) in `[core/config.core.ts](core/config.core.ts)`; resolver and fixtures use the same name.
-
 
 ### 6.3 Dependency Removal
 
@@ -221,10 +185,6 @@ From `eleventy.config.js`:
 
 ## 7. Code Quality & Architecture
 
-### 7.1 Architecture: Split `compile()` into a pipeline — Done
-
-### 7.2 Architecture: Separate file discovery from processing in `traverseDir` — Done
-
 ### 7.3 Type Safety: Remove `as` casts where narrowing suffices
 
 The parser uses `as TokenIdent` / `as TokenKeyword` casts *before* the runtime type check on the next line. If the value is `undefined`, the cast silently lies. Check first, then the type is narrowed automatically.
@@ -237,23 +197,6 @@ The parser uses `as TokenIdent` / `as TokenKeyword` casts *before* the runtime t
 | `nameToken` cast in `capture` branch       | Not started | `core/parser/liquid/parser.ts`                               |
 | `params` cast in for-loop param parsing    | Not started | `core/parser/liquid/parser.ts`                               |
 | `param` cast in tablerow param parsing     | Not started | `core/parser/liquid/parser.ts`                               |
-
-
-### 7.4 Type Safety: Narrow catch-block errors — Done
-
-### 7.5 Type Safety: Replace `as Record<string, unknown>` casts in data loader — Done
-
-### 7.6 Robustness: Validate `parseFilename` date parts
-
-`core/data/collections.ts:30` — `parseFilename` splits the filename and maps to `Number`. If a filename doesn't follow `YYYY-MM-DD-slug`, the date parts are `NaN` and `new Date(NaN, NaN, NaN)` silently propagates an Invalid Date.
-
-
-| Task                                         | Status      | File                    |
-| -------------------------------------------- | ----------- | ----------------------- |
-| Add `NaN` guard after parsing year/month/day | Not started | `core/data/posts.ts:31` |
-
-
-### 7.7 Performance: Optimise for-loop param application order — Done
 
 
 ### 7.8 Test Coverage: Add tests for untested modules
@@ -342,17 +285,9 @@ Overlaps with [§7](#7-code-quality--architecture): loader/collections typing (7
 
 **Where:** `core/transforms/` (livereload, minify, css-imports). **Only** if it reduces mental load: input vs output transform folders or renames.
 
-### 8.7 Guardrails
-
-**What:** Lint / import rules (e.g. `core/emitter` must not import `core/server`) if the codebase grows; optional `scripts/verify-parser-readme.ts` drift check against `core/parser/README.md`.
-
 ### 8.8 Livereload testability (optional)
 
 **Where:** `core/transforms/livereload.ts`. Refactor module-global WebSocket / client set only if multi-instance or unit tests without globals are needed.
-
-### 8.9 Engines: passthrough as last-resort engine (optional)
-
-**Where:** `core/engines/registry.ts`, `core/emitter/traverse.ts`. Register `passthrough` with `canRun: () => true` last so `processSingleFile` has no `else` — cosmetic consistency.
 
 ### 8.10 Architecture (current)
 

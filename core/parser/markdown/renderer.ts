@@ -6,6 +6,7 @@ import type {
   TokenTable,
   TokenTableCell,
 } from './types.ts'
+import { escapeHtmlContent } from './utils.ts'
 
 function renderList (list: TokenList): string {
   const tag = list.kind === 'Ordered' ? 'ol' : 'ul'
@@ -41,12 +42,12 @@ function renderInline (tokens: InlineToken[]): string {
   return tokens.map(token => {
     switch (token.type) {
       case 'Text':
-        return escapeXML(token.text)
+        return escapeHtmlContent(token.text)
       case 'Link':
-        return `<a href="${token.url}">${renderInline(token.inline)}</a>`
+        return `<a href="${escapeXML(token.url)}">${renderInline(token.inline)}</a>`
       case 'Image': {
         const title = token.text.length > 0 ? ` title="${escapeXML(token.text)}"` : ''
-        return `<img src="${token.src}" alt="${escapeXML(token.alt)}"${title}>`
+        return `<img src="${escapeXML(token.src)}" alt="${escapeXML(token.alt)}"${title}>`
       }
       case 'Break':
         return '<br>'
@@ -57,7 +58,9 @@ function renderInline (tokens: InlineToken[]): string {
       case 'Strikethrough':
         return `<del>${renderInline(token.inline)}</del>`
       case 'InlineCode':
-        return `<code>${escapeXML(token.text)}</code>`
+        return `<code>${escapeHtmlContent(token.text)}</code>`
+      case 'HtmlInline':
+        return token.raw
     }
   }).join('')
 }
@@ -87,6 +90,9 @@ export function renderMarkdown (tokens: Token[]): string {
         break
       case 'Table':
         result.push(renderTable(token))
+        break
+      case 'HtmlBlock':
+        result.push(token.raw)
         break
     }
   }

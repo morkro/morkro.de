@@ -142,6 +142,20 @@ export type TokenInlineCode = {
   end: number
 }
 
+export type TokenHtmlInline = {
+  type: 'HtmlInline',
+  raw: string,
+  start: number,
+  end: number
+}
+
+export type TokenHtmlBlock = {
+  type: 'HtmlBlock',
+  raw: string,
+  start: number,
+  end: number
+}
+
 export type InlineToken =
   | TokenText
   | TokenBold
@@ -151,6 +165,7 @@ export type InlineToken =
   | TokenLink
   | TokenImage
   | TokenBreak
+  | TokenHtmlInline
 
 export type BlockToken =
   | TokenHeading
@@ -160,6 +175,7 @@ export type BlockToken =
   | TokenBlockquote
   | TokenList
   | TokenTable
+  | TokenHtmlBlock
 
 export type Token = InlineToken | BlockToken
 
