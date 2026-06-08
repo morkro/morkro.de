@@ -1,9 +1,9 @@
 import { dirname, resolve } from 'node:path'
-import config, { type InternalDirectory } from '#config'
+import type { InternalDirectory } from '#config'
 import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 import { stripQuotes } from '#parser/utils.ts'
 import { loadFile } from '#utils/fs.ts'
-import { parseLiquid } from './parser.ts'
+import { parseLiquid } from './parser/index.ts'
 import type { Layout, Template } from './types.ts'
 
 type ResolveContext = {

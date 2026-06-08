@@ -2,8 +2,10 @@ import type { UserConfig } from '#config.user'
 import type { DataFileMap } from '#data/index.ts'
 import type { CollectionMatch } from '#emitter/traverse.ts'
 import type { FullPage } from '#parser/liquid/types.ts'
+import type { Layout } from '#parser/liquid/types.ts'
 
 export type EngineContext = {
+  layoutCache: Map<string, Layout>
   dataFiles: DataFileMap
   userConfig?: UserConfig
   outputRoot: string

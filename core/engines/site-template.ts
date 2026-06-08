@@ -21,6 +21,7 @@ export function createSiteTemplateEngine(): BuildEngine {
         outputRoot: ctx.outputRoot,
         outputPath: ctx.collection ? outputPath : undefined,
         pageData: ctx.collection ? { date: ctx.collection.entry.date } : undefined,
+        layoutCache: ctx.layoutCache,
       })
 
       return {

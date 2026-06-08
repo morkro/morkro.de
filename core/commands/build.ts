@@ -7,6 +7,7 @@ import { loadDataFiles, writeDataFilesDump } from '#data/index.ts'
 import { getPassthrough, resolvePassthrough } from '#emitter/passthrough.ts'
 import { type BuildItem, processFiles } from '#emitter/traverse.ts'
 import { defaultEngines } from '#engines/registry.ts'
+import type { Layout } from '#parser/liquid/types.ts'
 import { swapDirectories, walkFiles } from '#utils/fs.ts'
 import { logger } from '#utils/log.ts'
 
@@ -39,6 +40,7 @@ export async function build (config: CoreConfig, userConfig: UserConfig) {
   })
 
   await processFiles(files, defaultEngines, {
+    layoutCache: new Map<string, Layout>(),
     dataFiles,
     userConfig,
     outputRoot: tmpDir,

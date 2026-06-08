@@ -3,7 +3,7 @@ import type { RenderServices } from '#config'
 import config from '#config'
 import type { DataFileMap } from '#data/index.ts'
 import { extractFrontmatter } from '#parser/frontmatter/index.ts'
-import { parseLiquid } from '#parser/liquid/parser.ts'
+import { parseLiquid } from '#parser/liquid/parser/index.ts'
 import { type RenderContext, render } from '#parser/liquid/renderer.ts'
 import { layoutResolver, templateResolver } from '#parser/liquid/resolver.ts'
 import type { FullPage, Layout, Template } from '#parser/liquid/types.ts'
@@ -14,8 +14,6 @@ import { resolveOutput } from '#utils/path.ts'
 import { toUrl } from '#utils/url.ts'
 
 const log = logger('Parser')
-
-const layoutCache = new Map<string, Layout>()
 
 type Compiled = {
   ast: Template
@@ -33,6 +31,7 @@ type CompilerOptions = {
   pageData?: Record<string, unknown>
   outputRoot: string
   outputPath?: string
+  layoutCache: Map<string, Layout>
 }
 
 type LayoutChain = {
@@ -80,7 +79,8 @@ export function createPageContext (
 async function applyLayouts (
   source: string,
   layoutName: string | undefined,
-  context: RenderContext
+  context: RenderContext,
+  layoutCache: Map<string, Layout>
 ): Promise<{ html: string, layoutChain: LayoutChain[] }> {
   let result = source
   let currentLayout = layoutName
@@ -138,7 +138,8 @@ export async function compile (file: string, path: string, options: CompilerOpti
   const { html, layoutChain } = await applyLayouts(
     rendered,
     frontmatter.layout as string | undefined,
-    localContext)
+    localContext,
+    options.layoutCache)
   const fullPageAst = {
     type: 'FullPage',
     layouts: layoutChain,

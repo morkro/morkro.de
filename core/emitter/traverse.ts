@@ -6,6 +6,7 @@ import type { DataFileMap } from '#data/index.ts'
 import { emitStaticFile, writeBuildArtifact } from '#emitter/output.ts'
 import { resolveEngine } from '#engines/registry.ts'
 import type { BuildEngine } from '#engines/types.ts'
+import type { Layout } from '#parser/liquid/types.ts'
 import { writeTempAst } from '#utils/fs.ts'
 import { logger } from '#utils/log.ts'
 
@@ -23,6 +24,7 @@ export type BuildItem = {
 }
 
 type ProcessOptions = {
+  layoutCache: Map<string, Layout>
   dataFiles: DataFileMap
   userConfig?: UserConfig
   outputRoot: string
@@ -55,6 +57,7 @@ async function processSingleFile(file: BuildItem, engines: BuildEngine[], option
       file.inputPath,
       file.outputPath,
       {
+        layoutCache: options.layoutCache,
         dataFiles: options.dataFiles,
         userConfig: options.userConfig,
         outputRoot: options.outputRoot,

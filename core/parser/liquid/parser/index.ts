@@ -1,5 +1,5 @@
 import { ParserError } from '#parser/utils.ts'
-import { tokenize, tokenizeInner } from './tokenizer.ts'
+import { tokenize, tokenizeInner } from '../tokenizer.ts'
 import type {
   Expression,
   Filter,
@@ -16,7 +16,7 @@ import type {
   TokenKeyword,
   TokenOperator,
   TokenPunct,
-} from './types.ts'
+} from '../types.ts'
 
 type CursorState = {
   readonly tokens: InnerToken[]
