@@ -43,8 +43,10 @@ function renderInline (tokens: InlineToken[]): string {
     switch (token.type) {
       case 'Text':
         return escapeHtmlContent(token.text)
-      case 'Link':
-        return `<a href="${escapeXML(token.url)}">${renderInline(token.inline)}</a>`
+      case 'Link':{
+        const title = token.title.length > 0 ? ` title="${escapeXML(token.title)}"` : ''
+        return `<a href="${escapeXML(token.url)}"${title}>${renderInline(token.inline)}</a>`
+      }
       case 'Image': {
         const title = token.text.length > 0 ? ` title="${escapeXML(token.text)}"` : ''
         return `<img src="${escapeXML(token.src)}" alt="${escapeXML(token.alt)}"${title}>`

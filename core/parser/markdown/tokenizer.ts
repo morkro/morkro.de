@@ -8,6 +8,7 @@ import {
   htmlProcInstRegex,
   knownHtmlBlockTags
 } from './html.ts'
+import { parseLink } from './parser.ts'
 import type {
   BlockToken,
   InlineToken,
@@ -28,8 +29,6 @@ import {
   headingRegex,
   inlineBreakRegex,
   inlineCodeRegex,
-  inlineImageRegex,
-  inlineLinkRegex,
   isAsciiPunct,
   italicStarRegex,
   italicUnderscoreRegex,
@@ -225,6 +224,7 @@ function tokenizeInner (text: string, baseOffset = 0): InlineToken[] {
           start: start + 1,
           end: end - 1
         }],
+        title: '',
         url,
         start,
         end
@@ -238,21 +238,20 @@ function tokenizeInner (text: string, baseOffset = 0): InlineToken[] {
     /**
      * Markdown inline image: ![Alt text](image.jpg)
      */
-    const imageMatch = matchSticky(inlineImageRegex, text, index)
+    const imageMatch = parseLink(text, index, true)
     if (imageMatch) {
       flushText(index)
-      const [full, alt, src, title] = imageMatch
 
       tokens.push({
         type: 'Image',
-        text: title ?? '',
-        alt,
-        src,
+        text: imageMatch.title,
+        alt: imageMatch.text,
+        src: imageMatch.url,
         start: baseOffset + index,
-        end: baseOffset + index + full.length
+        end: baseOffset + index + imageMatch.full.length
       })
 
-      index += full.length
+      index += imageMatch.full.length
       bufferStart = index
       continue
     }
@@ -260,20 +259,20 @@ function tokenizeInner (text: string, baseOffset = 0): InlineToken[] {
     /** 
      * Markdown inline link: [Link text](https://example.com)
      */
-    const linkMatch = matchSticky(inlineLinkRegex, text, index)
+    const linkMatch = parseLink(text, index, false)
     if (linkMatch) {
       flushText(index)
-      const [full, linkText, url] = linkMatch
       
       tokens.push({
         type: 'Link',
-        inline: tokenizeInner(linkText, baseOffset + index + 1),
-        url,
+        inline: tokenizeInner(linkMatch.text, baseOffset + index + 1),
+        url: linkMatch.url,
+        title: linkMatch.title,
         start: baseOffset + index,
-        end: baseOffset + index + full.length
+        end: baseOffset + index + linkMatch.full.length
       })
 
-      index += full.length
+      index += linkMatch.full.length
       bufferStart = index
       continue
     }

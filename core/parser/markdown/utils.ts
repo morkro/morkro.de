@@ -14,6 +14,144 @@ export function escapeHtmlContent (html: string): string {
     .replace(/>/g, '&gt;')
 }
 
+export function isWhitespace (char: string): boolean {
+  return /\s/.test(char)
+}
+
+/**
+ * Markdown autolink helper
+ */
+type ScanResult<T> = { value: T, after: number } | null
+
+export function scanLinkText (text: string, index: number): ScanResult<string> {
+  if (text[index] !== '[') return null
+
+  const start = index + 1
+  let scanDepth = 1
+  let _index = start
+
+  while (_index < text.length) {
+    const char = text[_index]
+
+    if (char === '\\' && _index + 1 < text.length && isAsciiPunct(text[_index + 1])) {
+      _index += 2
+      continue
+    }
+
+    if (char === '[') scanDepth++
+    else if (char === ']') {
+      scanDepth--
+      if (scanDepth === 0) {
+        return {
+          value: text.slice(start, _index),
+          after: _index + 1
+        }
+      }
+    }
+
+    _index++
+  }
+
+  return null
+}
+
+export function scanLinkDest (text: string, index: number): ScanResult<string> {
+  let url = ''
+  let _index = index
+
+  if (text[index] === '<') {
+    _index = index + 1
+
+    while (_index < text.length) {
+      const char = text[_index]
+
+      if (char === '\\' && _index + 1 < text.length && isAsciiPunct(text[index + 1])) {
+        url += text[_index + 1]
+        _index += 2
+        continue
+      }
+
+      if (char === '>') {
+        return { value: url, after: _index +1 }
+      }
+
+      if (char === '<' || char === '\n') {
+        return null
+      }
+
+      url += char
+      _index++
+    }
+    
+    return null
+  }
+
+  let scanDepth = 0
+  url = ''
+
+  while (_index < text.length) {
+    const char = text[_index]
+
+    if (char === '\\' && _index + 1 < text.length && isAsciiPunct(text[_index + 1])) {
+      url += text[_index + 1]
+      _index += 2
+      continue
+    }
+
+    if (char === '(') {
+      scanDepth++
+      url += char
+      _index++
+      continue
+    }
+    
+    if (char === ')') {
+      if (scanDepth === 0) break
+      scanDepth--
+      url += char
+      _index++
+      continue
+    }
+
+    if (isWhitespace(char)) break
+
+    url += char
+    _index++
+  }
+
+  if (url.length === 0) return null
+
+  return { value: url, after: _index }
+}
+
+export function scanLinkTitle (text: string, index: number): ScanResult<string> {
+  const opener = text[index]
+  if (opener !== '"' && opener !== '\'' && opener !== '(') return null
+
+  const closer = opener === '(' ? ')' : opener
+  let _index = index + 1
+  let title = ''
+
+  while (_index < text.length) {
+    const char = text[_index]
+
+    if (char === '\\' && _index + 1 < text.length && isAsciiPunct(text[_index + 1])) {
+      title += text[_index + 1]
+      _index += 2
+      continue
+    }
+
+    if (char === closer) {
+      return { value: title, after: _index + 1}
+    }
+
+    title += char
+    _index++
+  }
+
+  return null
+}
+
 /**
  * y flag is used to enable sticky matching
  * d flag is used to enable dotall matching
@@ -24,8 +162,6 @@ export const orderedRegex = /^( *)(\d+)\.\s+(.*)$/
 export const checkboxRegex = /^\[( |x|X)\]\s+(.*)$/
 export const blockquoteRegex = /^>\s?/
 export const tableSeparatorCellRegex = /^:?-+:?$/
-export const inlineImageRegex = /!\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]*)")?\)/y
-export const inlineLinkRegex = /\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]*)")?\)/y
 export const inlineBreakRegex = /  \n/y
 export const inlineCodeRegex = /`([^`\n]+)`/y
 export const boldStarRegex = /\*\*([\s\S]+?)\*\*/y

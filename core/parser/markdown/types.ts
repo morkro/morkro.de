@@ -29,6 +29,7 @@ export type TokenLink = {
   type: 'Link',
   inline: InlineToken[],
   url: string,
+  title: string,
   start: number,
   end: number
 }
