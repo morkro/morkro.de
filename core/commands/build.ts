@@ -1,4 +1,4 @@
-import { mkdir } from "node:fs/promises"
+import { mkdir } from 'node:fs/promises'
 import { join, relative, resolve } from 'node:path'
 import type { CoreConfig } from '#config'
 import type { UserConfig } from '#config.user'

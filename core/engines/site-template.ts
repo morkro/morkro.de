@@ -1,8 +1,8 @@
-import { basename, dirname, extname, relative } from 'node:path';
-import config from '#config';
-import { compile } from '#core/parser/compile.ts';
-import { loadFile } from '#utils/fs.ts';
-import type { BuildEngine } from './types.ts';
+import { basename, dirname, extname, relative } from 'node:path'
+import config from '#config'
+import { compile } from '#core/parser/compile.ts'
+import { loadFile } from '#utils/fs.ts'
+import type { BuildEngine } from './types.ts'
 
 const templateExtensions = new Set(['.html', '.xml', '.liquid', '.md'])
 
