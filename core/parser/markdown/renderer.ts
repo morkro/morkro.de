@@ -82,7 +82,8 @@ export function renderMarkdown (tokens: Token[]): string {
         result.push('<hr>')
         break
       case 'Code':{
-        result.push(`<pre><code class="language-${token.language ? token.language : 'txt'}">${token.text}</code></pre>`)
+        const lang = token.language || 'txt'
+        result.push(`<pre><code class="language-${lang}">${escapeHtmlContent(token.text)}</code></pre>`)
         break}
       case 'Blockquote':
         result.push(`<blockquote>${renderInline(token.inline)}</blockquote>`)

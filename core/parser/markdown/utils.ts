@@ -169,6 +169,9 @@ export const boldUnderscoreRegex = /__([\s\S]+?)__/y
 export const italicStarRegex = /\*([\s\S]+?)\*/y
 export const italicUnderscoreRegex = /_([\s\S]+?)_/y
 export const strikethroughRegex = /~~([\s\S]+?)~~/y
+export const namedEntityRegex = /&[a-zA-Z][a-zA-Z0-9]{1,30};/y
+export const decimalEntityRegex = /&#[0-9]{1,7};/y
+export const hexEntityRegex = /&#[xX][0-9a-fA-F]{1,6};/y
 /**
  * `[a-zA-Z][a-zA-Z0-9+.-]{1,31}` gives a 2-32 char scheme.
  * Examples it matches: http, https, mailto, tel, git+ssh, chrome-extension.

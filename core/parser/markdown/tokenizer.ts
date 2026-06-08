@@ -26,13 +26,16 @@ import {
   boldStarRegex,
   boldUnderscoreRegex,
   checkboxRegex,
+  decimalEntityRegex,
   headingRegex,
+  hexEntityRegex,
   inlineBreakRegex,
   inlineCodeRegex,
   isAsciiPunct,
   italicStarRegex,
   italicUnderscoreRegex,
   matchSticky,
+  namedEntityRegex,
   orderedRegex,
   strikethroughRegex,
   tableSeparatorCellRegex,
@@ -202,6 +205,27 @@ function tokenizeInner (text: string, baseOffset = 0): InlineToken[] {
       bufferStart = index
       continue
     }
+
+    const entityMatch =
+      matchSticky(namedEntityRegex, text, index) ??
+      matchSticky(hexEntityRegex, text, index) ??
+      matchSticky(decimalEntityRegex, text, index)
+    if (entityMatch) {
+      flushText(index)
+      const [raw] = entityMatch
+
+      tokens.push({
+        type: 'HtmlInline',
+        raw,
+        start: baseOffset + index,
+        end: baseOffset + index + raw.length
+      })
+
+      index += raw.length
+      bufferStart = index
+      continue
+    }
+
 
     /**
      * Autolink email and URI: <user@example.com> or <https://example.com>
