@@ -611,7 +611,7 @@ export function tokenize(input: string): BlockToken[] {
       flushParagraph(cursor.index)
 
       const start = cursor.index
-      const htmlLines: string[] = []
+      const htmlLines: string[] = [line]
       let scan = outerAfter
       let blockEnd = outerAfter
 
