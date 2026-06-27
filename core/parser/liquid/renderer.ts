@@ -15,7 +15,7 @@ import type {
 
 const log = logger('Parser')
 
-export type RenderContext = Record<string, unknown>
+export type RenderContext = RenderServices & Record<string, unknown>
 
 function getCollectionName (expression: Expression): string {
   if (expression.type === 'Var') {
@@ -52,7 +52,7 @@ function resolveExpression (expression: Expression, localContext: RenderContext)
     let value = resolveExpression(expression.input, localContext)
     for (const filter of expression.filters) {
       const args = filter.args.map(arg => resolveExpression(arg, localContext))
-      value = applyFilter(filter.name, value, args, localContext.__filters__ as RenderServices["__filters__"])
+      value = applyFilter(filter.name, value, args, localContext.__filters__)
     }
     return value
   }
@@ -180,9 +180,9 @@ async function renderNodes(
           file = resolved
         }
 
-        const renderContext: RenderContext = {
-          __shortCodes__: localContext.__shortCodes__ as RenderServices["__shortCodes__"],
-          __filters__: localContext.__filters__ as RenderServices["__filters__"]
+        const renderContext = {
+          __shortCodes__: localContext.__shortCodes__,
+          __filters__: localContext.__filters__,
         }
         if (node.variables.length > 0) {
           for (const variable of node.variables) {
@@ -194,7 +194,7 @@ async function renderNodes(
         result.push(await renderNodes(
           file.body,
           file.meta.source,
-          renderContext,
+          renderContext as RenderContext,
           resolver,
           renderCache
         ))
@@ -271,8 +271,9 @@ async function renderNodes(
         }
 
         if (!matched && node.elseBody && node.elseBody.length > 0) {
-          result.push(await render(
-            { type: 'Template', body: node.elseBody, meta: { source: templateSource } },
+          result.push(await renderNodes(
+            node.elseBody,
+            templateSource,
             localContext,
             resolver,
             renderCache
@@ -359,7 +360,7 @@ async function renderNodes(
         ))
         break
       case 'ShortCode': {
-        const shortCodes = localContext.__shortCodes__ as RenderServices["__shortCodes__"]
+        const shortCodes = localContext.__shortCodes__
         const fn = shortCodes?.[node.name]
         if (!fn || typeof fn !== 'function') {
           log.error('Unknown shortcode', {
@@ -376,7 +377,7 @@ async function renderNodes(
         break
       case 'Increment': {
         // Liquid outputs first, then increments
-        const counters = localContext.__counters__ as Map<string, number>
+        const counters = localContext.__counters__
         const current = counters.get(node.variable) ?? 0
         result.push(String(current))
         counters.set(node.variable, current + 1)
@@ -384,7 +385,7 @@ async function renderNodes(
       }
       case 'Decrement': {
         // Liquid decrements first, then outputs
-        const counters = localContext.__counters__ as Map<string, number>
+        const counters = localContext.__counters__
         const current = counters.get(node.variable) ?? 0
         result.push(String(current - 1))
         counters.set(node.variable, current - 1)
@@ -395,7 +396,7 @@ async function renderNodes(
           localContext.__cycles__ = new Map<string, number>()
         }
 
-        const cycles = localContext.__cycles__ as Map<string, number>
+        const cycles = localContext.__cycles__
         const index = cycles.get(node.group) ?? 0
         const value = resolveExpression(node.values[index % node.values.length], localContext)
         result.push(String(value))

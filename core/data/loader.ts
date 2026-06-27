@@ -1,11 +1,11 @@
 import { access, readdir } from 'node:fs/promises'
 import { basename, dirname, extname, resolve } from 'node:path'
 import config from '#config'
-import { loadFile } from '#core/utils/fs.ts'
-import { isObject } from '#core/utils/object.ts'
 import type { DataFileMap } from '#data/index.ts'
+import { loadFile } from '#utils/fs.ts'
 import { parseJSON } from '#utils/json.ts'
 import { logger } from '#utils/log.ts'
+import { isObject } from '#utils/object.ts'
 import { resolveWithin } from '#utils/path.ts'
 
 const log = logger('Data')

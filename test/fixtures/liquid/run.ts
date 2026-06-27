@@ -1,12 +1,11 @@
-import { mkdir, rm, writeFile } from "node:fs/promises"
-import { join, resolve } from "node:path"
+import { mkdir, rm, writeFile } from 'node:fs/promises'
+import { join, resolve } from 'node:path'
 import config from '#config'
-import userConfig from '#config.user'
-import { compile } from "#parser/index.ts"
-import type { RenderContext } from "#parser/liquid/renderer.ts"
-import { loadFile } from "#utils/fs.ts"
-import { parseJSON } from "#utils/json.ts"
-import { logger } from "#utils/log.ts"
+import { getUserConfig } from '#config.user'
+import { compile } from '#parser/compile.ts'
+import { loadFile } from '#utils/fs.ts'
+import { parseJSON } from '#utils/json.ts'
+import { logger } from '#utils/log.ts'
 
 const log = logger('Liquid')
 
@@ -28,20 +27,23 @@ async function cleanup () {
 
 await cleanup()
 
-const file = await loadFile('test/fixtures/liquid', 'dev.html')
-const mockContext: RenderContext = parseJSON(
-  await loadFile('test/fixtures/liquid', 'mock.json'),
-  join('test/fixtures/liquid', 'mock.json'))
+const file = await loadFile<string>('test/fixtures/liquid', 'dev.html')
+const mockContext = parseJSON<Record<string, unknown>>(
+  await loadFile<string>('test/fixtures/liquid', 'mock.json'),
+  join('test/fixtures/liquid', 'mock.json')) as Record<string, unknown>
 
+const userConfig = await getUserConfig()
 const compiled = await compile(
   file,
   'test/fixtures/liquid/dev.html',
   {
+    layoutCache: new Map(),
     data: new Map([...Object.entries(mockContext)]),
     baseUrl: 'https://morkro.de',
     shortCodes: userConfig.shortCodes ?? {},
     filters: userConfig.filters ?? {},
-    destDir: config.directories.temp
+    outputRoot: config.directories.temp,
+    outputPath: 'dev.html'
   })
 
 // write AST

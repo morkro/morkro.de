@@ -40,9 +40,7 @@ type LayoutChain = {
   sourcePath: string
 }
 
-export type BuildContext = Record<string, unknown>
-
-export type PageContext = BuildContext & {
+export type PageContext = RenderContext & {
   page: {
     inputPath: string
     outputPath: string
@@ -58,7 +56,7 @@ export function createPageContext (
   frontmatter: Record<string, unknown>,
   pageData?: Record<string, unknown>
 ): PageContext {
-  const core = Object.fromEntries(global.entries()) as BuildContext
+  const core = Object.fromEntries(global.entries()) as RenderContext
 
   // Check if any page variables would be overwritten by frontmatter data
   for (const key of Object.keys(frontmatter)) {

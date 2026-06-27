@@ -243,3 +243,11 @@ export type FullPage = {
     sourcePath: string
   }[],
 }
+
+/**
+ * Parser
+ */
+export type ParseContext = {
+  readonly source: string
+  readonly filePath: string
+}

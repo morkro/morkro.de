@@ -53,7 +53,7 @@ permalink: /writes/
 		{% endif %}
 
 		{% if paginator.next_page %}
-		<a ref="{{ paginator.next_page_path }}" rel="next">Next</a>
+		<a href="{{ paginator.next_page_path }}" rel="next">Next</a>
 		{% else %}
 		<button formnovalidate=""disabled type="button" aria-disabled="true">Next</button>
 		{% endif %}

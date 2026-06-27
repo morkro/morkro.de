@@ -1,6 +1,6 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
-import { createCursor, parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
+import { parseFrontmatter, removeFrontmatter } from '#parser/frontmatter/parser.ts'
 
 const bodyHtml = `<html>
   <body>
@@ -83,21 +83,6 @@ type FileMeta = {
 	layout: string
 	pageClass: string
 }
-
-describe('createCursor', () => {
-	it('initialises with index 0 and the given lines', () => {
-		const lines = ['a', 'b', 'c']
-		const cursor = createCursor(lines)
-		assert.strictEqual(cursor.index, 0)
-		assert.strictEqual(cursor.lines, lines)
-	})
-
-	it('works with an empty array', () => {
-		const cursor = createCursor([])
-		assert.strictEqual(cursor.index, 0)
-		assert.strictEqual(cursor.lines.length, 0)
-	})
-})
 
 describe('removeFrontmatter', () => {
 	it('strips YAML delimiters and leaves body', () => {

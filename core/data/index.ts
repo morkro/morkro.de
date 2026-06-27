@@ -11,10 +11,6 @@ export type DataFileMap = Map<string, unknown>
 
 const log = logger('Data')
 
-export function getRawData (map: DataFileMap, key: string): unknown {
-  return map.get(key)
-}
-
 function pickValues(
   source: Record<string, unknown>,
   values: string[] | undefined

@@ -1,3 +1,4 @@
+import { ParserError } from '#parser/utils.ts'
 import type{ InnerToken } from './types.ts'
 
 /**
@@ -15,3 +16,24 @@ export function vizTokens (tokens: InnerToken[]): string {
     })
     .join(' ')
 }
+
+export type CursorState = {
+  readonly tokens: InnerToken[]
+  readonly index: number
+}
+
+export const current = (cursor: CursorState) => {
+  const token = cursor.tokens[cursor.index]
+  if (!token) {
+    throw new ParserError(
+      'Expected token but got EOF',
+      cursor.tokens[cursor.index - 1]?.end ?? 0
+    )
+  }
+  return token
+}
+
+export const next = (cursor: CursorState): CursorState => ({
+  tokens: cursor.tokens,
+  index: cursor.index + 1
+})

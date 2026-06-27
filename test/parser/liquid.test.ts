@@ -1,15 +1,11 @@
-import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { parseLiquid } from '#parser/liquid/parser.ts'
-import { render, type RenderContext } from '#parser/liquid/renderer.ts'
-import type { Template } from '#parser/liquid/types.ts'
-import { ParserError } from '#parser/utils.ts'
+import { describe, it } from 'node:test'
+import { parseLiquid } from '#parser/liquid/parser/index.ts'
+import { type RenderContext, render } from '#parser/liquid/renderer.ts'
 import type {
-	Expression,
 	ExpressionBinary,
 	ExpressionFilter,
 	ExpressionUnary,
-	Node,
 	NodeAssign,
 	NodeCapture,
 	NodeCase,
@@ -27,6 +23,7 @@ import type {
 	NodeTableRow,
 	NodeText,
 } from '#parser/liquid/types.ts'
+import { ParserError } from '#parser/utils.ts'
 
 const parse = (input: string) => parseLiquid(input, 'test').body
 

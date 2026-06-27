@@ -1,6 +1,6 @@
 import { basename, dirname, extname, relative } from 'node:path'
 import config from '#config'
-import { compile } from '#core/parser/compile.ts'
+import { compile } from '#parser/compile.ts'
 import { loadFile } from '#utils/fs.ts'
 import type { BuildEngine } from './types.ts'
 

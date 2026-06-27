@@ -8,51 +8,40 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
 
 ## Migration Status
 
-**Current State:** Using Eleventy (11ty) for production, custom SSG in parallel development
-**Target State:** Custom SSG with zero third-party dependencies (except @types/node)
-**Philosophy:** Everything built from scratch for learning and understanding
+**Current state:** Eleventy (11ty) is still the production build; the custom SSG in `core/` builds to `.build/` and is used for development (`npm run start:ssg`).
 
-**Migration Plan:** See [`TODO.md`](TODO.md) for complete component breakdown and status tracking
+**Target state:** Custom SSG with zero third-party dependencies (except `@types/node`).
+
+**Philosophy:** Everything built from scratch for learning and understanding.
+
+**Tracking:** [`TODO.md`](TODO.md) — open work, done checklist, testing matrix.
 
 ### Migration Phases
 
-1. **Phase 1 - Core SSG Integration** (Foundation)
-   - Copy SSG core code (core/ directory) from the learning project
-   - Adapt configuration for website needs (_site vs .build, etc.)
-   - Ensure basic build pipeline works
-   - Test with simple pages first
+1. **Phase 1 — Core SSG integration** — **done**
+   - `core/` build pipeline, `.build/` output, `src/` layout without Eleventy underscore prefixes.
 
-2. **Phase 2 - Template Feature Parity** (Critical Path) ← in progress
-   - ~~Implement if/else/elsif conditionals~~ (done)
-   - ~~Implement assign tag~~ (done)
-   - ~~Implement render tag with variable passing~~ (done)
-   - ~~Implement variable output with dot-notation~~ (done)
-   - ~~Implement for loops~~ (done)
-   - Collections for posts: partial — `collections.posts` is loaded from `src/_posts/` via `core/data/posts.ts`, merged in `loadDataFiles()`, and each post is written to HTML by `core/emitter/posts.ts`. `userConfig.collections.posts.sortBy` / `sortOrder` are defined in `config.user.ts` but not yet applied when building the collection; `createPostUrl()` in `posts.ts` only substitutes a subset of permalink patterns (see TODO there). Eleventy-shaped collection APIs beyond `collections.posts` are still open.
-   - ~~Implement filters~~ (done — built-ins in [`core/parser/liquid/filters.ts`](core/parser/liquid/filters.ts); user filters in [`core/config.user.ts`](core/config.user.ts) `filters`, e.g. `encodeXML`. Eleventy `dateToRFC3339` → `| date: 'rfc3339'`.)
-   - ~~Implement shortcodes system (currentYear, etc.)~~ (done — `ShortCode` node type, registry in `config.user.ts`, resolved at render time)
-   - ~~Implement layout system~~ (done — `layoutResolver` in `resolver.ts`, nested chains via frontmatter `layout` key, content injection via `{{ content }}`)
-   - Test with all pages and posts
+2. **Phase 2 — Template feature parity** — **largely done**
+   - Liquid tags, expressions, filters, layouts, isolated `render`, shortcodes — see [`core/parser/liquid/README.md`](core/parser/liquid/README.md).
+   - Markdown tokenizer/parser/renderer; `.md` posts and pages compile through [`core/parser/compile.ts`](core/parser/compile.ts).
+   - Collections: load, sort, permalink expressions in [`core/data/collections.ts`](core/data/collections.ts); configured in [`site.config.ts`](site.config.ts).
+   - **Still open:** full prod parity check vs `_site/`.
+   - **Out of scope:** syntax highlighting — legacy `{% highlight %}` tags in one or two old posts may warn and render unstyled; accepted.
 
-3. **Phase 3 - Build Tool Replacements** (Quality)
-   - Build HTML minification (production mode)
-   - Build CSS processing (imports, autoprefixer-lite, minification)
-   - Build syntax highlighting for code blocks
-   - Asset bundling/optimization
+3. **Phase 3 — Build tool replacements** — **partial**
+   - ~~HTML minification (prod)~~ — [`core/transforms/minify-html.ts`](core/transforms/minify-html.ts), wired via `artifactTransforms` in `site.config.ts`.
+   - ~~CSS `@import` bundling~~ — [`core/transforms/css-imports.ts`](core/transforms/css-imports.ts), used by the CSS engine.
+   - CSS minification, autoprefixer-lite — open.
+   - Syntax highlighting — out of scope (see Phase 2).
+   - Asset bundling — open.
 
-4. **Phase 4 - Developer Experience** (Polish) ← partial
-   - ~~Dev server + live reload for SSG~~ — Script **`npm run start:ssg`**: `node --watch --env-file=.env core/index.ts --serve` restarts the process when **`core/`** (loaded module graph) changes; first run **`build()`** then [`core/server/index.ts`](core/server/index.ts) serves **`.build/`**.
-   - [`core/server/watcher.ts`](core/server/watcher.ts): **`fs.watch`** on **`src/`** (recursive), 150 ms debounce, coalesced **`schedule()`** so rebuilds do not overlap; on success **`broadcastReload()`** from [`core/server/livereload.ts`](core/server/livereload.ts).
-   - Livereload: HTTP **`upgrade`** on **`/__livereload`**, RFC 6455 handshake, text frames to connected tabs; HTML injection when **`userConfig.debugMode`** (`DEBUG=true` in `.env` → [`core/config.user.ts`](core/config.user.ts)) in [`core/emitter/traverse.ts`](core/emitter/traverse.ts) and [`core/emitter/posts.ts`](core/emitter/posts.ts). **`SIGINT`**: close FS watcher via [`core/index.ts`](core/index.ts).
-   - Better error messages and debugging
-   - Performance optimizations
-   - Build time reporting
+4. **Phase 4 — Developer experience** — **partial**
+   - ~~Dev server + live reload~~ — `npm run start:ssg`: [`core/commands/serve.ts`](core/commands/serve.ts), [`core/server/`](core/server/), [`core/transforms/livereload.ts`](core/transforms/livereload.ts). Watcher debounces rebuilds on `src/` changes.
+   - Livereload script injection on `.html` in dev via [`core/emitter/output.ts`](core/emitter/output.ts).
+   - Error messages / source spans, build time reporting, integration tests — open.
 
-5. **Phase 5 - Cleanup** (Final)
-   - Remove all Eleventy dependencies
-   - Remove PostCSS toolchain
-   - Update documentation
-   - Archive old eleventy.config.js for reference
+5. **Phase 5 — Cleanup** — **blocked** (after cutover)
+   - Remove Eleventy, PostCSS toolchain, `html-minifier`, `cross-env`; archive `eleventy.config.js`; switch default `npm run build` / `npm start` to the custom SSG.
 
 ## Agent Role & Teaching Approach
 
@@ -153,7 +142,7 @@ Agent: [Uses Write tool to create the function]
 
 **Bad (goal stated, no explicit repo edit):**
 ```
-User: I want to update core/parser/index.ts so it uses the new Liquid parser
+User: I want to update core/parser/compile.ts so it uses the new Liquid parser
 Agent: [Uses Write tool — wrong: “I want to update” is goal-only, not opt-in]
 ```
 
@@ -185,7 +174,7 @@ Would you like me to explain any part of this in more detail?
 During migration, these must work identically:
 - All Liquid template syntax in pages/posts/includes
 - Frontmatter structure
-- Data file loading (_data/ directory)
+- Data file loading (`src/data/` directory)
 - Layout system
 - URL structure (permalinks)
 - RSS feed generation
@@ -214,129 +203,110 @@ node --test test/path/to/file.test.ts  # Run a single test file
 
 ### Directory Structure
 ```
-src/                      # Source files
-  _data/                 # JSON/JS data files (instagram.json, projects.json, etc.)
-  _includes/             # Reusable partials (`.liquid` and `.html`; skipped in output)
-  _layouts/              # Page layouts (skipped in output)
-  _posts/                # Blog posts (skipped in output)
-  pages/                 # Public pages (home, resume, is, writes, etc.)
-  assets/                # Static resources (fonts, images, icons, projects, certifications)
+src/                      # Source files (input root)
+  data/                  # JSON/JS data (site.js, pkg.js, projects.json, …)
+  includes/              # Partials (`.liquid`, `.html`; not emitted)
+  layouts/               # Layout templates (not emitted)
+  posts/                 # Blog posts as `.md` (collection input; not emitted as source paths)
+  pages/                 # Public pages (home, resume, writes, rss, …)
+  assets/                # Static resources (images, icons, fonts, …)
   css/                   # Stylesheets (globals/, layout/, components/)
-  scripts/               # JavaScript files
-_site/                   # Eleventy build output (git-ignored)
-.build/                  # Custom SSG build output (git-ignored)
-.tmp/                    # Temporary files for dev/debug (AST dumps, rendered output)
-core/                    # Build system core
-  index.ts              # Main build orchestration (discover → process → writePosts → swap dest)
+  scripts/               # Client JavaScript
+_site/                   # Eleventy output (git-ignored)
+.build/                  # Custom SSG output (git-ignored)
+.tmp/                    # Debug dumps (AST, data.json when DEBUG=true)
+site.config.ts           # User config: collections, filters, shortcodes, transforms, passthrough
+core/
+  index.ts               # CLI entry: build; --serve delegates to commands/serve
+  commands/
+    build.ts             # load data → walk src → engines → atomic swap to .build/
+    serve.ts             # HTTP server + watcher + livereload lifecycle
+  config.core.ts         # System dirs, concurrency, reserved render keys (#config)
+  config.user.ts         # UserConfig types + getUserConfig() loader (#config.user)
   data/
-    index.ts            # loadDataFiles: _data/, customDataMapping (+ optional field pick), collections.posts
-    loader.ts           # loadFromDir, loadFromFile
-    posts.ts            # loadPosts from _posts/, URL helpers (permalink pattern partial); no sort yet
-    types.ts            # DataFileMap and related types
+    index.ts             # loadDataFiles, writeDataFilesDump
+    collections.ts       # loadCollection, getCollections, indexCollections, permalink URLs
+    loader.ts            # loadFromDir, loadFromFile (.json, .js, .md)
   emitter/
-    traverse.ts         # discoverFiles, processFiles (orchestrates compile + emit)
-    copy.ts             # pass-through copy helper
-    posts.ts            # write compiled post HTML into dest
-  server.ts             # Static HTTP server for .build/
-  config.core.ts        # Directory & extension configuration (import #config)
-  config.user.ts        # User overrides: customDataMapping, passThroughCopy, collections, baseUrl, shortCodes, filters (import #config.user)
+    traverse.ts          # processFiles (engine dispatch, concurrency)
+    output.ts            # writeBuildArtifact, emitStaticFile, artifactTransforms profiles
+    passthrough.ts       # passThroughCopy routing
+  engines/
+    registry.ts          # site-template + css engines
+    site-template.ts     # .liquid / .html / .xml / .md → compile()
+    css.ts               # .css → bundleCssImports
   parser/
-    index.ts            # Parsing pipeline entry point (compile, createPageContext)
-    README.md           # Liquid/frontmatter feature matrix vs Shopify Liquid
-    utils.ts            # Shared parser helpers (indent, quotes; used by frontmatter + liquid)
-    frontmatter/
-      index.ts          # Frontmatter module barrel
-      parser.ts         # Frontmatter parser (YAML-like subset)
-    liquid/
-      parser.ts         # Liquid AST parser (tokenize → parse → Template)
-      tokenizer.ts      # Liquid tokenizer (raw text → Token[])
-      renderer.ts       # Liquid AST renderer (Template → string)
-      resolver.ts       # Template file resolver for render includes and layout resolution
-      filters.ts        # Built-in Liquid filters (date presets, join, replace, prepend)
-      types.ts          # Token, Node, Expression, Template type definitions
-      utils.ts          # Liquid-specific helpers
-  utils/
-    fs.ts               # File system helpers (loadFile, ensureExtension)
-    json.ts             # JSON parsing
-    log.ts              # Debug logging
-    mime-types.ts       # MIME type resolution
-    object.ts           # Object access helpers (getFromObject)
-    path.ts             # Output path helpers
-    url.ts              # URL helpers for page context
-    html.ts             # e.g. escapeXML
+    compile.ts           # frontmatter → markdown? → liquid → layouts
+    utils.ts             # Shared parser helpers
+    frontmatter/         # YAML-like frontmatter subset
+    liquid/              # Tokenizer, parser/, renderer, filters, resolver
+      README.md          # Liquid feature matrix
+    markdown/            # Tokenizer, parser, renderer (CommonMark-ish subset)
+  server/
+    index.ts             # Static server for .build/
+    watcher.ts           # fs.watch on src/, debounced rebuild
+  transforms/
+    minify-html.ts       # Prod HTML minify (comment strip, whitespace collapse)
+    css-imports.ts       # Inline @import with layer/supports/media
+    livereload.ts        # WebSocket reload + script injection helper
+  utils/                 # fs, json, log, mime-types, object, path, url, html
 test/
-  parser/
-    liquid.test.ts      # Liquid parser/renderer tests
-    frontmatter.test.ts # Frontmatter parser tests
-    filters.test.ts     # Built-in and user filter behavior
-    utils.test.ts       # Parser utils tests
-  fixtures/liquid/      # Liquid test fixtures (dev.html, mock.json, run.ts, simple/, complex/, includes/)
-  utils/                # Utility tests (json, mime-types, object, path, url, fs)
+  parser/                # liquid, frontmatter, filters, utils
+  fixtures/liquid/       # Manual liquid fixture runner (test:liquid)
+  utils/
 ```
 
 ### Global data (`loadDataFiles`)
 
 [`core/data/index.ts`](core/data/index.ts) builds the global data map used at render time:
 
-1. **Directory data** — JSON files under `src/_data/` (via `loadFromDir`).
-2. **Custom file map** — Optional `customDataMapping` in [`core/config.user.ts`](core/config.user.ts). Each key names a data entry; the value is either a path string to a JSON file (the whole parsed object is stored under that key) or `{ path, includeFields }`, where `includeFields` is a list of **top-level** keys to keep from that file (e.g. `version` and `author` from `package.json`). Omitted keys are not copied into the map.
-3. **Collections** — When posts exist, `collections` is set with `{ posts }` from [`core/data/posts.ts`](core/data/posts.ts).
+1. **Directory data** — JSON/JS files under `src/data/` (via `loadFromDir`; keys are filenames without extension).
+2. **Custom file map** — Optional `customDataMapping` in [`site.config.ts`](site.config.ts) (types in [`core/config.user.ts`](core/config.user.ts)). Each key names a data entry; the value is either a path string to a JSON file or `{ path, includeFields }` for top-level field picks.
+3. **Collections** — When configured in `site.config.ts` `collections`, entries are loaded by [`core/data/collections.ts`](core/data/collections.ts) and stored under the `collections` key (e.g. `collections.posts`).
 
-### Current Eleventy Features to Replicate
+`src/data/pkg.js` imports `package.json` and exposes `version` / `author` as global `pkg` without `customDataMapping`.
 
-**From eleventy.config.js:**
-1. **HTML Minification** (production only)
-   - Remove comments
-   - Collapse whitespace
-   - Only for .html files
+### Eleventy features vs custom SSG
 
-2. **CSS Processing**
-   - PostCSS imports (combine @import statements)
-   - Autoprefixer (add vendor prefixes)
-   - CSS minification (cssnano)
-
-3. **Plugins**
-   - Syntax highlighting with language detection
-   - Bundle plugin for asset management
-
-4. **Filters**
-   - `dateToRFC3339`: Convert dates to RFC3339 format (custom SSG: built-in `| date: 'rfc3339'`)
-   - `encodeXML`: Escape XML special characters (custom SSG: user filter in `config.user.ts`)
-
-5. **Shortcodes**
-   - `currentYear`: Returns current year
-
-6. **Collections**
-   - `posts`: Sorted blog posts from _posts/*.md (newest first)
-
-7. **File Handling**
-   - Passthrough copy: assets/, _redirects, scripts/
-   - Watch targets: css/**/*.css, scripts/**/*.js
-   - Template formats: .liquid, .md, .css
+| Feature | Custom SSG status |
+| ------- | ----------------- |
+| Liquid templates, layouts, `render` | Done — [`core/parser/liquid/README.md`](core/parser/liquid/README.md) |
+| Markdown posts | Done — markdown → HTML, then Liquid + layouts |
+| Collections (`posts`, sort, permalinks) | Done — `site.config.ts` + `collections.ts` |
+| Filters (`encodeXML`, date presets) | Done — user + built-in filters |
+| Shortcodes (`currentYear`) | Done |
+| Passthrough (assets, scripts) | Done — `passThroughCopy` |
+| HTML minification (prod) | Done — `minifyHtml` via `artifactTransforms` |
+| CSS `@import` | Done — `bundleCssImports` |
+| CSS minify / autoprefixer | Open |
+| Syntax highlighting | Out of scope — legacy `{% highlight %}` in ~2 posts; plain code is acceptable |
+| Asset bundling (Eleventy bundle plugin) | Open |
 
 ### Template System (Current Behavior)
 
 **Variable Resolution**
 - Syntax: `{{identifier.path.to.value}}`
-- Sources: `src/_data/` files, entries from `customDataMapping` in `config.user.ts`, `collections` (when posts are loaded), page frontmatter
-- Example: `{{site.title}}` → data from `_data/site.*` → accesses `title`
+- Sources: `src/data/` files, optional `customDataMapping`, `collections`, page frontmatter
+- Example: `{{site.title}}` → `src/data/site.js` → `title`
 
 **Layout System**
 - Defined in frontmatter: `layout: default`
-- Layouts in `_layouts/`, resolved by `layoutResolver` in `core/parser/liquid/resolver.ts`
-- Supports nested chains (e.g. `page → default → meta`); walks `layout` key in each layout's frontmatter until none remains
-- Content injection via `{{ content }}` — the child's rendered output is set as `content` on the layout's context
-- Layout wrapping happens in `compile()` (`core/parser/index.ts`) after the page body is rendered
+- Layouts in `src/layouts/`, resolved by `layoutResolver` in `core/parser/liquid/resolver.ts`
+- Nested chains via each layout's frontmatter `layout` key; content injection via `{{ content }}`
+- Layout wrapping in `compile()` ([`core/parser/compile.ts`](core/parser/compile.ts)) after the page body is rendered
 
 **Shortcodes**
-- Registry: `shortCodes` map in `config.user.ts` (e.g. `currentYear: () => new Date().getFullYear()`)
-- Syntax: `{% name %}` — a single identifier tag not matching any built-in keyword
-- Parser emits `ShortCode` AST node; renderer resolves the function from context and outputs its return value
+- Registry: `shortCodes` in [`site.config.ts`](site.config.ts)
+- Syntax: `{% name %}` — single identifier not matching a built-in keyword
 - Unknown shortcodes throw at render time
+
+**Markdown**
+- `.md` files: frontmatter stripped, body parsed by `core/parser/markdown/`, rendered to HTML, then processed as Liquid
+- Fenced code blocks emit `<pre><code class="language-…">` without syntax highlighting classes beyond the language name
 
 **Liquid Features**
 
-For a full list of implemented and missing Liquid tags, operators, and filters, see [`core/parser/README.md`](core/parser/README.md).
+Full tag/filter/operator matrix: [`core/parser/liquid/README.md`](core/parser/liquid/README.md).
 
 **Render Scope: Follows Liquid Spec (Isolated)**
 
@@ -345,33 +315,31 @@ isolated scope containing only the variables explicitly passed at the call site.
 The renderer cache stores parsed ASTs (Template), not rendered output, so the same
 include can be rendered multiple times with different variables.
 
-Layouts pass explicit variables into partials that need them: [`src/_layouts/default.liquid`](src/_layouts/default.liquid) passes flattened names into `page-footer` (e.g. `site_email`, `socialnetworks_*`, `pkg_version`); [`src/_layouts/meta.liquid`](src/_layouts/meta.liquid) passes objects into `meta-head` and `pkg_version` / `site_timestamp` into `page-scripts`. `menu` receives `title` (and `location`) from callers.
+Layouts pass explicit variables into partials that need them: [`src/layouts/default.liquid`](src/layouts/default.liquid) passes flattened names into `page-footer`; [`src/layouts/meta.liquid`](src/layouts/meta.liquid) passes objects into `meta-head` and version/timestamp into `page-scripts`. `menu` receives `title` (and `location`) from callers.
 
-Partials such as `logo`, `page-top-left-bg`, `iconset`, `world`, and `article-outdated-warning` use only static markup or variables supplied at the `{% render %}` call site (e.g. `asLink` for `logo`). Any new include must follow the same rule: under isolated `render`, only passed bindings and literals are in scope.
+Partials such as `logo`, `page-top-left-bg`, `iconset`, `world`, and `article-outdated-warning` use only static markup or variables supplied at the `{% render %}` call site. Any new include must follow the same rule: under isolated `render`, only passed bindings and literals are in scope.
 
-Global data keys such as `pkg` still come from `customDataMapping`; they are not visible inside a `render` partial unless the parent template passes them (or passes derived flat fields).
-
-**Includes Directory Name Mismatch**
-
-The source files use `src/_includes/` (with underscore), but [`core/config.core.ts`](core/config.core.ts) defines
-`DIRECTORIES.INTERNAL.INCLUDES` as `'includes'` (no underscore). The test fixtures
-match the config (`test/fixtures/liquid/includes/`). The resolver resolves the includes
-path relative to the parent file's directory. This mismatch will need reconciliation
-when the SSG starts processing actual source files — either rename `src/_includes/` to
-`src/includes/` or update the config to `'_includes'`.
+Global data keys such as `pkg` and `site` come from `src/data/`; they are not visible inside a `render` partial unless the parent template passes them (or passes derived flat fields).
 
 ### Import Aliases
 ```json
 "imports": {
+  "#commands/*": "./core/commands/*",
   "#config": "./core/config.core.ts",
   "#config.user": "./core/config.user.ts",
+  "#core/*": "./core/*",
+  "#data/*": "./core/data/*",
   "#emitter/*": "./core/emitter/*",
+  "#engines/*": "./core/engines/*",
   "#parser/*": "./core/parser/*",
-  "#utils/*": "./core/utils/*",
-  "#core/*": "./core/*"
+  "#server/*": "./core/server/*",
+  "#transforms/*": "./core/transforms/*",
+  "#utils/*": "./core/utils/*"
 }
 ```
 (From [`package.json`](package.json); keep in sync when adding aliases.)
+
+User-facing config lives in [`site.config.ts`](site.config.ts) at the repo root; [`getUserConfig()`](core/config.user.ts) loads it at build time.
 
 ## Code Standards
 
@@ -382,7 +350,7 @@ when the SSG starts processing actual source files — either rename `src/_inclu
 - **Tabs for indentation**: Configured in biome.json
 - **Single quotes for strings**: Configured in biome.json
 - **Latest Node.js APIs**: Use modern native features
-- **Node.js 25.1.0**: Pinned via `.nvmrc`
+- **Node.js 25.9.0**: Pinned via `.nvmrc`
 - **TypeScript entrypoints**: There is no `tsconfig.json` in the repo; scripts invoke `node` on `.ts` files directly (Node’s native TypeScript execution / type stripping). Editors infer types from imports and `@types/node`.
 
 ### TypeScript
@@ -430,26 +398,18 @@ when the SSG starts processing actual source files — either rename `src/_inclu
 4. Check browser compatibility
 5. Document what was replaced and how
 
-### CSS Processing Transition
-When replacing PostCSS:
-- Start with @import resolution (most critical)
-- Add autoprefixer-lite (target modern browsers only)
-- Add minification (whitespace removal, basic optimizations)
-- Keep source maps for debugging during transition
+### CSS processing (custom SSG)
+- `@import` inlining is implemented ([`core/transforms/css-imports.ts`](core/transforms/css-imports.ts))
+- Minification and autoprefixer still use PostCSS on the Eleventy path only; not yet replaced in `core/`
 
-### HTML Minification Transition
-When replacing html-minifier:
-- Preserve Liquid syntax during processing
-- Only minify final output HTML
-- Keep production-only flag
-- Test with all page templates
+### HTML minification (custom SSG)
+- Implemented in [`core/transforms/minify-html.ts`](core/transforms/minify-html.ts) — protects `<script>`, `<style>`, `<pre>`, `<textarea>` blocks; strips comments and collapses whitespace
+- Applied only when `prodMode` / `artifactTransforms` prod profile runs ([`core/emitter/output.ts`](core/emitter/output.ts))
 
-### Syntax Highlighting Transition
-When replacing eleventy-plugin-syntaxhighlight:
-- Support existing language tags
-- Preserve code block structure
-- Generate similar HTML output (for CSS compatibility)
-- Support `data-language` attribute
+### Syntax highlighting
+- **Not planned.** One or two legacy posts use `{% highlight lang %}` … `{% endhighlight %}` (Jekyll/Eleventy style); the custom SSG warns `Unknown tag: highlight` and those blocks render without styling — accepted.
+- Markdown fenced blocks emit `<pre><code class="language-…">` with escaped content only (no token classes).
+- Eleventy production path still uses `@11ty/eleventy-plugin-syntaxhighlight` until cutover; no custom replacement required for migration.
 
 ## Versioning
 
@@ -470,15 +430,14 @@ Custom format: `Year.Month.Commits.Type`
 ## Special Considerations
 
 ### Data Files
-- `site.js` uses default export (not JSON)
+- `site.js` and `pkg.js` use default export (not JSON)
 - Some JSON files are large (instagram.json ~25KB)
-- Must support both .json and .js formats
+- Loader supports `.json`, `.js`, and `.md` in data directories
 
-### Pages
-- Currently .liquid extension
-- Nested in subdirectories (pages/home/, pages/resume/)
-- Each has index.liquid
-- Permalinks control output structure
+### Pages and posts
+- Pages: `.liquid` under `src/pages/` (each route typically `index.liquid`)
+- Posts: `.md` under `src/posts/`; compiled via the `posts` collection in `site.config.ts`
+- Permalinks from frontmatter or collection `permalink` pattern control output URLs
 
 ### Build Output
 - Eleventy outputs to `_site/`
