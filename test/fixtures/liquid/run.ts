@@ -39,7 +39,7 @@ const compiled = await compile(
   {
     layoutCache: new Map(),
     data: new Map([...Object.entries(mockContext)]),
-    baseUrl: 'https://morkro.de',
+    baseUrl: 'https://moritz.berlin',
     shortCodes: userConfig.shortCodes ?? {},
     filters: userConfig.filters ?? {},
     outputRoot: config.directories.temp,

@@ -52,6 +52,7 @@ export function createPageContext (
   global: DataFileMap,
   input: string,
   output: string,
+  outputRoot: string,
   baseUrl: string,
   frontmatter: Record<string, unknown>,
   pageData?: Record<string, unknown>
@@ -68,7 +69,7 @@ export function createPageContext (
   const context = { ...core, ...frontmatter, page: {
     inputPath: input,
     outputPath: output,
-    url: toUrl(baseUrl, output),
+    url: toUrl(baseUrl, outputRoot, output),
     ...pageData
   }}
   return context
@@ -115,6 +116,7 @@ export async function compile (file: string, path: string, options: CompilerOpti
     options.data,
     path,
     outputPath,
+    options.outputRoot,
     options.baseUrl,
     frontmatter,
     options.pageData)

@@ -37,15 +37,15 @@ layout: default
     <section class="article-comments">
       <div itemprop="comment" id="disqus_thread"></div>
       <script type="text/javascript">
-        				var disqus_config = function () {
-        					this.page.url = '{{ site.url }}{{ page.url }}';
-        				};
-        				(function() {
-        					var d = document, s = d.createElement('script');
-        					s.src = '//morkro.disqus.com/embed.js';
-        					s.setAttribute('data-timestamp', +new Date());
-        					(d.head || d.body).appendChild(s);
-        				})();
+        var disqus_config = function () {
+          this.page.url = '{{ page.url }}';
+        };
+        (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//morkro.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
       </script>
       <noscript>
         Please enable JavaScript to view the

@@ -13,7 +13,6 @@ permalink: /feed.xml
 	</author>
 	<link href="{{ site.url }}/feed.xml" rel="self" type="application/atom+xml" />
 	<link href="{{ site.url }}" rel="alternate" type="text/html" />
-	<generator>11ty</generator>
 	<updated>{{ site.timestamp | date: "rfc3339" }}</updated>
 	{% for post in collections.posts limit:10 %}
 	{% assign data = post.data %}

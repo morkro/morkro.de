@@ -32,6 +32,13 @@ function pickValues(
 export async function loadDataFiles(userConfig?: UserConfig): Promise<DataFileMap> {
 	const data = new Map(await loadFromDir('data'))
 
+	if (userConfig?.baseUrl) {
+		const site = data.get('site')
+		if (isRecord(site)) {
+			data.set('site', { ...site, url: userConfig.baseUrl })
+		}
+	}
+
 	if (userConfig?.customDataMapping) {
 		const paths: Record<string, string> = {}
 		const getByKey = new Map<string, string[] | undefined>()

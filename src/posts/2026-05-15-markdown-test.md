@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Testing all Markdown features for my parser"
+pageClass: article
 tags:
   - foo
 ---

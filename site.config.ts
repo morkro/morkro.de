@@ -11,7 +11,7 @@ const config: UserConfig = {
   debugMode: process.env.DEBUG === 'true',
   devMode: process.env.NODE_ENV === 'development',
   prodMode: process.env.NODE_ENV === 'production',
-  baseUrl: 'https://morkro.de',
+  baseUrl: 'https://moritz.berlin',
   passThroughCopy: [
     { from: 'src/assets', to: 'assets', },
     { from: 'src/scripts', to: 'assets/scripts', },
