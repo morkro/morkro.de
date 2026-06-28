@@ -1,4 +1,5 @@
 import type { UserConfig } from "#config.user"
+import { minifyCss } from "#core/transforms/minify-css.ts"
 import { minifyHtml } from "#core/transforms/minify-html.ts"
 import { escapeXML } from "#core/utils/html.ts"
 
@@ -17,7 +18,10 @@ const config: UserConfig = {
   ],
   artifactTransforms: new Map([
     ['.html', {
-      prod: [(body, outputPath, ctx) => minifyHtml(body)],
+      prod: [(body) => minifyHtml(body)],
+    }],
+    ['.css', {
+      prod: [(body) => minifyCss(body)],
     }]
   ]),
   shortCodes: {

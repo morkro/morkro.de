@@ -1,4 +1,5 @@
 import { dirname, relative } from 'node:path';
+import { maskBlockComments } from '#utils/css.ts';
 import { loadFile } from '#utils/fs.ts';
 import { resolveWithin } from '#utils/path.ts';
 
@@ -34,12 +35,6 @@ function indentCssBlock (css: string): string {
 		.split('\n')
 		.map((line) => (line.length > 0 ? `\t${line}` : line))
 		.join('\n')
-}
-
-function maskBlockComments(css: string): string {
-	return css.replace(
-    /\/\*[\s\S]*?\*\//g,
-    (comment) => comment.replace(/[^\n]/g, ' '))
 }
 
 function wrapCssWithAtRule (css: string, atRule: string): string {

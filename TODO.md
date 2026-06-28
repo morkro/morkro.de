@@ -16,17 +16,10 @@ Custom SSG runs in parallel with Eleventy. Target: zero third-party build depend
 | ---- | ------ | ----- |
 | Prod parity check | open | Compare `.build/` vs `_site/` (HTML, CSS, URLs, RSS) before switching deploy. |
 
-### Accepted gaps (not planned)
-
-| Item | Notes |
-| ---- | ----- |
-| Syntax highlighting | Out of scope. One or two legacy posts use `{% highlight %}` / `{% endhighlight %}`; parser warns and code renders unstyled — acceptable for now. Fenced markdown blocks also emit plain `<code>` without token classes. |
-
 ### Build quality (Phase 3)
 
 | Item | Status | Notes |
 | ---- | ------ | ----- |
-| CSS minification | open | `@import` bundling works; no minifier yet. |
 | CSS autoprefixer | open | Optional if targeting modern browsers only. |
 | Asset bundling | open | Replace `@11ty/eleventy-plugin-bundle` behaviour if still needed. |
 
@@ -55,7 +48,7 @@ Pick when touching the area; gate parser changes with the testing matrix.
 
 ### Phase 5 — dependency removal
 
-**blocked** until the prod parity check passes and CSS processing is replaced on the custom path (minify at minimum, if dropping PostCSS).
+**blocked** until the prod parity check passes.
 
 Remove Eleventy, PostCSS toolchain, `html-minifier`, `cross-env`; archive `eleventy.config.js`; point `npm run build` / `npm start` at the custom SSG.
 

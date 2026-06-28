@@ -10,7 +10,6 @@ export function createCssEngine(): BuildEngine {
     async run(inputPath, outputPath, ctx) {
       const raw = await loadFile<string>(dirname(inputPath), basename(inputPath))
       const body = await bundleCssImports(raw, inputPath, ctx.inputRoot)
-      
       return { artifacts: [{ body, outputPath }] }
     }
   }
