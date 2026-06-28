@@ -1,6 +1,6 @@
 {
   "name": "morkro.de",
-  "version": "26.06.97.M2",
+  "version": "26.06.98.M2",
   "description": "Website of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
@@ -25,7 +25,7 @@
     "lint": "npm run lint:js && npm run lint:css",
     "setup": "npm run clean:build && npm run lint",
     "build:css": "postcss src/css/*.css --no-map --dir _site/css",
-    "build:ssg": "node core/index.ts",
+    "build:ssg": "NODE_ENV=production node core/index.ts",
     "watch:css": "postcss src/css/*.css --no-map --dir _site/css --watch",
     "build": "cross-env NODE_ENV=production npm run setup && cross-env NODE_ENV=production npx @11ty/eleventy",
     "start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet",

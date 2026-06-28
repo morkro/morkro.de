@@ -1,4 +1,5 @@
 import config, { type RenderServices } from '#config';
+import { escapeHtmlContent } from "#parser/markdown/utils.ts";
 import { BreakSignal, ContinueSignal, ParserError } from "#parser/utils.ts";
 import { logger } from "#utils/log.ts";
 import { getFromObject } from "#utils/object.ts";
@@ -467,6 +468,15 @@ async function renderNodes(
         break
       }
       case 'Unknown': {
+        if (node.name === 'highlight') {
+          const language = node.args.trim().split(/\s+/)[0] || 'txt'
+          const text = node.body.replace(/^\n/, '').replace(/\n$/, '')
+          result.push(
+            `<pre class="language-${language}"><code class="language-${language}">${escapeHtmlContent(text)}</code></pre>`
+          )
+          break
+        }
+        
         log.warn(`Unknown tag: ${node.name}`, { templateSource })
         break
       }

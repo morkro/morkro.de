@@ -61,32 +61,6 @@ Remove Eleventy, PostCSS toolchain, `html-minifier`, `cross-env`; archive `eleve
 
 ---
 
-## Done
-
-### Template and content
-
-- **Liquid** — tags, expressions, filters, layouts, isolated `render`, shortcodes. Matrix: [`core/parser/liquid/README.md`](core/parser/liquid/README.md)
-- **Markdown** — tokenizer, parser, renderer; `.md` bodies compiled in [`core/parser/compile.ts`](core/parser/compile.ts)
-- **Frontmatter** — YAML-like subset (nested maps, list arrays, `#` comments, quoted scalars)
-- **Collections** — load from `src/posts/`, `sortBy` / `sortOrder`, permalink expressions via Liquid filters ([`core/data/collections.ts`](core/data/collections.ts))
-- **User filters / shortcodes** — `encodeXML`, `currentYear` in [`site.config.ts`](site.config.ts)
-
-### Build pipeline
-
-- **Orchestration** — [`core/commands/build.ts`](core/commands/build.ts), thin [`core/index.ts`](core/index.ts)
-- **Engines** — site-template (`.liquid`, `.html`, `.xml`, `.md`), CSS (`.css`) via [`core/engines/registry.ts`](core/engines/registry.ts)
-- **Single walk** — discover + collection index + passthrough in one pass ([`core/emitter/traverse.ts`](core/emitter/traverse.ts))
-- **CSS @import** — inline bundling with layer/supports/media ([`core/transforms/css-imports.ts`](core/transforms/css-imports.ts))
-- **HTML minify** — prod-only via `artifactTransforms` ([`core/transforms/minify-html.ts`](core/transforms/minify-html.ts))
-- **Passthrough** — assets and scripts ([`core/emitter/passthrough.ts`](core/emitter/passthrough.ts))
-- **Dev server** — watch `src/`, debounced rebuild, livereload ([`core/commands/serve.ts`](core/commands/serve.ts), [`core/server/`](core/server/), [`core/transforms/livereload.ts`](core/transforms/livereload.ts))
-
-### Source layout
-
-Renamed from Eleventy conventions: `src/data/`, `src/includes/`, `src/layouts/`, `src/posts/` (no leading underscore). Config internal dirs match ([`core/config.core.ts`](core/config.core.ts)).
-
----
-
 ## Testing matrix
 
 Use after parser or pipeline edits:
