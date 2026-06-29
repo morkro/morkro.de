@@ -42,11 +42,22 @@ export async function safeRename(from: string, to: string) {
 	}
 }
 
+export async function safeRm(path: string) {
+	try {
+		await rm(path, { recursive: true })
+	} catch (error) {
+		if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+			return
+		}
+		throw new Error(`Failed to remove "${path}"`, { cause: error })
+	}
+}
+
 export async function swapDirectories(from: string, to: string) {
   const oldOutput = `${to}.old`
   await safeRename(to, oldOutput)
   await safeRename(from, to)
-  await rm(oldOutput, { recursive: true })
+  await safeRm(oldOutput)
 }
 
 export async function walkFiles (
