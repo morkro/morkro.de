@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+	{% if site.showHeader %}
+	<header>
+		<h1>{{site.title}}</h1>
+	</header>
+	{% else %}
+	<p>Header disabled</p>
+	{% endif %}
+
+	{% if user.isAdmin %}
+	<button>Admin Panel</button>
+	{% endif %}
+
+	{% if user.isAdmin %}
+	<button>Admin Panel</button>
+	{% elsif user.isEditor %}
+	<button>Editor Panel</button>
+	{% else %}
+	<button>User Panel</button>
+	{% endif %}
+</body>
+</html>

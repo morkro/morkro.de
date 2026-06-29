@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<h2>Arithmetic</h2>
+	<p>2 + 3 = {{ 2 + 3 }}</p>
+	<p>10 - 4 = {{ 10 - 4 }}</p>
+	<p>3 * 7 = {{ 3 * 7 }}</p>
+	<p>20 / 4 = {{ 20 / 4 }}</p>
+	<p>2 + 3 * 4 = {{ 2 + 3 * 4 }}</p>
+	<p>7.5 / 2.5 = {{ 7.5 / 2.5 }}</p>
+
+	{% assign price = 25 %}
+	{% assign quantity = 4 %}
+	{% assign total = price * quantity %}
+	<p>Total: {{ total }}</p>
+
+	<h2>Unary minus</h2>
+	{% assign neg = -1 %}
+	<p>neg = {{ neg }}</p>
+	<p>10 - -3 = {{ 10 - -3 }}</p>
+
+	<h2>Unary not</h2>
+	{% assign show = false %}
+	{% if not show %}
+	<p>Hidden content shown via not</p>
+	{% endif %}
+
+	{% assign count = 3 %}
+	{% if not count > 5 %}
+	<p>Count is not greater than 5</p>
+	{% endif %}
+</body>
+</html>

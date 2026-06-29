@@ -21,7 +21,7 @@ permalink: /resume/
 <section id="intro" class="container-large grid">
   <div class="col-2">
 		{%
-			include blob-photo,
+			render blob-photo,
 			photoUrl: "moritz-work.webp",
 			photoTitle: "Professional portrait photo of Moritz Kröger",
 			photoAlt: "Professional portrait photo of Moritz Kröger"
@@ -77,7 +77,7 @@ permalink: /resume/
 			<br><br>
 			Open source has always been both a passion and an integral part of my work. Most of my personal projects are open source, and my contributions to the community focus on accessibility, bug fixes, and documentation.
 			<br><br>
-			Please reach out to me on <a href="" target="_blank" class="with-icon"><svg aria-hidden="true"><use xlink:href="#linkedin"></use></svg> LinkedIn</a> for any inquiry.
+			Please reach out to me on <a href="{{ socialnetworks.linkedin.url }}" target="_blank" class="with-icon"><svg aria-hidden="true"><use xlink:href="#linkedin"></use></svg> LinkedIn</a> for any inquiry.
 		</p>
 		</div>
 	</div>
@@ -231,8 +231,8 @@ permalink: /resume/
 							loading="lazy"
 							width="30px"
 							height="30px"
-							alt="Picture of the institution logo from {{ xp.company }}"
-							title="{{ xp.company }}"
+							alt="Picture of the institution logo from {{ edu.school }}"
+							title="{{ edu.school }}"
 						>
 						<a href="{{ edu.url }}" target="_blank" rel="noopener noreferrer">
 							<strong>{{ edu.school }}</strong>
@@ -281,7 +281,7 @@ permalink: /resume/
 							loading="lazy"
 							width="30px"
 							height="30px"
-							alt="Picture of the organisation logo from {{ xp.org }}"
+							alt="Picture of the organisation logo from {{ org.org }}"
 							title="{{ org.org }}"
 						>
 						<a href="{{ org.url }}" target="_blank" rel="noopener noreferrer">

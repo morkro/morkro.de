@@ -1,0 +1,16 @@
+{
+	"_comment": "Optional overrides for website-specification audits. Update when structure changes; omit keys to fall back to discovery. Paths are verified at audit time — stale entries are ignored.",
+	"documentShell": "src/layouts/meta.liquid",
+	"headPartial": "src/includes/meta-head.liquid",
+	"defaultLayout": "src/layouts/default.liquid",
+	"headerPartial": "src/includes/page-header.liquid",
+	"footerPartial": "src/includes/page-footer.liquid",
+	"scriptPartial": "src/includes/page-scripts.liquid",
+	"siteData": "src/data/site.js",
+	"globalCssEntry": "src/css/main.css",
+	"errorPage": "src/pages/notfound/index.liquid",
+	"feedTemplate": "src/pages/rss/index.liquid",
+	"postLayout": "src/layouts/post.liquid",
+	"markdownRenderer": "core/parser/markdown/renderer.ts",
+	"buildOutput": ".build"
+}

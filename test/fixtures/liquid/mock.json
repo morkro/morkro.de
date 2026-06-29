@@ -1,0 +1,62 @@
+{
+	"site": {
+		"title": "My Test Site",
+		"name": "Test Site",
+		"description": "A test site for Liquid parser",
+		"author": "John Doe",
+		"showHeader": true,
+		"navigation": {
+			"enabled": true,
+			"links": "Home | About | Contact"
+		},
+		"footer": {
+			"enabled": true,
+			"text": "Copyright 2024"
+		},
+		"featureName": "Advanced Search",
+		"featureDesc": "Search with filters",
+		"features": {
+			"showCards": true
+		},
+		"card1Text": "First card content",
+		"card2Text": "Second card content"
+	},
+	"pkg": {
+		"version": "1.0.0"
+	},
+	"page": {
+		"title": "Complex Test",
+		"heading": "Test Page",
+		"description": "Testing multiple features together",
+		"featured": true
+	},
+	"user": {
+		"isLoggedIn": true,
+		"isAdmin": true,
+		"name": "Admin User"
+	},
+	"navLinks": [
+		{ "url": "/", "label": "Home" },
+		{ "url": "/about", "label": "About" },
+		{ "url": "/blog", "label": "Blog" },
+		{ "url": "/contact", "label": "Contact" }
+	],
+	"tags": ["html", "css", "test", "javascript"],
+	"emptyList": [],
+	"caseDemo": {
+		"kind": "beta",
+		"label": "alpha",
+		"tier": "free"
+	},
+	"matrix": [
+		[10, 20, 30],
+		[40, 50, 60]
+	],
+	"colors": ["red", "green", "blue"],
+	"article": {
+		"date": "2026-04-24T12:00:00.000Z",
+		"title": "Hello World",
+		"keywords": ["html", "css", "javascript"],
+		"rawHtml": "<b>bold</b> & \"quoted\""
+	}
+}

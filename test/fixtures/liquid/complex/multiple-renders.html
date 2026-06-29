@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<section class='cards'>
+		{% render 'card', heading: 'Feature 1', content: 'Description 1', tag: 'new' %}
+		{% render 'card', heading: 'Feature 2', content: 'Description 2', tag: 'popular' %}
+		{% render 'card', heading: site.featureName, content: site.featureDesc, tag: 'beta' %}
+	</section>
+
+	<div class='actions'>
+		{% render 'button', label: 'Save', type: 'primary' %}
+		{% render 'button', label: 'Cancel', type: 'secondary' %}
+		{% render 'button', label: 'Delete', type: 'danger' %}
+	</div>
+</body>
+</html>

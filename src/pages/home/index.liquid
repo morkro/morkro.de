@@ -27,7 +27,7 @@ permalink: /
 	<div class="intro-welcome-photo col-2">
 		<div class="intro-welcome-photo-mask">
 			{%
-				include blob-photo,
+				render blob-photo,
 				photoUrl: "moritz-mountains.webp",
 				photoTitle: "Selfie of Moritz standing in the Slovenian Alps",
 				photoAlt: "Selfie of Moritz standing in the Slovenian Alps",
@@ -77,7 +77,7 @@ permalink: /
 			{% for post in collections.posts limit:5 %}
 			{% assign data = post.data %}
 			<li>
-				<span>{{ post.date | date: "%Y" }}</span>
+				<span>{{ post.date | date: "year" }}</span>
 				{% if data.external %}
 				<a href="{{ data.external.url }}" target="_blank" rel="noopener noreferrer">
 				{% else %}

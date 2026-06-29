@@ -1,0 +1,1066 @@
+---
+# fixture: frontmatter parsing (lines starting with # are ignored by parseFrontmatter)
+title: Development Test File
+description: This is a test file for the development of the Liquid parser
+permalink: /dev
+layout: default
+pageClass: dev
+fmVersion: 1
+navOrder: 42
+keywords:
+  - test
+  - test2
+tags:
+  - alpha
+  - beta
+---
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+	<title>{{ site.title }} — {{ title }}</title>
+	<meta name='description' content='{{ description }}'>
+</head>
+<body>
+	<!-- COMPREHENSIVE LIQUID FEATURE TEST -->
+	{% comment %}
+		This is a comment
+	{% endcomment %}
+
+	<!-- 0. FRONTMATTER (YAML merged into render context before Liquid; see parseFrontmatter) -->
+	<section id='frontmatter'>
+		<h2>Frontmatter Tests</h2>
+		<p class='fm-title'>Page title (FM): {{ title }}</p>
+		<p class='fm-description'>{{ description }}</p>
+		<p class='fm-permalink'>{{ permalink }}</p>
+		<p class='fm-layout'>{{ layout }}</p>
+		<p class='fm-pageClass'>{{ pageClass }}</p>
+		<p class='fm-navOrder'>{{ navOrder }}</p>
+		<p class='fm-fmVersion'>{{ fmVersion }}</p>
+		<ul class='fm-keywords'>
+			{% for kw in keywords %}
+			<li>{{ kw }}</li>
+			{% endfor %}
+		</ul>
+		<ul class='fm-tags'>
+			{% for t in tags %}
+			<li>{{ t }}</li>
+			{% endfor %}
+		</ul>
+		{% if pageClass == 'dev' %}
+		<p class='fm-check-pageClass'>pageClass is dev</p>
+		{% endif %}
+		{% if permalink == '/dev' %}
+		<p class='fm-check-permalink'>permalink matches</p>
+		{% endif %}
+		{% if description contains 'Liquid' %}
+		<p class='fm-check-description'>description contains Liquid</p>
+		{% endif %}
+		{% if navOrder == '42' %}
+		<p class='fm-check-navOrder-string'>navOrder is string 42 (YAML scalars are strings in this parser)</p>
+		{% endif %}
+	</section>
+
+	<!-- 1. VARIABLE SUBSTITUTION -->
+	<section id='variables'>
+		<h2>Variable Tests</h2>
+		<p>Site name: {{site.name}}</p>
+		<p>Package version: {{pkg.version}}</p>
+		<p>Nested path: {{site.footer.text}}</p>
+		<p>Page title: {{page.title}}</p>
+	</section>
+
+	<!-- 2. ASSIGN TAG -->
+	<section id='assign'>
+		<h2>Assign Tests</h2>
+		{% assign greeting = 'Hello from Liquid' %}
+		{% assign number = 100 %}
+		{% assign fromVar = site.author %}
+
+		<p>{{greeting}}</p>
+		<p>Number: {{number}}</p>
+		<p>From variable: {{fromVar}}</p>
+	</section>
+
+	<!-- 3. IF/ELSE CONDITIONALS -->
+	<section id='conditionals'>
+		<h2>Conditional Tests</h2>
+
+		{% if site.showHeader %}
+		<div class='header-enabled'>
+			<h3>Header is enabled</h3>
+			<p>Title: {{site.title}}</p>
+		</div>
+		{% else %}
+		<div class='header-disabled'>
+			<p>No header</p>
+		</div>
+		{% endif %}
+
+		{% if user.isAdmin %}
+		<div class='admin-panel'>
+			<h3>Admin Controls</h3>
+			<button>Manage Users</button>
+		</div>
+		{% endif %}
+
+		<!-- Elseif -->
+		{% if user.isAdmin %}
+		<div class='admin-panel'>
+			<h3>Admin Controls</h3>
+			<button>Manage Users</button>
+		</div>
+		{% elsif user.isEditor %}
+		<div class='editor-panel'>
+			<h3>Editor Controls</h3>
+			<button>Manage Content</button>
+		</div>
+		{% else %}
+		<div class='user-panel'>
+			<h3>User Controls</h3>
+			<button>Manage Profile</button>
+		</div>
+		{% endif %}
+
+		<!-- Binary operators -->
+		{% if user.role == 'admin' %}
+		<p>User is admin</p>
+		{% endif %}
+
+		{% if user.role != 'guest' %}
+		<p>User is not a guest</p>
+		{% endif %}
+
+		{% if user.age > 18 %}
+		<p>User is an adult</p>
+		{% endif %}
+
+		{% if user.age < 65 %}
+		<p>User is not a senior</p>
+		{% endif %}
+
+		{% if number >= 100 %}
+		<p>Number is at least 100</p>
+		{% endif %}
+
+		{% if number <= 200 %}
+		<p>Number is at most 200</p>
+		{% endif %}
+
+		<!-- Contains operator -->
+		{% if site.description contains 'test' %}
+		<p>Description contains test</p>
+		{% endif %}
+
+		<!-- Logical operators -->
+		{% if user.isAdmin and user.isLoggedIn %}
+		<p>Logged in admin</p>
+		{% endif %}
+
+		{% if user.isAdmin or user.isEditor %}
+		<p>Has elevated access</p>
+		{% endif %}
+
+		<!-- and/or: two comparisons with `and` (1 == 1 and 2 == 2): expects "Chained comparison: pass" -->
+		{% assign condA = 1 %}
+		{% assign condB = 1 %}
+		{% assign condC = 2 %}
+		{% if condA == condB and condC == 2 %}
+		<p>Chained comparison: pass</p>
+		{% endif %}
+
+		<!-- and/or: chained comparisons negative (second part false): expects nothing (no "Chained comparison: fail") -->
+		{% if condA == condB and condC == 99 %}
+		<p>Chained comparison: fail</p>
+		{% endif %}
+
+		<!-- Precedence: `or` looser than `and` — `true or (true and false)` true; LTR-equal would be `(true or true) and false` false. Expects "Precedence: or before and" -->
+		{% if site.showHeader or page.featured and user.isEditor %}
+		<p>Precedence: or before and</p>
+		{% endif %}
+
+		<!-- Precedence: `and` before `or` — `(false and true) or true` true. Expects "Precedence: and before or" -->
+		{% if user.isEditor and page.featured or site.showHeader %}
+		<p>Precedence: and before or</p>
+		{% endif %}
+
+		<!-- Nested conditionals -->
+		{% if user.isLoggedIn %}
+			<p>Welcome, {{user.name}}</p>
+			{% if user.isAdmin %}
+				<a href='/admin'>Dashboard</a>
+			{% else %}
+				<a href='/profile'>Profile</a>
+			{% endif %}
+		{% else %}
+			<a href='/login'>Please login</a>
+		{% endif %}
+	</section>
+
+	<!-- 4. UNLESS CONDITIONALS -->
+	<section id='unless'>
+		<h2>Unless Tests</h2>
+
+		<!-- Unless with truthy value: expects nothing (user.isAdmin is true) -->
+		{% unless user.isAdmin %}
+		<p>User is not admin</p>
+		{% endunless %}
+
+		<!-- Unless with falsy value: expects "User is not an editor" (user.isEditor is undefined) -->
+		{% unless user.isEditor %}
+		<p>User is not an editor</p>
+		{% endunless %}
+
+		<!-- Unless with else, truthy condition: expects "Welcome back, admin" (user.isLoggedIn is true) -->
+		{% unless user.isLoggedIn %}
+		<p>Please log in</p>
+		{% else %}
+		<p>Welcome back, admin</p>
+		{% endunless %}
+
+		<!-- Unless with else, falsy condition: expects "No featured badge" (page.archived is undefined) -->
+		{% unless page.archived %}
+		<p>No featured badge</p>
+		{% else %}
+		<p>This page is archived</p>
+		{% endunless %}
+
+		<!-- Unless with binary operator: expects nothing (user.name == 'Admin User' is true) -->
+		{% unless user.name == 'Admin User' %}
+		<p>Not the admin user</p>
+		{% endunless %}
+
+		<!-- Unless with != operator: expects "Name matches" (user.name != 'Admin User' is false) -->
+		{% unless user.name != 'Admin User' %}
+		<p>Name matches</p>
+		{% endunless %}
+
+		<!-- Unless nested inside if: expects "Logged in non-editor" -->
+		{% if user.isLoggedIn %}
+			{% unless user.isEditor %}
+			<p>Logged in non-editor</p>
+			{% endunless %}
+		{% endif %}
+	</section>
+
+	<!-- 5. CASE / WHEN -->
+	<section id='case-when'>
+		<h2>Case / When Tests</h2>
+
+		<!-- First branch matches (caseDemo.kind is beta): expects "Kind is beta" -->
+		{% case caseDemo.kind %}
+		{% when 'beta' %}
+		<p>Kind is beta</p>
+		{% when 'gamma' %}
+		<p>Kind is gamma</p>
+		{% else %}
+		<p>Kind is unknown</p>
+		{% endcase %}
+
+		<!-- Comma-separated when (label is alpha): expects "Label is alpha or omega" -->
+		{% case caseDemo.label %}
+		{% when 'alpha', 'omega' %}
+		<p>Label is alpha or omega</p>
+		{% else %}
+		<p>Label did not match</p>
+		{% endcase %}
+
+		<!-- No when matches (tier is not platinum): expects "Case fallback: no tier match" -->
+		{% case caseDemo.tier %}
+		{% when 'platinum' %}
+		<p>Platinum tier</p>
+		{% else %}
+		<p>Case fallback: no tier match</p>
+		{% endcase %}
+
+		<!-- assign + case on variable: expects "Switch is two" -->
+		{% assign caseSwitch = 'two' %}
+		{% case caseSwitch %}
+		{% when 'one' %}
+		<p>Switch is one</p>
+		{% when 'two' %}
+		<p>Switch is two</p>
+		{% endcase %}
+	</section>
+
+	<!-- 6. RENDER INCLUDES -->
+	<section id='renders'>
+		<h2>Render Tests</h2>
+
+		<!-- Simple render with literal values -->
+		{% render 'header', title: 'My Header', navigation: 'Home | About | Contact' %}
+
+		<!-- Render with variables -->
+		{% assign cardTitle = 'Dynamic Card' %}
+		{% render 'card', heading: cardTitle, content: 'This card uses variables', tag: 'test' %}
+
+		<!-- Render with data from site -->
+		{% render 'card', heading: site.title, content: site.description, tag: 'featured' %}
+
+		<!-- Multiple renders -->
+		<div class='button-group'>
+			{% render 'button', label: 'Primary Action', type: 'primary' %}
+			{% render 'button', label: 'Secondary', type: 'secondary' %}
+			{% render 'button', label: 'Danger', type: 'danger' %}
+		</div>
+	</section>
+
+	<!-- 7. COMBINED FEATURES -->
+	<section id='combined'>
+		<h2>Combined Feature Tests</h2>
+
+		{% assign showCards = site.features.showCards %}
+
+		{% if showCards %}
+		<div class='card-grid'>
+			{% render 'card', heading: 'Card 1', content: site.card1Text, tag: 'new' %}
+			{% render 'card', heading: 'Card 2', content: site.card2Text, tag: 'popular' %}
+
+			{% if user.isAdmin %}
+			{% render 'card', heading: 'Admin Card', content: 'Admin only', tag: 'admin' %}
+			{% endif %}
+		</div>
+		{% else %}
+		<p>Cards are disabled</p>
+		{% endif %}
+
+		{% assign ctaLabel = 'Get Started Now' %}
+		{% render 'button', label: ctaLabel, type: 'primary' %}
+	</section>
+
+	<!-- 8. FOR LOOPS -->
+	<section id='loops'>
+		<h2>For Loop Tests</h2>
+
+		<!-- Simple loop over array of objects: expects Home, About, Blog, Contact -->
+		<nav>
+			<ul>
+				{% for link in navLinks %}
+				<li><a href='{{link.url}}'>{{link.label}}</a></li>
+				{% endfor %}
+			</ul>
+		</nav>
+
+		<!-- Loop over empty array: expects "No links" -->
+		<nav>
+			<ul>
+				{% for link in emptyList %}
+				<li><a href='{{link.url}}'>{{link.label}}</a></li>
+				{% else %}
+				<li>No links</li>
+				{% endfor %}
+			</ul>
+		</nav>
+
+		<!-- Loop over simple array: expects html, css, test, javascript -->
+		<div class='tags'>
+			{% for tag in tags %}
+			<span class='tag'>{{tag}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- Loop with conditional inside: expects "Home link found: Home" -->
+		 <div class='home-links'>
+			{% for link in navLinks %}
+				{% if link.url == '/' %}
+				<p>Home link found: {{link.label}}</p>
+				{% endif %}
+			{% endfor %}
+		</div>
+
+		<!-- Loop with break: expects html, css (breaks at "test") -->
+		<div class='tags'>
+			{% for tag in tags %}
+				{% if tag == 'test' %}
+					{% break %}
+				{% else %}
+				<p>Tag found: {{tag}}</p>
+				{% endif %}
+			{% endfor %}
+		</div>
+
+		<!-- Loop with continue: expects html, css, javascript (skips "test") -->
+		<div class='tags'>
+			{% for tag in tags %}
+				{% if tag == 'test' %}
+					{% continue %}
+				{% endif %}
+				<span class='tag'>{{tag}}</span>
+			{% endfor %}
+		</div>
+		<!-- forloop object: expects index/index0/rindex/rindex0/first/last/length for each navLink -->
+		<table>
+			<tr><th>index</th><th>index0</th><th>rindex</th><th>rindex0</th><th>first</th><th>last</th><th>length</th><th>value</th></tr>
+			{% for link in navLinks %}
+			<tr>
+				<td>{{forloop.index}}</td>
+				<td>{{forloop.index0}}</td>
+				<td>{{forloop.rindex}}</td>
+				<td>{{forloop.rindex0}}</td>
+				<td>{{forloop.first}}</td>
+				<td>{{forloop.last}}</td>
+				<td>{{forloop.length}}</td>
+				<td>{{link.label}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+
+		<!-- limit only: expects Home, About -->
+		<div class='limit-only'>
+			{% for link in navLinks limit:2 %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
+
+		<!-- offset only: expects Blog, Contact -->
+		<div class='offset-only'>
+			{% for link in navLinks offset:2 %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
+
+		<!-- limit and offset: expects About, Blog -->
+		<div class='limit-and-offset'>
+			{% for link in navLinks limit:2 offset:1 %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
+
+		<!-- reversed: expects Contact, Blog, About, Home -->
+		<div class='reversed'>
+			{% for link in navLinks reversed %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
+
+		<!-- reversed then limit: reverse first, then take 2 — expects Contact, Blog -->
+		<div class='reversed-limit'>
+			{% for link in navLinks reversed limit:2 %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
+
+		<!-- limit then reversed: take 2 first, then reverse — expects About, Home -->
+		<div class='limit-reversed'>
+			{% for link in navLinks limit:2 reversed %}
+			<p>{{link.label}}</p>
+			{% endfor %}
+		</div>
+
+		<!-- range with literals: expects 1, 2, 3, 4, 5 -->
+		<div class='range-literal'>
+			{% for i in (1..5) %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range with variable: expects 1, 2, 3 -->
+		<div class='range-variable'>
+			{% assign num = 3 %}
+			{% for i in (1..num) %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range reversed: expects 5, 4, 3, 2, 1 -->
+		<div class='range-reversed'>
+			{% for i in (1..5) reversed %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range with limit: expects 1, 2, 3 -->
+		<div class='range-limit'>
+			{% for i in (1..8) limit:3 %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range with offset: expects 4, 5, 6, 7, 8 -->
+		<div class='range-offset'>
+			{% for i in (1..8) offset:3 %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range reversed then limit: expects 8, 7, 6 -->
+		<div class='range-reversed-limit'>
+			{% for i in (1..8) reversed limit:3 %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+
+		<!-- range limit then reversed: expects 3, 2, 1 -->
+		<div class='range-limit-reversed'>
+			{% for i in (1..8) limit:3 reversed %}
+			<span>{{i}}</span>
+			{% endfor %}
+		</div>
+	</section>
+
+	<!-- 9. BRACKET ACCESS -->
+	<section id='bracket-access'>
+		<h2>Bracket Access Tests</h2>
+
+		<!-- Numeric index on array: expects "red" -->
+		<p class='ba-first-color'>{{ colors[0] }}</p>
+
+		<!-- Last element by index: expects "blue" -->
+		<p class='ba-last-color'>{{ colors[2] }}</p>
+
+		<!-- String key on object: expects "My Test Site" -->
+		<p class='ba-string-key'>{{ site["title"] }}</p>
+
+		<!-- Variable as bracket key: expects "green" -->
+		{% assign idx = 1 %}
+		<p class='ba-variable-key'>{{ colors[idx] }}</p>
+
+		<!-- Assign with bracket access: expects "green" -->
+		{% assign secondColor = colors[1] %}
+		<p class='ba-assign'>{{ secondColor }}</p>
+
+		<!-- Bracket access in condition: expects "First color is red" -->
+		{% if colors[0] == 'red' %}
+		<p class='ba-condition'>First color is red</p>
+		{% endif %}
+
+		<!-- Bracket access in for collection: expects 10, 20, 30 -->
+		<div class='ba-for-collection'>
+			{% for val in matrix[0] %}
+			<span>{{ val }}</span>
+			{% endfor %}
+		</div>
+
+		<!-- Chained bracket access: expects "50" -->
+		<p class='ba-chained'>{{ matrix[1][1] }}</p>
+
+		<!-- Bracket access with loop variable: expects colors listed by forloop index -->
+		<ul class='ba-loop-index'>
+			{% for color in colors %}
+			<li>{{ colors[forloop.index0] }}</li>
+			{% endfor %}
+		</ul>
+	</section>
+
+	<!-- 10. INCREMENT / DECREMENT / ECHO -->
+	<section id='increment-decrement-echo'>
+		<h2>Increment / Decrement / Echo Tests</h2>
+
+		<!-- Increment: outputs 0, 1, 2 (outputs current, then increments) -->
+		<div class='inc-basic'>
+			{% increment my_counter %}
+			{% increment my_counter %}
+			{% increment my_counter %}
+		</div>
+
+		<!-- Decrement: outputs -1, -2, -3 (decrements, then outputs) -->
+		<div class='dec-basic'>
+			{% decrement my_dec %}
+			{% decrement my_dec %}
+			{% decrement my_dec %}
+		</div>
+
+		<!-- Separate counters per variable name: expects a=0, b=0, a=1 -->
+		<div class='inc-separate'>
+			{% increment a %}
+			{% increment b %}
+			{% increment a %}
+		</div>
+
+		<!-- Counter independent from assign: expects counter=0, assign=10 -->
+		<div class='inc-assign-independent'>
+			{% assign x = 10 %}
+			{% increment x %}
+			{{ x }}
+		</div>
+
+		<!-- Shared counter between increment and decrement: expects 0, 1, 1, 1 -->
+		<div class='inc-dec-shared'>
+			{% increment shared %}
+			{% increment shared %}
+			{% decrement shared %}
+			{% increment shared %}
+		</div>
+
+		<!-- Echo: equivalent to output tags -->
+		<div class='echo-basic'>
+			<p>{% echo site.title %}</p>
+			<p>{% echo 'literal string' %}</p>
+			<p>{% echo 99 %}</p>
+			<p>{% echo colors[0] %}</p>
+		</div>
+	</section>
+
+	<!-- 11. CYCLE TAG -->
+	<section id='cycle'>
+		<h2>Cycle Tests</h2>
+
+		<!-- Unnamed cycle: outputs one, two, three, one, two -->
+		<div class='cycle-basic'>
+			{% cycle 'one', 'two', 'three' %}
+			{% cycle 'one', 'two', 'three' %}
+			{% cycle 'one', 'two', 'three' %}
+			{% cycle 'one', 'two', 'three' %}
+			{% cycle 'one', 'two', 'three' %}
+		</div>
+
+		<!-- Named cycle groups are independent: expects odd, a, even, b, odd -->
+		<div class='cycle-named'>
+			{% cycle 'row': 'odd', 'even' %}
+			{% cycle 'col': 'a', 'b' %}
+			{% cycle 'row': 'odd', 'even' %}
+			{% cycle 'col': 'a', 'b' %}
+			{% cycle 'row': 'odd', 'even' %}
+		</div>
+
+		<!-- Cycle inside for loop: expects odd, even, odd -->
+		<ul class='cycle-for'>
+			{% for color in colors %}
+			<li class='{% cycle "rows": "odd", "even" %}'>{{ color }}</li>
+			{% endfor %}
+		</ul>
+
+		<!-- Unnamed cycles with different values are independent -->
+		<div class='cycle-different-values'>
+			{% cycle 'x', 'y' %}
+			{% cycle 'a', 'b', 'c' %}
+			{% cycle 'x', 'y' %}
+			{% cycle 'a', 'b', 'c' %}
+		</div>
+	</section>
+
+	<!-- 12. TABLEROW TAG -->
+	<section id='tablerow'>
+		<h2>TableRow Tests</h2>
+
+		<!-- Basic tablerow without cols: single row with all items -->
+		<table class='tr-basic'>
+			{% tablerow color in colors %}
+				{{ color }}
+			{% endtablerow %}
+		</table>
+
+		<!-- Tablerow with cols:2: two items per row -->
+		<table class='tr-cols'>
+			{% tablerow tag in tags cols:2 %}
+				{{ tag }}
+			{% endtablerow %}
+		</table>
+
+		<!-- Tablerow with limit: only first 2 items -->
+		<table class='tr-limit'>
+			{% tablerow color in colors limit:2 %}
+				{{ color }}
+			{% endtablerow %}
+		</table>
+
+		<!-- Tablerow with offset: skip first item -->
+		<table class='tr-offset'>
+			{% tablerow color in colors offset:1 %}
+				{{ color }}
+			{% endtablerow %}
+		</table>
+
+		<!-- Tablerow with range: expects 1..5 in 2 columns -->
+		<table class='tr-range'>
+			{% tablerow i in (1..5) cols:2 %}
+				{{ i }}
+			{% endtablerow %}
+		</table>
+
+		<!-- Tablerow with tablerowloop context -->
+		<table class='tr-loop-context'>
+			{% tablerow color in colors cols:2 %}
+				{{ tablerowloop.index }}-{{ tablerowloop.col }}-{{ color }}
+			{% endtablerow %}
+		</table>
+	</section>
+
+	<!-- 13. CAPTURE TAG -->
+	<section id='capture'>
+		<h2>Capture Tests</h2>
+		{% assign number = 10 %}
+		{% capture content %}
+		<p>This is captured content: {{site.title}} and {{ number }}</p>
+		{% endcapture %}
+		<p>{{content}}</p>
+	</section>
+
+	<!-- 14. RAW TAG -->
+	<section id='raw'>
+		<h2>Raw Tests</h2>
+		{% raw %}
+		<p>This is raw content: {{site.title}} and {{ number }}</p>
+		{% endraw %}
+	</section>
+
+	<!-- 15. LIQUID TAG -->
+	<section id='liquid-tag'>
+		<h2>Liquid Tag Tests</h2>
+
+		<!-- Basic: single assign + echo on separate lines — expects 'Hello from liquid' -->
+		<div class='liquid-basic'>
+			{% liquid
+				assign liquidGreeting = 'Hello from liquid'
+				echo liquidGreeting
+			%}
+		</div>
+
+		<!-- Multiple statements: expects 'alpha beta' -->
+		<div class='liquid-multi'>
+			{% liquid
+				assign first = 'alpha'
+				assign second = 'beta'
+				echo first
+				echo ' '
+				echo second
+			%}
+		</div>
+
+		<!-- Comment lines (#) inside liquid are skipped — expects 'x=42' -->
+		<div class='liquid-comments'>
+			{% liquid
+				# this line is a comment and should be skipped
+				assign liqX = 42
+				# another comment
+				echo 'x='
+				echo liqX
+			%}
+		</div>
+
+		<!-- if/else/endif inside liquid — expects 'is admin' -->
+		<div class='liquid-if'>
+			{% liquid
+				if user.isAdmin
+					echo 'is admin'
+				else
+					echo 'not admin'
+				endif
+			%}
+		</div>
+
+		<!-- unless/endunless inside liquid — expects 'not editor' -->
+		<div class='liquid-unless'>
+			{% liquid
+				unless user.isEditor
+					echo 'not editor'
+				endunless
+			%}
+		</div>
+
+		<!-- for/endfor inside liquid — expects 'html,css,javascript,' -->
+		<div class='liquid-for'>
+			{% liquid
+				for kw in article.keywords
+					echo kw
+					echo ','
+				endfor
+			%}
+		</div>
+
+		<!-- nested if inside for inside liquid — expects 'Home found' -->
+		<div class='liquid-nested'>
+			{% liquid
+				for link in navLinks
+					if link.url == '/'
+						echo 'Home found'
+					endif
+				endfor
+			%}
+		</div>
+
+		<!-- case/when inside liquid (caseDemo.kind is beta) — expects 'Kind is beta' -->
+		<div class='liquid-case'>
+			{% liquid
+				case caseDemo.kind
+				when 'beta'
+					echo 'Kind is beta'
+				when 'gamma'
+					echo 'Kind is gamma'
+				else
+					echo 'unknown'
+				endcase
+			%}
+		</div>
+
+		<!-- capture inside liquid, then output — expects 'captured: My Test Site' -->
+		<div class='liquid-capture'>
+			{% liquid
+				capture liqCaptured
+					echo 'captured: '
+					echo site.title
+				endcapture
+			%}
+			<p>{{ liqCaptured }}</p>
+		</div>
+
+		<!-- echo with filter chain inside liquid — expects '/blog/Hello World' -->
+		<div class='liquid-echo-filter'>
+			{% liquid
+				echo article.title | prepend: '/blog/'
+			%}
+		</div>
+
+		<!-- assign with filter inside liquid, output later — expects '2026' -->
+		<div class='liquid-assign-filter'>
+			{% liquid
+				assign liqYear = article.date | date: 'year'
+			%}
+			<p>{{ liqYear }}</p>
+		</div>
+
+		<!-- increment inside liquid — expects '012' -->
+		<div class='liquid-increment'>
+			{% liquid
+				increment liqCounter
+				increment liqCounter
+				increment liqCounter
+			%}
+		</div>
+
+		<!-- cycle inside liquid — expects 'onetwoonetwo' -->
+		<div class='liquid-cycle'>
+			{% liquid
+				cycle 'one', 'two'
+				cycle 'one', 'two'
+				cycle 'one', 'two'
+				cycle 'one', 'two'
+			%}
+		</div>
+
+		<!-- arithmetic with assign + echo — expects '100' -->
+		<div class='liquid-arith'>
+			{% liquid
+				assign liqA = 25
+				assign liqB = 4
+				assign liqProduct = liqA * liqB
+				echo liqProduct
+			%}
+		</div>
+
+		<!-- for with break inside liquid — expects 'html,' (breaks at 'css') -->
+		<div class='liquid-for-break'>
+			{% liquid
+				for kw in article.keywords
+					if kw == 'css'
+						break
+					endif
+					echo kw
+					echo ','
+				endfor
+			%}
+		</div>
+
+		<!-- empty liquid block — expects nothing -->
+		<div class='liquid-empty'>
+			{% liquid
+			%}
+		</div>
+
+		<!-- liquid sets a variable, used outside the block — expects 'shared from liquid' -->
+		{% liquid
+			assign liqShared = 'shared from liquid'
+		%}
+		<p class='liquid-shared'>{{ liqShared }}</p>
+	</section>
+
+	<!-- 16. ARITHMETIC & UNARY -->
+	<section id='arithmetic'>
+		<h2>Arithmetic & Unary Tests</h2>
+
+		<!-- Basic arithmetic: expects 5, 6, 21, 5 -->
+		<p class='arith-add'>{{ 2 + 3 }}</p>
+		<p class='arith-sub'>{{ 10 - 4 }}</p>
+		<p class='arith-mul'>{{ 3 * 7 }}</p>
+		<p class='arith-div'>{{ 20 / 4 }}</p>
+
+		<!-- Precedence: mul before add: expects 14 -->
+		<p class='arith-precedence'>{{ 2 + 3 * 4 }}</p>
+
+		<!-- Chained: expects 6 -->
+		<p class='arith-chained'>{{ 1 + 2 + 3 }}</p>
+
+		<!-- Decimal division: expects 3.5 -->
+		<p class='arith-decimal'>{{ 7 / 2 }}</p>
+
+		<!-- Arithmetic with variables: expects 100 -->
+		{% assign price = 25 %}
+		{% assign quantity = 4 %}
+		<p class='arith-vars'>{{ price * quantity }}</p>
+
+		<!-- Assign with arithmetic: expects 15 -->
+		{% assign total = 5 * 3 %}
+		<p class='arith-assign'>{{ total }}</p>
+
+		<!-- Arithmetic in condition: expects "big" -->
+		{% if 2 + 2 > 3 %}
+		<p class='arith-cond'>big</p>
+		{% endif %}
+
+		<!-- Unary minus: expects -5 -->
+		<p class='unary-neg'>{{ -5 }}</p>
+
+		<!-- Assign negative: expects -1 -->
+		{% assign neg = -1 %}
+		<p class='unary-assign-neg'>{{ neg }}</p>
+
+		<!-- Binary minus with unary minus: expects 13 -->
+		<p class='unary-double-neg'>{{ 10 - -3 }}</p>
+
+		<!-- Unary not with falsy: expects "shown" -->
+		{% assign hidden = false %}
+		{% if not hidden %}
+		<p class='unary-not-falsy'>shown</p>
+		{% endif %}
+
+		<!-- Unary not with truthy: expects nothing -->
+		{% if not user.isAdmin %}
+		<p class='unary-not-truthy'>should not appear</p>
+		{% endif %}
+
+		<!-- Double not: expects "yes" -->
+		{% if not not user.isLoggedIn %}
+		<p class='unary-not-double'>yes</p>
+		{% endif %}
+
+		<!-- Not with and: expects "ok" (not false and true → true and true) -->
+		{% assign flagA = false %}
+		{% assign flagB = true %}
+		{% if not flagA and flagB %}
+		<p class='unary-not-and'>ok</p>
+		{% endif %}
+	</section>
+
+	<!-- 17. FILTERS -->
+	<section id='filters'>
+		<h2>Filter Tests</h2>
+
+		<!-- date filter: year preset — expects "2026" -->
+		<p class='filter-date-year'>{{ article.date | date: "year" }}</p>
+
+		<!-- date filter: full preset — expects day month year -->
+		<p class='filter-date-full'>{{ article.date | date: "full" }}</p>
+
+		<!-- date filter: rfc3339 preset — expects ISO string -->
+		<p class='filter-date-rfc'>{{ article.date | date: "rfc3339" }}</p>
+
+		<!-- date filter: datetime preset -->
+		<p class='filter-date-datetime'>{{ article.date | date: "datetime" }}</p>
+
+		<!-- join filter: expects "html,css,javascript" -->
+		<p class='filter-join'>{{ article.keywords | join: "," }}</p>
+
+		<!-- replace filter: expects "Hallo World" -->
+		<p class='filter-replace'>{{ article.title | replace: "Hello", "Hallo" }}</p>
+
+		<!-- prepend filter: expects "/blog/Hello World" -->
+		<p class='filter-prepend'>{{ article.title | prepend: "/blog/" }}</p>
+
+		<!-- assign with filter: expects "2026" -->
+		{% assign pubYear = article.date | date: "year" %}
+		<p class='filter-assign'>{{ pubYear }}</p>
+
+		<!-- chained: replace then prepend — expects "/blog/Hallo World" -->
+		<p class='filter-chain-two'>{{ article.title | replace: "Hello", "Hallo" | prepend: "/blog/" }}</p>
+
+		<!-- chained: join then replace — expects "html;css;javascript" -->
+		<p class='filter-chain-join-replace'>{{ article.keywords | join: "," | replace: ",", ";" }}</p>
+
+		<!-- chained: join then prepend — expects "Tags: html,css,javascript" -->
+		<p class='filter-chain-join-prepend'>{{ article.keywords | join: "," | prepend: "Tags: " }}</p>
+
+		<!-- echo with filter: expects "Hallo World" -->
+		<p class='filter-echo'>{% echo article.title | replace: "Hello", "Hallo" %}</p>
+
+		<!-- filter in condition: expects "year matches" -->
+		{% assign yr = article.date | date: "year" %}
+		{% if yr == '2026' %}
+		<p class='filter-cond'>year matches</p>
+		{% endif %}
+	</section>
+
+	<!-- 18. WHITESPACE CONTROL -->
+	<section id='whitespace-control'>
+		<h2>Whitespace Control Tests</h2>
+
+		<!-- Left-trim on output: leading spaces collapse, expects "beforeMy Test Site" -->
+		<p class='ws-output-left'>before   {{- site.title }}</p>
+
+		<!-- Right-trim on output: trailing spaces collapse, expects "My Test Siteafter" -->
+		<p class='ws-output-right'>{{ site.title -}}   after</p>
+
+		<!-- Both sides on output: expects "startMy Test Siteend" -->
+		<p class='ws-output-both'>start   {{- site.title -}}   end</p>
+
+		<!-- Tag right-trim: assign followed by newline+indent should not leak whitespace -->
+		<div class='ws-tag-right'>
+			{%- assign greeting = 'Hello from trim' -%}
+			<p>{{ greeting }}</p>
+		</div>
+
+		<!-- Block with trims on every boundary: branches compact to a single token -->
+		<div class='ws-tag-block'>
+			start
+			{%- if user.isAdmin -%}
+				{{ site.title }}
+			{%- else -%}
+				guest
+			{%- endif -%}
+			end
+		</div>
+
+		<!-- For loop with trims: expects "[red][green][blue]" on a single line -->
+		<div class='ws-for-trim'>
+			{%- for color in colors -%}
+				[{{ color }}]
+			{%- endfor -%}
+		</div>
+
+		<!-- Right-trim eats only whitespace, not adjacent literal characters: expects "X1Y" -->
+		<p class='ws-no-eat-text'>{%- assign one = 1 -%}X{{ one }}Y</p>
+
+		<!-- Left-trim only: right side keeps its literal spaces, expects "aMy Test Site   b" -->
+		<p class='ws-left-only'>a   {{- site.title }}   b</p>
+
+		<!-- Right-trim only: left side keeps its literal spaces, expects "a   My Test Siteb" -->
+		<p class='ws-right-only'>a   {{ site.title -}}   b</p>
+
+		<!-- Raw block with trims: surrounding whitespace inside raw is stripped at boundaries -->
+		<div class='ws-raw'>
+			a   {%- raw -%}
+				{{ literal_kept }}
+			{%- endraw -%}   b
+		</div>
+
+		<!-- Raw block without trims: whitespace inside raw is preserved verbatim -->
+		<pre class='ws-raw-untouched'>{% raw %}
+   {{ kept_as_is }}
+{% endraw %}</pre>
+
+		<!-- Right-trim propagates across an inline-comment tag: expects "xy" -->
+		<p class='ws-comment'>x{%# this comment goes away -%}
+			y</p>
+
+		<!-- Trims around a liquid block: expects "red,green,blue," with no surrounding whitespace -->
+		<div class='ws-liquid'>
+			{%- liquid
+				for color in colors
+					echo color
+					echo ','
+				endfor
+			-%}
+		</div>
+	</section>
+
+	<!-- 19. FOOTER -->
+	<footer>
+		{% if site.footer.enabled %}
+		<p>{{site.footer.text}}</p>
+		<p>Version {{pkg.version}}</p>
+		{% else %}
+		<p>Minimal footer</p>
+		{% endif %}
+	</footer>
+</body>
+</html>

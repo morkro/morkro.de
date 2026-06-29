@@ -3,3 +3,8 @@ _drafts
 _public
 _site
 .DS_Store
+.env
+.tmp
+.claude
+.build
+.build.tmp.*

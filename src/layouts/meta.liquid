@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  data-theme="light"
+  id="top">
+  {% render "meta-head",
+    site: site,
+    page: page,
+    pkg: pkg,
+    keywords: keywords,
+    pageClass: pageClass,
+    title: title,
+  %}
+  <body
+    {% if pageClass %}
+    class="template-{{ pageClass }}"
+    {% endif %}>
+    <a href="#content" class="a11y-jump sr-only">
+      Jump directly to main content
+    </a>
+
+    {% render "iconset" %}
+
+    {{ content }}
+
+    {% render "page-scripts",
+      pkg_version: pkg.version,
+      site_timestamp: site.timestamp,
+    %}
+  </body>
+</html>

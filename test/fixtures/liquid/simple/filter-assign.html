@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<body>
+	{% assign pubYear = page.date | date: "year" %}
+	{% if pubYear == "2015" %}
+		<p>This article is outdated.</p>
+	{% else %}
+		<p>Published in {{ pubYear }}.</p>
+	{% endif %}
+</body>
+</html>

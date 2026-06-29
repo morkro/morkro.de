@@ -13,6 +13,7 @@
 
 	.blog-list {
 		margin-top: var(--gap-large);
+		padding: 0;
 		width: 100%;
 		list-style: none;
 

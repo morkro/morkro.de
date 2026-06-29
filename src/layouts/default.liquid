@@ -1,0 +1,20 @@
+---
+layout: meta
+---
+
+{% render "page-top-left-bg" %}
+{% render "page-header",
+	title: title,
+%}
+
+<main id="content">{{ content }}</main>
+
+{% render "page-footer",
+	site_email: site.email,
+	socialnetworks_linkedin_url: socialnetworks.linkedin.url,
+	socialnetworks_github_url: socialnetworks.github.url,
+	socialnetworks_stackoverflow_url: socialnetworks.stackoverflow.url,
+	socialnetworks_instagram_url: socialnetworks.instagram.url,
+	pkg_version: pkg.version,
+	title: title,
+%}

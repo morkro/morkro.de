@@ -1,20 +1,37 @@
 {
   "name": "morkro.de",
-  "version": "25.03.24.P0",
+  "version": "26.06.101.P0",
   "description": "Website of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
   "type": "module",
+  "imports": {
+    "#commands/*": "./core/commands/*",
+    "#config.user": "./core/config.user.ts",
+    "#config": "./core/config.core.ts",
+    "#core/*": "./core/*",
+    "#data/*": "./core/data/*",
+    "#emitter/*": "./core/emitter/*",
+    "#engines/*": "./core/engines/*",
+    "#parser/*": "./core/parser/*",
+    "#server/*": "./core/server/*",
+    "#transforms/*": "./core/transforms/*",
+    "#utils/*": "./core/utils/*"
+  },
   "scripts": {
-    "clean:site": "rimraf _site",
+    "clean:build": "node scripts/clean-artifacts.ts",
     "lint:js": "biome lint --error-on-warnings ./src/scripts/",
     "lint:css": "biome lint --error-on-warnings src/css/**/*.css",
     "lint": "npm run lint:js && npm run lint:css",
-    "setup": "npm run clean:site && npm run lint",
+    "setup": "npm run clean:build && npm run lint",
     "build:css": "postcss src/css/*.css --no-map --dir _site/css",
+    "build:ssg": "NODE_ENV=production node core/index.ts",
     "watch:css": "postcss src/css/*.css --no-map --dir _site/css --watch",
-    "build": "cross-env NODE_ENV=production npm run setup && npx @11ty/eleventy",
+    "build": "cross-env NODE_ENV=production npm run setup && cross-env NODE_ENV=production npx @11ty/eleventy",
     "start": "cross-env NODE_ENV=development npm run setup && npx @11ty/eleventy --serve --quiet",
+    "start:ssg": "node --watch --env-file=.env core/index.ts --serve",
+    "test": "node --test 'test/**/*.test.ts'",
+    "test:liquid": "DEBUG=true node test/fixtures/liquid/run.ts",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -23,6 +40,7 @@
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
     "@biomejs/biome": "^1.9.4",
     "@types/html-minifier": "^4.0.5",
+    "@types/node": "^24.12.0",
     "@types/postcss-import": "^14.0.3",
     "autoprefixer": "^10.4.21",
     "cross-env": "^7.0.3",
@@ -31,7 +49,6 @@
     "postcss": "^8.5.3",
     "postcss-cli": "^11.0.1",
     "postcss-import": "^16.1.0",
-    "rimraf": "^6.0.1",
     "snyk": "^1.1295.4"
   },
   "dependencies": {
