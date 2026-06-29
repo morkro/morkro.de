@@ -46,7 +46,7 @@
     "cross-env": "^7.0.3",
     "cssnano": "^7.0.6",
     "husky": "^9.1.7",
-    "postcss": "^8.5.3",
+    "postcss": "^8.5.16",
     "postcss-cli": "^11.0.1",
     "postcss-import": "^16.1.0",
     "snyk": "^1.1295.4"
