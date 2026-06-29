@@ -21,7 +21,7 @@
 	transform: translateY(-1px);
 
 	&::after {
-		content: url("/../assets/icons/home.svg");
+		content: url("/assets/icons/home.svg");
 		padding-top: 4px;
 		padding-left: 3px;
 		width: var(--icon-size);

@@ -9,7 +9,7 @@
 			},
 			"location": "Berlin",
 			"url": "https://www.parloa.com/",
-			"icon": "/../assets/img/parloa.webp",
+			"icon": "/assets/img/parloa.webp",
 			"responsibilities": [
 				"Leading the engineering department responsible for integrating our customers and 3rd-party solutions into the Parloa platform.",
 				"Responsible for the technical strategy and roadmap of the Agent Integration department."
@@ -28,7 +28,7 @@
 			},
 			"location": "Berlin",
 			"url": "https://www.mckinsey.com/",
-			"icon": "/../assets/img/mck.png",
+			"icon": "/assets/img/mck.png",
 			"responsibilities": [
 				"Initially joined as a Senior Engineer and got promoted three times (→ Staff Engineer → Principial Engineer → Director of Engineering) with increasing responsibility of scope, delivery, and people.",
 				"Have the privilige to work in various different countries and (work) cultures for clients from different industries (<i>e.g., Banking in London/Bucharest/Amsterdam, Telco in Madrid/Copenhagen, Consumer in Munich/Copenhagen/Berlin, etc.</i>)",
@@ -47,7 +47,7 @@
 			},
 			"location": "Berlin",
 			"note": "now Publicis Sapient",
-			"icon": "/../assets/img/razorfish.webp",
+			"icon": "/assets/img/razorfish.webp",
 			"url": "https://www.publicissapient.com/",
 			"responsibilities": [
 				"Worked on a variety of microsites for international clients using a custom jQuery application framework focused on web animations and single page application design.",
@@ -72,7 +72,7 @@
 				"duration": "P7Y"
 			},
 			"location": "Münster/Cologne/Berlin",
-			"icon": "/../assets/img/moritz-work.webp",
+			"icon": "/assets/img/moritz-work.webp",
 			"note": "this website!",
 			"responsibilities": [
 				"Built interactive web- and microsites, blogs, and CMS for digital agencies and own clients across Europe and Latin america.",
@@ -135,7 +135,7 @@
 			"school": "Köln International School of Design",
 			"url": "https://kisd.de/en",
 			"location": "Cologne",
-			"icon": "/../assets/img/kisd.webp",
+			"icon": "/assets/img/kisd.webp",
 			"status": "Discontinued after four semester due to work opportunities."
 		}
 	],
@@ -145,14 +145,14 @@
 			"timeline": "2019",
 			"authority": "Kanban University",
 			"url": "https://kanban.university/resources/kanban-development-path/kmp-credential/",
-			"badge": "/../assets/certifications/kmp.webp"
+			"badge": "/assets/certifications/kmp.webp"
 		},
 		{
 			"title": "Certified ScrumMaster® (CSM®)",
 			"timeline": "2017",
 			"authority": "Scrum Alliance",
 			"url": "https://www.scrumalliance.org/get-certified/scrum-master-track/certified-scrummaster",
-			"badge": "/../assets/certifications/sa-csm-300.webp"
+			"badge": "/assets/certifications/sa-csm-300.webp"
 		}
 	],
 	"languages": [
@@ -183,7 +183,7 @@
 	"organisations": [
 		{
 			"org": "Berliner Kakteenfreunde e.V.",
-			"icon": "/../assets/img/kfb.svg",
+			"icon": "/assets/img/kfb.svg",
 			"role": "Associate board member",
 			"timeline": { "label": "2022", "duration": "P2Y" },
 			"url": "https://kakteenfreunde-berlin.de/",
@@ -194,7 +194,7 @@
 		},
 		{
 			"org": "Deutsche Kakteen-Gesellschaft e.V.",
-			"icon": "/../assets/img/dkg.webp",
+			"icon": "/assets/img/dkg.webp",
 			"role": "Member",
 			"timeline": { "label": "2020", "duration": "P4Y" },
 			"url": "https://www.dkg.eu/",

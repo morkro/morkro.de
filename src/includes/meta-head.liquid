@@ -41,8 +41,10 @@
     rel="stylesheet"
     type="text/css"
     href="/css/main.css?v={{ pkg.version }}-{{ site.timestamp }}" />
-  <link
-    rel="stylesheet"
-    type="text/css"
-    href="/css/{{ pageClass }}.css?v={{ pkg.version }}-{{ site.timestamp }}" />
+  {% if pageClass %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/{{ pageClass }}.css?v={{ pkg.version }}-{{ site.timestamp }}" />
+  {% endif %}
 </head>

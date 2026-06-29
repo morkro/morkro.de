@@ -1,6 +1,8 @@
+import { resolve } from 'node:path'
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { ensureOutputPath } from '#utils/path.ts'
+import config from '#config'
+import { ensureOutputPath, resolveOutput } from '#utils/path.ts'
 
 describe('ensureOutputPath function', () => {
 	const buildRoot = '.build'
@@ -100,5 +102,38 @@ describe('ensureOutputPath function', () => {
 				'.build/feed.xml'
 			)
 		})
+	})
+})
+
+describe('resolveOutput function', () => {
+	const buildRoot = '.build'
+	const inputRoot = resolve(config.directories.input)
+
+	it('strips the pages directory when no permalink is provided', () => {
+		assert.strictEqual(
+			resolveOutput(resolve(inputRoot, 'pages/is/index.liquid'), buildRoot),
+			'.build/is/index.html',
+		)
+	})
+
+	it('maps a pages permalink to the build root index file', () => {
+		assert.strictEqual(
+			resolveOutput(resolve(inputRoot, 'pages/home/index.liquid'), buildRoot, '/'),
+			'.build/index.html',
+		)
+	})
+
+	it('maps a pages permalink to a nested output directory', () => {
+		assert.strictEqual(
+			resolveOutput(resolve(inputRoot, 'pages/is/index.liquid'), buildRoot, '/is/'),
+			'.build/is/index.html',
+		)
+	})
+
+	it('maps a non-page file permalink to an exact output filename', () => {
+		assert.strictEqual(
+			resolveOutput(resolve(inputRoot, 'pages/rss/index.liquid'), buildRoot, '/feed.xml'),
+			'.build/feed.xml',
+		)
 	})
 })
