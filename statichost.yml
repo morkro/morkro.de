@@ -1,9 +1,9 @@
 # Docker image to use for building
-image: node:22.1.0
+image: node:25.9.0
 # Build command
 command: npm install && npm run build
 # Public directory
-public: _site
+public: .build
 # Domains
 domains:
 - www.moritz.berlin

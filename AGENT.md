@@ -4,13 +4,13 @@ This file provides guidance to AI coding assistants when working with this repos
 
 ## Project Overview
 
-Personal website ([moritz.berlin](https://moritz.berlin)) - currently transitioning from Eleventy to a custom-built static site generator. This migration is part of adopting a no-dependency philosophy focused on learning internals and building from scratch using native Node.js APIs.
+Personal website ([moritz.berlin](https://moritz.berlin)) built with a custom static site generator in `core/`. The site previously used Eleventy; production now runs entirely on the custom SSG. This project adopts a no-dependency build philosophy focused on learning internals and building from scratch using native Node.js APIs.
 
 ## Migration Status
 
-**Current state:** Eleventy (11ty) is still the production build; the custom SSG in `core/` builds to `.build/` and is used for development (`npm run start:ssg`).
+**Current state:** Custom SSG in `core/` is the production build. Output goes to `.build/`; statichost.eu deploys that directory (`npm run build` with `NODE_ENV=production`).
 
-**Target state:** Custom SSG with zero third-party dependencies (except `@types/node`).
+**Build dependencies:** Zero third-party packages for the SSG itself (except `@types/node` for editor/IDE typing). Dev tooling (`@biomejs/biome`, `husky`, `snyk`) remains in `devDependencies`.
 
 **Philosophy:** Everything built from scratch for learning and understanding.
 
@@ -21,27 +21,29 @@ Personal website ([moritz.berlin](https://moritz.berlin)) - currently transition
 1. **Phase 1 — Core SSG integration** — **done**
    - `core/` build pipeline, `.build/` output, `src/` layout without Eleventy underscore prefixes.
 
-2. **Phase 2 — Template feature parity** — **largely done**
+2. **Phase 2 — Template feature parity** — **done**
    - Liquid tags, expressions, filters, layouts, isolated `render`, shortcodes — see [`core/parser/liquid/README.md`](core/parser/liquid/README.md).
    - Markdown tokenizer/parser/renderer; `.md` posts and pages compile through [`core/parser/compile.ts`](core/parser/compile.ts).
    - Collections: load, sort, permalink expressions in [`core/data/collections.ts`](core/data/collections.ts); configured in [`site.config.ts`](site.config.ts).
-   - **Still open:** full prod parity check vs `_site/`.
    - **Out of scope:** syntax highlighting — legacy `{% highlight %}` tags in one or two old posts may warn and render unstyled; accepted.
 
-3. **Phase 3 — Build tool replacements** — **partial**
+3. **Phase 3 — Build tool replacements** — **largely done**
    - ~~HTML minification (prod)~~ — [`core/transforms/minify-html.ts`](core/transforms/minify-html.ts), wired via `artifactTransforms` in `site.config.ts`.
    - ~~CSS `@import` bundling~~ — [`core/transforms/css-imports.ts`](core/transforms/css-imports.ts), used by the CSS engine.
-   - CSS minification, autoprefixer-lite — open.
+   - ~~CSS minification (prod)~~ — [`core/transforms/minify-css.ts`](core/transforms/minify-css.ts), wired via `artifactTransforms` in `site.config.ts`.
+   - CSS autoprefixer — open (optional for modern-browser targets).
    - Syntax highlighting — out of scope (see Phase 2).
-   - Asset bundling — open.
+   - Asset bundling — not needed; client scripts use native ES modules via `passThroughCopy`.
 
 4. **Phase 4 — Developer experience** — **partial**
-   - ~~Dev server + live reload~~ — `npm run start:ssg`: [`core/commands/serve.ts`](core/commands/serve.ts), [`core/server/`](core/server/), [`core/transforms/livereload.ts`](core/transforms/livereload.ts). Watcher debounces rebuilds on `src/` changes.
+   - ~~Dev server + live reload~~ — `npm start`: [`core/commands/serve.ts`](core/commands/serve.ts), [`core/server/`](core/server/), [`core/transforms/livereload.ts`](core/transforms/livereload.ts). Watcher debounces rebuilds on `src/` changes.
    - Livereload script injection on `.html` in dev via [`core/emitter/output.ts`](core/emitter/output.ts).
    - Error messages / source spans, build time reporting, integration tests — open.
 
-5. **Phase 5 — Cleanup** — **blocked** (after cutover)
-   - Remove Eleventy, PostCSS toolchain, `html-minifier`, `cross-env`; archive `eleventy.config.js`; switch default `npm run build` / `npm start` to the custom SSG.
+5. **Phase 5 — Cleanup / cutover** — **done**
+   - Eleventy, PostCSS toolchain, `html-minifier`, `cross-env` removed from `package.json`.
+   - `eleventy.config.js` removed.
+   - `npm run build` / `npm start` point at the custom SSG; [`statichost.yml`](statichost.yml) publishes `.build/` with `node:25.9.0`.
 
 ## Agent Role & Teaching Approach
 
@@ -171,7 +173,7 @@ Would you like me to explain any part of this in more detail?
 
 ### Compatibility Preservation
 
-During migration, these must work identically:
+These must remain stable across the Eleventy → custom SSG cutover:
 - All Liquid template syntax in pages/posts/includes
 - Frontmatter structure
 - Data file loading (`src/data/` directory)
@@ -182,18 +184,12 @@ During migration, these must work identically:
 
 ## Commands
 
-### Eleventy (legacy, still wired up)
 ```bash
-npm run build          # Production build via Eleventy (outputs to _site/)
-npm start              # Eleventy dev server with watch
-npm run lint           # Lint JS and CSS via Biome
-```
-
-### Custom SSG
-```bash
+npm run build          # Production build (NODE_ENV=production node core/index.ts → .build/)
+npm start              # Dev: rebuild on change + serve .build/ (node --watch --env-file=.env core/index.ts --serve)
 npm run clean:build    # Remove `.build/`, `.tmp/`, and `_site/` (see scripts/clean-artifacts.ts)
-npm run build:ssg      # Build site once (node core/index.ts)
-npm run start:ssg      # Rebuild on change + serve .build/ (node --watch --env-file=.env core/index.ts --serve)
+npm run setup          # clean:build + lint
+npm run lint           # Lint JS and CSS via Biome
 npm run test:liquid    # Dev tool: parse test fixture, output AST + rendered HTML to .tmp/
 npm test               # Run all tests (node --test)
 node --test test/path/to/file.test.ts  # Run a single test file
@@ -212,9 +208,9 @@ src/                      # Source files (input root)
   assets/                # Static resources (images, icons, fonts, …)
   css/                   # Stylesheets (globals/, layout/, components/)
   scripts/               # Client JavaScript
-_site/                   # Eleventy output (git-ignored)
-.build/                  # Custom SSG output (git-ignored)
+.build/                  # SSG output (git-ignored; deployed to statichost.eu)
 .tmp/                    # Debug dumps (AST, data.json when DEBUG=true)
+_site/                   # Legacy Eleventy output path (still cleaned by clean:build; git-ignored)
 site.config.ts           # User config: collections, filters, shortcodes, transforms, passthrough
 core/
   index.ts               # CLI entry: build; --serve delegates to commands/serve
@@ -247,6 +243,7 @@ core/
     watcher.ts           # fs.watch on src/, debounced rebuild
   transforms/
     minify-html.ts       # Prod HTML minify (comment strip, whitespace collapse)
+    minify-css.ts        # Prod CSS minify (whitespace collapse, comment strip)
     css-imports.ts       # Inline @import with layer/supports/media
     livereload.ts        # WebSocket reload + script injection helper
   utils/                 # fs, json, log, mime-types, object, path, url, html
@@ -278,9 +275,10 @@ test/
 | Passthrough (assets, scripts) | Done — `passThroughCopy` |
 | HTML minification (prod) | Done — `minifyHtml` via `artifactTransforms` |
 | CSS `@import` | Done — `bundleCssImports` |
-| CSS minify / autoprefixer | Open |
+| CSS minification (prod) | Done — `minifyCss` via `artifactTransforms` |
+| CSS autoprefixer | Open (optional) |
 | Syntax highlighting | Out of scope — legacy `{% highlight %}` in ~2 posts; plain code is acceptable |
-| Asset bundling (Eleventy bundle plugin) | Open |
+| Asset bundling | Not needed — native ES modules via passthrough copy |
 
 ### Template System (Current Behavior)
 
@@ -344,7 +342,7 @@ User-facing config lives in [`site.config.ts`](site.config.ts) at the repo root;
 ## Code Standards
 
 ### Critical Rules
-- **No third-party dependencies** (SSG goal): The custom build under `core/` uses only Node built-ins; the repo still ships Eleventy, PostCSS, etc. for the legacy production path until migration completes.
+- **No third-party build dependencies:** The SSG under `core/` uses only Node built-ins. Dev tooling (`@biomejs/biome`, `husky`, `snyk`) is allowed in `devDependencies`.
 - **ES modules only**: Use native `import`/`export`
 - **Semicolons**: Biome uses `"semicolons": "asNeeded"` (omit where ASI is safe; project style leans minimal)
 - **Tabs for indentation**: Configured in biome.json
@@ -373,9 +371,9 @@ User-facing config lives in [`site.config.ts`](site.config.ts) at the repo root;
 ## Working Approach
 
 ### For SSG Migration Tasks
-- **Phase-aware**: Understand which migration phase we're in (see [`TODO.md`](TODO.md))
+- **Phase-aware**: Migration cutover is done; remaining work is polish and optional build quality (see [`TODO.md`](TODO.md))
 - **Test as you go**: Verify each feature works before moving to next
-- **Preserve behavior**: Website must work identically after migration
+- **Preserve behavior**: URL structure, RSS, and rendered output must stay stable
 - **Document decisions**: Track what was built and why
 - **Update TODO.md**: When completing components or making progress, update the status markers in [`TODO.md`](TODO.md)
 
@@ -391,6 +389,8 @@ User-facing config lives in [`site.config.ts`](site.config.ts) at the repo root;
 
 ## Migration Guidelines
 
+Historical checklist used during the Eleventy cutover; apply the same rigour before removing or replacing any future build dependency:
+
 ### Before Removing Dependencies
 1. Ensure replacement feature has full parity
 2. Test with production build
@@ -399,8 +399,9 @@ User-facing config lives in [`site.config.ts`](site.config.ts) at the repo root;
 5. Document what was replaced and how
 
 ### CSS processing (custom SSG)
-- `@import` inlining is implemented ([`core/transforms/css-imports.ts`](core/transforms/css-imports.ts))
-- Minification and autoprefixer still use PostCSS on the Eleventy path only; not yet replaced in `core/`
+- `@import` inlining — [`core/transforms/css-imports.ts`](core/transforms/css-imports.ts)
+- Minification (prod) — [`core/transforms/minify-css.ts`](core/transforms/minify-css.ts) via `artifactTransforms` in [`site.config.ts`](site.config.ts)
+- Autoprefixer — not implemented; optional for modern-browser targets
 
 ### HTML minification (custom SSG)
 - Implemented in [`core/transforms/minify-html.ts`](core/transforms/minify-html.ts) — protects `<script>`, `<style>`, `<pre>`, `<textarea>` blocks; strips comments and collapses whitespace
@@ -409,7 +410,6 @@ User-facing config lives in [`site.config.ts`](site.config.ts) at the repo root;
 ### Syntax highlighting
 - **Not planned.** One or two legacy posts use `{% highlight lang %}` … `{% endhighlight %}` (Jekyll/Eleventy style); the custom SSG warns `Unknown tag: highlight` and those blocks render without styling — accepted.
 - Markdown fenced blocks emit `<pre><code class="language-…">` with escaped content only (no token classes).
-- Eleventy production path still uses `@11ty/eleventy-plugin-syntaxhighlight` until cutover; no custom replacement required for migration.
 
 ## Versioning
 
@@ -440,11 +440,10 @@ Custom format: `Year.Month.Commits.Type`
 - Permalinks from frontmatter or collection `permalink` pattern control output URLs
 
 ### Build Output
-- Eleventy outputs to `_site/`
-- Custom SSG outputs to `.build/` (`directories.output` in [`core/config.core.ts`](core/config.core.ts))
+- SSG outputs to `.build/` (`directories.output` in [`core/config.core.ts`](core/config.core.ts))
+- statichost.eu deploys `.build/` (see [`statichost.yml`](statichost.yml))
 - `.tmp/` used for debug output (AST dumps, rendered HTML) during development
-- Must match exact structure for deployment
-- statichost.yml for hosting configuration
+- `_site/` is a legacy path still removed by `clean:build`; no longer produced
 
 ### Content
 - Blog posts date back to 2015
@@ -452,27 +451,20 @@ Custom format: `Year.Month.Commits.Type`
 - URLs must remain stable (SEO)
 - RSS feed must validate
 
-## Current Dependencies (to phase out)
+## Dependencies
 
-### Must Remove
-- @11ty/eleventy (entire framework)
-- @11ty/eleventy-plugin-* (all plugins)
-- postcss, postcss-cli, postcss-import
-- autoprefixer, cssnano
-- html-minifier
-- cross-env
+### Build (SSG)
+- None — `core/` uses only Node built-ins
 
-### May Keep Temporarily
-- @biomejs/biome (linting - decide later)
-- husky (git hooks - decide later)
-- snyk (security scanning - decide later)
-
-### Development Only (can keep)
-- @types/* (TypeScript definitions)
+### Development tooling (`devDependencies`)
+- `@biomejs/biome` — linting
+- `@types/node` — TypeScript definitions for editors
+- `husky` — git hooks (version bump on commit)
+- `snyk` — security scanning
 
 ## Deployment
 
-- Hosted on statichost.eu
-- Uses statichost.yml for configuration
+- Hosted on [statichost.eu](https://statichost.eu)
+- [`statichost.yml`](statichost.yml): `image: node:25.9.0`, `command: npm install && npm run build`, `public: .build`
 - Automatic builds on git push
-- Must maintain compatibility with existing deploy process
+- Requires Node ≥ 22.18 (native TypeScript execution); pinned to `25.9.0` to match [`.nvmrc`](.nvmrc)

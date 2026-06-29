@@ -1,27 +1,49 @@
 # SSG migration
 
-Custom SSG runs in parallel with Eleventy. Target: zero third-party build dependencies (except `@types/node`).
+Custom SSG is the production build — statichost.eu deploys `.build/` via `npm run build`. Target: zero third-party **build** dependencies (except `@types/node`). Dev tooling (Biome, Husky, Snyk) stays in `devDependencies`.
 
-**Current phase:** Template and pipeline parity is largely there; Eleventy is still the production path until a full prod build comparison is done.
+**Current phase:** Post-cutover polish and optional build quality.
 
 **Status key:** open · partial · done · blocked (blocked = depends on open work above it)
 
 ---
 
+## Done
+
+### Cutover (Phase 5)
+
+| Item | Notes |
+| ---- | ----- |
+| Production build | `npm run build` → `NODE_ENV=production node core/index.ts` |
+| Dev server | `npm start` → watch + serve `.build/` |
+| Deploy config | [`statichost.yml`](statichost.yml): `public: .build`, `image: node:25.9.0` |
+| Dependency removal | Eleventy, PostCSS toolchain, `html-minifier`, `cross-env` removed from [`package.json`](package.json) |
+| Legacy config | `eleventy.config.js` removed |
+
+### Build pipeline (Phase 3 — core)
+
+| Item | Notes |
+| ---- | ----- |
+| HTML minification (prod) | [`core/transforms/minify-html.ts`](core/transforms/minify-html.ts) |
+| CSS `@import` bundling | [`core/transforms/css-imports.ts`](core/transforms/css-imports.ts) |
+| CSS minification (prod) | [`core/transforms/minify-css.ts`](core/transforms/minify-css.ts) |
+| Asset bundling | Not needed — client scripts use native ES modules; passthrough copy via `passThroughCopy` |
+
+---
+
 ## Open
 
-### Cutover blockers
+### Post-cutover verification
 
 | Item | Status | Notes |
 | ---- | ------ | ----- |
-| Prod parity check | open | Compare `.build/` vs `_site/` (HTML, CSS, URLs, RSS) before switching deploy. |
+| Live site spot-check | partial | Verify key pages, posts, `/feed.xml`, CSS, and permalinks after deploy; no `_site/` baseline required. |
 
-### Build quality (Phase 3)
+### Build quality (optional)
 
 | Item | Status | Notes |
 | ---- | ------ | ----- |
 | CSS autoprefixer | open | Optional if targeting modern browsers only. |
-| Asset bundling | open | Replace `@11ty/eleventy-plugin-bundle` behaviour if still needed. |
 
 ### Polish (Phase 4)
 
@@ -46,19 +68,13 @@ Pick when touching the area; gate parser changes with the testing matrix.
 - **DevEx:** `operationId` per build in `core/utils/log.ts`.
 - **Paths:** unify site-path / slash normalisation in one helper.
 
-### Phase 5 — dependency removal
-
-**blocked** until the prod parity check passes.
-
-Remove Eleventy, PostCSS toolchain, `html-minifier`, `cross-env`; archive `eleventy.config.js`; point `npm run build` / `npm start` at the custom SSG.
-
 ---
 
 ## Testing matrix
 
 Use after parser or pipeline edits:
 
-- **Regression:** Spot-check representative pages + posts in `.build/` (no legacy baseline required).
+- **Regression:** Spot-check representative pages + posts in `.build/`.
 - **Parser:** `for` + assign, `break` / `continue`, nested `if` / `for`, unknown filter / shortcode errors (`npm test`).
 - **Runtime:** Dev server serves `.build/`, path traversal blocked, livereload upgrade + reload.
 - **Data:** Missing `src/data`, bad JSON, empty collection.

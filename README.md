@@ -1,6 +1,6 @@
 #  Moritz Kröger Website [statichost.eu status](https://builder.statichost.eu/morkro-de/)
 
-Source code of my personal website [moritz.berlin](https://moritz.berlin). Production builds still use [11ty](https://www.11ty.dev/); a custom static site generator lives under `core/` and is documented in `[AGENT.md](AGENT.md)` with task tracking in `[TODO.md](TODO.md)`.
+Source code of my personal website [moritz.berlin](https://moritz.berlin). Production builds still use a custom static-side generator.
 
 ### Versioning
 
