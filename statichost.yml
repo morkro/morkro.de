@@ -1,7 +1,7 @@
 # Docker image to use for building
 image: node:25.9.0
 # Build command
-command: npm install && npm run build
+command: npm install --ignore-scripts && npm run build
 # Public directory
 public: .build
 # Domains
