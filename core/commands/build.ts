@@ -55,7 +55,7 @@ export async function build (config: CoreConfig, userConfig: UserConfig) {
       from: tmpDir,
       to: outputDir,
     })
-    process.exit(1)
+    throw error
   }
 
   log.info('✔ Build complete')

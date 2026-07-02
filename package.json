@@ -1,6 +1,6 @@
 {
   "name": "morkro.de",
-  "version": "26.06.105.P0",
+  "version": "26.07.106.P0",
   "description": "Website of Moritz Kröger",
   "homepage": "https://moritz.berlin",
   "author": "Moritz Kröger <write@morkro.de>",
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "clean:build": "node scripts/clean-artifacts.ts",
-    "lint:js": "biome lint --error-on-warnings ./src/scripts/",
+    "lint:js": "biome lint --error-on-warnings ./src/scripts/ ./core/",
     "lint:css": "biome lint --error-on-warnings src/css/**/*.css",
     "lint": "npm run lint:js && npm run lint:css",
     "setup": "npm run clean:build && npm run lint",

@@ -8,36 +8,7 @@ Custom SSG is the production build — statichost.eu deploys `.build/` via `npm 
 
 ---
 
-## Done
-
-### Cutover (Phase 5)
-
-| Item | Notes |
-| ---- | ----- |
-| Production build | `npm run build` → `NODE_ENV=production node core/index.ts` |
-| Dev server | `npm start` → watch + serve `.build/` |
-| Deploy config | [`statichost.yml`](statichost.yml): `public: .build`, `image: node:25.9.0` |
-| Dependency removal | Eleventy, PostCSS toolchain, `html-minifier`, `cross-env` removed from [`package.json`](package.json) |
-| Legacy config | `eleventy.config.js` removed |
-
-### Build pipeline (Phase 3 — core)
-
-| Item | Notes |
-| ---- | ----- |
-| HTML minification (prod) | [`core/transforms/minify-html.ts`](core/transforms/minify-html.ts) |
-| CSS `@import` bundling | [`core/transforms/css-imports.ts`](core/transforms/css-imports.ts) |
-| CSS minification (prod) | [`core/transforms/minify-css.ts`](core/transforms/minify-css.ts) |
-| Asset bundling | Not needed — client scripts use native ES modules; passthrough copy via `passThroughCopy` |
-
----
-
 ## Open
-
-### Post-cutover verification
-
-| Item | Status | Notes |
-| ---- | ------ | ----- |
-| Live site spot-check | partial | Verify key pages, posts, `/feed.xml`, CSS, and permalinks after deploy; no `_site/` baseline required. |
 
 ### Build quality (optional)
 

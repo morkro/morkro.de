@@ -1,6 +1,6 @@
 #  Moritz Kröger Website [statichost.eu status](https://builder.statichost.eu/morkro-de/)
 
-Source code of my personal website [moritz.berlin](https://moritz.berlin). Production builds still use a custom static-side generator.
+Source code of my personal website [moritz.berlin](https://moritz.berlin). This is a no-dependency, custom static-side generator project.
 
 ### Versioning
 
