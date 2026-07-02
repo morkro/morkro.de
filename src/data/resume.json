@@ -2,7 +2,7 @@
 	"experience": [
 		{
 			"company": "Parloa",
-			"title": "Head of Engineering, Agent Integration",
+			"title": "Global Director of Forward Deploymed Engineering",
 			"timeline": {
 				"label": "2025-Current",
 				"duration": "P1Y"
@@ -11,12 +11,7 @@
 			"url": "https://www.parloa.com/",
 			"icon": "/assets/img/parloa.webp",
 			"responsibilities": [
-				"Leading the engineering department responsible for integrating our customers and 3rd-party solutions into the Parloa platform.",
-				"Responsible for the technical strategy and roadmap of the Agent Integration department."
-			],
-			"technologies": [
-				"Azure",
-				"LLM"
+				"Leading Forward Deployed Engineering at Parloa, uniting integration engineers, DevOps, and VoIP experts to deliver secure, enterprise‑grade solutions across telephony/CCaaS, integrations, analytics, and cloud—powering our AI Agent Management Platform to unlock Agentic AI safely and reliably, elevating customer experience at scale."
 			]
 		},
 		{

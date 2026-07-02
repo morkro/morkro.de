@@ -33,6 +33,10 @@
 			}
 		}
 
+		.with-icon img {
+			margin-right: var(--gap-small);
+		}
+
 		@media (width <= 900px) {
 			grid-column: span 6;
 		}
