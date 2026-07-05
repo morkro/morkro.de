@@ -19,7 +19,7 @@ export function createSiteTemplateEngine(): BuildEngine {
         shortCodes: ctx.userConfig?.shortCodes ?? {},
         filters: ctx.userConfig?.filters ?? {},
         outputRoot: ctx.outputRoot,
-        outputPath: ctx.collection ? outputPath : undefined,
+        outputPath,
         pageData: ctx.collection ? { date: ctx.collection.entry.date } : undefined,
         layoutCache: ctx.layoutCache,
       })

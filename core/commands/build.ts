@@ -1,10 +1,12 @@
-import { mkdir } from 'node:fs/promises'
-import { join, relative, resolve } from 'node:path'
+import { mkdir, stat } from 'node:fs/promises'
+import { resolve } from 'node:path'
 import type { CoreConfig } from '#config'
 import type { UserConfig } from '#config.user'
 import { indexCollections } from '#data/collections.ts'
 import { loadDataFiles, writeDataFilesDump } from '#data/index.ts'
-import { getPassthrough, resolvePassthrough } from '#emitter/passthrough.ts'
+import { buildPagesData } from '#data/pages.ts'
+import { getPassthrough } from '#emitter/passthrough.ts'
+import { resolveBuildItemOutputPath } from '#emitter/resolve-output-path.ts'
 import { type BuildItem, processFiles } from '#emitter/traverse.ts'
 import { defaultEngines } from '#engines/registry.ts'
 import type { Layout } from '#parser/liquid/types.ts'
@@ -21,23 +23,34 @@ export async function build (config: CoreConfig, userConfig: UserConfig) {
   await mkdir(tmpDir, { recursive: true })
 
   const dataFiles = await loadDataFiles(userConfig)
-  if (userConfig.debugMode) {
-    await writeDataFilesDump(dataFiles, 'data.json')
-  }
-
   const files: BuildItem[] = []
   const collectionIndex = indexCollections(dataFiles)
   const passthrough = getPassthrough(tmpDir, userConfig.passThroughCopy)
 
   await walkFiles(inputDir, { skip: config.directories.internal }, async (inputPath) => {
+    const { mtimeMs } = await stat(inputPath)
     const collection = collectionIndex.get(inputPath)
-    const outputPath = collection
-      ? join(tmpDir, collection.entry.url ?? '', 'index.html')
-      : resolvePassthrough(inputPath, passthrough)
-        ?? join(tmpDir, relative(inputDir, inputPath))
+    const outputPath = await resolveBuildItemOutputPath(
+			inputPath,
+			inputDir,
+			tmpDir,
+			collection,
+			passthrough,
+		)
 
-    files.push({ inputPath, outputPath, collection })
+    files.push({
+      inputPath,
+      outputPath,
+      collection,
+      lastModified: new Date(mtimeMs),
+    })
   })
+
+  dataFiles.set('pages', buildPagesData(files, userConfig, tmpDir))
+  
+  if (userConfig.debugMode) {
+    await writeDataFilesDump(dataFiles, 'data.json')
+  }
 
   await processFiles(files, defaultEngines, {
     layoutCache: new Map<string, Layout>(),

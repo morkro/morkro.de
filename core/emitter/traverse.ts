@@ -21,6 +21,7 @@ export type BuildItem = {
   inputPath: string
   outputPath: string
   collection?: CollectionMatch
+  lastModified?: Date
 }
 
 type ProcessOptions = {
