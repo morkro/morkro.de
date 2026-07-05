@@ -3,13 +3,23 @@
 {% else %}
   {% assign title = site.author %}
 {% endif %}
+{% if meta.robots %}
+  {% assign robots = meta.robots %}
+{% else %}
+  {% assign robots = 'index,follow' %}
+{% endif %}
+{% if meta.description %}
+  {% assign description = meta.description %}
+{% else %}
+  {% assign description = site.description %}
+{% endif %}
 
 <head>
   <title>
     {{- title -}}
   </title>
   <meta charset="utf-8" />
-  <meta name="robots" content="index,follow" />
+  <meta name="robots" content="{{ robots }}" />
   <meta name="revisit-after" content="1 days" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="generator" content="morkro" />
@@ -20,7 +30,8 @@
   {% if keywords %}
     <meta name="keywords" content="{{ keywords | join: ',' }}" />
   {% endif %}
-  <meta name="description" content="{{ site.description }}" />
+  <meta name="description" content="{{ description }}" />
+  <link rel="canonical" href="{{ page.url }}" />
   <link rel="shortcut icon" href="/assets/favicon.ico" />
   <link rel="author" href="/humans.txt" />
   <link
