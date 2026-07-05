@@ -13,9 +13,9 @@
     meta: meta
   %}
   <body
-    {% if pageClass %}
+    {% if pageClass -%}
     class="template-{{ pageClass }}"
-    {% endif %}>
+    {%- endif -%}>
     <a href="#content" class="a11y-jump sr-only">
       Jump directly to main content
     </a>

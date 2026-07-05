@@ -1,19 +1,18 @@
-{% if title %}
+{%- if title -%}
   {% assign title = title | append: ' | ' | append: site.author %}
-{% else %}
+{%- else -%}
   {% assign title = site.author %}
-{% endif %}
-{% if meta.robots %}
+{%- endif -%}
+{%- if meta.robots -%}
   {% assign robots = meta.robots %}
-{% else %}
+{%- else -%}
   {% assign robots = 'index,follow' %}
-{% endif %}
-{% if meta.description %}
+{%- endif %}
+{%- if meta.description -%}
   {% assign description = meta.description %}
-{% else %}
+{%- else -%}
   {% assign description = site.description %}
-{% endif %}
-
+{%- endif %}
 <head>
   <title>
     {{- title -}}
@@ -28,9 +27,9 @@
 
     <!-- Meta data -->
   <meta name="author" content="{{ site.author }}" />
-  {% if keywords %}
+  {%- if keywords -%}
     <meta name="keywords" content="{{ keywords | join: ',' }}" />
-  {% endif %}
+  {%- endif -%}
   <meta name="description" content="{{ description }}" />
   <link rel="canonical" href="{{ page.url }}" />
   <link rel="shortcut icon" href="/assets/favicon.ico" />
@@ -53,10 +52,10 @@
     rel="stylesheet"
     type="text/css"
     href="/css/main.css?v={{ pkg.version }}-{{ site.timestamp }}" />
-  {% if pageClass %}
+  {%- if pageClass -%}
     <link
       rel="stylesheet"
       type="text/css"
       href="/css/{{ pageClass }}.css?v={{ pkg.version }}-{{ site.timestamp }}" />
-  {% endif %}
+  {%- endif -%}
 </head>
