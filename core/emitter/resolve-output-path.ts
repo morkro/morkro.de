@@ -22,7 +22,12 @@ export async function resolveBuildItemOutputPath(
 		return passthroughPath
 	}
 
-	if (!resolveEngine(defaultEngines, inputPath)) {
+	const engine = resolveEngine(defaultEngines, inputPath)
+	if (!engine) {
+		return join(outputRoot, relative(inputDir, inputPath))
+	}
+
+	if (engine.id === 'css') {
 		return join(outputRoot, relative(inputDir, inputPath))
 	}
 
