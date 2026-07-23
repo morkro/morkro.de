@@ -2,7 +2,7 @@
 	"experience": [
 		{
 			"company": "Parloa",
-			"title": "Global Director of Forward Deploymed Engineering",
+			"title": "Global Director of Forward Deployed Engineering",
 			"timeline": {
 				"label": "2025-Current",
 				"duration": "P1Y"
@@ -25,10 +25,10 @@
 			"url": "https://www.mckinsey.com/",
 			"icon": "/assets/img/mck.png",
 			"responsibilities": [
-				"Initially joined as a Senior Engineer and got promoted three times (→ Staff Engineer → Principial Engineer → Director of Engineering) with increasing responsibility of scope, delivery, and people.",
-				"Have the privilige to work in various different countries and (work) cultures for clients from different industries (<i>e.g., Banking in London/Bucharest/Amsterdam, Telco in Madrid/Copenhagen, Consumer in Munich/Copenhagen/Berlin, etc.</i>)",
+				"Initially joined as a Senior Engineer and got promoted three times (→ Staff Engineer → Principal Engineer → Director of Engineering) with increasing responsibility of scope, delivery, and people.",
+				"Have the privilege to work in various countries and (work) cultures for clients from different industries (<i>e.g., Banking in London/Bucharest/Amsterdam, Telco in Madrid/Copenhagen, Consumer in Munich/Copenhagen/Berlin, etc.</i>)",
 				"I am responsible for end-to-end technology (and product) delivery throughout a product's lifecycle where I work closely with (non-technical) stakeholders and our diverse cross-functional delivery teams.",
-				"My functional role ususally starts as the initial architect including technology vision, engineering principles, project scoping (technology & people) and changes throughout the lifecycle as needed; e.g., being the very first engineer on the team creating the boilerplate or first features, working on infrastructure related tasks, further defining the technology vision and roadmap, etc.",
+				"My functional role usually starts as the initial architect including technology vision, engineering principles, project scoping (technology & people) and changes throughout the lifecycle as needed; e.g., being the very first engineer on the team creating the boilerplate or first features, working on infrastructure related tasks, further defining the technology vision and roadmap, etc.",
 				"As part of larger digital transformations, I work with our clients on their architecture principles, technology vision, and modernisation strategies.",
 				"For a list of (sanitised) project examples, please reach out to me on LinkedIn."
 			]
@@ -70,7 +70,7 @@
 			"icon": "/assets/img/moritz-work.webp",
 			"note": "this website!",
 			"responsibilities": [
-				"Built interactive web- and microsites, blogs, and CMS for digital agencies and own clients across Europe and Latin america.",
+				"Built interactive web- and microsites, blogs, and CMS for digital agencies and own clients across Europe and Latin America.",
 				"Implemented the new frontend experience for a Berlin-based bank and a global insurance company.",
 				"Developed various PHP-based CMS and static websites.",
 				"Fun fact: I have this website since 2007 and updated it throughout my career."
@@ -131,7 +131,7 @@
 			"url": "https://kisd.de/en",
 			"location": "Cologne",
 			"icon": "/assets/img/kisd.webp",
-			"status": "Discontinued after four semester due to work opportunities."
+			"status": "Discontinued after four semesters due to work opportunities."
 		}
 	],
 	"certifications": [
@@ -153,7 +153,7 @@
 	"languages": [
 		{
 			"language": "German",
-			"proficiency": "Native "
+			"proficiency": "Native"
 		},
 		{
 			"language": "English",
