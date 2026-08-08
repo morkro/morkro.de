@@ -22,6 +22,7 @@ export function createSiteTemplateEngine(): BuildEngine {
         outputPath,
         pageData: ctx.collection ? { date: ctx.collection.entry.date } : undefined,
         layoutCache: ctx.layoutCache,
+        structuredData: ctx.userConfig?.structuredData,
       })
 
       return {

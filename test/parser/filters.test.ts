@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test'
 import assert from 'node:assert'
-import { filterDate } from '#parser/liquid/filters.ts'
+import { filterDate, filterDefault } from '#parser/liquid/filters.ts'
 import { ParserError } from '#parser/utils.ts'
 
 describe('filterDate', () => {
@@ -60,5 +60,36 @@ describe('filterDate', () => {
 		const fromDate = filterDate(date, 'year')
 		const fromString = filterDate(date.toISOString(), 'year')
 		assert.strictEqual(fromDate, fromString)
+	})
+})
+
+describe('filterDefault', () => {
+	it('returns fallback for undefined', () => {
+		assert.strictEqual(filterDefault(undefined, 'fallback'), 'fallback')
+	})
+
+	it('returns fallback for null', () => {
+		assert.strictEqual(filterDefault(null, 'fallback'), 'fallback')
+	})
+
+	it('returns fallback for false', () => {
+		assert.strictEqual(filterDefault(false, 'fallback'), 'fallback')
+	})
+
+	it('returns fallback for empty string', () => {
+		assert.strictEqual(filterDefault('', 'fallback'), 'fallback')
+	})
+
+	it('returns input when present', () => {
+		assert.strictEqual(filterDefault('noindex,follow', 'index,follow'), 'noindex,follow')
+	})
+
+	it('returns input for zero', () => {
+		assert.strictEqual(filterDefault(0, 99), 0)
+	})
+
+	it('returns input for empty array', () => {
+		const empty: string[] = []
+		assert.strictEqual(filterDefault(empty, ['fallback']), empty)
 	})
 })

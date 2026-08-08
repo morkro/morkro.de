@@ -15,6 +15,8 @@ import { toUrl } from '#utils/url.ts'
 
 const log = logger('Parser')
 
+export type StructuredDataFn = (context: Record<string, unknown>) => unknown | undefined
+
 type Compiled = {
   ast: Template
   fullPageAst: FullPage
@@ -28,6 +30,7 @@ type CompilerOptions = {
   baseUrl: string
   shortCodes: RenderServices["__shortCodes__"]
   filters: RenderServices["__filters__"]
+  structuredData?: StructuredDataFn
   pageData?: Record<string, unknown>
   outputRoot: string
   outputPath?: string
@@ -122,6 +125,10 @@ export async function compile (file: string, path: string, options: CompilerOpti
     options.pageData)
   localContext.__shortCodes__ = options.shortCodes
   localContext.__filters__ = options.filters
+  
+  if (options.structuredData && !('structuredData' in frontmatter)) {
+    localContext.structuredData = options.structuredData(localContext)
+  }
   
   const bodyForLiquid =
     extname(path).toLowerCase() === '.md'

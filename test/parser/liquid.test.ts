@@ -1604,6 +1604,14 @@ describe('renderLiquid: filters', () => {
 		assert.strictEqual(result, 'The year is 2026')
 	})
 
+	it('renders built-in default filter', async () => {
+		const result = await renderTemplate(
+			'{% assign robots = meta.robots | default: "index,follow" %}{{ robots }}',
+			{ meta: {} }
+		)
+		assert.strictEqual(result, 'index,follow')
+	})
+
 	it('throws on unknown filter', async () => {
 		await assert.rejects(
 			() => renderTemplate('{{ title | nonexistent }}', { title: 'hi' }),

@@ -2,15 +2,11 @@ import type { UserConfig } from "#config.user"
 import { minifyCss } from "#core/transforms/minify-css.ts"
 import { minifyHtml } from "#core/transforms/minify-html.ts"
 import { escapeXML } from "#core/utils/html.ts"
-
-function currentYear () {
-  return new Date().getFullYear().toString()
-}
+import { buildStructuredData } from "#web/schema/structured-data.ts"
 
 const config: UserConfig = {
   debugMode: process.env.DEBUG === 'true',
   devMode: process.env.NODE_ENV === 'development',
-  prodMode: process.env.NODE_ENV === 'production',
   baseUrl: 'https://moritz.berlin',
   passThroughCopy: [
     { from: 'src/assets', to: 'assets', },
@@ -25,10 +21,13 @@ const config: UserConfig = {
     }]
   ]),
   shortCodes: {
-    currentYear,
+    currentYear () {
+      return new Date().getFullYear().toString()
+    },
   },
   filters: {
     encodeXML: escapeXML,
+    json: (value) => JSON.stringify(value, null, 2),
   },
   collections: new Map([
     ['posts', {
@@ -37,7 +36,8 @@ const config: UserConfig = {
       sortOrder: 'desc',
       permalink: `/writes/{{ page.date | date: 'year' }}/{{ page.slug }}/`
     }]
-  ])
+  ]),
+  structuredData: buildStructuredData,
 }
 
 export default config

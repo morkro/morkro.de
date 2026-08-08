@@ -1,23 +1,17 @@
-{%- if title -%}
-  {% assign title = title | append: ' | ' | append: site.author %}
-{%- else -%}
-  {% assign title = site.author %}
-{%- endif -%}
-{%- if meta.robots -%}
-  {% assign robots = meta.robots %}
-{%- else -%}
-  {% assign robots = 'index,follow' %}
-{%- endif %}
-{%- if meta.description -%}
-  {% assign description = meta.description %}
-{%- else -%}
-  {% assign description = site.description %}
-{%- endif %}
+{%- liquid
+  if title
+    assign title = title | append: ' | ' | append: site.author
+  else
+    assign title = site.author
+  endif
+  assign robots = meta.robots | default: 'index,follow'
+  assign description = meta.description | default: site.description
+-%}
 <head>
+  <meta charset="utf-8" />
   <title>
     {{- title -}}
   </title>
-  <meta charset="utf-8" />
   <meta name="robots" content="{{ robots }}" />
   <meta name="revisit-after" content="1 days" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,14 +34,16 @@
     title="{{- title }} RSS"
     href="/feed.xml" />
 
-    <!-- Open Graph data -->
+  <!-- Open Graph data -->
   <meta property="og:title" content="{{ title }}" />
   <meta property="og:description" content="{{ description }}" />
   <meta property="og:image" content="{{ site.url }}/assets/img/moritz-mountains.webp" />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content="{% if pageClass == 'article' %}article{% else %}website{% endif %}">
   <meta property="og:url" content="{{ page.url }}" />
 
-    <!-- Stylesheets -->
+  {% render "structured-data", structuredData: structuredData %}
+
+  <!-- Stylesheets -->
   <link
     rel="stylesheet"
     type="text/css"

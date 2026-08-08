@@ -1,5 +1,6 @@
 import type { FilterFn, ShortCodeFn } from '#config'
 import type { EmitProfile } from '#emitter/output.ts'
+import type { StructuredDataFn } from '#parser/compile.ts'
 import { logger } from '#utils/log.ts'
 import { resolveWithin } from '#utils/path.ts'
 
@@ -25,7 +26,6 @@ export type CollectionSource = {
 export type UserConfig = {
   debugMode?: boolean
   devMode?: boolean
-  prodMode?: boolean
   baseUrl?: string 
   customDataMapping?: {
     [key: string]: string | CustomDataFields
@@ -35,6 +35,7 @@ export type UserConfig = {
   shortCodes?: Record<string, ShortCodeFn>
   filters?: Record<string, FilterFn>
   collections?: Map<string, CollectionSource>
+  structuredData?: StructuredDataFn
 }
 
 export async function getUserConfig (): Promise<UserConfig> {

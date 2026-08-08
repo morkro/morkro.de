@@ -105,6 +105,8 @@ At render time, user-defined filters (from `__filters__` in the context) are che
 | `join` | Join array elements | `{{ arr \| join: "," }}` — passes through `String()` for non-array input |
 | `replace` | Replace all occurrences | `{{ str \| replace: "old", "new" }}` — uses `String.replaceAll()` |
 | `prepend` | Prefix a string | `{{ path \| prepend: "/base" }}` — no-op if already prefixed |
+| `append` | Suffix a string | `{{ path \| append: "/" }}` — no-op if already suffixed |
+| `default` | Fallback for blank values | `{{ meta.robots \| default: "index,follow" }}` — uses fallback when input is `nil`, `false`, or `""` |
 
 ### User-defined filters
 
