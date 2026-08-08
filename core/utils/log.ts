@@ -25,7 +25,7 @@ export function logger (label: string) {
   const syntax = (_lvl: string, message: string, meta?: LogMeta) => {
     let msg = `[${timestamp()}] ${_lvl} (${label}): ${message}`
     if (meta && Object.keys(meta).length > 0) {
-      msg += `\n${JSON.stringify(meta, null, 2)}`
+      msg += `\n${styleText('dim', JSON.stringify(meta, null, 1))}`
     }
     return msg
   }
@@ -48,11 +48,17 @@ export function logger (label: string) {
           styleText(['yellow', 'bold'], 'warn'), msg, meta))
     },
     error (msg: string, meta?: LogMeta) {
+      const hasError = meta !== null && meta !== undefined && 'error' in meta
+      const normalised = hasError ? normaliseError(meta?.error) : undefined
+      const text = normalised && 'message' in normalised && typeof normalised.message === 'string'
+        ? `${msg}: ${normalised.message}`
+        : msg
+      
       console.error(
         syntax(
           styleText(['red', 'bold'], 'error', { stream: stderr }),
-          msg,
-          { ...meta, error: normaliseError(meta?.error) }
+          text,
+          hasError ? { ...meta, error: normalised } : meta
         ))
     }
   }
