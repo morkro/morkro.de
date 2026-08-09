@@ -8,3 +8,4 @@ _site
 .claude
 .build
 .build.tmp.*
+src.archive.live

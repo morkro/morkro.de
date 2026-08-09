@@ -11,7 +11,7 @@ Personal website ([moritz.berlin](https://moritz.berlin)) built with a custom st
 
 ## Boundaries
 
-- **No third-party build dependencies.** The SSG under `core/` uses only Node built-ins. Dev tooling (`@biomejs/biome`, `husky`, `snyk`, `@types/node`) is allowed in `devDependencies`.
+- **No third-party build dependencies.** The SSG under `core/` uses only Node built-ins. Dev tooling (`@biomejs/biome`, `snyk`, `@types/node`) is allowed in `devDependencies`.
 - **Keep stable** (SEO / feeds depend on it): URL structure (permalinks), RSS feed output, frontmatter structure, and Liquid template syntax.
 - **Blog posts date back to 2015** — all markdown with frontmatter; don't break old URLs.
 
@@ -181,7 +181,7 @@ const buildArtifact = async (path: string, { minify = true } = {}) => {
 
 ## Versioning
 
-Custom format `Year.Month.Commits.Type` — types `M1` (Major), `M2` (Minor), `P0` (Patch). Example: `26.04.59.M2` (see `version` in [`package.json`](package.json)). Bumped via husky git hook on commit.
+Custom format `Year.Month.Commits.Type` — types `M1` (Major), `M2` (Minor), `P0` (Patch). Example: `26.04.59.M2` (see `version` in [`package.json`](package.json)). Bumped by the `.githooks/pre-commit` hook on commit (`prepare` runs [`scripts/install-git-hooks.ts`](scripts/install-git-hooks.ts) to set `core.hooksPath`). Skip with `SKIP_HOOKS=1`.
 
 ## Deployment
 
