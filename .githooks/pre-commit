@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
-[ "$SKIP_HOOKS" = "1" || "$SKIP_HOOKS" = "true" ] && exit 0
+if [ "$SKIP_HOOKS" = "1" ] || [ "$SKIP_HOOKS" = "true" ]; then
+  exit 0
+fi
 node .githooks/pre-commit.js
