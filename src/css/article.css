@@ -1,3 +1,5 @@
+@import "components/syntax.css" layer(components);
+
 @layer pages {
 	/**
 	 * Article

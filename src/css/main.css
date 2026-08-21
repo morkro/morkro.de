@@ -1,19 +1,24 @@
+@layer reset, tokens, globals, layout, components, pages;
+
 @import "globals/reset.css" layer(reset);
+
+@import "globals/variables.css" layer(tokens);
+
 @import "globals/animations.css" layer(globals);
 @import "globals/fonts.css" layer(globals);
 @import "globals/system.css" layer(globals);
 @import "globals/typography.css" layer(globals);
-@import "globals/variables.css" layer(globals);
-@import "components/animated-underline.css" layer(components);
-@import "components/blob-motion.css" layer(components);
-@import "components/blob-photo.css" layer(components);
-@import "components/box.css" layer(components);
-@import "components/chip.css" layer(components);
-@import "components/logo.css" layer(components);
-@import "components/page-top-left-bg.css" layer(components);
-@import "components/syntax.css" layer(components);
-@import "components/tooltip.css" layer(components);
+
 @import "layout/content.css" layer(layout);
 @import "layout/grid.css" layer(layout);
 @import "layout/footer.css" layer(layout);
 @import "layout/header.css" layer(layout);
+@import "layout/blob-motion.css" layer(components);
+@import "layout/page-top-left-bg.css" layer(layout);
+
+@import "components/animated-underline.css" layer(components);
+@import "components/blob-photo.css" layer(components);
+@import "components/box.css" layer(components);
+@import "components/chip.css" layer(components);
+@import "components/logo.css" layer(components);
+@import "components/tooltip.css" layer(components);
