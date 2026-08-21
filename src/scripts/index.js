@@ -1,8 +1,22 @@
 import './console.js'
-import './add-emoji-title.js'
+
+const titleConfig = {
+	about: '🙋🏻‍♀️',
+	blog: '🗞️',
+	resume: '📑',
+	404: '💥',
+}
+
+const currentPageKey = Object.keys(titleConfig).find((page) =>
+	document.body.classList.contains(`template-${page}`)
+)
+
+if (currentPageKey) {
+	const [baseTitle, suffix] = document.title.split('|')
+	document.title = `${baseTitle}${titleConfig[currentPageKey]} | ${suffix}`
+}
 
 /**
- *
  * @param {string} selector - The query selector to check if the widget is part of the DOM
  * @param {string} widgetName
  * @param {string} widgetFile - File name of the widget to load
