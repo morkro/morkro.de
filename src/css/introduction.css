@@ -1,6 +1,6 @@
 @layer pages {
 	.intro-welcome {
-		margin-bottom: var(--gap-large);
+		margin-bottom: var(--gap-medium);
 	}
 
 	.intro-welcome-photo {
@@ -34,7 +34,11 @@
 		}
 
 		.with-icon img {
-			margin-right: var(--gap-small);
+			padding: var(--gap-small);
+
+			html[data-theme="dark"] & {
+				filter: invert(1);
+			}
 		}
 
 		@media (width <= 900px) {
