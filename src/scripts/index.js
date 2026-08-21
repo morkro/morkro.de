@@ -38,8 +38,8 @@ async function loadWidget(selector, widgetName, widgetFile) {
  * [<widgetClass>, <widgetName>, <widgetFile>]
  */
 const widgets = [
-	/* Set preferred theme */
-	['.js-theme-toggle', 'Theme', 'set-theme.js'],
+	/** Set preferred user settings */
+	['.header-toggle-btns', 'Preferences', 'set-preferences.js'],
 	/* Update footer year */
 	['.footer-year', 'Current year', 'set-current-year.js'],
 	/* Interactive world map */

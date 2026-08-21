@@ -1,6 +1,20 @@
 @media screen and (prefers-reduced-motion: no-preference) {
-	html {
+	html:not([data-anim="off"]) {
 		scroll-behavior: smooth;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html:not([data-anim="on"]) {
+		scroll-behavior: auto !important;
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
 	}
 }
 
@@ -9,7 +23,26 @@ html {
 	overflow-x: hidden;
 	scrollbar-color: var(--black) var(--white);
 
+	&[data-anim="on"] {
+		scroll-behavior: smooth;
+	}
+
+	&[data-anim="off"] {
+		scroll-behavior: auto !important;
+		
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+	}
+
 	&[data-theme="dark"] {
+		color-scheme: dark;
+		
 		--blue: #5b8bfb; /* Better contrast ratio (a11y) */
 		--background-content: var(--deep-grey);
 		--background-highlight: var(--dark-grey2);

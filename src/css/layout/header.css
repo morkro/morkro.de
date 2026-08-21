@@ -42,6 +42,8 @@
 	right: calc(-1 * var(--gap-base));
 	width: 692px;
 	transform: translateX(10%);
+	/* The small blob's left lobe sits on x=0, so viewBox clipping would flatten it */
+	overflow: visible;
 
 	@media (width <= 768px) {
 		display: none;
@@ -112,7 +114,12 @@
 	}
 }
 
-.header-inner .js-theme-toggle {
+.header-inner .header-toggle-btns {
+	display: flex;
+	gap: var(--gap-tiny);
+}
+
+.header-inner .js-toggle-btn {
 	position: relative;
 	display: flex;
 	justify-content: center;
@@ -123,6 +130,7 @@
 	width: 38px;
 	height: 38px;
 	background: none;
+	color: var(--text-color-base);
 
 	&::after {
 		content: "";
@@ -142,7 +150,11 @@
 		outline: none;
 	}
 
-	.theme-toggle-sun {
+	&.toggle-theme .theme-toggle-sun {
+		fill: none;
+	}
+
+	&.toggle-anim .anim-toggle-on {
 		fill: none;
 	}
 
@@ -160,12 +172,30 @@
 	&:hover svg {
 		color: var(--text-color-base);
 	}
+
+	html[data-anim="off"] &:hover::after {
+		background: var(--blue);
+	}
+
+	@media (width <= 768px) {
+		&.toggle-anim {
+			display: none;
+		}
+	}
 }
 
-html[data-theme="light"] .header-inner .js-theme-toggle .theme-toggle-moon {
+html[data-theme="light"] .header-inner .js-toggle-btn.toggle-theme .theme-toggle-moon {
 	display: none;
 }
 
-html[data-theme="dark"] .header-inner .js-theme-toggle .theme-toggle-sun {
+html[data-theme="dark"] .header-inner .js-toggle-btn.toggle-theme .theme-toggle-sun {
+	display: none;
+}
+
+html[data-anim="on"] .header-inner .js-toggle-btn.toggle-anim .anim-toggle-off {
+	display: none;
+}
+
+html[data-anim="off"] .header-inner .js-toggle-btn.toggle-anim .anim-toggle-on {
 	display: none;
 }

@@ -54,4 +54,16 @@
       type="text/css"
       href="/css/{{ pageClass }}.css?v={{ pkg.version }}-{{ site.timestamp }}" />
   {%- endif -%}
+
+  <!-- Set preferences early to avoid FOUC -->
+  <script>
+    const $root = document.documentElement
+    const readPreference = (key, query, onMatch, onMiss) => {
+      const saved = localStorage.getItem(key)
+      if (saved === onMatch || saved === onMiss) return saved
+      return matchMedia(query).matches ? onMatch : onMiss
+    }
+    $root.dataset.theme = readPreference('morkro:theme', '(prefers-color-scheme: dark)', 'dark', 'light')
+    $root.dataset.anim = readPreference('morkro:anim', '(prefers-reduced-motion: reduce)', 'off', 'on')
+  </script>
 </head>

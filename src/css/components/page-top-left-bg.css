@@ -4,6 +4,7 @@
 	left: 0;
 	z-index: 0;
 	transition: transform 150ms var(--ease-out-back);
+	overflow: visible;
 
 	@media (width <= 1380px) {
 		transform: translateX(-50%);

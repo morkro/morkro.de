@@ -26,6 +26,10 @@
 	}
 }
 
+#page-footer .section-border {
+	--border-wave-delay: -7s;
+}
+
 .footer-info {
 	text-align: left;
 
