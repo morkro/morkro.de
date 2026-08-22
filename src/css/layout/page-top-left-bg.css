@@ -6,12 +6,26 @@
 	transition: transform 150ms var(--ease-out-back);
 	overflow: visible;
 
+	[dir="rtl"] & {
+		transform: rotateY(180deg);
+		right: 0;
+		left: auto;
+	}
+
 	@media (width <= 1380px) {
 		transform: translateX(-50%);
+
+		[dir="rtl"] & {
+			transform: translateX(50%) rotateY(180deg);
+		}
 	}
 
 	@media (width <= 1280px) {
 		transform: translateX(-75%);
+
+		[dir="rtl"] & {
+			transform: translateX(75%) rotateY(180deg);
+		}
 	}
 
 	@media (width <= 1130px) {

@@ -3,13 +3,13 @@
  */
 #page-footer {
 	width: 100%;
-	padding: calc(0.5 * var(--gap-large)) 0 35px;
+	padding-block: calc(0.5 * var(--gap-large)) 35px;
 	text-align: center;
 	background-color: var(--background-base);
 	position: relative;
 
 	@media (width <= 768px) {
-		padding: var(--gap-large) 0 var(--gap-base);
+		padding-block: var(--gap-large) var(--gap-base);
 	}
 
 	& span {
@@ -31,7 +31,7 @@
 }
 
 .footer-info {
-	text-align: left;
+	text-align: start;
 
 	@media (width <= 768px) {
 		text-align: center;
@@ -61,7 +61,7 @@
 }
 
 #page-footer .footer-inner .footer-menu {
-	text-align: right;
+	text-align: end;
 
 	@media (width <= 768px) {
 		text-align: center;
@@ -154,7 +154,7 @@
 
 #page-footer .footer-info .footer-content {
 	& p {
-		text-align: left;
+		text-align: start;
 		font-size: var(--font-size-small);
 		color: rgb(255 255 255 / 50%);
 

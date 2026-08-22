@@ -18,14 +18,13 @@
 
 	.intro-welcome-content {
 		& h1 {
-			margin-top: 0;
-			margin-bottom: var(--gap-base);
-			text-align: left !important;
+			margin-block-start: 0;
+			margin-block-end: var(--gap-base);
 		}
 
 		& p {
 			color: var(--text-color-base);
-			margin-top: var(--gap-base);
+			margin-block-start: var(--gap-base);
 
 			&:first-of-type {
 				font-weight: 400;
@@ -50,14 +49,14 @@
 	 * Sections
 	 */
 	.intro-content {
-		padding-bottom: calc(1.5 * var(--gap-large));
+		padding-block-end: calc(1.5 * var(--gap-large));
 
 		@media (width <= 825px) {
 			display: block;
 		}
 
 		> section {
-			text-align: left;
+			text-align: start;
 
 			@media (width <= 825px) {
 				width: 100%;
@@ -78,7 +77,7 @@
 
 	.content-list-projects {
 		list-style: none;
-		padding-left: 0;
+		padding-inline-start: 0;
 
 		& li:not(:last-child) {
 			margin-bottom: var(--gap-base);
@@ -125,11 +124,11 @@
 
 	.content-list-articles {
 		list-style: none;
-		margin-top: calc(2 * var(--gap-base));
-		padding-left: 0;
+		margin-block-start: calc(2 * var(--gap-base));
+    padding-inline-start: 0;
 
 		li {
-			margin-bottom: var(--gap-base);
+			margin-block-end: var(--gap-base);
 			display: flex;
 			justify-content: flex-start;
 			grid-gap: var(--gap-base);

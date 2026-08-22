@@ -77,15 +77,15 @@
 
 	.resume-category {
 		text-align: right;
-		padding-bottom: var(--gap-base);
-		padding-right: calc(1.5 * var(--gap-base));
-		border-right: var(--border-width-large) solid var(--background-highlight);
+		padding-inline-end: var(--gap-base);
+    padding-block-end: calc(1.5 * var(--gap-base));
+    border-inline-end: var(--border-width-large) solid var(--background-highlight);
 
 		@media screen and (width <= 768px) {
-			padding-right: 0;
-			padding-bottom: var(--gap-small);
-			border-right: none;
-			border-bottom: var(--border-width-large) solid var(--background-highlight);
+			padding-inline-end: 0;
+			padding-block-end: var(--gap-small);
+			border-inline-end: none;
+			border-block-end: var(--border-width-large) solid var(--background-highlight);
 		}
 
 		h2 {

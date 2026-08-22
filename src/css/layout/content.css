@@ -3,11 +3,11 @@
  */
 #content {
 	width: 100%;
-	padding: var(--gap-medium) 0 0;
+	padding-block-start: var(--gap-medium);
 	background: var(--background-content);
 
 	@media (width <= 768px) {
-		padding-top: 40px;
+		padding-block-start: 40px;
 		overflow: hidden;
 	}
 }

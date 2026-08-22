@@ -59,7 +59,7 @@ em {
 }
 
 blockquote {
-	margin-bottom: calc(2 * var(--gap-base));
+	margin-block-end: calc(2 * var(--gap-base));
 	width: 110%;
 	transform: translateX(-5%);
 	background: var(--background-highlight);

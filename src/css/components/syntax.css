@@ -33,7 +33,7 @@ pre[class*="language-"] {
 	background: hsl(230, 1%, 98%);
 	color: hsl(230, 8%, 24%);
 	direction: ltr;
-	text-align: left;
+	text-align: start;
 	white-space: pre;
 	word-spacing: normal;
 	word-break: normal;

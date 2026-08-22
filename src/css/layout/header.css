@@ -75,7 +75,7 @@
 	}
 
 	& li:not(:last-child) {
-		margin-right: calc(3 * var(--gap-base));
+		margin-inline-end: calc(3 * var(--gap-base));
 
 		/* @media (width <= 768px) {
 			margin-right: 0;
