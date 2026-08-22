@@ -54,6 +54,7 @@
 	--page-width-large: calc(var(--container-width-large) + (2 * var(--gap-base)));
 	--icon-size: 30px;
 	--icon-size-small: calc(0.75 * var(--icon-size));
+	--icon-size-tiny: calc(0.5 * var(--icon-size));
 
 	/* EASINGS */
 	--ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);

@@ -4,7 +4,6 @@
 	}
 
 	.template-resume #intro {
-		align-items: center;
 		margin-bottom: var(--gap-large);
 		position: relative;
 
@@ -62,6 +61,7 @@
 		gap: var(--gap-small);
 
 		.resume-quicknav-note {
+			font-size: var(--font-size-small);
 			color: var(--text-color-meta);
 		}
 
@@ -71,7 +71,7 @@
 			align-items: center;
 			justify-content: center;
 			flex-wrap: wrap;
-			gap: calc(var(--gap-base) / 2);
+			gap: var(--gap-small);
 		}
 	}
 
@@ -151,10 +151,8 @@
 		align-items: center;
 		gap: 0.5em;
 
-		.resume-content-time {
-			border-radius: var(--radius-base);
-			background: var(--background-highlight);
-			padding-inline: calc(var(--gap-base) / 6);
+		a {
+			font-size: var(--font-size-medium);
 		}
 	}
 
@@ -186,6 +184,9 @@
 		font-size: var(--font-size-small);
 		color: var(--text-color-meta);
 		line-height: 22px;
+		border-radius: var(--radius-base);
+		background: var(--background-highlight);
+		padding-inline: calc(var(--gap-base) / 6);
 
 		@media screen and (width <= 485px) {
 			font-size: var(--font-size-tiny);

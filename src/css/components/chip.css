@@ -1,4 +1,6 @@
 .chip {
+	--chip-icon-size: var(--icon-size-small);
+
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -30,11 +32,13 @@
 
 	svg {
 		color: var(--text-color-meta);
-		width: var(--icon-size-small);
-		height: var(--icon-size-small);
+		width: var(--chip-icon-size);
+		height: var(--chip-icon-size);
 	}
 
 	&.chip-small {
+		--chip-icon-size: var(--icon-size-tiny);
+		gap: var(--gap-small);
 		font-size: var(--font-size-tiny);
 		padding-block: 0;
 		padding-inline: calc(var(--gap-base) * 0.55);

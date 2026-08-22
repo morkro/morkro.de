@@ -4,14 +4,16 @@
 			"company": "Parloa",
 			"title": "Global Director of Forward Deployed Engineering",
 			"timeline": {
-				"label": "2025-Current",
-				"duration": "P1Y"
+				"label": "2025—Current",
+				"duration": "P2Y"
 			},
 			"location": "Berlin",
 			"url": "https://www.parloa.com/",
 			"icon": "/assets/img/parloa.webp",
 			"responsibilities": [
-				"Leading Forward Deployed Engineering at Parloa, uniting integration engineers, DevOps, and VoIP experts to deliver secure, enterprise‑grade solutions across telephony/CCaaS, integrations, analytics, and cloud—powering our AI Agent Management Platform to unlock Agentic AI safely and reliably, elevating customer experience at scale."
+				"Lead Forward Deployed Engineering globally, covering product engineering, integrations, infrastructure/DevOps, and VoIP/telephony for complex enterprise deployments.",
+				"Work closely with Product and customers to bridge product gaps, prototype upcoming capabilities with design partners, and feed what we learn in the field back into the core product.",
+				"Build and scale the FDE organisation, including hiring, team structure, engineering practices, capacity, and technical delivery."
 			]
 		},
 		{
@@ -25,12 +27,9 @@
 			"url": "https://www.mckinsey.com/",
 			"icon": "/assets/img/mck.png",
 			"responsibilities": [
-				"Initially joined as a Senior Engineer and got promoted three times (→ Staff Engineer → Principal Engineer → Director of Engineering) with increasing responsibility of scope, delivery, and people.",
-				"Have the privilege to work in various countries and (work) cultures for clients from different industries (<i>e.g., Banking in London/Bucharest/Amsterdam, Telco in Madrid/Copenhagen, Consumer in Munich/Copenhagen/Berlin, etc.</i>)",
-				"I am responsible for end-to-end technology (and product) delivery throughout a product's lifecycle where I work closely with (non-technical) stakeholders and our diverse cross-functional delivery teams.",
-				"My functional role usually starts as the initial architect including technology vision, engineering principles, project scoping (technology & people) and changes throughout the lifecycle as needed; e.g., being the very first engineer on the team creating the boilerplate or first features, working on infrastructure related tasks, further defining the technology vision and roadmap, etc.",
-				"As part of larger digital transformations, I work with our clients on their architecture principles, technology vision, and modernisation strategies.",
-				"For a list of (sanitised) project examples, please reach out to me on LinkedIn."
+				"Joined as a Senior Engineer and was promoted three times to Staff Engineer, Principal Engineer, and ultimately Director of Engineering, taking on increasing responsibility for technical strategy, delivery, and people leadership.",
+				"Led end-to-end technology and product delivery for clients across industries and countries, often starting as the initial architect and growing teams and systems from early prototypes through production.",
+				"Worked with clients on architecture, engineering principles, technology strategy, and modernisation as part of larger digital transformations."
 			]
 		},
 		{
@@ -45,9 +44,9 @@
 			"icon": "/assets/img/razorfish.webp",
 			"url": "https://www.publicissapient.com/",
 			"responsibilities": [
-				"Worked on a variety of microsites for international clients using a custom jQuery application framework focused on web animations and single page application design.",
-				"Started a series of \"brown bag\" sessions around new ECMAScript language features and its practical application in our development practices.",
-				"Paired with product owner and designers on a regular basis to quickly ideate on UX/UI experiences and ensure timely delivery."
+				"Worked on a variety of microsites for international clients using a custom jQuery application framework focused on web animations and single-page application design.",
+				"Started a series of \"brown bag\" sessions around new ECMAScript language features and their practical application in our development practices.",
+				"Paired with product owners and designers on a regular basis to quickly ideate on UX/UI experiences and ensure timely delivery."
 			],
 			"technologies": [
 				"React",
@@ -68,12 +67,11 @@
 			},
 			"location": "Münster/Cologne/Berlin",
 			"icon": "/assets/img/moritz-work.webp",
-			"note": "this website!",
 			"responsibilities": [
-				"Built interactive web- and microsites, blogs, and CMS for digital agencies and own clients across Europe and Latin America.",
+				"Built interactive web- and microsites, blogs, and CMS for digital agencies and my own clients across Europe and Latin America.",
 				"Implemented the new frontend experience for a Berlin-based bank and a global insurance company.",
 				"Developed various PHP-based CMS and static websites.",
-				"Fun fact: I have this website since 2007 and updated it throughout my career."
+				"Fun fact: I've had this website since 2007 and updated it throughout my career."
 			],
 			"technologies": [
 				"jQuery",
@@ -87,36 +85,32 @@
 	"skills": {
 		"technical": [
 			"Solution architecture",
-			"Frontend & backend",
+			"Product engineering",
+			"Enterprise integrations",
 			"API development",
-			"Infrastructure",
-			"Data modeling",
-			"Open source",
-			"Web accessibility",
-			"Design systems",
-			"Documentation",
-			"Rapid prototyping"
+			"Cloud infrastructure",
+			"Rapid prototyping",
+			"Developer experience",
+			"Web accessibility"
 		],
 		"leadership": [
 			"Engineering leadership",
-			"Agile product mgmt.",
+			"Organisational design",
+			"Technical strategy",
+			"Hiring & team building",
 			"Product delivery",
-			"Career progression frameworks",
+			"Career development",
 			"Mentoring & coaching"
 		],
-		"ecosystem": [
-			"JavaScript",
+		"technologies": [
 			"TypeScript",
-			"HTML",
-			"CSS",
-			"Node.js",
-			"Deno",
+			"Web technologies (HTML, CSS, JS)",
+			"Node.js ecosystem",
 			"Python",
 			"PHP",
-			"NoSQL",
 			"GraphQL",
-			"AWS",
-			"GCP"
+			"REST / SOAP",
+			"Azure"
 		]
 	},
 	"education": [
@@ -124,7 +118,7 @@
 			"degree": "Bachelor of Arts",
 			"field": "Integrated Design",
 			"timeline": {
-				"label": "2002—2015",
+				"label": "2012—2015",
 				"duration": "P2Y"
 			},
 			"school": "Köln International School of Design",
@@ -161,7 +155,7 @@
 		},
 		{
 			"language": "Croatian",
-			"proficiency": "Learning"
+			"proficiency": "Beginner"
 		}
 	],
 	"interests": [
@@ -180,21 +174,20 @@
 			"org": "Berliner Kakteenfreunde e.V.",
 			"icon": "/assets/img/kfb.svg",
 			"role": "Associate board member",
-			"timeline": { "label": "2022", "duration": "P2Y" },
+			"timeline": { "label": "2022", "duration": "P4Y" },
 			"url": "https://kakteenfreunde-berlin.de/",
 			"responsibilities": [
-				"Responsible for development of the club website.",
-				"Regular member activities."
+				"Responsible for developing and maintaining the club website."
 			]
 		},
 		{
 			"org": "Deutsche Kakteen-Gesellschaft e.V.",
 			"icon": "/assets/img/dkg.webp",
 			"role": "Member",
-			"timeline": { "label": "2020", "duration": "P4Y" },
+			"timeline": { "label": "2020", "duration": "P6Y" },
 			"url": "https://www.dkg.eu/",
 			"responsibilities": [
-				"Regular member, contributing to the yearly seed distribution with my own seeds."
+				"Contribute seeds from my own collection to the annual seed distribution."
 			]
 		}
 	]
