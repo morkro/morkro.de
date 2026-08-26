@@ -73,6 +73,11 @@ blockquote {
 	}
 }
 
+.text-meta {
+	color: var(--text-color-meta);
+	font-size: var(--font-size-small);
+}
+
 /**
  * Links
  */

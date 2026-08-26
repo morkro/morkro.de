@@ -103,19 +103,6 @@
 			width: var(--icon-size);
 			height: var(--icon-size);
 		}
-
-		> span {
-			color: var(--text-color-meta);
-			align-items: center;
-			font-size: calc(0.75 * var(--font-size-small));
-			gap: calc(0.25 * var(--gap-base));
-
-			svg {
-				fill: var(--text-color-meta);
-				width: calc(0.75 * var(--icon-size-small));
-				height: calc(0.75 * var(--icon-size-small));
-			}
-		}
 	}
 
 	.content-list-articles {

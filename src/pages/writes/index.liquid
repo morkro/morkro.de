@@ -32,7 +32,7 @@ permalink: /writes/
 				<span></span>
 				<h2 itemprop="title">{{ data.title }}</h2>
 			{% endif %}
-				<div class="blog-post-meta">
+				<div class="text-meta">
 					<time itemprop="datePublished" datetime='{{ post.date | date: "datetime" }}'>{{ post.date | date: "full" }}</time>,
 					{% if data.external %}
 					Published on <span itemprop="publisher">{{ data.external.host }}</span>
@@ -45,20 +45,4 @@ permalink: /writes/
 		</li>
 	{% endfor %}
 	</ul>
-
-	{% if paginator.total_pages > 1 %}
-	<div class="blog-paginator">
-		{% if paginator.previous_page %}
-		<a href="{{ paginator.previous_page_path | replace: 'index.html', '' }}" rel="prev">Previous</a>
-		{% else %}
-		<button disabled type="button" aria-disabled="true">Previous</button>
-		{% endif %}
-
-		{% if paginator.next_page %}
-		<a href="{{ paginator.next_page_path }}" rel="next">Next</a>
-		{% else %}
-		<button formnovalidate="" disabled type="button" aria-disabled="true">Next</button>
-		{% endif %}
-	</div>
-	{% endif %}
 </div>

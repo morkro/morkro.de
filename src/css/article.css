@@ -21,12 +21,6 @@
 		display: flex;
 		gap: var(--gap-medium);
 
-		svg {
-			width: calc(3 * var(--icon-size));
-			height: calc(3 * var(--icon-size));
-			color: var(--orange);
-		}
-
 		p {
 			color: var(--text-color-base-inverse);
 		}

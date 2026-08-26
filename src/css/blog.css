@@ -70,11 +70,6 @@
 		}
 	}
 
-	.blog-post-meta {
-		font-size: var(--font-size-small);
-		color: var(--text-color-meta);
-	}
-
 	.blog-post-external svg {
 		width: var(--icon-size);
 		height: var(--icon-size);

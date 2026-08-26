@@ -55,11 +55,6 @@
 		align-items: center;
 		gap: var(--gap-small);
 
-		.resume-quicknav-note {
-			font-size: var(--font-size-small);
-			color: var(--text-color-meta);
-		}
-
 		.resume-quicknav {
 			width: 100%;
 			display: flex;
