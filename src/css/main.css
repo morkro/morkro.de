@@ -1,4 +1,4 @@
-@layer reset, tokens, globals, layout, components, pages;
+@layer reset, tokens, globals, utilities, layout, components, pages;
 
 @import "globals/reset.css" layer(reset);
 
@@ -13,12 +13,14 @@
 @import "layout/grid.css" layer(layout);
 @import "layout/footer.css" layer(layout);
 @import "layout/header.css" layer(layout);
-@import "layout/blob-motion.css" layer(components);
 @import "layout/page-top-left-bg.css" layer(layout);
+@import "layout/blob-motion.css" layer(components);
 
-@import "components/animated-underline.css" layer(components);
 @import "components/blob-photo.css" layer(components);
 @import "components/box.css" layer(components);
 @import "components/chip.css" layer(components);
 @import "components/logo.css" layer(components);
 @import "components/tooltip.css" layer(components);
+
+@import "components/animated-underline.css" layer(utilities);
+@import "components/grain.css" layer(utilities);

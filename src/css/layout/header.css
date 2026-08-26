@@ -37,6 +37,7 @@
 }
 
 .header-nav-bg {
+	pointer-events: none;
 	position: absolute;
 	top: calc(-2 * var(--gap-base));
 	right: calc(-1 * var(--gap-base));

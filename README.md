@@ -2,6 +2,8 @@
 
 Source code of my personal website [moritz.berlin](https://moritz.berlin). This is a no-dependency, custom static-side generator project.
 
+Icons are from [Lucide](https://lucide.dev).
+
 ### Versioning
 
 I use custom versioning for my website, because it will just be relevant to me anyway and I wanted a system I can easily translate to the changes I usually make. I've used SemVer for a while but always struggled with it (*Is rewriting a full content section a major or minor change?*).

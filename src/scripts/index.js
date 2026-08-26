@@ -56,8 +56,6 @@ const widgets = [
 	['.header-toggle-btns', 'Preferences', 'set-preferences.js'],
 	/* Update footer year */
 	['.footer-year', 'Current year', 'set-current-year.js'],
-	/* Interactive world map */
-	['#map', 'World map', 'world-map.js'],
 ]
 
 for (const widget of widgets) {

@@ -4,7 +4,7 @@
 		"source.organizeImports.biome": "explicit"
 	},
 	"[liquid]": {
-		"editor.formatOnSave": true,
+		"editor.formatOnSave": false,
 		"editor.defaultFormatter": "sissel.shopify-liquid"
 	},
 	"[javascript]": {

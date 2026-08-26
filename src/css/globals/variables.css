@@ -59,6 +59,12 @@
 	/* EASINGS */
 	--ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
+	/* GRAIN */
+	--grain-image: url("/assets/img/grain.svg");
+	--grain-size: 200px;
+	--grain-blend: hard-light; /* content surfaces */
+	--grain-blend-base: screen; /* always-black surfaces */
+
 	/** CURSOR */
 	--cursor-default: url("data:image/svg+xml,%3Csvg width='22' height='27' viewBox='0 0 22 27' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.84462 25L2 2L20 15.9471L10.811 17.7895L4.84462 25Z' fill='white' stroke='black' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E"),
 		auto;

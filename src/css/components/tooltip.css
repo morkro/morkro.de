@@ -1,4 +1,5 @@
 [data-tooltip] {
+	--tooltip-color: var(--blue);
 	position: relative;
 
 	&:not(button, a) {
@@ -13,7 +14,7 @@
 		transform: translate(-50%, -100%);
 		width: max-content;
 		z-index: 1;
-		background: var(--blue);
+		background: var(--tooltip-color);
 		color: var(--text-color-base-inverse);
 		font-size: var(--font-size-tiny);
 		border-radius: var(--radius-base);
@@ -23,6 +24,7 @@
 		opacity: 0;
 		visibility: hidden;
 		pointer-events: none;
+		box-shadow: 0px 0px 7px var(--tooltip-color);
 		transition: opacity 150ms ease-in-out, visibility 150ms ease-in-out;
 	}
 

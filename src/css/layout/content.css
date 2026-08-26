@@ -4,7 +4,7 @@
 #content {
 	width: 100%;
 	padding-block-start: var(--gap-medium);
-	background: var(--background-content);
+	background-color: var(--background-content);
 
 	@media (width <= 768px) {
 		padding-block-start: 40px;

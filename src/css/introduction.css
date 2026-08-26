@@ -32,12 +32,8 @@
 			}
 		}
 
-		.with-icon img {
-			padding: var(--gap-small);
-
-			html[data-theme="dark"] & {
-				filter: invert(1);
-			}
+		html[data-theme="dark"] & .with-icon::before {
+			filter: invert(1);
 		}
 
 		@media (width <= 900px) {

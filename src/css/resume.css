@@ -16,11 +16,6 @@
 			margin-bottom: var(--gap-base);
 		}
 
-		.with-icon svg {
-			width: var(--icon-size-small);
-			height: var(--icon-size-small);
-		}
-
 		.col-2 {
 			justify-content: flex-end;
 		}
