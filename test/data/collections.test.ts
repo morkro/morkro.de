@@ -11,16 +11,18 @@ const postsSpec = {
 	permalink: `/writes/{{ page.date | date: 'year' }}/{{ page.slug }}/`,
 }
 
+const samplePost = '2015-08-27-how-to-setup-your-own-es6-project.md'
+
 describe('loadCollection function', () => {
 	it('resolves permalink URLs from filename date and slug', async () => {
 		const entries = await loadCollection('posts', postsSpec)
-		const markdownTest = entries.find((entry) =>
-			entry.meta.inputPath.endsWith('2026-05-15-markdown-test.md'))
+		const sample = entries.find((entry) =>
+			entry.meta.inputPath.endsWith(samplePost))
 
-		assert.ok(markdownTest)
-		assert.strictEqual(markdownTest.url, '/writes/2026/markdown-test/')
-		assert.strictEqual(markdownTest.date.toISOString(), '2026-05-15T00:00:00.000Z')
-		assert.strictEqual(markdownTest.data.title, 'Testing all Markdown features for my parser')
+		assert.ok(sample)
+		assert.strictEqual(sample.url, '/writes/2015/how-to-setup-your-own-es6-project/')
+		assert.strictEqual(sample.date.toISOString(), '2015-08-27T00:00:00.000Z')
+		assert.strictEqual(sample.data.title, 'How to setup an ES6 production-ready project')
 	})
 
 	it('sorts posts by date descending', async () => {
@@ -33,23 +35,23 @@ describe('loadCollection function', () => {
 
 	it('strips frontmatter from collection entry content', async () => {
 		const entries = await loadCollection('posts', postsSpec)
-		const markdownTest = entries.find((entry) =>
-			entry.meta.inputPath.endsWith('2026-05-15-markdown-test.md'))
+		const sample = entries.find((entry) =>
+			entry.meta.inputPath.endsWith(samplePost))
 
-		assert.ok(markdownTest)
-		assert.doesNotMatch(markdownTest.content, /^---/)
-		assert.match(markdownTest.content, /^## Headings/)
+		assert.ok(sample)
+		assert.doesNotMatch(sample.content, /^---/)
+		assert.match(sample.content, /^As ES6 is really hyped/)
 	})
 })
 
 describe('indexCollections function', () => {
 	it('maps collection input paths to their entries', async () => {
 		const posts = await loadCollection('posts', postsSpec)
-		const inputPath = resolve(config.directories.input, 'posts', '2026-05-15-markdown-test.md')
+		const inputPath = resolve(config.directories.input, 'posts', samplePost)
 		const index = indexCollections(new Map([['collections', { posts }]]))
 
 		assert.strictEqual(index.get(inputPath)?.name, 'posts')
-		assert.strictEqual(index.get(inputPath)?.entry.url, '/writes/2026/markdown-test/')
+		assert.strictEqual(index.get(inputPath)?.entry.url, '/writes/2015/how-to-setup-your-own-es6-project/')
 	})
 
 	it('returns an empty map when collections are missing', () => {

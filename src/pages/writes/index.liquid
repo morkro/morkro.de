@@ -33,7 +33,7 @@ permalink: /writes/
 				<h2 itemprop="title">{{ data.title }}</h2>
 			{% endif %}
 				<div class="text-meta">
-					<time itemprop="datePublished" datetime='{{ post.date | date: "datetime" }}'>{{ post.date | date: "full" }}</time>,
+					<time itemprop="datePublished" datetime='{{ post.date | date: "ymd" }}'>{{ post.date | date: "full" }}</time>,
 					{% if data.external %}
 					Published on <span itemprop="publisher">{{ data.external.host }}</span>
 					{% else %}

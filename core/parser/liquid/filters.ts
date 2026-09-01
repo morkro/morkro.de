@@ -6,6 +6,7 @@ const datePresets = {
   year: { year: 'numeric' },
   full: { day: '2-digit', month: 'long', year: 'numeric' },
   datetime: 'datetime',
+  ymd: 'ymd',
 }
 
 export function filterDate (input: unknown, preset: string): string {
@@ -27,6 +28,13 @@ export function filterDate (input: unknown, preset: string): string {
     const min = String(date.getMinutes()).padStart(2, '0')
     const s = String(date.getSeconds()).padStart(2, '0')
     return `${y}-${m}-${d} ${h}:${min}:${s}`
+  }
+
+  if (options === 'ymd') {
+    const y = date.getFullYear()
+    const m = String(date.getMonth() + 1).padStart(2, '0')
+    const d = String(date.getDate()).padStart(2, '0')
+    return `${y}-${m}-${d}`
   }
 
   return new Intl.DateTimeFormat('de-DE', options as Intl.DateTimeFormatOptions).format(date)

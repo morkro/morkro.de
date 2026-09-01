@@ -1,5 +1,5 @@
-import { describe, it } from 'node:test'
 import assert from 'node:assert'
+import { describe, it } from 'node:test'
 import { filterDate, filterDefault } from '#parser/liquid/filters.ts'
 import { ParserError } from '#parser/utils.ts'
 
@@ -33,6 +33,11 @@ describe('filterDate', () => {
 	it('formats Date with "datetime" preset', () => {
 		const result = filterDate(new Date(2026, 3, 24, 14, 30, 5), 'datetime')
 		assert.strictEqual(result, '2026-04-24 14:30:05')
+	})
+
+	it('formats Date with "ymd" preset', () => {
+		const result = filterDate(new Date(2026, 3, 24), 'ymd')
+		assert.strictEqual(result, '2026-04-24')
 	})
 
 	it('accepts numeric timestamp (Date.now()) input', () => {

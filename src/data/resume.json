@@ -4,8 +4,7 @@
 			"company": "Parloa",
 			"title": "Global Director of Forward Deployed Engineering",
 			"timeline": {
-				"label": "2025—Current",
-				"duration": "P2Y"
+				"start": "2025"
 			},
 			"location": "Berlin",
 			"url": "https://www.parloa.com/",
@@ -20,8 +19,8 @@
 			"company": "McKinsey & Company",
 			"title": "Director of Software & Cloud Engineering",
 			"timeline": {
-				"label": "2016—2024",
-				"duration": "P8Y"
+				"start": "2016",
+				"end": "2024"
 			},
 			"location": "Berlin",
 			"url": "https://www.mckinsey.com/",
@@ -36,8 +35,8 @@
 			"company": "Razorfish",
 			"title": "User Interface Developer",
 			"timeline": {
-				"label": "2014—2016",
-				"duration": "P2Y"
+				"start": "2014",
+				"end": "2016"
 			},
 			"location": "Berlin",
 			"note": "now Publicis Sapient",
@@ -62,8 +61,8 @@
 			"company": "Self-employed",
 			"title": "Full-stack Web Developer",
 			"timeline": {
-				"label": "2007—2014",
-				"duration": "P7Y"
+				"start": "2007",
+				"end": "2014"
 			},
 			"location": "Münster/Cologne/Berlin",
 			"icon": "/assets/img/moritz-work.webp",
@@ -118,8 +117,8 @@
 			"degree": "Bachelor of Arts",
 			"field": "Integrated Design",
 			"timeline": {
-				"label": "2012—2015",
-				"duration": "P2Y"
+				"start": "2012",
+				"end": "2015"
 			},
 			"school": "Köln International School of Design",
 			"url": "https://kisd.de/en",
@@ -174,7 +173,7 @@
 			"org": "Berliner Kakteenfreunde e.V.",
 			"icon": "/assets/img/kfb.svg",
 			"role": "Associate board member",
-			"timeline": { "label": "2022", "duration": "P4Y" },
+			"timeline": { "start": "2022" },
 			"url": "https://kakteenfreunde-berlin.de/",
 			"responsibilities": [
 				"Responsible for developing and maintaining the club website."
@@ -184,7 +183,7 @@
 			"org": "Deutsche Kakteen-Gesellschaft e.V.",
 			"icon": "/assets/img/dkg.webp",
 			"role": "Member",
-			"timeline": { "label": "2020", "duration": "P6Y" },
+			"timeline": { "start": "2020" },
 			"url": "https://www.dkg.eu/",
 			"responsibilities": [
 				"Contribute seeds from my own collection to the annual seed distribution."

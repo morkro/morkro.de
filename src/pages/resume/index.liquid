@@ -117,9 +117,7 @@ permalink: /resume/
 						{% endif %}
 						<span class="resume-content-time">
 							{{ xp.location }},
-							<time datetime="{{ xp.timeline.duration }}">
-								{{ xp.timeline.label }}
-							</time>
+							<time datetime="{{ xp.timeline.start }}">{{ xp.timeline.start }}</time>—{% if xp.timeline.end %}<time datetime="{{ xp.timeline.end }}">{{ xp.timeline.end }}</time>{% else %}Current{% endif %}
 						</span>
 					</div>
 					<div class="resume-content-subtitle">
@@ -218,9 +216,7 @@ permalink: /resume/
 						<strong>{{ org.role }}</strong>
 						<span class="resume-content-time">
 							Since
-							<time datetime="{{ org.timeline.duration }}">
-								{{ org.timeline.label }}
-							</time>
+							<time datetime="{{ org.timeline.start }}">{{ org.timeline.start }}</time>
 						</span>
 					</div>
 					<div class="resume-content-subtitle">
@@ -265,9 +261,7 @@ permalink: /resume/
 						<strong>{{ edu.field }}</strong>
 						<span class="resume-content-time">
 							{{ edu.location }},
-							<time datetime="{{ edu.timeline.duration }}">
-								{{ edu.timeline.label }}
-							</time>
+							<time datetime="{{ edu.timeline.start }}">{{ edu.timeline.start }}</time>—{% if edu.timeline.end %}<time datetime="{{ edu.timeline.end }}">{{ edu.timeline.end }}</time>{% else %}Current{% endif %}
 						</span>
 					</div>
 					<div class="resume-content-subtitle">

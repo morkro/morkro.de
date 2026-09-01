@@ -13,7 +13,7 @@ layout: default
       <ul class="article-info">
         <li>
           <span>Published</span>
-          <span itemprop="datePublished">{{ page.date | date: "full" }}</span>
+          <time itemprop="datePublished" datetime="{{ page.date | date: 'ymd' }}">{{ page.date | date: "full" }}</time>
         </li>
         <li>
           <span>Categories</span>
