@@ -10,10 +10,12 @@
 	{% if location == 'footer' %}
 	<li>
 		<a href="/resume" class="anim-underline {% if title contains "Resume" %}active{% endif %}">
-			<span>Resume</span>
-			<svg aria-hidden="true" style="display: none">
-				<use xlink:href="#file-text"></use>
-			</svg>
+			Resume
+		</a>
+	</li>
+	<li>
+		<a href="/privacy" class="anim-underline text-small {% if title contains "Privacy" %}active{% endif %}">
+			<span>Privacy Policy</span>
 		</a>
 	</li>
 	{% endif %}

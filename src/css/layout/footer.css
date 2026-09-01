@@ -90,6 +90,16 @@
 		color: var(--text-color-base-inverse);
 		position: relative;
 
+		&.text-small, &.text-small span {
+			--border-color: rgb(255 255 255 / 50%);
+			font-size: var(--font-size-small);
+			color: rgb(255 255 255 / 50%);
+
+			&::after {
+				background-color: rgb(255 255 255 / 50%);
+			}
+		}
+
 		&:hover {
 			--border-color: var(--link-color);
 

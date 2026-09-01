@@ -4,6 +4,7 @@ const titleConfig = {
 	about: '🙋🏻‍♀️',
 	blog: '🗞️',
 	resume: '📑',
+	privacy: '🔒',
 	404: '💥',
 }
 

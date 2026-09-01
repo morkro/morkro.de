@@ -1,0 +1,24 @@
+@layer pages {
+  #privacy {
+    padding-block-end: calc(1.75 * var(--gap-large));
+  }
+
+  #privacy header {
+    text-align: center;
+    margin-block-end: var(--gap-base);
+  }
+
+  #privacy h2 {
+    margin-block-end: var(--gap-small);
+  }
+
+  #privacy p:not(:has(+ ul)) {
+    margin-block-end: var(--gap-base);
+  }
+
+  #privacy ul {
+    margin-block-start: var(--gap-small);
+    margin-block-end: var(--gap-base);
+    padding-inline-start: var(--gap-base);
+  }
+}

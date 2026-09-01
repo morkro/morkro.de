@@ -66,4 +66,8 @@
     $root.dataset.theme = readPreference('morkro:theme', '(prefers-color-scheme: dark)', 'dark', 'light')
     $root.dataset.anim = readPreference('morkro:anim', '(prefers-reduced-motion: reduce)', 'off', 'on')
   </script>
+  
+  {%- if site.environment == 'production' -%}
+    {% render "analytics" %}
+  {%- endif -%}
 </head>
