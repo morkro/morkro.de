@@ -1,6 +1,6 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
-import { filterDate, filterDefault } from '#parser/liquid/filters.ts'
+import { filterDate, filterDefault, filterMarkdown } from '#parser/liquid/filters.ts'
 import { ParserError } from '#parser/utils.ts'
 
 describe('filterDate', () => {
@@ -65,6 +65,28 @@ describe('filterDate', () => {
 		const fromDate = filterDate(date, 'year')
 		const fromString = filterDate(date.toISOString(), 'year')
 		assert.strictEqual(fromDate, fromString)
+	})
+})
+
+describe('filterMarkdown', () => {
+	it('renders single paragraph', () => {
+		const result = filterMarkdown('Hello, world!')
+		assert.strictEqual(result, 'Hello, world!')
+	})
+
+	it('renders multiple paragraphs', () => {
+		const result = filterMarkdown('Hello, world!\n\nHow are you?')
+		assert.strictEqual(result, '<p>Hello, world!</p><p>How are you?</p>')
+	})
+
+	it('renders inline HTML', () => {
+		const result = filterMarkdown('Hello, <strong>world</strong>!')
+		assert.strictEqual(result, 'Hello, <strong>world</strong>!')
+	})
+
+	it('renders lists', () => {
+		const result = filterMarkdown('* Hello, world!\n* How are you?')
+		assert.strictEqual(result, '<ul><li>Hello, world!</li><li>How are you?</li></ul>')
 	})
 })
 

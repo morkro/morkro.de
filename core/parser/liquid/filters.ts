@@ -1,4 +1,6 @@
 import type { FilterFn } from '#config'
+import { parseMarkdown } from '#parser/markdown/parser.ts'
+import { renderInline, renderMarkdown } from '#parser/markdown/renderer.ts'
 import { ParserError } from '#parser/utils.ts'
 
 const datePresets = {
@@ -63,6 +65,14 @@ function isBlank (value: unknown): boolean {
     || (typeof value === 'string' && value === '')
 }
 
+export function filterMarkdown (input: unknown): string {
+  const tokens = parseMarkdown(String(input), 'markdown filter').body
+  const [first] = tokens
+  return tokens.length === 1 && first.type === 'Paragraph'
+    ? renderInline(first.inline)
+    : renderMarkdown(tokens)
+}
+
 export function filterDefault (input: unknown, fallback: unknown): unknown {
   return isBlank(input) ? fallback : input
 }
@@ -70,7 +80,7 @@ export function filterDefault (input: unknown, fallback: unknown): unknown {
 export function applyFilter (name: string, input: unknown, args: unknown[], userFilters: Record<string, FilterFn>): unknown {
   const userFilter = userFilters?.[name]
   if (userFilter) {
-    return userFilter(input, ...args)
+    return userFilter(String(input), ...args.map(String))
   }
 
   switch (name) {
@@ -86,6 +96,8 @@ export function applyFilter (name: string, input: unknown, args: unknown[], user
       return filterAppend(input, args[0] as string)
     case 'default':
       return filterDefault(input, args[0])
+    case 'markdown':
+      return filterMarkdown(input)
     default:
       throw new ParserError(`Unknown filter: ${name}`, 0)
   }

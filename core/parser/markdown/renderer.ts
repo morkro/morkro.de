@@ -38,14 +38,17 @@ function renderTable (table: TokenTable): string {
   return `<table>${head}${body}</table>`
 }
 
-function renderInline (tokens: InlineToken[]): string {
+export function renderInline (tokens: InlineToken[]): string {
   return tokens.map(token => {
     switch (token.type) {
       case 'Text':
         return escapeHtmlContent(token.text)
       case 'Link':{
-        const title = token.title.length > 0 ? ` title="${escapeXML(token.title)}"` : ''
-        return `<a href="${escapeXML(token.url)}"${title}>${renderInline(token.inline)}</a>`
+        const title = token.title.length > 0 ? `title="${escapeXML(token.title)}"` : ''
+        const external = token.url.startsWith('http://') || token.url.startsWith('https://')
+          ? 'target="_blank" rel="noopener noreferrer"'
+          : ''
+        return `<a href="${escapeXML(token.url)}" ${title} ${external}>${renderInline(token.inline)}</a>`
       }
       case 'Image': {
         const title = token.text.length > 0 ? ` title="${escapeXML(token.text)}"` : ''
