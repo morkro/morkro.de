@@ -7,6 +7,7 @@ const datePresets = {
   rfc3339: 'iso',
   year: { year: 'numeric' },
   full: { day: '2-digit', month: 'long', year: 'numeric' },
+  monthyear: { month: 'long', year: 'numeric' },
   datetime: 'datetime',
   ymd: 'ymd',
 }

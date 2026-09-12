@@ -64,6 +64,7 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+			margin-block-end: var(--gap-base);
 		}
 
 		p {
@@ -71,7 +72,7 @@
 		}
 	}
 
-	.content-list-projects {
+	.content-list-now {
 		list-style: none;
 		padding-inline-start: 0;
 
@@ -79,19 +80,12 @@
 			margin-bottom: var(--gap-base);
 		}
 
-		& li a {
-			width: 100%;
-			flex-direction: column;
-			align-items: flex-start;
-		}
-
 		& li p {
 			margin: 0;
-			font-size: var(--font-size-small);
 		}
 	}
 
-	.content-list-projects .project-title {
+	.content-list-now h3 {
 		font-weight: 400;
 		display: inline-flex;
 		gap: calc(0.5 * var(--gap-base));
@@ -100,8 +94,9 @@
 
 		img,
 		svg {
-			width: var(--icon-size);
-			height: var(--icon-size);
+			width: var(--icon-size-small);
+			height: var(--icon-size-small);
+			color: var(--text-color-base);
 		}
 	}
 

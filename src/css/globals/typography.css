@@ -113,7 +113,8 @@ a {
 		vertical-align: baseline;
 	}
 
-	&.external-link, &.internal-link {
+	&.external-link,
+	&.internal-link {
 		display: inline-flex;
 		align-items: baseline;
 		gap: var(--gap-tiny);

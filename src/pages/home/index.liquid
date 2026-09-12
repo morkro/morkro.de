@@ -3,6 +3,8 @@ layout: default
 pageClass: introduction
 keywords:
 - director of engineering
+- head of engineering
+- engineering delivery
 - forward deployed engineering
 - engineering leadership
 - open source
@@ -44,31 +46,26 @@ permalink: /
 </section>
 
 <div class="intro-content container-large grid">
+	{% assign snapshot = now[0] %}
 	<section class="col-3">
 		<header>
-			<h2>Projects</h2>
-			<a href="{{ socialnetworks.github.url }}" target="_blank" rel="noopener noreferrer" class="chip">See all</a>
+			<h2>Right now</h2>
+			<span class="chip chip-small">
+				<time datetime="{{ snapshot.date }}">{{ snapshot.date | date: "monthyear" }}</time>
+			</span>
 		</header>
-		<p>
-			I really enjoy working on and building open source side projects. I mainly work on web applications and developer tools.
-		</p>
-		<ul class="content-list-projects">
-			{% for project in projects %}
-			<li class="project-{{ project.name }}" data-project="{{ project.name }}">
-				<a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="box">
-					<span class="project-title">
-						{% if project.img %}
-							<img src="{{ project.img }}" width="30" height="30" alt="Logo of {{ project.title }}">
-						{% endif %}
-						{% if project.icon %}
-							<svg><use xlink:href="{{ project.icon }}"></use></svg>
-						{% endif %}
-						{{ project.title }}
-					</span>
-					<p>{{ project.description }}</p>
-				</a>
+		<ul class="content-list-now">
+		{% for entry in snapshot.entries %}
+			<li>
+				<h3>
+					{% if entry.icon %}
+					<svg aria-hidden="true"><use xlink:href="#{{ entry.icon }}"></use></svg>
+					{% endif %}
+					{{ entry.label }}
+				</h3>
+				<p>{{ entry.text | markdown }}</p>
 			</li>
-			{% endfor %}
+		{% endfor %}
 		</ul>
 	</section>
 
@@ -85,14 +82,11 @@ permalink: /
 			<li>
 				<span>{{ post.date | date: "year" }}</span>
 				{% if data.external %}
-				<a href="{{ data.external.url }}" target="_blank" rel="noopener noreferrer">
+				<a href="{{ data.external.url }}" target="_blank" rel="noopener noreferrer" class="external-link">
 				{% else %}
 				<a href="{{ post.url }}">
 				{% endif %}
 					{{ data.title }}
-					{% if data.external %}
-					<svg><use xlink:href="#new-window"></use></svg>
-					{% endif %}
 				</a>
 			</li>
 			{% endfor %}

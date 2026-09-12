@@ -1,0 +1,27 @@
+[
+  {
+    "date": "2026-09-06",
+    "entries": [
+      {
+        "label": "Building",
+        "icon": "code-xml",
+        "text": "Currently building out my [dependency-free static site generator](https://github.com/morkro/morkro.de) using agent-coached development approach."
+      },
+      {
+        "label": "DIY",
+        "icon": "hammer",
+        "text": "Just finished renovating my entire bathroom last month, all by myself. Seven months in and mostly done!"
+      },
+      {
+        "label": "Reading",
+        "icon": "book-open-text",
+        "text": "Recently finished [An Elegant Puzzle: Systems of Engineering Management](https://press.stripe.com/an-elegant-puzzle) and picked up [Kagurabachi](https://anilist.co/manga/169355/Kagurabachi/)."
+      },
+      {
+        "label": "Learning",
+        "icon": "languages",
+        "text": "_Dobar dan, kako si?_ I'm learning Croatian, but progress is slower than I'd like."
+      }
+    ]
+  }
+]
