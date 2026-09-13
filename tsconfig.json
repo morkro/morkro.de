@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node"],
+    "strict": true,
+    "allowImportingTsExtensions": true
+  },
+  "include": ["core/**/*.ts", "test/**/*.ts", "scripts/**/*.ts", "site.config.ts"]
+}
