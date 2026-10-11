@@ -207,4 +207,21 @@
 			}
 		}
 	}
+
+	/** Print styles */
+	@media print {
+		body {
+			margin: 14mm;
+		}
+
+		.template-resume #page-header,
+		.template-resume #page-footer {
+			display: none;
+		}
+	}
+}
+
+/** Removes the date + title from the print version */
+@page {
+	margin: 0;
 }
