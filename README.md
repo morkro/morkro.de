@@ -1,4 +1,4 @@
-#  Moritz Kröger Website [statichost.eu status](https://builder.statichost.eu/morkro-de/)
+#  Moritz Kröger Website [![statichost.eu status](https://builder.statichost.eu/morkro-de/status.svg)](https://builder.statichost.eu/morkro-de/)
 
 Source code of my personal website [moritz.berlin](https://moritz.berlin). This is a no-dependency, custom static-side generator project.
 
