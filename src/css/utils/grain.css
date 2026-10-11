@@ -1,0 +1,23 @@
+@media not print {
+	.grain-bg {
+		background-image: var(--grain-image);
+		background-size: var(--grain-size) var(--grain-size);
+		background-blend-mode: var(--grain-blend);
+		
+		&.on-dark {
+			--grain-image: url("/assets/img/grain-dark.svg");
+			--grain-blend: lighten;
+		}
+	}
+
+	.grain-fill-noise {
+		mix-blend-mode: var(--grain-blend);
+	}
+}
+
+.svg-defs {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}

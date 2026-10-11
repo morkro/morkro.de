@@ -1,7 +1,6 @@
-@layer reset, tokens, globals, utilities, layout, components, pages;
+@layer reset, tokens, globals, utilities, layout, components, pages, print;
 
 @import "globals/reset.css" layer(reset);
-
 @import "globals/variables.css" layer(tokens);
 
 @import "globals/animations.css" layer(globals);
@@ -22,5 +21,6 @@
 @import "components/logo.css" layer(components);
 @import "components/tooltip.css" layer(components);
 
-@import "components/animated-underline.css" layer(utilities);
-@import "components/grain.css" layer(utilities);
+@import "utils/animated-underline.css" layer(utilities);
+@import "utils/grain.css" layer(utilities);
+@import "utils/print.css" layer(print);

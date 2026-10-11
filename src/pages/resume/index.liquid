@@ -78,7 +78,7 @@ permalink: /resume/
 			<br><br>
 			My background spans hands-on software engineering, architecture, technical strategy, and engineering leadership across startups, consultancies, and large enterprises. I enjoy working on complex problems where understanding the customer, shaping the product, and building the right technical solution all matter.
 			<br><br>
-			Feel free to reach out to me on <a href="{{ socialnetworks.linkedin.url }}" target="_blank" class="with-icon"><svg aria-hidden="true"><use xlink:href="#linkedin"></use></svg> LinkedIn</a>.
+			<span class="hide-on-print">Feel free to reach out to me on <a href="{{ socialnetworks.linkedin.url }}" target="_blank" class="with-icon"><svg aria-hidden="true"><use xlink:href="#linkedin"></use></svg> LinkedIn</a>.</span>
 		</p>
 	</div>
 </section>
@@ -233,7 +233,7 @@ permalink: /resume/
 							<strong>{{ org.org }}</strong>
 						</a>
 					</div>
-					<ul class="resume-content-description">
+					<ul class="resume-content-description hide-on-print">
             {% for resp in org.responsibilities %}
               <li><span>{{ resp }}</span></li>
             {% endfor %}
@@ -353,10 +353,10 @@ permalink: /resume/
 				</li>
 			{% endfor %}
 		</ul>
-		<div class="col-1">
+		<div class="col-1 hide-on-print">
 			<h3>Interests</h3>
 		</div>
-		<ul class="col-5 resume-content-list">
+		<ul class="col-5 resume-content-list hide-on-print">
 			{% for interest in resume.interests %}
 				<li>
 					<span class="chip">

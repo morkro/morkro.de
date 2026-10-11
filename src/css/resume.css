@@ -210,18 +210,225 @@
 
 	/** Print styles */
 	@media print {
-		body {
-			margin: 14mm;
-		}
-
-		.template-resume #page-header,
-		.template-resume #page-footer {
+		.template-resume .page-top-bg,
+		.template-resume .a11y-jump,
+		.template-resume #intro > .col-2,
+		.template-resume .resume-category svg,
+		.template-resume .resume-content-logo {
 			display: none;
 		}
-	}
-}
 
-/** Removes the date + title from the print version */
-@page {
-	margin: 0;
+		.template-resume #content {
+			padding: 0;
+			display: grid;
+			grid-template-columns: 30% 1fr;
+			/* The trailing 1fr row absorbs the height of Experience */
+			grid-template-rows: auto auto auto auto auto 1fr;
+			grid-template-areas:
+				"intro         intro"
+				"skills        experience"
+				"education     experience"
+				"other         experience"
+				"organisations experience"
+				".             experience";
+		}
+
+		.template-resume section {
+			display: block;
+			max-width: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		.template-resume #intro { grid-area: intro; }
+		.template-resume #skills { grid-area: skills; }
+		.template-resume #education { grid-area: education; }
+		.template-resume #other { grid-area: other; }
+		.template-resume #experience { grid-area: experience; }
+		.template-resume #organisations { grid-area: organisations; }
+
+		.template-resume :is(#skills, #education, #other, #organisations) {
+			border-inline-end: var(--border-width-base) solid var(--shade-of-grey-medium);
+			padding-inline-end: var(--gap-base);
+		}
+		
+		.template-resume #intro {
+			margin-block-end: 0;
+
+			h1 {
+				font-size: var(--font-size-large);
+				font-weight: 500;
+				margin-block-end: calc(var(--gap-base) / 2);
+			}
+
+			a.with-icon svg { display: none; }
+			> .col-4 { display: block; }
+		}
+
+		.template-resume #experience {
+			padding-inline-start: var(--gap-base);
+		}
+
+		.template-resume .resume-category {
+			display: block;
+			text-align: start;
+			padding: 0;
+			border: none;
+
+			h2 {
+				justify-content: flex-start;
+				margin-block-end: calc(var(--gap-base) / 2);
+				break-after: avoid;
+			}
+		}
+
+		.template-resume .resume-content {
+			display: block;
+			padding: 0;
+
+			> * { grid-column: auto; }
+
+			h3 {
+				font-size: inherit;
+				line-height: inherit;
+				color: var(--text-color-base);
+				margin: 0 0 var(--gap-small);
+				break-after: avoid;
+			}
+
+			&:not(.grid) > ul > li:not(:last-child) { margin-bottom: var(--gap-base); }
+			> ul > li { break-inside: avoid; }
+		}
+
+		.template-resume .resume-content-subtitle {
+			order: -1;
+			color: var(--text-color-base);
+
+			strong {
+				font-weight: 500;
+			}
+		}
+
+		.template-resume .resume-content-title {
+			margin-block-end: 1.5mm;
+			color: var(--text-color-meta);
+
+			a { font-size: inherit; }
+		}
+
+		.template-resume #organisations .resume-content-subtitle,
+		.template-resume #education .resume-content-subtitle {
+			order: 0;
+		}
+
+		.template-resume .resume-content-time {
+			font-size: inherit;
+			line-height: inherit;
+			color: inherit;
+			background: none;
+			padding: 0;
+
+			&::before {
+				content: "|";
+				margin-inline-end: 0.35em;
+			}
+		}
+
+		.template-resume .resume-content-description {
+			padding-left: var(--gap-base);
+			color: var(--text-color-meta);
+			text-align: justify;
+
+			li::marker {
+				color: var(--text-color-meta);
+				font-size: 0.8em;
+			}
+		}
+
+		.template-resume .chip {
+			display: inline;
+			color: inherit;
+			text-align: start;
+			padding: 0;
+			background: none;
+			border-radius: 0;
+			font-size: inherit;
+			box-shadow: none;
+		}
+
+		.template-resume .chip-group > * {
+			padding: 0;
+			background: none !important;
+			box-shadow: none !important;
+
+			&:last-child::before {
+				content: " - ";
+			}
+		}
+
+		.template-resume #education,
+		.template-resume #organisations {
+			.resume-content-title {
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 0;
+				color: var(--text-color-base);
+			}
+
+			.resume-content-time {
+				order: 1;
+				color: var(--text-color-meta);
+				&::before { content: none; }
+			}
+
+			.resume-content-subtitle {
+				color: var(--text-color-meta);
+				strong { font-weight: 400; }
+			}
+
+			.resume-content-description {
+				list-style: none;
+				padding: 0;
+				font-style: italic;
+				text-align: start;
+			}
+		}
+
+		.template-resume #skills .resume-content-list,
+		.template-resume #other .resume-content-list {
+			flex-direction: column;
+			align-items: flex-start;
+			text-align: start;
+			gap: var(--gap-tiny);
+			color: var(--text-color-meta);
+			margin-block-end: var(--gap-base);
+		}
+
+		.template-resume .resume-content-description li:has(.resume-content-list) {
+			text-align: start;
+		}
+
+		.template-resume .resume-content-description .resume-content-list {
+			display: inline;
+			margin: 0;
+
+			> li { display: inline; }
+
+			> li:not(:last-child) .chip::after {
+				content: ",";
+				margin-inline-end: 0.3em;
+			}
+
+			.chip {
+				display: inline-flex;
+				gap: 0;
+				font-weight: inherit;
+			}
+		}
+
+		.template-resume a {
+			color: inherit;
+			text-decoration: none;
+		}
+	}
 }

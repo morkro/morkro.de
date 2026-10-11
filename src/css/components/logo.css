@@ -53,9 +53,21 @@
 	display: flex;
 	flex-direction: column;
 
+	@media print {
+		font-size: var(--font-size-super);
+
+		strong {
+			font-weight: 500;
+		}
+	}
+
 	strong,
 	span {
 		line-height: 20px;
+
+		@media print {
+			line-height: calc(var(--gap-base) * 3);
+		}
 	}
 
 	span {

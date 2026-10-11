@@ -6,6 +6,10 @@
 	width: 100%;
 	margin-inline: auto;
 	padding-inline: var(--gap-base);
+
+	@media print {
+		padding-inline: 0;
+	}
 }
 
 .container {

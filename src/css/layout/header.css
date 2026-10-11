@@ -4,6 +4,12 @@
 #page-header {
 	width: 100%;
 	background-color: var(--background-content);
+
+	@media print {
+		border-block-end: var(--border-width-base) solid var(--shade-of-grey-medium);
+		padding-block-end: var(--gap-medium);
+		margin-block-end: var(--gap-medium);
+	}
 }
 
 .header-inner {
@@ -12,6 +18,10 @@
 	justify-content: space-between;
 	align-items: center;
 	padding-block: var(--gap-base);
+
+	@media print {
+		padding: 0;
+	}
 }
 
 /**

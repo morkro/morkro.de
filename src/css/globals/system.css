@@ -147,3 +147,34 @@ img {
 	width: 100%;
 	height: auto;
 }
+
+/**
+ * Print styles
+ */
+@media print {
+	:root {
+		--gap-base: 4mm;
+		--font-size-base: 9pt;
+		--background-content: var(--white);
+		--line-height-base: 1.5;
+		--text-color-meta: var(--dark-grey2);
+		--font-size-super: 400%;
+		--border-width-base: 0.75pt;
+	}
+
+	body,
+	html[data-theme="dark"] {
+		background-color: var(--white)
+	}
+
+	body {
+		margin: calc(var(--gap-base) * 2);
+		overflow: visible;
+	}
+}
+
+/** Removes the date + title from the print version */
+@page {
+	size: A4;
+	margin: 0;
+}
